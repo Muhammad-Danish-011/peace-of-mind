@@ -10,13 +10,14 @@ const card = (
     <CardContent style={{backgroundColor: "rgb(	207	227	223)",
               width:'210px',
               justifyContent:"center",
-              borderRadius:'20px',
+              borderRadius:'10px',
               alignItems:"center",
               padding:"10px",
               paddingRight:"20px",
               paddingLeft:"20px",
-              height:"60px"
-            //   display: "flex"
+              height:"55px",
+              
+            //   marginLeft:'40px'
              }}>
 
       <Typography variant="h5" fontSize="15px" component="div" display="flex" >
@@ -29,13 +30,16 @@ const card = (
             display:'flex',
             marginLeft:'50px',
             fontSize:'8px',
-            padding:'8px',
+            padding:'7px',
             bgcolor: 'white'}}
+
       size="small" >Book Now</Button>
       </Typography>
      
       <Typography sx={{ mb: 1.5 }} color="text.secondary" fontSize="10px"
-      marginTop="-10px">
+      paddingRight="80px"
+      marginTop="-10px"
+      >
         Social Psychologist
       </Typography>
       
@@ -50,16 +54,17 @@ export default function OutlinedCard() {
      width='300px'
     display='flex'
     alignItems="center"
-     margin="auto"
 
     sx={{
         borderRadius:'30px',
-        
+        marginRight:'30px'
     }}
     
     >
       <Card style={{"borderRadius":'20px',
-    padding:"0px"}}>{card}</Card>
+    padding:"0px",
+    marginLeft:'45px'
+   }}>{card}</Card>
     </Box>
   );
 }

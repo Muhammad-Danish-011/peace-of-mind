@@ -7,14 +7,16 @@ import Typography from '@mui/material/Typography';
 
 const card = (
  <React.Fragment>
+
     <CardContent style={{backgroundColor: "rgb(	184	215	209)",
               width:'220px',
               justifyContent:"center",
               borderRadius:'30px',
               alignItems:"center",
-            //  paddingRight:"20px",
               paddingLeft:"20px"
              }}>
+
+
       <Typography variant="h5" component="div">
        Aoun Ali 
       </Typography>
@@ -26,6 +28,8 @@ const card = (
         <br />
        
       </Typography>
+
+
       <Button
       variant='outlined'
       sx= {{color: 'black',
@@ -36,28 +40,22 @@ const card = (
             fontSize:'8px',
             padding:'8px',
             bgcolor: 'white'}}
-
-
       size="small" >Book Now</Button>
+
     </CardContent>
-    {/* <CardActions>
-      {/* <Button size="small" >Book Now</Button> */}
-    {/* </CardActions> */} 
   </React.Fragment>
 );
 
 export default function OutlinedCard() {
   return (
-    // <Box sx={{ minWidth: 275 }}>
     
      <Box
-     width='300px'
+    width='300px'
     display='flex'
     justifyContent="center"
     alignItems="center"
     sx={{
         borderRadius:'50px',
-        
     }}
     
     >
