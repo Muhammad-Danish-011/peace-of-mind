@@ -5,11 +5,13 @@ import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import Form from './pages/form/Form';
 import './App.css';
+import Navbar from './global/Navbar';
 
 function App() {
   return (
     <div className="App">
      <BrowserRouter>
+     <Navbar/>
     <Sidebar>
       <Routes>
         <Route exact path='/' element={<Home />} />
