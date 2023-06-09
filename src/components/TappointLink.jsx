@@ -12,7 +12,7 @@ const TappointLink = () => {
       width: '50%',
       height:'25%',
       color: 'black',
-      fontWeight: 'thin !important' // add this line
+      fontWeight: 'thin !important'
 
     }}>
 
