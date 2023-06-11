@@ -1,33 +1,89 @@
-import React from 'react'
-import Search from '../../components/Search'
-import TappointLink from '../../components/TappointLink'
-import Tappoint from '../../components/Tappoint'
-import Prevappoints from '../../components/Prevappoints'
-import MiniCard from '../../Components/MiniCard'
+import React from 'react';
+import TappointIcon from '@mui/icons-material/EventNote';
+import PrevAppointmentsIcon from '@mui/icons-material/History';
+import Search from '../../components/Search';
+import TappointLink from '../../components/TappointLink';
+import Tappoint from '../../components/Tappoint';
+import Prevappoints from '../../components/Prevappoints';
+import MiniCard from '../../Components/MiniCard';
+import BasicCard from '../../Components/BasicCard';
+import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 
 const Home = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
-    <>
-    <div className='center'>
-      {/* <Search/> 
-      <TappointLink/> */}
-    </div>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: isSmallScreen ? 'column' : 'row',
+      alignItems: isSmallScreen ? 'end' : 'flex-start',
+      marginLeft: isSmallScreen ? 0 : theme.spacing(15),
 
-    <div className='right-side' style={{ position: 'absolute', 
-    display:'flex',
-    flexDirection:'column',
-    right: '0px', 
-    width: '300px', 
-    border: '3px ', 
-    padding: '10px',
-    backgroundColor:'#8FB3AC' }}>
-  <Tappoint />
-  <Prevappoints />
-  <MiniCard />
-</div>
+    }}>
+      {/* Left section */}
+      <Box sx={{ flex: 1 }}>
+        <Grid container spacing={2} mt={9} alignItems="center">
+          <Grid item sx={{ flex: 1 }}>
+            <TappointLink />
+          </Grid>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item sx={{ flex: 1 }}>
+              <Search placeholder="Search" fullWidth />
+            </Grid>
+          </Grid>
+        </Grid>
 
-    </>
-  )
-}
+        {/* Render BasicCard 6 times */}
+        <Box sx={{
+          display: 'flex',
+          flexDirection: isSmallScreen ? 'column' : 'row',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: theme.spacing(3),
+        }}>
+          {[...Array(3)].map((_, index) => (
+            <BasicCard key={index} sx={{ marginBottom: '20px', flexBasis: isSmallScreen ? '100%' : '48%', flexGrow: 0 }} />
+          ))}
+        </Box>
 
-export default Home
+      </Box>
+
+    
+      {/* Right section */}
+      <Box  sx={{
+        p: 2,
+        backgroundColor: '#8fb3ac',
+        height: isSmallScreen ? 'auto' : '100vh',
+        overflowY: isSmallScreen ? 'scroll' : 'initial',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Box mt={-28}>
+          <TappointIcon /> <strong>Upcoming Appointment</strong>
+        </Box>
+        <Box mt={2}>
+          <Tappoint />
+        </Box>
+
+        <Box>
+          <PrevAppointmentsIcon /><strong>Previous Appointment</strong>
+        </Box>
+        <Box mt={2}>
+          <Prevappoints />
+        </Box>
+        <Box>
+          <PrevAppointmentsIcon /><strong>Previous Counsulted Councler</strong>
+        </Box>
+        <Box  mt={2}>
+          <MiniCard />
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default Home;
