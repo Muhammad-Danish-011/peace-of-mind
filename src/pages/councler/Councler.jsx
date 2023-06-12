@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import Search from '../../components/Search';
-import BasicCard from '../../Components/BasicCard';
+import Search from '../../components/patient/Search';
+import BasicCard from '../../components/patient/BasicCard';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
