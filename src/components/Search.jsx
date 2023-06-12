@@ -4,7 +4,7 @@ import { Paper,  Box, InputBase, Button, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Searchcss from './Search.module.css';
 
-const Search = () => {
+const Search = ({onClick}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -19,13 +19,13 @@ const Search = () => {
 
   return (
     <Box
+      onClick={onClick}
       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         margin: 'auto',
         width: { xs: '90%', md: '50%' },
-        height: '100%',
       }}
     >
       <Paper
@@ -51,6 +51,7 @@ const Search = () => {
             padding: '15px',
             fontSize: '16px',
             width: '100%',
+            lineHeight: '1.5em', // set line-height to adjust height of input placeholder
             fontFamily: 'inherit',
             color: 'black',
           }}
@@ -71,7 +72,7 @@ const Search = () => {
         <Typography variant="button" sx={{ fontWeight: "bold"}}>
           Search
         </Typography>
-        <SearchIcon sx={{ marginLeft: "5px"}} />
+        <SearchIcon sx={{ marginLeft: "4px"}} />
       </Button>
     </Box>
   );

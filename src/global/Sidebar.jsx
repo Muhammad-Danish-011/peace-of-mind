@@ -10,6 +10,7 @@ import Councler from '../pages/councler/Councler';
 import Calendar from '../pages/calendar/Calendar';
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = styled('div')(
   {
@@ -49,7 +50,15 @@ const CloseIconWrapper = styled('div')({
 
 export default function PersistentDrawerLeft() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const [selectedComponent, setSelectedComponent] = React.useState('home');
+  const [selectedComponent, setSelectedComponent] = React.useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    // This effect runs whenever the location changes (i.e. the user navigates to a new URL)
+    const path = location.pathname.slice(1); // Remove the leading "/"
+    setSelectedComponent(path || 'hoonClickme'); // If there's no path, default to the home component
+  }, [location.pathname]);
 
   const handleSidebarToggle = () => {
     setSidebarOpen(true);
@@ -57,6 +66,7 @@ export default function PersistentDrawerLeft() {
 
   const handleComponentChange = (component) => {
     setSelectedComponent(component);
+    navigate(`/${component}`);
   };
 
   return (

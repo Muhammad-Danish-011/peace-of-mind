@@ -1,12 +1,14 @@
-import React from 'react'
-import Search from '../../components/Search'
-import BasicCard from '../../Components/BasicCard'
-import { Box } from '@mui/material'
+import React from 'react';
+import { Box } from '@mui/material';
+import Search from '../../components/Search';
+import BasicCard from '../../Components/BasicCard';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const styles = {
   container: {
-    maxWidth: 1200,
-    marginTop:'60px !important',
+    maxWidth: 1100,
+    marginTop: '60px !important',
     padding: '20px',
     backgroundColor: '#f5f5f5', // Add background color here
     margin: '0 auto' // Center the main container
@@ -17,19 +19,34 @@ const styles = {
     rowGap: '20px', // Add row gap
     columnGap: '20px', // Add column gap
     justifyContent: 'center', 
-    marginTop:'60px !important',
+    marginTop: '60px !important',
 
+    // Add media query for smaller screens
+    '@media (max-width: 768px)': {
+      display: 'flex', // Use flexbox layout
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center',
+      rowGap: '10px',
+      columnGap: '10px',
+    }
   }
 }
 
 const Councler = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const cards = [1,2,3,4,5,6,7];
 
   return (
-    <Box sx={styles.container}>
+    <Box sx={{
+      ...styles.container,
+      marginLeft: isSmallScreen ? 8 : theme.spacing(45)
+    }}>
       <Search/>
-      <Box sx={styles.cardContainer}> {/* Create new container for the cards */}
+      <Box sx={styles.cardContainer}>
         {cards.map((card) => (
           <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))}
@@ -38,4 +55,4 @@ const Councler = () => {
   )
 }
 
-export default Councler
+export default Councler;

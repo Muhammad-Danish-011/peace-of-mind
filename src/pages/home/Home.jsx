@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import TappointIcon from '@mui/icons-material/EventNote';
 import PrevAppointmentsIcon from '@mui/icons-material/History';
 import Search from '../../components/Search';
@@ -12,13 +13,18 @@ import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 const Home = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
+
+  const handleSearchClick = () => {
+    navigate('/councler');
+  };
 
   return (
     <Box sx={{
       display: 'flex',
       flexDirection: isSmallScreen ? 'column' : 'row',
       alignItems: isSmallScreen ? 'end' : 'flex-start',
-      marginLeft: isSmallScreen ? 0 : theme.spacing(15),
+      marginLeft: isSmallScreen ? 20 : theme.spacing(35),
 
     }}>
       {/* Left section */}
@@ -29,7 +35,7 @@ const Home = () => {
           </Grid>
           <Grid container spacing={2} alignItems="center">
             <Grid item sx={{ flex: 1 }}>
-              <Search placeholder="Search" fullWidth />
+              <Search placeholder="Search" fullWidth onClick={handleSearchClick} />
             </Grid>
           </Grid>
         </Grid>
@@ -50,17 +56,18 @@ const Home = () => {
 
       </Box>
 
-    
+
       {/* Right section */}
       <Box  sx={{
         p: 2,
         backgroundColor: '#8fb3ac',
-        height: isSmallScreen ? 'auto' : '100vh',
+        height: isSmallScreen ? 'auto' : '89vh',
         overflowY: isSmallScreen ? 'scroll' : 'initial',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
+
       }}>
         <Box mt={-28}>
           <TappointIcon /> <strong>Upcoming Appointment</strong>
