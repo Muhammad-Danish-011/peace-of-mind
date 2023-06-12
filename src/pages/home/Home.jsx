@@ -2,12 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import TappointIcon from '@mui/icons-material/EventNote';
 import PrevAppointmentsIcon from '@mui/icons-material/History';
-import Search from '../../components/Search';
-import TappointLink from '../../components/TappointLink';
-import Tappoint from '../../components/Tappoint';
-import Prevappoints from '../../components/Prevappoints';
-import MiniCard from '../../Components/MiniCard';
-import BasicCard from '../../Components/BasicCard';
+import Search from '../../components/patient/Search';
+import TappointLink from '../../components/patient/TappointLink';
+import Tappoint from '../../components/patient/Tappoint';
+import Prevappoints from '../../components/patient/Prevappoints';
+import MiniCard from '../../components/patient/MiniCard';
+import BasicCard from '../../components/patient/BasicCard';
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 
 const Home = () => {
