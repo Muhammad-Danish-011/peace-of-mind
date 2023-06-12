@@ -14,7 +14,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = styled('div')(
   {
-    width: '90px',
     height: '100vh',
     backgroundColor: '#8fb3ac',
     position: 'fixed',
@@ -26,6 +25,15 @@ const Sidebar = styled('div')(
     alignItems: 'center',
     transition: 'transform 0.3s ease-in-out',
     transform: 'translateX(-100%)',
+    '@media (max-width: 600px)': {
+      width: '60px',
+    },
+    '@media (min-width: 601px) and (max-width: 960px)': {
+      width: '120px',
+    },
+    '@media (min-width: 961px)': {
+      width: '160px',
+    },
   },
   ({ open }) => ({
     transform: open ? 'translateX(0)' : 'translateX(-100%)',
@@ -57,7 +65,7 @@ export default function PersistentDrawerLeft() {
   React.useEffect(() => {
     // This effect runs whenever the location changes (i.e. the user navigates to a new URL)
     const path = location.pathname.slice(1); // Remove the leading "/"
-    setSelectedComponent(path || 'hoonClickme'); // If there's no path, default to the home component
+    setSelectedComponent(path || 'home'); // If there's no path, default to the home component
   }, [location.pathname]);
 
   const handleSidebarToggle = () => {

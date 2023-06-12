@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { AppBar, IconButton, Toolbar, Modal, Box, Typography, Button } from "@mui/material";
+import { AppBar, IconButton, Toolbar, Modal, Box, Typography, Button, Grid } from "@mui/material";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import MenuIcon from '@mui/icons-material/Menu';
+import './navbar.css'
 
 const Navbar = ({ handleSidebarToggle }) => {
   const [open, setOpen] = useState(false); 
@@ -15,20 +16,26 @@ const Navbar = ({ handleSidebarToggle }) => {
   };
 
   return (
-      <AppBar position="static" sx={{ bgcolor: '#8fb3ac' }}>
+      <AppBar position="relative" sx={{ bgcolor: '#8fb3ac' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton
-            color="inherit"
-            aria-label="open sidebar"
-            onClick={handleSidebarToggle}
-            edge="start"
-          >
-            <MenuIcon />
-          </IconButton>
-          <div/>
-          <IconButton edge="end" color="inherit" onClick={handleOpen}>
-            <AccountCircleRoundedIcon sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
-          </IconButton>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <IconButton
+                color="inherit"
+                aria-label="open sidebar"
+                onClick={handleSidebarToggle}
+                edge="start"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs />
+            <Grid item>
+              <IconButton edge="end" color="inherit" onClick={handleOpen}>
+                <AccountCircleRoundedIcon sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
+              </IconButton>
+            </Grid>
+          </Grid>
 
           {/* Modal dialog box */}
           <Modal
