@@ -9,7 +9,7 @@ const card = (
  <React.Fragment>
 
     <CardContent style={{backgroundColor: "rgb(	184	215	209)",
-              width:'220px',
+              width:'230px',
               justifyContent:"center",
               borderRadius:'30px',
               alignItems:"center",
@@ -33,12 +33,12 @@ const card = (
       <Button
       variant='outlined'
       sx= {{color: 'black',
-            borderRadius:'20px', 
+            borderRadius:'15px', 
             display:'flex',
             marginLeft:'40px',
             marginTop:'10px',
-            fontSize:'8px',
-            padding:'8px',
+            fontSize:'12px',
+            padding:'10px',
             bgcolor: 'white'}}
       size="small" >Book Now</Button>
 

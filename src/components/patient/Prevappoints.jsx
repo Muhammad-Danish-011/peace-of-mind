@@ -13,16 +13,18 @@ import Button from '@mui/material/Button';
 const card = (
  <React.Fragment>
     <CardContent style={{backgroundColor: "#FFFFF",
-              width:'220px',
+              width:'270px',
               justifyContent:"center",
               borderRadius:'30px',
               alignItems:"center",
-              paddingLeft:"20px"
+              paddingLeft:"20px",
+              height:'240px'
+
              }}>
       <Typography variant="h5" component="div">
 
 
-<h1 style={{ fontSize: '15px', marginTop:'1rem' }}>Previous Appointments</h1>
+<h1 style={{ fontSize: '24px', marginTop:'1rem' }}>Previous Appointments</h1>
       <Box
         sx={{
           display:'flex',
@@ -30,8 +32,8 @@ const card = (
           justifyContent:'center'
           
         }}>
-        <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '3rem' }} />
-        <h2 style={{ fontSize: '1rem', marginLeft: '1rem', marginBottom: '0' }}>At 6:00PM</h2>
+        <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '4rem' }} />
+        <h2 style={{ fontSize: '1.5rem', marginLeft: '1rem', marginBottom: '0' }}>At 6:00PM</h2>
       </Box>
 
       <Box
@@ -41,15 +43,17 @@ const card = (
           justifyContent:'center'
           
         }}>
-        <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '3rem' }} />
-        <h2 style={{ fontSize: '1rem', marginLeft: '1rem', marginBottom: '0' }}>At 6:00PM</h2>
+        <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '4rem' }} />
+        <h2 style={{ fontSize: '1.5rem', marginLeft: '1rem', marginBottom: '0' }}>At 6:00PM</h2>
       </Box>
 
       <Button
       sx= {{color: 'black',
             display:'flex',
             marginLeft:'115px',
-            fontSize:'8px',
+            fontSize:'20px',
+            marginTop:'10px'
+
           }}
 
       size="small" >View all</Button>

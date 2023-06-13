@@ -11,11 +11,13 @@ import { useNavigate } from 'react-router-dom';
 
 const styles = {
   container: {
-    maxWidth: 900,
-    marginTop: '60px !important',
+    maxWidth: 1300,
+    marginTop: '3% !important',
     padding: '20px',
-    backgroundColor: '#f5f5f5', 
-    margin: '0 auto' 
+    // backgroundColor: '#f5f5f5', 
+    margin: '0 auto' ,
+
+
   },
   cardContainer: {
     display: 'grid',
@@ -26,7 +28,7 @@ const styles = {
     marginTop: '60px !important',
 
     // Add media query for smaller screens
-    '@media (max-width: 600px)': {// import Card from '../../components/patient/Card';
+    '@media (max-width: 1000px)': {// import Card from '../../components/patient/Card';
       display: 'flex', // Use flexbox layout
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -34,7 +36,8 @@ const styles = {
       alignItems: 'center',
       rowGap: '10px',
       columnGap: '5px',
-    }
+    },
+   
   }
 }
 
@@ -59,6 +62,7 @@ const Home = () => {
         {cards.map((card) => (
           <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))}
+        
       </Box>
       <Card/>
     </Box>
@@ -66,4 +70,3 @@ const Home = () => {
 }
 
 export default Home;
-

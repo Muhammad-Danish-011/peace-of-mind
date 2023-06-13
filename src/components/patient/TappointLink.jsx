@@ -9,17 +9,38 @@ const TappointLink = () => {
         margin: '2rem auto',
         backgroundColor: '#d7eded',
         border: '1px solid #008080',
-        borderRadius: '5px',
-        width: '50%',
+        borderRadius: '35px',
+        width: '60%',
         height: '25%',
         color: 'black',
         fontWeight: 300,
         '& h1': {
-          fontSize: '1.5rem',
-          marginTop: '1rem',
+          fontSize: '2.5rem',
+          marginTop: '2rem',
         },
         '& h2, & h3': {
-          fontSize: '1rem',
+          fontSize: '1.5rem',
+        },
+        '@media (max-width: 768px)': {
+          width: '80%',
+          height: 'auto',
+          '& h1': {
+            fontSize: '1.3rem',
+          },
+          '& h2, & h3': {
+            fontSize: '0.9rem',
+          },
+        },
+        '@media (max-width: 480px)': {
+          width: '90%',
+          height: 'auto',
+          '& h1': {
+            fontSize: '1.1rem',
+            marginTop: '0.5rem',
+          },
+          '& h2, & h3': {
+            fontSize: '0.8rem',
+          },
         },
       }}
     >

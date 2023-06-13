@@ -7,11 +7,12 @@ import { useTheme } from '@mui/material/styles';
 
 const styles = {
   container: {
-    maxWidth: 1100,
-    marginTop: '60px !important',
+    maxWidth: 1600,
+    marginTop: '3% !important',
     padding: '20px',
-    backgroundColor: '#f5f5f5', // Add background color here
-    margin: '0 auto' // Center the main container
+    // backgroundColor: '#f5f5f5', // Add background color here
+    margin: ' 0 auto' // Center the main container horizontally and add top margin
+
   },
   cardContainer: {
     display: 'grid',
@@ -44,6 +45,7 @@ const Councler = () => {
     <Box sx={{
       ...styles.container,
       marginLeft: isSmallScreen ? 8 : theme.spacing(45)
+
     }}>
       <Search/>
       <Box sx={styles.cardContainer}>

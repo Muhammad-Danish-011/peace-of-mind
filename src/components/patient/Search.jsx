@@ -25,7 +25,7 @@ const Search = ({onClick}) => {
         justifyContent: 'center',
         alignItems: 'center',
         margin: 'auto',
-        width: { xs: '90%', md: '50%' },
+        width: { xs: '90%', md: '60%' },
       }}
     >
       <Paper
@@ -34,7 +34,7 @@ const Search = ({onClick}) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          width: '100%',
+          width: '110%',
           borderRadius: '25px',
           boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
           backgroundColor: '#d9d9d9',
@@ -58,22 +58,26 @@ const Search = ({onClick}) => {
         />
       </Paper>
       <Button
-        type='submit'
-        variant='contained'
-        sx={{
-          marginLeft: '10px',
-          backgroundColor: '#d9d9d9',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#d9d9d9',
-          },
-        }}
-      >
-        <Typography variant="button" sx={{ fontWeight: "bold"}}>
-          Search
-        </Typography>
-        <SearchIcon sx={{ marginLeft: "4px"}} />
-      </Button>
+      type='submit'
+      variant='contained'
+     sx={{
+      marginLeft: '10px',
+    backgroundColor: '#d9d9d9',
+    borderRadius:'15px',
+    color: '#000',
+    '&:hover': {
+      backgroundColor: '#d9d9d9',
+    },
+    height: '51px',
+    width: '150px'
+  }}
+>
+  <Typography variant="button" sx={{ fontWeight: "bold"}}>
+    Search
+  </Typography>
+  <SearchIcon sx={{ marginLeft: "4px"}} />
+</Button>
+
     </Box>
   );
 };

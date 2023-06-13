@@ -26,13 +26,13 @@ const Navbar = ({ handleSidebarToggle }) => {
                 onClick={handleSidebarToggle}
                 edge="start"
               >
-                <MenuIcon />
+                <MenuIcon style={{ fontSize: '48px' }}/>
               </IconButton>
             </Grid>
             <Grid item xs />
             <Grid item>
               <IconButton edge="end" color="inherit" onClick={handleOpen}>
-                <AccountCircleRoundedIcon sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
+                <AccountCircleRoundedIcon style={{ fontSize: '48px' }} sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
               </IconButton>
             </Grid>
           </Grid>
