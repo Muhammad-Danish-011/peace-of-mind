@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Paper,  Box, InputBase, Button, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Searchcss from './Search.module.css';
 
 const Search = ({onClick}) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -41,7 +40,6 @@ const Search = ({onClick}) => {
         }}
       >
         <InputBase
-          className={Searchcss.searchbar}
           placeholder='Search...'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
