@@ -20,7 +20,7 @@ const Card = () => {
       width: '450px',
       marginTop: '60px', 
       // Use theme breakpoints for responsive design
-      '@media (max-width:2200px)': {
+      '@media (max-width:1700px)': {
         width: '85%',
         height: 'auto',
         marginLeft:'6%',
@@ -30,7 +30,7 @@ const Card = () => {
         
       },
     }}>
-      <Box mt={-55}>
+      <Box mt={-25}>
         <Tappoint />
       </Box>
       <Box mt={2}>
