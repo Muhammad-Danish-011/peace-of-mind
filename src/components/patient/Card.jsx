@@ -20,7 +20,7 @@ const Card = () => {
       width: '400px',
       marginTop: '60px', 
       // Use theme breakpoints for responsive design
-      '@media (max-width:1300px)': {
+      '@media (max-width:1640px)': {
         width: '85%',
         height: 'auto',
         marginLeft:'6%',
