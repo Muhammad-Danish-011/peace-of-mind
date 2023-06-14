@@ -1,96 +1,72 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import TappointIcon from '@mui/icons-material/EventNote';
-import PrevAppointmentsIcon from '@mui/icons-material/History';
+import { Box } from '@mui/material';
 import Search from '../../components/patient/Search';
-import TappointLink from '../../components/patient/TappointLink';
-import Tappoint from '../../components/patient/Tappoint';
-import Prevappoints from '../../components/patient/Prevappoints';
-import MiniCard from '../../components/patient/MiniCard';
 import BasicCard from '../../components/patient/BasicCard';
-import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import TappointLink from '../../components/patient/TappointLink';
+import Card from '../../components/patient/Card';
+import { useNavigate } from 'react-router-dom';
+
+
+const styles = {
+  container: {
+    maxWidth: 1300,
+    marginTop: '3% !important',
+    padding: '20px',
+    // backgroundColor: '#f5f5f5', 
+    margin: '0 auto' ,
+
+
+  },
+  cardContainer: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    rowGap: '15px', 
+    columnGap: '10px', 
+    justifyContent: 'center', 
+    marginTop: '60px !important',
+
+    // Add media query for smaller screens
+    '@media (max-width: 1000px)': {// import Card from '../../components/patient/Card';
+      display: 'flex', // Use flexbox layout
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center',
+      rowGap: '10px',
+      columnGap: '5px',
+    },
+   
+  }
+}
 
 const Home = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const cards = [1,2,3,4,5,6];
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
     navigate('/councler');
   };
-
   return (
     <Box sx={{
-      display: 'flex',
-      flexDirection: isSmallScreen ? 'column' : 'row',
-      alignItems: isSmallScreen ? 'end' : 'flex-start',
-      marginLeft: isSmallScreen ? 20 : theme.spacing(35),
-
+      ...styles.container,
+      marginLeft: isSmallScreen ? 8 : theme.spacing(45)
     }}>
-      {/* Left section */}
-      <Box sx={{ flex: 1 }}>
-        <Grid container spacing={2} mt={9} alignItems="center">
-          <Grid item sx={{ flex: 1 }}>
-            <TappointLink />
-          </Grid>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item sx={{ flex: 1 }}>
-              <Search placeholder="Search" fullWidth onClick={handleSearchClick} />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        {/* Render BasicCard 6 times */}
-        <Box sx={{
-          display: 'flex',
-          flexDirection: isSmallScreen ? 'column' : 'row',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: theme.spacing(3),
-        }}>
-          {[...Array(3)].map((_, index) => (
-            <BasicCard key={index} sx={{ marginBottom: '20px', flexBasis: isSmallScreen ? '100%' : '48%', flexGrow: 0 }} />
-          ))}
-        </Box>
-
+    <TappointLink/>
+      <Search  onClick={handleSearchClick}/>
+      <Box sx={styles.cardContainer}>
+        {cards.map((card) => (
+          <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))}
+        
       </Box>
-
-
-      {/* Right section */}
-      <Box  sx={{
-        p: 2,
-        backgroundColor: '#8fb3ac',
-        height: isSmallScreen ? 'auto' : '89vh',
-        overflowY: isSmallScreen ? 'scroll' : 'initial',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-
-      }}>
-        <Box mt={-28}>
-          <TappointIcon /> <strong>Upcoming Appointment</strong>
-        </Box>
-        <Box mt={2}>
-          <Tappoint />
-        </Box>
-
-        <Box>
-          <PrevAppointmentsIcon /><strong>Previous Appointment</strong>
-        </Box>
-        <Box mt={2}>
-          <Prevappoints />
-        </Box>
-        <Box>
-          <PrevAppointmentsIcon /><strong>Previous Counsulted Councler</strong>
-        </Box>
-        <Box  mt={2}>
-          <MiniCard />
-        </Box>
-      </Box>
+      <Card/>
     </Box>
-  );
-};
+  )
+}
 
 export default Home;

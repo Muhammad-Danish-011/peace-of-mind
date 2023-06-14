@@ -10,19 +10,19 @@ const card = (
     <CardContent
       style={{
         backgroundColor: 'rgb(207,227,223)',
-        width: '100%',
+        width: '252px',
         justifyContent: 'center',
         borderRadius: '10px',
         alignItems: 'center',
         padding: '10px',
         paddingRight: '20px',
         paddingLeft: '20px',
-        height: '55px',
+        height: '80px',
       }}
     >
       <Typography
         variant="h5"
-        fontSize="12px"
+        fontSize="20px"
         component="div"
         display="flex"
         flexDirection={{ xs: 'column', sm: 'row' }}
@@ -35,11 +35,11 @@ const card = (
           variant="outlined"
           sx={{
             color: 'black',
-            borderRadius: '20px',
+            borderRadius: '15px',
             display: 'flex',
             marginLeft: { xs: '0', sm: '10px' },
             marginBottom: { xs: '5px', sm: '0' },
-            fontSize: '8px',
+            fontSize: '13px',
             padding: '7px',
             bgcolor: 'white',
           }}
@@ -52,9 +52,9 @@ const card = (
       <Typography
         sx={{ mb: 1.5 }}
         color="text.secondary"
-        fontSize="10px"
+        fontSize="15px"
         paddingRight="80px"
-        marginTop="-10px"
+        marginTop="-1px"
       >
         Social Psychologist
       </Typography>
@@ -64,6 +64,10 @@ const card = (
 
 export default function OutlinedCard() {
   return (
+    <Box>
+    <h1 style={{ fontSize: '20px', marginTop:'1.5rem' }}>Previous Counsulted 
+    Councler</h1>
+
     <Box
       width="100%"
       display="flex"
@@ -81,6 +85,7 @@ export default function OutlinedCard() {
       >
         {card}
       </Card>
+    </Box>
     </Box>
   );
 }

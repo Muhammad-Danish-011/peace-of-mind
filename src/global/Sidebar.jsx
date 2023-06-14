@@ -14,8 +14,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = styled('div')(
   {
-    width: '90px',
-    height: '100vh',
+    height: '103vh',
     backgroundColor: '#8fb3ac',
     position: 'fixed',
     top: 0,
@@ -26,6 +25,15 @@ const Sidebar = styled('div')(
     alignItems: 'center',
     transition: 'transform 0.3s ease-in-out',
     transform: 'translateX(-100%)',
+    '@media (max-width: 600px)': {
+      width: '90px',
+    },
+    '@media (min-width: 601px) and (max-width: 960px)': {
+      width: '90px',
+    },
+    '@media (min-width: 961px)': {
+      width: '120px',
+    },
   },
   ({ open }) => ({
     transform: open ? 'translateX(0)' : 'translateX(-100%)',
@@ -33,17 +41,17 @@ const Sidebar = styled('div')(
 );
 
 const SidebarIcon = styled(Box)(({ selected }) => ({
-  marginBottom: '16px !important',
+  marginBottom: '60px !important',
   color: selected ? '#008080' : 'white',
   '&:hover': {
     color: '#008080',
   },
-  fontSize: 32,
 }));
+
 
 const CloseIconWrapper = styled('div')({
   position: 'absolute',
-  top: '40px',
+  top: '65px',
   left: '20px',
   transform: 'translateY(-50%)',
 });
@@ -57,7 +65,7 @@ export default function PersistentDrawerLeft() {
   React.useEffect(() => {
     // This effect runs whenever the location changes (i.e. the user navigates to a new URL)
     const path = location.pathname.slice(1); // Remove the leading "/"
-    setSelectedComponent(path || 'hoonClickme'); // If there's no path, default to the home component
+    setSelectedComponent(path || 'home'); // If there's no path, default to the home component
   }, [location.pathname]);
 
   const handleSidebarToggle = () => {
@@ -74,19 +82,19 @@ export default function PersistentDrawerLeft() {
       <Navbar handleSidebarToggle={handleSidebarToggle} />
       <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('home')}>
-          <HomeIcon />
+        <HomeIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('councler')}>
-          <PsychologyRoundedIcon />
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('calendar')}>
-          <CalendarMonthRoundedIcon />
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
       </Sidebar>
       {sidebarOpen && (
         <CloseIconWrapper>
           <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
-            <CloseIcon />
+            <CloseIcon style={{ fontSize: '38px' }} />
           </SidebarIcon>
         </CloseIconWrapper>
       )}
