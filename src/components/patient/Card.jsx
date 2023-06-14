@@ -17,10 +17,10 @@ const Card = () => {
       position: 'fixed',
       top: 0,
       right: 0,
-      width: '450px',
+      width: '400px',
       marginTop: '60px', 
       // Use theme breakpoints for responsive design
-      '@media (max-width:1700px)': {
+      '@media (max-width:1300px)': {
         width: '85%',
         height: 'auto',
         marginLeft:'6%',
@@ -30,7 +30,7 @@ const Card = () => {
         
       },
     }}>
-      <Box mt={-25}>
+      <Box mt={-7}>
         <Tappoint />
       </Box>
       <Box mt={2}>

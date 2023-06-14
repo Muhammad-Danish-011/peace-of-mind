@@ -13,7 +13,7 @@ import {useEffect, useState } from 'react';
 const styles = {
   container: {
     maxWidth: 1300,
-    marginTop: '3% !important',
+    marginTop: '-1% !important',
     padding: '20px',
     // backgroundColor: '#f5f5f5', 
     margin: '0 auto' ,
@@ -23,7 +23,6 @@ const styles = {
   cardContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 280px)',
-
     rowGap: '15px', 
     columnGap: '0px', 
     justifyContent: 'center', 
