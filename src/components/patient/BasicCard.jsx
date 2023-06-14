@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useEffect } from 'react';
 
 const card = (
  <React.Fragment>
@@ -46,7 +47,12 @@ const card = (
   </React.Fragment>
 );
 
-export default function OutlinedCard() {
+export default function OutlinedCard(props) {
+  
+  // useEffect(() =>{
+  //   console.log({card: props.cards})
+  // },[])
+
   return (
     
      <Box
