@@ -16,7 +16,8 @@ const styles = {
   },
   cardContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(4, 280px)',
+
     rowGap: '20px', // Add row gap
     columnGap: '20px', // Add column gap
     justifyContent: 'center', 
@@ -44,7 +45,7 @@ const Councler = () => {
   return (
     <Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 8 : theme.spacing(45)
+      marginLeft: isSmallScreen ? 8 : theme.spacing(3)
 
     }}>
       <Search/>

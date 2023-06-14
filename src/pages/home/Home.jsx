@@ -21,9 +21,10 @@ const styles = {
   },
   cardContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(3, 280px)',
+
     rowGap: '15px', 
-    columnGap: '10px', 
+    columnGap: '0px', 
     justifyContent: 'center', 
     marginTop: '60px !important',
 
@@ -54,13 +55,15 @@ const Home = () => {
   return (
     <Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 8 : theme.spacing(45)
+      marginLeft: isSmallScreen ? 8 : theme.spacing(15)
     }}>
     <TappointLink/>
       <Search  onClick={handleSearchClick}/>
-      <Box sx={styles.cardContainer}>
+      <Box sx={{...styles.cardContainer,
+      marginLeft: isSmallScreen ? 4 : theme.spacing(-2)}}
+      >
         {cards.map((card) => (
-          <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+          <BasicCard key={`card-${card}`} sx={{marginRight: '100px', marginBottom: '20px'}}/> 
         ))}
         
       </Box>
@@ -70,3 +73,5 @@ const Home = () => {
 }
 
 export default Home;
+
+

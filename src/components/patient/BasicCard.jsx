@@ -9,7 +9,7 @@ const card = (
  <React.Fragment>
 
     <CardContent style={{backgroundColor: "rgb(	184	215	209)",
-              width:'230px',
+              width:'220px',
               justifyContent:"center",
               borderRadius:'30px',
               alignItems:"center",
