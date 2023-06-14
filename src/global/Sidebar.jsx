@@ -1,22 +1,21 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
 import PsychologyRoundedIcon from '@mui/icons-material/PsychologyRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import CloseIcon from '@mui/icons-material/Close';
+import HomeIcon from '@mui/icons-material/Home';
 import Home from '../pages/home/Home';
 import Councler from '../pages/councler/Councler';
 import Calendar from '../pages/calendar/Calendar';
+import { IconButton } from '@mui/material';
+import Navbar from './Navbar';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = styled('div')(
   {
-    width: '90px',
-    height: '100vh',
-    backgroundColor: '#a0d4d4', 
+    height: '103vh',
+    backgroundColor: '#8fb3ac',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -26,6 +25,15 @@ const Sidebar = styled('div')(
     alignItems: 'center',
     transition: 'transform 0.3s ease-in-out',
     transform: 'translateX(-100%)',
+    '@media (max-width: 600px)': {
+      width: '90px',
+    },
+    '@media (min-width: 601px) and (max-width: 960px)': {
+      width: '90px',
+    },
+    '@media (min-width: 961px)': {
+      width: '120px',
+    },
   },
   ({ open }) => ({
     transform: open ? 'translateX(0)' : 'translateX(-100%)',
@@ -33,63 +41,64 @@ const Sidebar = styled('div')(
 );
 
 const SidebarIcon = styled(Box)(({ selected }) => ({
-  marginBottom: '16px !important',
+  marginBottom: '60px !important',
   color: selected ? '#008080' : 'white',
   '&:hover': {
     color: '#008080',
   },
-  fontSize: 32, // or any other value you prefer
 }));
+
+
 const CloseIconWrapper = styled('div')({
-    position: 'absolute',
-    top: '70px',
-    transform: 'translateY(8px)',
-  });
-  
+  position: 'absolute',
+  top: '65px',
+  left: '20px',
+  transform: 'translateY(-50%)',
+});
 
 export default function PersistentDrawerLeft() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const [selectedComponent, setSelectedComponent] = React.useState('home');
+  const [selectedComponent, setSelectedComponent] = React.useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    // This effect runs whenever the location changes (i.e. the user navigates to a new URL)
+    const path = location.pathname.slice(1); // Remove the leading "/"
+    setSelectedComponent(path || 'home'); // If there's no path, default to the home component
+  }, [location.pathname]);
 
   const handleSidebarToggle = () => {
-    setSidebarOpen(!sidebarOpen);
+    setSidebarOpen(true);
   };
 
   const handleComponentChange = (component) => {
     setSelectedComponent(component);
-    setSidebarOpen(false); // Close the sidebar when an item is clicked
+    navigate(`/${component}`);
   };
 
   return (
-    <Box sx={{ position:'relative' }}>
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open sidebar"
-          onClick={handleSidebarToggle}
-          edge="start"
-        >
-          <MenuIcon />
-        </IconButton>
-      </Toolbar>
+    <Box sx={{ position: 'relative' }}>
+      <Navbar handleSidebarToggle={handleSidebarToggle} />
       <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('home')}>
-          <HomeIcon />
+        <HomeIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('councler')}>
-          <PsychologyRoundedIcon />
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('calendar')}>
-          <CalendarMonthRoundedIcon />
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
-        <CloseIconWrapper>
-            <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
-              <CloseIcon />
-            </SidebarIcon>
-          </CloseIconWrapper>
-
       </Sidebar>
-      {selectedComponent === 'home' && <Home/>}
+      {sidebarOpen && (
+        <CloseIconWrapper>
+          <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
+            <CloseIcon style={{ fontSize: '38px' }} />
+          </SidebarIcon>
+        </CloseIconWrapper>
+      )}
+      {selectedComponent === 'home' && <Home />}
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
     </Box>

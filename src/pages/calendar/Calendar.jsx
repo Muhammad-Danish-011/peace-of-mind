@@ -1,8 +1,13 @@
 import React from 'react'
+import Card from '../../components/patient/Card';
+
+
 
 const Calendar = () => {
   return (
-    <div>Calendar</div>
+    <div>
+      {/* <Card/> */}
+    </div>
   )
 }
 
