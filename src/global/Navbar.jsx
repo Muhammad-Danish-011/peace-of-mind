@@ -1,5 +1,6 @@
 import React  from 'react';
-import { AppBar, IconButton, Toolbar,  Grid } from "@mui/material";
+import { AppBar, IconButton, Toolbar,Grid } from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 import './navbar.css'
 import ProfileModal from '../components/ProfileModal';
 
@@ -17,6 +18,7 @@ const Navbar = ({ handleSidebarToggle }) => {
                 onClick={handleSidebarToggle}
                 edge="start"
               >
+                <MenuIcon style={{ fontSize: '48px' }}/>
               </IconButton>
             </Grid>
             <Grid item xs />
