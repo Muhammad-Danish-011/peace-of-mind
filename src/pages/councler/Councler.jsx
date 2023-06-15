@@ -16,8 +16,7 @@ const styles = {
   },
   cardContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 280px)',
-
+    gridTemplateColumns: 'repeat(3, 280px)',
     rowGap: '20px', // Add row gap
     columnGap: '20px', // Add column gap
     justifyContent: 'center', 

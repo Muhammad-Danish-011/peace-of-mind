@@ -1,11 +1,12 @@
 import React from 'react'
+import SurveyModal from '../../components/SurveyModal'
 
 
 
 const Calendar = () => {
   return (
     <div>
-    Calendar
+  <SurveyModal/>
     </div>
   )
 }

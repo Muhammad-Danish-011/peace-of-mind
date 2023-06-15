@@ -26,7 +26,7 @@ const styles = {
     rowGap: '15px', 
     columnGap: '0px', 
     justifyContent: 'center', 
-    marginTop: '60px !important',
+    marginTop: '90px !important',
 
     // Add media query for smaller screens
     '@media (max-width: 1000px)': {// import Card from '../../components/patient/Card';
@@ -69,17 +69,18 @@ const Home = () => {
   return (
     <Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 8 : theme.spacing(15)
+      marginLeft: isSmallScreen ? 10 : theme.spacing(5)
     }}>
     <TappointLink/>
       <Search  onClick={handleSearchClick}/>
+      {/* Suggested for you */}
       <Box sx={{...styles.cardContainer,
-      marginLeft: isSmallScreen ? 4 : theme.spacing(-2)}}
+      marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
       >
-        {cards.map((card) => (
+        {/* {cards.map((card) => (
           <BasicCard key={`card-${card.counselorId}`} props={cards} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))}
-        
+        ))} */}
+        <BasicCard/>
       </Box>
       <Card/>
     </Box>
