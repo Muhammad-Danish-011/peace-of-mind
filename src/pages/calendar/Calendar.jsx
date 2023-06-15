@@ -6,7 +6,7 @@ import SurveyModal from '../../components/SurveyModal'
 const Calendar = () => {
   return (
     <div>
-  <SurveyModal/>
+  {/* <SurveyModal/> */}
     </div>
   )
 }

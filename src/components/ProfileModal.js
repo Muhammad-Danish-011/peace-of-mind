@@ -30,16 +30,22 @@ const ProfileModal = () => {
           id="menu-appbar"
           anchorEl={anchorEl}
           anchorOrigin={{
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'right',
           }}
-          keepMounted
           transformOrigin={{
             vertical: 'top',
             horizontal: 'right',
           }}
+          keepMounted
           open={Boolean(anchorEl)}
           onClose={handleClose}
+          PaperProps={{
+            style: {
+              maxHeight: '200px',
+              width: '20ch'
+            }
+          }}
         >
           <MenuItem onClick={handleClose}>Profile</MenuItem>
           <MenuItem onClick={handleClose}>Logout</MenuItem>
