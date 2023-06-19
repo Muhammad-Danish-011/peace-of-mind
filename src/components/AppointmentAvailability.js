@@ -10,31 +10,29 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const AvailabilityTable = () => {
   const [appointments, setAppointments] = useState([]);
   const [availabilityData, setAvailabilityData] = useState([]);
+  const [acceptedAppointments, setAcceptedAppointments] = useState([]);
+
+  const Nav = useNavigate();
 
   useEffect(() => {
-    fetch(
-      "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall"
-    )
+    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
       .then((response) => response.json())
       .then((data) => setAppointments(data))
       .catch((error) => console.log(error));
 
-    fetch(
-      "http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/all"
-    )
+    fetch("http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/all")
       .then((response) => response.json())
       .then((data) => setAvailabilityData(data))
       .catch((error) => console.log(error));
   }, []);
 
   const getAvailabilityDate = (availabilityId) => {
-    const availability = availabilityData.find(
-      (item) => item.id === availabilityId
-    );
+    const availability = availabilityData.find((item) => item.id === availabilityId);
     return availability ? availability.date : "";
   };
 
@@ -62,41 +60,35 @@ const AvailabilityTable = () => {
       return appointment;
     });
     setAppointments(updatedAppointments);
+
     // Send the updated appointment to the API
-    fetch(
-      `http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(
-          updatedAppointments.find(
-            (appointment) => appointment.id === appointmentId
-          )
-        ),
-      }
-    )
+    fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        updatedAppointments.find((appointment) => appointment.id === appointmentId)
+      ),
+    })
       .then((response) => response.json())
       .then((data) => {
         // Handle success response
         console.log(`Appointment with ID ${appointmentId} has been accepted.`);
-        // Update the appointments state with the updated data from the server
+        setAcceptedAppointments((prevAcceptedAppointments) => [
+          ...prevAcceptedAppointments,
+          appointmentId,
+        ]);
       })
       .catch((error) => {
         // Handle error
-        console.log(
-          `Error accepting appointment with ID ${appointmentId}:`,
-          error
-        );
+        console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
       });
   };
 
   const handleDecline = (appointmentId) => {
     // Update the appointments state by removing the declined appointment
-    const updatedAppointments = appointments.filter(
-      (appointment) => appointment.id !== appointmentId
-    );
+    const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
     setAppointments(updatedAppointments);
 
     // Send a request to delete the appointment
@@ -117,10 +109,7 @@ const AvailabilityTable = () => {
       })
       .catch((error) => {
         // Handle error
-        console.log(
-          `Error declining appointment with ID ${appointmentId}:`,
-          error
-        );
+        console.log(`Error declining appointment with ID ${appointmentId}:`, error);
       });
   };
 
@@ -130,8 +119,8 @@ const AvailabilityTable = () => {
   };
 
   const handleJoin = (appointmentId) => {
-    // Handle done logic here
-    window.open("https://devrel.daily.co/fhY3Tx11c0zgeWAkFcOT", "_blank");
+    // Handle join logic here
+    Nav(`/room/${appointmentId}`);
   };
 
   const filteredAppointments = appointments.filter((appointment) => {
@@ -339,6 +328,7 @@ const AvailabilityTable = () => {
                       getAvailabilityDate(appointment.availability_id)
                     ) === "Today" ? (
                       <Button
+                        disabled={!appointment.confirmed}
                         onClick={() => handleJoin(appointment.id)}
                         variant="outlined"
                         color="primary"
