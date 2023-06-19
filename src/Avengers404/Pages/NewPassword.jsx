@@ -629,7 +629,7 @@ const NewPassword = () => {
     console.log(newUser);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_KEY}/user/forgotpassword/update`, {
+      const response = await fetch(`http://localhost:8082/user/forgotpassword/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
