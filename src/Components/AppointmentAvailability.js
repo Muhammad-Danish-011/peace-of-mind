@@ -164,194 +164,197 @@ const AvailabilityTable = () => {
 
   return (
     <Box sx={{ overflowX: "auto" }}>
-  <TableContainer component={Paper} sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}>
-    <Box sx={{ minWidth: 650, overflowX: "auto" }}>
-      <Table sx={{ minWidth: 650 }}>
-        <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
-          <TableRow>
-            <TableCell
-              sx={{
-                backgroundColor: "#a0d4d4",
-                color: "#000000",
-                fontWeight: "600",
-                borderBottom: "0px solid #ffffff",
-                textAlign: "center",
-              }}
-            >
-              Availability ID
-            </TableCell>
-            <TableCell
-              sx={{
-                backgroundColor: "#a0d4d4",
-                color: "#000000",
-                fontWeight: "600",
-                borderBottom: "0px solid #ffffff",
-                textAlign: "center",
-              }}
-            >
-              Availability Date
-            </TableCell>
-            <TableCell
-              sx={{
-                backgroundColor: "#a0d4d4",
-                color: "#000000",
-                fontWeight: "600",
-                borderBottom: "0px solid #ffffff",
-                textAlign: "center",
-              }}
-            >
-              Pending Status
-            </TableCell>
-            <TableCell
-              sx={{
-                backgroundColor: "#a0d4d4",
-                color: "#000000",
-                fontWeight: "600",
-                borderBottom: "0px solid #ffffff",
-                textAlign: "center",
-              }}
-            >
-              Confirmation
-            </TableCell>
-            <TableCell
-              sx={{
-                backgroundColor: "#a0d4d4",
-                color: "#000000",
-                fontWeight: "600",
-                borderBottom: "0px solid #ffffff",
-                textAlign: "center",
-              }}
-            >
-              Session
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedAppointments.map((appointment) => (
-            <TableRow
-              key={appointment.id}
-              sx={{
-                "&:last-child td": { borderBottom: 0 },
-                "&:hover": { backgroundColor: "#daf2f2" },
-                "&:hover td": { backgroundColor: "inherit" },
-              }}
-            >
-              <TableCell
-                sx={{
-                  borderBottom: "1px solid #f5f5f5",
-                  borderRight: "1px solid #000000",
-                }}
-              >
-                {appointment.availability_id}
-              </TableCell>
-              <TableCell
-                sx={{
-                  borderBottom: "1px solid #f5f5f5",
-                  borderRight: "1px solid #000000",
-                }}
-              >
-                {formatDateTime(
-                  getAvailabilityDate(appointment.availability_id)
-                )}
-              </TableCell>
-              <TableCell
-                sx={{
-                  borderBottom: "1px solid #f5f5f5",
-                  borderRight: "1px solid #000000",
-                }}
-              >
-                {getPendingStatus(
-                  getAvailabilityDate(appointment.availability_id)
-                )}
-              </TableCell>
-              <TableCell
-                sx={{
-                  borderBottom: "1px solid #f5f5f5",
-                  borderRight: "1px solid #000000",
-                }}
-              >
-                {getPendingStatus(
-                  getAvailabilityDate(appointment.availability_id)
-                ) === "Future" ||
-                getPendingStatus(
-                  getAvailabilityDate(appointment.availability_id)
-                ) === "Today" ? (
-                  <>
-                    {appointment.confirmed ? (
-                      <Button
-                        style={{
-                          backgroundColor: "#a0d4d4",
-                          color: "white",
-                          borderRadius: "9px",
-                          padding: "4px 8px",
-                          marginLeft: "50px",
-                          textTransform: "none",
-                        }}
-                      >
-                        Pending...
-                      </Button>
-                    ) : (
-                      <>
-                        <Button
-                          onClick={() => handleAccept(appointment.id)}
-                          variant="outlined"
-                          color="success"
-                          sx={{ marginRight: "8px" }}
-                        >
-                          Accept
-                        </Button>
-                        <Button
-                          onClick={() => handleDecline(appointment.id)}
-                          variant="outlined"
-                          color="error"
-                          sx={{ marginRight: "8px" }}
-                        >
-                          Decline
-                        </Button>
-                      </>
+      <TableContainer
+        component={Paper}
+        sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}
+      >
+        <Box sx={{ minWidth: 650, overflowX: "auto" }}>
+          <Table sx={{ minWidth: 650 }}>
+            <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableRow>
+                <TableCell
+                  sx={{
+                    backgroundColor: "#a0d4d4",
+                    color: "#000000",
+                    fontWeight: "600",
+                    borderBottom: "0px solid #ffffff",
+                    textAlign: "center",
+                  }}
+                >
+                  Availability ID
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "#a0d4d4",
+                    color: "#000000",
+                    fontWeight: "600",
+                    borderBottom: "0px solid #ffffff",
+                    textAlign: "center",
+                  }}
+                >
+                  Availability Date
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "#a0d4d4",
+                    color: "#000000",
+                    fontWeight: "600",
+                    borderBottom: "0px solid #ffffff",
+                    textAlign: "center",
+                  }}
+                >
+                  Pending Status
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "#a0d4d4",
+                    color: "#000000",
+                    fontWeight: "600",
+                    borderBottom: "0px solid #ffffff",
+                    textAlign: "center",
+                  }}
+                >
+                  Confirmation
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: "#a0d4d4",
+                    color: "#000000",
+                    fontWeight: "600",
+                    borderBottom: "0px solid #ffffff",
+                    textAlign: "center",
+                  }}
+                >
+                  Session
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {sortedAppointments.map((appointment) => (
+                <TableRow
+                  key={appointment.id}
+                  sx={{
+                    "&:last-child td": { borderBottom: 0 },
+                    "&:hover": { backgroundColor: "#daf2f2" },
+                    "&:hover td": { backgroundColor: "inherit" },
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      borderBottom: "1px solid #f5f5f5",
+                      borderRight: "1px solid #000000",
+                    }}
+                  >
+                    {appointment.availability_id}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      borderBottom: "1px solid #f5f5f5",
+                      borderRight: "1px solid #000000",
+                    }}
+                  >
+                    {formatDateTime(
+                      getAvailabilityDate(appointment.availability_id)
                     )}
-                  </>
-                ) : (
-                  <Button
-                    onClick={() => handleDone(appointment.id)}
-                    variant="outlined"
-                    color="success"
-                    sx={{ marginLeft: "70px" }}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      borderBottom: "1px solid #f5f5f5",
+                      borderRight: "1px solid #000000",
+                    }}
                   >
-                    Done
-                  </Button>
-                )}
-              </TableCell>
-              <TableCell
-                sx={{
-                  borderBottom: "1px solid #f5f5f5",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {getPendingStatus(
-                  getAvailabilityDate(appointment.availability_id)
-                ) === "Future" ||
-                getPendingStatus(
-                  getAvailabilityDate(appointment.availability_id)
-                ) === "Today" ? (
-                  <Button
-                    onClick={() => handleJoin(appointment.id)}
-                    variant="outlined"
-                    color="primary"
-                    sx={{ marginLeft: "8px" }}
+                    {getPendingStatus(
+                      getAvailabilityDate(appointment.availability_id)
+                    )}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      borderBottom: "1px solid #f5f5f5",
+                      borderRight: "1px solid #000000",
+                    }}
                   >
-                    Join
-                  </Button>
-                ) : null}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                    {getPendingStatus(
+                      getAvailabilityDate(appointment.availability_id)
+                    ) === "Future" ||
+                    getPendingStatus(
+                      getAvailabilityDate(appointment.availability_id)
+                    ) === "Today" ? (
+                      <>
+                        {appointment.confirmed ? (
+                          <Button
+                            style={{
+                              backgroundColor: "#a0d4d4",
+                              color: "white",
+                              borderRadius: "9px",
+                              padding: "4px 8px",
+                              marginLeft: "50px",
+                              textTransform: "none",
+                            }}
+                          >
+                            Pending...
+                          </Button>
+                        ) : (
+                          <>
+                            <Button
+                              onClick={() => handleAccept(appointment.id)}
+                              variant="outlined"
+                              color="success"
+                              sx={{ marginRight: "8px" }}
+                            >
+                              Accept
+                            </Button>
+                            <Button
+                              onClick={() => handleDecline(appointment.id)}
+                              variant="outlined"
+                              color="error"
+                              sx={{ marginRight: "8px" }}
+                            >
+                              Decline
+                            </Button>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <Button
+                        onClick={() => handleDone(appointment.id)}
+                        variant="outlined"
+                        color="success"
+                        sx={{ marginLeft: "70px" }}
+                      >
+                        Done
+                      </Button>
+                    )}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      borderBottom: "1px solid #f5f5f5",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {getPendingStatus(
+                      getAvailabilityDate(appointment.availability_id)
+                    ) === "Future" ||
+                    getPendingStatus(
+                      getAvailabilityDate(appointment.availability_id)
+                    ) === "Today" ? (
+                      <Button
+                        onClick={() => handleJoin(appointment.id)}
+                        variant="outlined"
+                        color="primary"
+                        sx={{ marginLeft: "8px" }}
+                      >
+                        Join
+                      </Button>
+                    ) : null}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </TableContainer>
     </Box>
-  </TableContainer>
-</Box>
   );
 };
 
