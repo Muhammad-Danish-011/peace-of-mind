@@ -52,17 +52,17 @@ const Loginform = () => {
           setLoginStatus(false); // Set login status to false
         }
       })
-      .then((data) => {
-        const { role } = data;
-        setitems(data);
-        setLoginStatus(true); 
+      // .then((data) => {
+      //   const { role } = data;
+      //   setitems(data);
+      //   setLoginStatus(true); 
       
-        if (role === 'Counselor') {
-          navigate('/home');
-        } else if(role === 'Patient') {
-          navigate('/dashboard');
-        }
-      })
+      //   if (role === 'Counselor') {
+      //     navigate('/home');
+      //   } else if(role === 'Patient') {
+      //     navigate('/dashboard');
+      //   }
+      // })
       .catch((error) => {
         console.error('Error', error);
         setErrorMessage('Login failed. Please try again.'); // Set the error message

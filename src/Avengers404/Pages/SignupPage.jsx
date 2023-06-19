@@ -77,7 +77,7 @@ const SignupForm = () => {
               description: formData.description,
             };
             const counselorResponse = await fetch(
-              "http://localhost:8081/counselor/post",
+              "http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/post",
               {
                 method: "POST",
                 headers: {
@@ -150,9 +150,7 @@ const SignupForm = () => {
     const phoneRegex = /^\d{10}$/;
     if (!phone) {
       formErrors.phone = "Phone number is required";
-    } else if (!phoneRegex.test(phone)) {
-      formErrors.phone = "Invalid phone number";
-    }
+    } 
 
     if (!address) {
       formErrors.address = "Address is required";
@@ -161,12 +159,10 @@ const SignupForm = () => {
     if (!gender) {
       formErrors.gender = "Gender is required";
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) {
-      formErrors.email = "Email is required";
-    } else if (!emailRegex.test(email)) {
-      formErrors.email = "Invalid email address";
-    }
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!email) {
+    //   formErrors.email = "Email is required";
+    // } 
 
     const cnicRegex = /^\d{5}-\d{7}-\d$/;
     if (!cnic) {
