@@ -16,7 +16,7 @@ const PreviousNotes = () => {
 
     const fetchNotes = async () => {
         try {
-            const response = await fetch("http://localhost:8086/notes/notesByPatientId/2");
+            const response = await fetch("http://notes.us-west-2.elasticbeanstalk.com/notes/notesByPatientId/2");
             const data = await response.json();
             setNotes(data);
         } catch (error) {
@@ -54,7 +54,7 @@ const PreviousNotes = () => {
             updated: moment().utc().toISOString()
         };
 
-        fetch('http://localhost:8086/notes/update', {
+        fetch('http://notes.us-west-2.elasticbeanstalk.com/notes/update', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

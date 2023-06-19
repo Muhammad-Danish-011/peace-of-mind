@@ -22,7 +22,7 @@ function Notes() {
       content: content,
 
     }
-    fetch('http://localhost:8086/notes/add', {
+    fetch('http://notes.us-west-2.elasticbeanstalk.com/notes/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
