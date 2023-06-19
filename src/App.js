@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Sidebar from './global/Sidebar';
-import Home from './pages/home/Home';
-import Councler from './pages/councler/Councler';
-import Calendar from './pages/calendar/Calendar';
-import Form from './pages/form/Form';
+import Sidebar from './Avengers404/global/Sidebar';
+import Home from './Avengers404/pages/home/Home';
+import Councler from './Avengers404/pages/councler/Councler';
+import Calendar from './Avengers404/pages/calendar/Calendar';
+import Form from './Avengers404/pages/form/Form';
 import './App.css';
 
 function App() {
