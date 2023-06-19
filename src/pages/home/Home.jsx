@@ -55,7 +55,7 @@ const Home = () => {
     .then(data => data.json())
     .then(data => {
       console.log({data})
-      setCards(data)
+      setCards(data.slice(0,6))
     })
     .catch(err => console.group(err))
   },[]);
@@ -77,10 +77,11 @@ const Home = () => {
       <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
       >
-        {/* {cards.map((card) => (
-          <BasicCard key={`card-${card.counselorId}`} props={cards} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))} */}
-        <BasicCard/>
+        {
+        cards.map((card) => (
+          <BasicCard key={`card-${card.id}`} cards={cards} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))
+        }
       </Box>
       <Card/>
     </Box>
