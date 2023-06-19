@@ -1,12 +1,12 @@
 import React from 'react'
-import Card from '../../components/patient/Card';
+import SurveyModal from '../../components/SurveyModal'
 
 
 
 const Calendar = () => {
   return (
     <div>
-      {/* <Card/> */}
+  {/* <SurveyModal/> */}
     </div>
   )
 }
