@@ -11,18 +11,18 @@ import {
 
 const Loginform = () => {
 
-  if(sessionStorage.getItem("islogin") != null){
-    window.location.assign("/home");
-  }
+  // if(sessionStorage.getItem("islogin") != null){
+    
+  //   window.location.assign("/home");
+  // }
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const { setLoginStatus,setitems } = useContext(AuthContext);
-
+  const { setLoginStatus,setitems } = useContext(AuthContext)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -31,44 +31,34 @@ const Loginform = () => {
       setErrors({ email: emailError, password: passwordError });
       return;
     }
-    console.log('Login successful');
-    fetch('http://localhost:8082/user/login', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => {      
-        if (response.ok) {
-          console.log('Login Successfully');
-          setitems(response);
-          setLoginStatus(true); // Set login status to true
-          // setTimeout(() => {
-            navigate('/home'); // Navigate to dashboard
-          // }, 3000);  // Navigate to dashboard
-        } else {
-          console.log('Login Fail');
-          setLoginStatus(false); // Set login status to false
-        }
-      })
-      // .then((data) => {
-      //   const { role } = data;
-      //   setitems(data);
-      //   setLoginStatus(true); 
-      
-      //   if (role === 'Counselor') {
-      //     navigate('/home');
-      //   } else if(role === 'Patient') {
-      //     navigate('/dashboard');
-      //   }
-      // })
-      .catch((error) => {
-        console.error('Error', error);
-        setErrorMessage('Login failed. Please try again.'); // Set the error message
-        setLoginStatus(false); // Set login status to false in case of an error
+    try {
+      const response = await fetch("http://localhost:8082/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
+
+      if (response.ok) {
+        const user = await response.json();
+        sessionStorage.setItem("role", user.role);
+        console.log(user.role);
+        setLoginStatus(true);
+
+        if (user.role === "PATIENT") {
+          navigate("/dashboard");
+        } else if (user.role === "COUNSELOR") {
+          navigate("/home");
+        }
+      } else {
+        console.log("Invalid credentials");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
 
   const validateEmail = (email) => {
     if (!email) {

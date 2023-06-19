@@ -18,13 +18,13 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
     <Routes>
     <Route path="/signup" element={<SignupForm />} />
+    <Route path="/forget-password" element={<ForgetPassword /> } />
     <Route path="/login" element={<Loginform />} />
+    <Route path="/new-password" element={<NewPassword />} />
     <Route index element={<Loginform />} />
     </Routes>
    
         <Routes>
-          <Route path="/forget-password" element={<Privateroute><ForgetPassword /></Privateroute> } />
-          <Route path="/new-password" element={<Privateroute> <NewPassword /></Privateroute> } />
           <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } />
           <Route path="/home" element={<Privateroute> <Home /></Privateroute> } />
           <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
