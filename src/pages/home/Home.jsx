@@ -26,7 +26,7 @@ const styles = {
     rowGap: '15px', 
     columnGap: '0px', 
     justifyContent: 'center', 
-    marginTop: '90px !important',
+    marginTop: '60px !important',
 
     // Add media query for smaller screens
     '@media (max-width: 1000px)': {// import Card from '../../components/patient/Card';

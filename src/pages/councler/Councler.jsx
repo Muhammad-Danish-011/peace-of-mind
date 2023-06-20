@@ -23,7 +23,7 @@ const styles = {
     marginTop: '60px !important',
 
     // Add media query for smaller screens
-    '@media (max-width: 768px)': {
+    '@media (max-width: 1600px)': {
       display: 'flex', // Use flexbox layout
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -44,7 +44,7 @@ const Councler = () => {
   return (
     <Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 8 : theme.spacing(3)
+      marginLeft: isSmallScreen ? 8 : theme.spacing(7)
 
     }}>
       <Search/>
