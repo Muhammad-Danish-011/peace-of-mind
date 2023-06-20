@@ -74,7 +74,7 @@ const SignupForm = () => {
           role: formData.role,
           created: signupDateTime.toISOString(),
         };
-        const response = await fetch("http://localhost:8082/user/signup", {
+        const response = await fetch("http://accountservice.us-east-1.elasticbeanstalk.com/user/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,10 +85,13 @@ const SignupForm = () => {
         if (response.ok) {
           console.log("New User is registered!!!");
           if (formData.role === "COUNSELOR") {
+            let user = await response.json();
+            console.log(user)
             const counselorData = {
               created: signupDateTime.toISOString(),
               specialization: formData.specialization,
               description: formData.description,
+              userid: user.id
             };
             const counselorResponse = await fetch(
               "http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/post",
