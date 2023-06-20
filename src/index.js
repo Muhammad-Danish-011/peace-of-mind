@@ -13,6 +13,7 @@ import UserProfile from './Avengers404/Pages/UserProfile';
 import Privateroute from './Avengers404/components/Privateroute';
 import { AuthProvider } from './Avengers404/Pages/AuthContext';
 
+import App from './App';
 createRoot(document.getElementById('root')).render(
 // import React from "react";
 // import { BrowserRouter } from "react-router-dom";
@@ -30,22 +31,6 @@ createRoot(document.getElementById('root')).render(
 // import UserProfile from "./Avengers404/Pages/UserProfile";
 // createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-    <AuthProvider>
-    <Routes>
-    <Route path="/signup" element={<SignupForm />} />
-    <Route path="/login" element={<Loginform />} />
-    <Route index element={<Loginform />} />
-    </Routes>
-   
-        <Routes>
-          <Route path="/forget-password" element={<Privateroute><ForgetPassword /></Privateroute> } />
-          <Route path="/new-password" element={<Privateroute> <NewPassword /></Privateroute> } />
-          <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } />
-          <Route path="/home" element={<Privateroute> <Home /></Privateroute> } />
-          <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+    <App/>
   </React.StrictMode>
 );

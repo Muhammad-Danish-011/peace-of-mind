@@ -11,10 +11,11 @@ import {
 
 const Loginform = () => {
 
-  // if(sessionStorage.getItem("islogin") != null){
-    
-  //   window.location.assign("/home");
-  // }
+  const BaseURL = process.env.REACT_APP_API_KEY;
+
+  if(sessionStorage.getItem("islogin") != null){
+    window.location.assign("/home");
+  }
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const { setLoginStatus,setitems } = useContext(AuthContext)
@@ -38,6 +39,42 @@ const Loginform = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+    console.log('Login successful');
+    fetch(`${BaseURL}/user/login`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => {      
+        if (response.ok) {
+          console.log('Login Successfully');
+          setitems(response);
+          setLoginStatus(true); // Set login status to true
+          // setTimeout(() => {
+            navigate('/home'); // Navigate to dashboard
+          // }, 3000);  // Navigate to dashboard
+        } else {
+          console.log('Login Fail');
+          setLoginStatus(false); // Set login status to false
+        }
+      })
+      // .then((data) => {
+      //   const { role } = data;
+      //   setitems(data);
+      //   setLoginStatus(true); 
+      
+      //   if (role === 'Counselor') {
+      //     navigate('/home');
+      //   } else if(role === 'Patient') {
+      //     navigate('/dashboard');
+      //   }
+      // })
+      .catch((error) => {
+        console.error('Error', error);
+        setErrorMessage('Login failed. Please try again.'); // Set the error message
+        setLoginStatus(false); // Set login status to false in case of an error
       });
 
       if (response.ok) {
