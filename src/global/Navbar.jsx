@@ -1,18 +1,34 @@
-import React from 'react'
-import { AppBar, IconButton, Toolbar } from "@mui/material";
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import React  from 'react';
+import { AppBar, IconButton, Toolbar,Grid } from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+import './navbar.css'
+import ProfileModal from '../components/ProfileModal';
 
-const Navbar = () => {
+const Navbar = ({ handleSidebarToggle }) => {
+
+  
   return (
-      <AppBar position="static" sx={{ bgcolor: '#a0d4d4' }}>
+      <AppBar position="relative" sx={{ bgcolor: '#8fb3ac' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <div/>
-          <IconButton edge="end" color="inherit">
-            <AccountCircleRoundedIcon sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
-          </IconButton>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <IconButton
+                color="inherit"
+                aria-label="open sidebar"
+                onClick={handleSidebarToggle}
+                edge="start"
+              >
+                <MenuIcon style={{ fontSize: '48px' }}/>
+              </IconButton>
+            </Grid>
+            <Grid item xs />
+            <Grid item>
+            <ProfileModal/>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
   )
 }
 
-export default Navbar
+export default Navbar;

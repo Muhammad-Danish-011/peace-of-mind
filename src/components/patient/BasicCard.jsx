@@ -33,12 +33,12 @@ const card = (
       <Button
       variant='outlined'
       sx= {{color: 'black',
-            borderRadius:'20px', 
+            borderRadius:'15px', 
             display:'flex',
             marginLeft:'40px',
             marginTop:'10px',
-            fontSize:'8px',
-            padding:'8px',
+            fontSize:'12px',
+            padding:'10px',
             bgcolor: 'white'}}
       size="small" >Book Now</Button>
 
@@ -46,7 +46,12 @@ const card = (
   </React.Fragment>
 );
 
-export default function OutlinedCard() {
+export default function OutlinedCard(props) {
+  
+  // useEffect(() =>{
+  //   console.log({card: props.cards})
+  // },[])
+
   return (
     
      <Box
