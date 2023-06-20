@@ -59,25 +59,46 @@ const SignupForm = () => {
     if (formErrors) {
       setErrors(formErrors);
     } else {
+      const signupDateTime = new Date();
       // Submit the form data
       try {
-        const response = await fetch("http://localhost:8082/user/signup", {
+        const newUser = {
+          firstName: formData.fname,
+          lastName: formData.lname,
+          phoneNumber: formData.phone,
+          address: formData.address,
+          email: formData.email,
+          nationalId: formData.cnic,
+          password: formData.password,
+          gender: formData.gender,
+          role: formData.role,
+          created: signupDateTime.toISOString(),
+        };
+        const accountUrl = process.env.REACT_APP_API_KEY
+        console.log(accountUrl)
+        const response = await fetch(`${accountUrl}/user/signup`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(newUser),
         });
 
         if (response.ok) {
           console.log("New User is registered!!!");
           if (formData.role === "COUNSELOR") {
+            let user = await response.json();
+            console.log(user)
             const counselorData = {
+              created: signupDateTime.toISOString(),
               specialization: formData.specialization,
               description: formData.description,
+              userid: user.id
             };
+            const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY
+            console.log(councelorUrl)
             const counselorResponse = await fetch(
-              "http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/post",
+              `${councelorUrl}/counselor/post`,
               {
                 method: "POST",
                 headers: {
@@ -95,8 +116,10 @@ const SignupForm = () => {
             const patientData = {
               guardian_phone_number: formData.guardian_phone_number,
             };
+            const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
+            console.log(patientUrl)
             const patientResponse = await fetch(
-              "http://patient-app.us-west-2.elasticbeanstalk.com/patient/add",
+              `${patientUrl}/patient/add`,
               {
                 method: "POST",
                 headers: {
