@@ -21,8 +21,8 @@ const ForgetPassword = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     const userEmail = email;
-  
-    fetch(`http://accountservice.us-east-1.elasticbeanstalk.com/user/ForgotPassword/${userEmail}`, {
+    const accountUrl = process.env.REACT_APP_API_KEY
+    fetch(`${accountUrl}/user/ForgotPassword/${userEmail}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const ForgetPassword = () => {
           emailjs
             .sendForm('service_zgcb8cy', 'template_dx8gftp', form.current, '04RwhtqN7IMklYKNm')
             .then((result) => {
-              fetch(`http://accountservice.us-east-1.elasticbeanstalk.com/user/ForgotPassword/token`, {
+              fetch(`${accountUrl}/user/ForgotPassword/token`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

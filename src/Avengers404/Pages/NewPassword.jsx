@@ -629,7 +629,8 @@ const NewPassword = () => {
     console.log(newUser);
 
     try {
-      const response = await fetch(`http://accountservice.us-east-1.elasticbeanstalk.com/user/forgotpassword/update`, {
+      const accountUrl = process.env.REACT_APP_API_KEY
+      const response = await fetch(`${accountUrl}/user/forgotpassword/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
