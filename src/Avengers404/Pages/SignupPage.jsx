@@ -184,10 +184,6 @@ const SignupForm = () => {
     if (!gender) {
       formErrors.gender = "Gender is required";
     }
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!email) {
-    //   formErrors.email = "Email is required";
-    // } 
 
     const cnicRegex = /^\d{5}-\d{7}-\d$/;
     if (!cnic) {
@@ -199,7 +195,7 @@ const SignupForm = () => {
     if (!password) {
       formErrors.password = "Password is required";
     } else if (password.length < 8) {
-      formErrors.password = "Password must be at least 6 characters long";
+      formErrors.password = "Password must be at least 8 characters long";
     }
 
     if (!role) {
