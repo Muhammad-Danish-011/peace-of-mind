@@ -6,7 +6,7 @@ import Calendar from './pages/calendar/Calendar';
 import Form from './pages/form/Form';
 import './App.css';
 import Navbar from './global/Navbar';
-import SurveyComponent from './Components/SurveyComponent';
+import SurveyComponent from './components/SurveyComponent';
 
 function App() {
   return (
