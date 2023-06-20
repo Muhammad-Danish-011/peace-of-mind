@@ -6,8 +6,6 @@ import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 
 import './App.css';
-import Navbar from './global/Navbar';
-import SurveyComponent from './Components/SurveyComponent';
 
 function App() {
   return (
