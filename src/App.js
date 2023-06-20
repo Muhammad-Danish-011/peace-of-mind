@@ -16,6 +16,10 @@ import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 import './App.css';
 import Navbar from './global/Navbar'; 
 import SurveyComponent from './components/patient/SurveyComponent';
+import SurveyModal from './components/patient/SurveyModal';
+
+// import './App.css';
+import ProfileCard from './components/ProfileCard';
 
 function App() {
   return (
