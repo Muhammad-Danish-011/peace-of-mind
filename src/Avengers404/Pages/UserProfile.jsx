@@ -522,7 +522,7 @@ const UserProfile = () => {
 //       });
 //   }; */}
 
-{/* //   useEffect(() => {
+// {/* //   useEffect(() => {
 //     fetch("http://localhost:8082/user/get/102")
 //       .then((response) => response.json())
 //       .then((result) => {
