@@ -3,7 +3,7 @@ import Search from '../../components/Search'
 import TappointLink from '../../components/TappointLink'
 import Tappoint from '../../components/Tappoint'
 import Prevappoints from '../../components/Prevappoints'
-import MiniCard from '../../Components/MiniCard'
+import MiniCard from '../../components/MiniCard'
 
 const Home = () => {
   return (
