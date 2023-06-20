@@ -9,7 +9,7 @@ import SurveyModal from './components/patient/SurveyModal';
 import './App.css';
 import ProfileCard from './components/ProfileCard';
 import Navbar from './global/Navbar';
-import SurveyComponent from './Components/SurveyComponent';
+import SurveyComponent from './components/SurveyComponent';
 
 function App() {
   return (
