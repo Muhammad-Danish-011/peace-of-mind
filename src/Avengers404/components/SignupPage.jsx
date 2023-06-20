@@ -14,7 +14,13 @@ import doctor from "../images/doctor.png";
 import patient from "../images/patient.png";
 import "./SignUp.module.css";
 
+const BaseURL = process.env.REACT_APP_API_KEY;
+
+
+
 const SignupForm = () => {
+
+  
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -61,7 +67,7 @@ const SignupForm = () => {
     } else {
       // Submit the form data
       try {
-        const response = await fetch("http://localhost:8082/user/signup", {
+        const response = await fetch(`${BaseURL}/user/signup`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -235,7 +241,7 @@ const SignupForm = () => {
       guardian_phone_number: "",
     });
   };
-
+  console.log(BaseURL);
   return (
     <Box
       sx={{

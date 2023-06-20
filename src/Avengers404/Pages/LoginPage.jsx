@@ -11,6 +11,8 @@ import {
 
 const Loginform = () => {
 
+  const BaseURL = process.env.REACT_APP_API_KEY;
+
   if(sessionStorage.getItem("islogin") != null){
     window.location.assign("/home");
   }
@@ -32,7 +34,7 @@ const Loginform = () => {
       return;
     }
     console.log('Login successful');
-    fetch('http://localhost:8082/user/login', {
+    fetch(`${BaseURL}/user/login`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
