@@ -59,20 +59,34 @@ const SignupForm = () => {
     if (formErrors) {
       setErrors(formErrors);
     } else {
+      const signupDateTime = new Date();
       // Submit the form data
       try {
+        const newUser = {
+          firstName: formData.fname,
+          lastName: formData.lname,
+          phoneNumber: formData.phone,
+          address: formData.address,
+          email: formData.email,
+          nationalId: formData.cnic,
+          password: formData.password,
+          gender: formData.gender,
+          role: formData.role,
+          created: signupDateTime.toISOString(),
+        };
         const response = await fetch("http://localhost:8082/user/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(newUser),
         });
 
         if (response.ok) {
           console.log("New User is registered!!!");
           if (formData.role === "COUNSELOR") {
             const counselorData = {
+              created: signupDateTime.toISOString(),
               specialization: formData.specialization,
               description: formData.description,
             };
