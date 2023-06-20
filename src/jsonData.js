@@ -1,4 +1,6 @@
 export const jsonData = {
+
+    "showQuestionNumbers": "off",
     "title": "Mental Health Intake Form",
     "description": "It's okay, not to be okay.",
     "logoPosition": "right",
@@ -89,20 +91,10 @@ export const jsonData = {
         "placeholder": "0331-1111111"
        },
        {
-        "type": "multipletext",
+        "type": "comment",
         "name": "Please list the problem(s) which you are seeking help?",
         "title": "Please list the problem(s) which you are seeking help?",
         "isRequired": true,
-        "items": [
-         {
-          "name": "Problem 1",
-          "title": "Problem 1"
-         },
-         {
-          "name": "Problem 2",
-          "title": "Problem 2"
-         }
-        ]
        },
        {
         "type": "checkbox",
@@ -161,14 +153,6 @@ export const jsonData = {
         "labelTrue": "No",
         "labelFalse": "Yes"
        },
-       {
-        "type": "boolean",
-        "name": "question1",
-        "title": "Have you ever had feelings or thoughts that you didn't want to live?",
-        "isRequired": true,
-        "labelTrue": "No",
-        "labelFalse": "Yes"
-       }
       ],
       "title": "Page 1",
       "description": "Personal History"
@@ -187,19 +171,9 @@ export const jsonData = {
         "title": "Psychiatric Hospitalization"
        },
        {
-        "type": "multipletext",
+        "type": "comment",
         "name": "Do you have any allergies?",
         "title": "Do you have any allergies?",
-        "items": [
-         {
-          "name": "1.",
-          "title": "1."
-         },
-         {
-          "name": "2.",
-          "title": "2."
-         }
-        ]
        },
        {
         "type": "comment",

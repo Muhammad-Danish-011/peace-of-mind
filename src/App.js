@@ -6,6 +6,7 @@ import Calendar from './pages/calendar/Calendar';
 import Form from './pages/form/Form';
 import './App.css';
 import Navbar from './global/Navbar';
+import SurveyComponent from './Components/SurveyComponent';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
       </Routes>
     </Sidebar>
   </BrowserRouter>
+
+  {/* <SurveyComponent></SurveyComponent> */}
     </div>
   );
 }

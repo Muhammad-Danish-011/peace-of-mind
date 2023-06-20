@@ -99,6 +99,7 @@ function SurveyComponent() {
       }
       yPosition += 20;
     }
+
 // function SurveyComponent() {
 //     const survey = new Model(jsonData);
 //     const handleClick = async (event) => {
@@ -161,6 +162,8 @@ function SurveyComponent() {
         // doc.text(`${finalData["Primary Care Physician"]}`, 10, 20);
         // doc.text("Please list the problem(s) which you are seeking help?", 10, 10,
         // `${finalData["Please list the problem(s) which you are seeking help?"]["Problem1"]}`, 10, 20);
+
+        
         const pdfData = doc.output('arraybuffer');
         const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
         const objectKey = 'final-data';
