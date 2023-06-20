@@ -1,5 +1,4 @@
-//<<<<<<< HEAD
-// <<<<<<< HEAD
+
 // import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
 // import SignupForm from './Avengers404/Pages/SignupPage';
@@ -125,7 +124,14 @@ import UserProfile from './Avengers404/Pages/UserProfile';
 
 import Privateroute from './Avengers404/components/Privateroute';
 import { AuthProvider } from './Avengers404/Pages/AuthContext';
+
+
+
+
+
 createRoot(document.getElementById("root")).render(
+
+
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
