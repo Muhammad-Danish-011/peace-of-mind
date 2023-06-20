@@ -30,6 +30,8 @@ function App() {
     <Route path='/surveyform' element={<SurveyComponent/>}/>
     </Routes>
   </BrowserRouter>
+
+  {/* <SurveyComponent></SurveyComponent> */}
     </div>
   );
 }
