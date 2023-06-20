@@ -41,7 +41,8 @@ const UserProfile = () => {
       guardianPhoneNumber,
     };
 
-    fetch("http://localhost:8082/user/update/102", {
+    fetch("http://localhost:8082/user/update/1053", {
+
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +60,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8082/user/get/102")
+    fetch("http://localhost:8082/user/get/1053")
       .then((response) => response.json())
       .then((result) => {
         setUserData(result);
@@ -72,6 +73,8 @@ const UserProfile = () => {
         setEmail(result.email);
         setRole(result.role);
       })
+      fetch("http://localhost:8082/user/get/1053")
+      
       .catch((error) => {
         console.error(error);
       });
@@ -449,7 +452,7 @@ const UserProfile = () => {
                 />
               </>
             )}
-          </Box>
+          </Box>  
         </Box>
     </Box>
 

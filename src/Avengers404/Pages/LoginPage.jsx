@@ -32,7 +32,7 @@ const Loginform = () => {
       return;
     }
     try {
-      const response = await fetch("http://localhost:8082/user/login", {
+      const response = await fetch("http://accountservice.us-east-1.elasticbeanstalk.com/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
