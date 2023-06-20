@@ -74,7 +74,9 @@ const SignupForm = () => {
           role: formData.role,
           created: signupDateTime.toISOString(),
         };
-        const response = await fetch("http://accountservice.us-east-1.elasticbeanstalk.com/user/signup", {
+        const accountUrl = process.env.REACT_APP_API_KEY
+        console.log(accountUrl)
+        const response = await fetch(`${accountUrl}/user/signup`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -93,8 +95,10 @@ const SignupForm = () => {
               description: formData.description,
               userid: user.id
             };
+            const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY
+            console.log(councelorUrl)
             const counselorResponse = await fetch(
-              "http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/post",
+              `${councelorUrl}/counselor/post`,
               {
                 method: "POST",
                 headers: {
@@ -112,8 +116,10 @@ const SignupForm = () => {
             const patientData = {
               guardian_phone_number: formData.guardian_phone_number,
             };
+            const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
+            console.log(patientUrl)
             const patientResponse = await fetch(
-              "http://patient-app.us-west-2.elasticbeanstalk.com/patient/add",
+              `${patientUrl}/patient/add`,
               {
                 method: "POST",
                 headers: {
