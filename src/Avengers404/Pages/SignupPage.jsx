@@ -113,8 +113,10 @@ const SignupForm = () => {
               console.log("Failed to save counselor data.");
             }
           } else if (formData.role === "PATIENT") {
+            let user = await response.json();
             const patientData = {
               guardian_phone_number: formData.guardian_phone_number,
+              user_id: user.id
             };
             const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
             console.log(patientUrl)
@@ -196,7 +198,7 @@ const SignupForm = () => {
 
     if (!password) {
       formErrors.password = "Password is required";
-    } else if (password.length < 6) {
+    } else if (password.length < 8) {
       formErrors.password = "Password must be at least 6 characters long";
     }
 
