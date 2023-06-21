@@ -9,6 +9,15 @@ import ForgetPassword from './Avengers404/Pages/ForgotPassword';
 import NewPassword from './Avengers404/Pages/NewPassword';
 import { Dashboard, Home } from '@mui/icons-material';
 import UserProfile from './Avengers404/Pages/UserProfile';
+import Sidebar from './global/Sidebar';
+import Home from './pages/home/Home';
+import Councler from './pages/councler/Councler';
+import Calendar from './pages/calendar/Calendar';
+import CounclerProfile from './pages/counclerprofile/CounclerProfile';
+
+import './App.css';
+import Navbar from './global/Navbar';
+import SurveyComponent from './components/patient/SurveyComponent';
 
 function App() {
   return (
