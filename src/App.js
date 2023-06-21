@@ -9,12 +9,12 @@ import SurveyModal from './components/patient/SurveyModal';
 import './App.css';
 import ProfileCard from './components/ProfileCard';
 import Navbar from './global/Navbar';
-import SurveyComponent from './components/SurveyComponent';
+import SurveyComponent from './components/patient/SurveyComponent';
 
 function App() {
   return (
     <div className="App">
-     <BrowserRouter>
+     {/* <BrowserRouter>
     <Sidebar>
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -28,8 +28,9 @@ function App() {
     <Route path='/profileCard' element={<ProfileCard/>}/>
     </Routes>
   </BrowserRouter>
+  </BrowserRouter> */}
 
-  {/* <SurveyComponent></SurveyComponent> */}
+  <SurveyComponent></SurveyComponent>
     </div>
   );
 }
