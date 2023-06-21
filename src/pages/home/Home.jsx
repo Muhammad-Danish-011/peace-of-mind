@@ -80,7 +80,7 @@ const Home = () => {
       >
         {
         cards.map((card) => (
-          <BasicCard key={`card-${card.id}`} cards={cards} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+          <BasicCard key={`card-${card.id}`} cards={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
       </Box>

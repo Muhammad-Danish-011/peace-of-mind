@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createRoot } from 'react-dom';
-
+import App from './App'
 import SignupForm from './Avengers404/Pages/SignupPage';
 import Loginform from './Avengers404/Pages/LoginPage';
 import NewPassword from './Avengers404/Pages/NewPassword';
@@ -13,7 +13,6 @@ import UserProfile from './Avengers404/Pages/UserProfile';
 import Privateroute from './Avengers404/components/Privateroute';
 import { AuthProvider } from './Avengers404/Pages/AuthContext';
 
-import App from './App';
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App/>
