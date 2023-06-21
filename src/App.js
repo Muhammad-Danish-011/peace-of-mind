@@ -4,8 +4,10 @@ import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
+import SurveyModal from './components/patient/SurveyModal';
 
 import './App.css';
+import ProfileCard from './components/ProfileCard';
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
         <Route path='/counclerprofile' element={<CounclerProfile/>} />
       </Routes>
     </Sidebar>
+    <Routes>
+    <Route path='/surveymodal' element={<SurveyModal/>} />  
+    <Route path='/profileCard' element={<ProfileCard/>}/>
+    </Routes>
   </BrowserRouter>
     </div>
   );
