@@ -7,10 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 
-export default function OutlinedCard(cards) {
+export default function OutlinedCard(basicCard) {
 
   useEffect(() =>{
-    console.log({card: cards})
+    console.log({card: basicCard})
   },[])
 
   const card = (
@@ -26,7 +26,7 @@ export default function OutlinedCard(cards) {
    
    
          <Typography variant="h5" component="div">
-          Aoun Ali 
+          {basicCard.name } 
          </Typography>
          <Typography sx={{ mb: 1.5 }} color="text.secondary">
            Social Psychology
