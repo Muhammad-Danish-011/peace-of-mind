@@ -2,8 +2,8 @@ import React from "react";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/defaultV2.min.css";
-import "../index.css";
-import { jsonData } from "../jsonData";
+import "../../index.css";
+import { jsonData } from "../../jsonData";
 import * as SurveyPDF from "survey-pdf";
 import jsPDF from "jspdf";
 // import pdfForm from './pdfForm'
@@ -34,8 +34,10 @@ function createSurveyPdfModel(surveyModel) {
 }
 function SurveyComponent() {
   const survey = new Model(jsonData);
-  const handleClick = async (event) => {
-    event.preventDefault();
+
+
+  const handleClick = async () => {
+    // event.preventDefault();
     createSurveyPdfModel(survey);
     const finalData = survey.data;
     console.log(finalData);
@@ -178,14 +180,49 @@ function SurveyComponent() {
         const response = await uploadFile(file, config);
         console.log(response);
         console.log('PDF uploaded ');
+
+          if(!response.location){
+            console.log("something went wrong")
+            return;
+          }
+
+        const report = {
+          "patient_id": 1,
+          "category": null,
+          "survey_form_link": response.location 
+        }
+        fetch(`${process.env.REACT_APP_REPORT_URL}/report/add`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application.json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(report)
+        })
+        .then(data=>{
+          if(data.bool){
+          console.log(data)
+        }})
+        .catch(err=>console.log(err))
+        
+
         } catch (error) {
         console.error(error);
         }
     };
+
+    survey.onComplete.add((sender, options) => {
+      // console.log(JSON.stringify(sender.data, null, 3));
+      survey.data=sender.data;
+      const data =createSurveyPdfModel(survey);
+      console.log({data});
+      handleClick();
+  });
+
   return (
     <>
       <Survey model={survey} />
-      <button onClick={handleClick}>Save</button>
+      {/* <button onClick={handleClick}>Save</button> */}
     </>
   );
 }

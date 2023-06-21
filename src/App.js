@@ -7,12 +7,12 @@ import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 
 import './App.css';
 import Navbar from './global/Navbar';
-import SurveyComponent from './components/SurveyComponent';
+import SurveyComponent from './components/patient/SurveyComponent';
 
 function App() {
   return (
     <div className="App">
-     <BrowserRouter>
+     {/* <BrowserRouter>
     <Sidebar>
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -21,9 +21,9 @@ function App() {
         <Route path='/counclerprofile' element={<CounclerProfile/>} />
       </Routes>
     </Sidebar>
-  </BrowserRouter>
+  </BrowserRouter> */}
 
-  {/* <SurveyComponent></SurveyComponent> */}
+  <SurveyComponent></SurveyComponent>
     </div>
   );
 }
