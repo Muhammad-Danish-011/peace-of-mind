@@ -191,22 +191,20 @@ function SurveyComponent() {
           "category": null,
           "survey_form_link": response.location 
         }
-        const url = process.env.REACT_APP_REPORT_URL
-        fetch(`${url}/report/add`, {
+        fetch(`${process.env.REACT_APP_REPORT_URL}/report/add`, {
           method: 'POST',
           headers: {
-            Accept: '*/*',
+            Accept: 'application.json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(report)
         })
-        .then(data=> data.json())
-        .then(data => {
+        .then(data=>{
           if(data.bool){
-            console.log(data)
-          }
-        })
+          console.log(data)
+        }})
         .catch(err=>console.log(err))
+        
 
         } catch (error) {
         console.error(error);
