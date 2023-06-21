@@ -3,8 +3,8 @@ import Sidebar from "../global/Sidebar";
 import { Box, Button, IconButton, InputBase } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-import patient from "../images/patient.png";
-import doctor from "../images/doctor.png";
+// import patient from "../images/patient.png";
+// import doctor from "../images/doctor.png";
 
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
@@ -192,7 +192,7 @@ const UserProfile = () => {
             flexDirection: "row",
           }}>
           <img
-            src={role === "COUNSELOR" ? doctor : patient}
+            src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}`: `${process.env.PUBLIC_URL + '/images/patient.png'}` }
             alt="role"
             style={{
               width: "100px",

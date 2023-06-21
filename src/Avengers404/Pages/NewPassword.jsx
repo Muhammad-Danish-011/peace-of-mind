@@ -563,7 +563,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import bg from "../images/bg.jpeg";
+// import bg from "../images/bg.jpeg";
 import {
   Box,
   TextField,
@@ -659,7 +659,7 @@ const NewPassword = () => {
       <div
         className="login-container"
         style={{
-          backgroundImage: `url(${bg})`,
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`,
           backgroundPosition: "center",
           minHeight: "100vh",
           backgroundSize: "cover",

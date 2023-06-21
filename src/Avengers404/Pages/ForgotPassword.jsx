@@ -1,5 +1,5 @@
 
-import bg from "../images/bg.jpeg";
+// import bg from "../images/bg.jpeg";
 import React, { useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
 import {
@@ -92,7 +92,7 @@ const ForgetPassword = () => {
     <div 
       className="Forgot-container"
       // style={{
-      //   backgroundImage: `url(${bg})`,
+      //   backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`,
       //   backgroundPosition: "center",
       //   height: '100vh',
       //   backgroundSize: "cover",
@@ -100,7 +100,7 @@ const ForgetPassword = () => {
       // }}
 
       style={{
-        backgroundImage: `url(${bg})`,
+        backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`,
         backgroundPosition: "center",
         minHeight: "100vh",
         backgroundSize: "cover",

@@ -9,9 +9,9 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import plan_background from "../images/plan_background.jpeg";
-import doctor from "../images/doctor.png";
-import patient from "../images/patient.png";
+// import plan_background from "../images/plan_background.jpeg";
+// import doctor from "../images/doctor.png";
+// import patient from "../images/patient.png";
 import "./SignUp.module.css";
 
 const SignupForm = () => {
@@ -268,7 +268,7 @@ const SignupForm = () => {
         width: "100%",
 
         minHeight: "100vh",
-        backgroundImage: `url(${plan_background})`,
+        backgroundImage: `url(${process.env.PUBLIC_URL + '/images/plan_background.jpeg'})`,
         backgroundSize: "cover",
       }}>
       <Box
@@ -336,7 +336,7 @@ const SignupForm = () => {
               alignItems: "center",
             }}>
             <img
-              src={formData.role === "COUNSELOR" ? doctor : patient}
+              src={formData.role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
               alt="role"
               style={{ width: "100px", marginBottom: "0.5rem" }}
             />

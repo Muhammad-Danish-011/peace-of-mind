@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import bg from "../images/bg.jpeg";
+// import bg from "../images/bg.jpeg";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -80,7 +80,7 @@ const Loginform = () => {
       <div
         className="login-container"
         style={{
-          backgroundImage: `url(${bg})`,
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpg'})`,
           backgroundPosition: "center",
           minHeight: "100vh",
           backgroundSize: "cover",
