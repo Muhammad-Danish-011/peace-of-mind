@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import PsychologyRoundedIcon from '@mui/icons-material/PsychologyRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import FormatAlignJustifyRoundedIcon from '@mui/icons-material/FormatAlignJustifyRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 import Home from '../pages/home/Home';
@@ -11,6 +12,8 @@ import Calendar from '../pages/calendar/Calendar';
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
+import SurveyModal from '../components/patient/SurveyModal';
+
 
 const Sidebar = styled('div')(
   {
@@ -90,6 +93,9 @@ export default function PersistentDrawerLeft() {
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('calendar')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyModal'} onClick={() => handleComponentChange('surveymodal')}>
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }}  />
+        </SidebarIcon>
       </Sidebar>
       {sidebarOpen && (
         <CloseIconWrapper>
@@ -101,6 +107,8 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'home' && <Home />}
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
+      {selectedComponent === 'survey' && <SurveyModal/>}
+
     
     </Box>
   );

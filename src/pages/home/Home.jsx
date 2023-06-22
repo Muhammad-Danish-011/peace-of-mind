@@ -79,6 +79,7 @@ const Home = () => {
       >
         {
         cards.map((card) => (
+          // console.log(card)
           <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }

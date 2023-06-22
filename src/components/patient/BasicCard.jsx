@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import { useNavigate } from 'react-router-dom';
 
 export default function OutlinedCard({basicCard}) {
 
@@ -17,7 +18,7 @@ export default function OutlinedCard({basicCard}) {
     .then(data => {
       // console.log(data)
       setUser(data)
-      // console.log({user})
+      console.log({user})
     })
   },[])
 
@@ -61,6 +62,14 @@ export default function OutlinedCard({basicCard}) {
        </CardContent>
      </React.Fragment>
    );
+
+// export default function OutlinedCard(props) {
+  
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate('/profileCard');
+  }
 
 
   return (

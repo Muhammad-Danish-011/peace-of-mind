@@ -119,7 +119,7 @@ const Description = styled(Typography)({
   }
 });
 
-const ProfileCard = () => {
+const ProfileCard = ({handleSurvey}) => {
   return (
     <Root>
       <NameContainer>
