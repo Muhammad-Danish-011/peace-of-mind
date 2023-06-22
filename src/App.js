@@ -24,7 +24,7 @@ import ProfileCard from './components/ProfileCard';
 function App() {
   return (
     <div className="App">
-    <BrowserRouter>
+     <BrowserRouter>
     <Sidebar>
       <Routes>
           <Route path="/" element={ <Home /> } />

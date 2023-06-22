@@ -6,8 +6,8 @@ import ProfileCard from '../ProfileCard';
 
 
 const SurveyModal = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-  const navigate = useNavigate();  // Initialize the useNavigate hook
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
