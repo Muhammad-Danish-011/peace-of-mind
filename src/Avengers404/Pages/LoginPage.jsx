@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import bg from "../images/bg.jpeg";
+// import  from "../images/plan_background.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -9,19 +10,29 @@ import {
   FormControl,
 } from "@mui/material";
 
+
 const Loginform = () => {
 
-  const BaseURL = process.env.REACT_APP_API_KEY;
+  if(sessionStorage.getItem("islogin")){
+    if(sessionStorage.getItem("role") == "PATIENT"){
+      window.location.assign("/user-profile");
+    }
+    else if(sessionStorage.getItem("role") == "COUNSELOR"){
+      window.location.assign("/user-profile");
+    }
+    else{
+      
+    } 
 
-  if(sessionStorage.getItem("islogin") != null){
-    window.location.assign("/home");
   }
+  //const [loginUserId,setLoginUserId]=useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const { setLoginStatus,setitems } = useContext(AuthContext)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
+  const { updateLoginUserId } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,60 +44,28 @@ const Loginform = () => {
       return;
     }
     try {
-      const response = await fetch("http://accountservice.us-east-1.elasticbeanstalk.com/user/login", {
+      const accountUrl = process.env.REACT_APP_API_KEY
+      const response = await fetch(`${accountUrl}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-    console.log('Login successful');
-    fetch(`${BaseURL}/user/login`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => {      
-        if (response.ok) {
-          console.log('Login Successfully');
-          setitems(response);
-          setLoginStatus(true); // Set login status to true
-          // setTimeout(() => {
-            navigate('/home'); // Navigate to dashboard
-          // }, 3000);  // Navigate to dashboard
-        } else {
-          console.log('Login Fail');
-          setLoginStatus(false); // Set login status to false
-        }
-      })
-      // .then((data) => {
-      //   const { role } = data;
-      //   setitems(data);
-      //   setLoginStatus(true); 
-      
-      //   if (role === 'Counselor') {
-      //     navigate('/home');
-      //   } else if(role === 'Patient') {
-      //     navigate('/dashboard');
-      //   }
-      // })
-      .catch((error) => {
-        console.error('Error', error);
-        setErrorMessage('Login failed. Please try again.'); // Set the error message
-        setLoginStatus(false); // Set login status to false in case of an error
       });
 
       if (response.ok) {
         const user = await response.json();
         sessionStorage.setItem("role", user.role);
+        sessionStorage.setItem("user", JSON.stringify(user.user));
         console.log(user.role);
         setLoginStatus(true);
+        updateLoginUserId(user.user.id)
+        // setLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
-          navigate("/dashboard");
+          navigate("/user-profile");
         } else if (user.role === "COUNSELOR") {
-          navigate("/home");
+          navigate("/user-profile");
         }
       } else {
         console.log("Invalid credentials");

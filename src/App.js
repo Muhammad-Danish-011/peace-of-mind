@@ -28,6 +28,7 @@ function App() {
     <Sidebar>
       <Routes>
           <Route path="/" element={ <Home /> } />
+          <Route path='/surveyform' element={<SurveyComponent/>} />
       </Routes>
     {/* <AuthProvider>
     <Routes>

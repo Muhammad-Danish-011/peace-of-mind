@@ -13,6 +13,8 @@ import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SurveyModal from '../components/patient/SurveyModal';
+import SurveyComponent from '../components/patient/SurveyComponent';
+import ProfileCard from '../components/ProfileCard';
 
 
 const Sidebar = styled('div')(
@@ -93,7 +95,7 @@ export default function PersistentDrawerLeft() {
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('calendar')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyModal'} onClick={() => handleComponentChange('survey')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'survey'} onClick={() => handleComponentChange('survey')}>
           <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
       </Sidebar>
@@ -105,8 +107,13 @@ export default function PersistentDrawerLeft() {
         </CloseIconWrapper>
       )}
       {selectedComponent === 'home' && <Home />}
+      {selectedComponent === 'profileCard' && <ProfileCard />}
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
+      {selectedComponent === 'survey' && <SurveyModal />}
+      {selectedComponent === 'surveyform' && <SurveyComponent />}
+
+
     </Box>
   );
 }
