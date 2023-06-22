@@ -4,9 +4,10 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import ProfileCard from '../ProfileCard';
 
+
 const SurveyModal = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-  const navigate = useNavigate();  // Initialize the useNavigate hook
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,12 +17,11 @@ const SurveyModal = () => {
     setAnchorEl(null);
   };
   
-  const handleSurvey = () => {
+  const handleSurvey = (e) => {
+    e.preventDefault()
     // Handle survey button click event
     console.log('User wants to fill out the mental health survey');
-
-    // Navigate to ProfileCard component
-    navigate('/profileCard');
+    navigate(`/surveyform`)
   }
 
   return (

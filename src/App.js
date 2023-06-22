@@ -14,7 +14,7 @@ import SurveyComponent from './components/patient/SurveyComponent';
 function App() {
   return (
     <div className="App">
-     {/* <BrowserRouter>
+     <BrowserRouter>
     <Sidebar>
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -26,14 +26,19 @@ function App() {
     <Routes>
     <Route path='/surveymodal' element={<SurveyModal/>} />  
     <Route path='/profileCard' element={<ProfileCard/>}/>
-    </Routes>
-  </BrowserRouter>
-  </BrowserRouter> */}
 
   <SurveyComponent></SurveyComponent>
+    <Route path='/survey' element={<SurveyModal/>} />
+    <Route path='/surveyform' element={<SurveyComponent/>}/>
+    </Routes>
+  </BrowserRouter>
     </div>
   );
 }
-
 export default App;
+
+
+
+
+
 
