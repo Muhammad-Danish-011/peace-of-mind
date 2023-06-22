@@ -5,8 +5,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Route } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
+import Councler from '../../pages/councler/Councler';
 
 export default function OutlinedCard({basicCard}) {
 
@@ -21,27 +23,32 @@ export default function OutlinedCard({basicCard}) {
       console.log({user})
     })
   },[])
+  const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
 
   const card = (
     <React.Fragment>
-   
+        
        <CardContent style={{backgroundColor: "rgb(	184	215	209)",
-                 width:'220px',
+                 width:'250px',
                  justifyContent:"center",
                  borderRadius:'30px',
                  alignItems:"center",
-                 paddingLeft:"20px"
+                 paddingLeft:"20px",
+                 height: '180px'
                 }}>
    
    
-         <Typography variant="h5" component="div">
+         <Typography sx={{fontSize: '1rem', fontWeight: 'bold'}} variant="h5" component="div">
           {`${user.firstName} ${user.lastName}` } 
          </Typography>
-         <Typography sx={{ mb: 1.5 }} color="text.secondary">
+         <Typography sx={{ mb: 1.5, fontSize: '0.8rem' }} color="text.secondary">
            {basicCard.specialization}
          </Typography>
-         <Typography variant="body2">
-         {basicCard.description}
+         <Typography variant="body2" sx={{fontSize: '0.8rem'}}>
+         {/* {basicCard.description.slice(0,70) +  */}
+         {slicedDesc}
+          
+         
            <br />
           
          </Typography>
@@ -52,7 +59,7 @@ export default function OutlinedCard({basicCard}) {
          sx= {{color: 'black',
                borderRadius:'15px', 
                display:'flex',
-               marginLeft:'40px',
+               marginLeft:'55px',
                marginTop:'10px',
                fontSize:'12px',
                padding:'10px',
