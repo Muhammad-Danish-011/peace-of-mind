@@ -1,0 +1,81 @@
+import { render, screen, waitFor } from "@testing-library/react";
+import PreviousNotes from "./PreviousNotes";
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+
+
+// Create a mock server
+const server = setupServer(
+    rest.get('http://notes.us-west-2.elasticbeanstalk.com/notes/notesByPatientId/2', (req, res, ctx) => {
+      const notes = [
+        { id: 1, content: 'Note 1', created: '2023-06-18T12:00:00Z', updated: '2023-06-18T13:00:00Z' },
+        { id: 2, content: 'Note 2', created: '2023-06-19T14:00:00Z', updated: '2023-06-19T15:00:00Z' },
+      ];
+      return res(ctx.json(notes));
+    })
+  );
+  
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
+  
+
+
+describe('testing previous notes component', () => {
+    test('all the things are rendering correctly', () => {
+        //arrange
+        render(<PreviousNotes />);
+
+        //act
+        const listElement = screen.getByRole('list');
+        const headElement = screen.getByRole('heading', { name: /patient previous notes:/i })
+        const noNotesElement = screen.getByText(/no previous notes available/i);
+        //assert
+        expect(listElement).toBeInTheDocument();
+        expect(headElement).toBeInTheDocument();
+        expect(noNotesElement).toBeInTheDocument();
+
+    })
+
+    test("renders notes correctly when there are notes", async () => {
+        const notes = [
+            { id: 1, created: "2023-06-20T10:00:00Z", content: "Note 1" },
+            { id: 2, created: "2023-06-19T14:30:00Z", content: "Note 2" },
+        ];
+
+        jest.spyOn(global, "fetch").mockResolvedValue({
+            json: jest.fn().mockResolvedValue(notes),
+        });
+
+        render(<PreviousNotes />);
+
+        await waitFor(() => {
+            const noteElements = screen.queryAllByRole("button");
+
+            expect(noteElements).toHaveLength(notes.length);
+        });
+
+        expect(screen.getByText("Date: June 20th 2023")).toBeInTheDocument();
+        expect(screen.getByText("Date: June 19th 2023")).toBeInTheDocument();
+    });
+    
+ 
+    test("renders 'No previous notes available' message when there are no notes", async () => {
+        const notes = [];
+      
+        jest.spyOn(global, "fetch").mockResolvedValue({
+          json: jest.fn().mockResolvedValue(notes),
+        });
+      
+        render(<PreviousNotes />);
+      
+        await waitFor(() => {
+          const noNotesElement = screen.getByText("No previous notes available");
+          expect(noNotesElement).toBeInTheDocument();
+        });
+      });
+      
+   
+ 
+
+})

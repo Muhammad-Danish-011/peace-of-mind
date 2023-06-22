@@ -23,7 +23,7 @@ describe('Notes Component', () => {
     render(<Notes />);
   
     // Mock fetch response
-    fetchMock.mockIf('http://localhost:8086/notes/add', (req) => {
+    fetchMock.mockIf('http://notes.us-west-2.elasticbeanstalk.comppw/notes/add', (req) => {
       expect(req.method).toBe('POST');
       expect(req.headers.get('Content-Type')).toBe('application/json');
       expect(JSON.parse(req.body)).toEqual({
