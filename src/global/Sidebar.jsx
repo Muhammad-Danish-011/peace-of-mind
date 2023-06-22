@@ -93,7 +93,7 @@ export default function PersistentDrawerLeft() {
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('calendar')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyModal'} onClick={() => handleComponentChange('surveymodal')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyModal'} onClick={() => handleComponentChange('survey')}>
           <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
       </Sidebar>

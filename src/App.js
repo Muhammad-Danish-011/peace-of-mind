@@ -24,10 +24,8 @@ function App() {
       </Routes>
     </Sidebar>
     <Routes>
-    <Route path='/surveymodal' element={<SurveyModal/>} />  
     <Route path='/profileCard' element={<ProfileCard/>}/>
 
-  <SurveyComponent></SurveyComponent>
     <Route path='/survey' element={<SurveyModal/>} />
     <Route path='/surveyform' element={<SurveyComponent/>}/>
     </Routes>
