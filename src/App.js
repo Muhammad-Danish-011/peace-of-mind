@@ -4,15 +4,14 @@ import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
-
+import SurveyModal from './components/SurveyModal';
 import './App.css';
-import Navbar from './global/Navbar';
 import SurveyComponent from './components/patient/SurveyComponent';
 
 function App() {
   return (
     <div className="App">
-     {/* <BrowserRouter>
+     <BrowserRouter>
     <Sidebar>
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -21,12 +20,18 @@ function App() {
         <Route path='/counclerprofile' element={<CounclerProfile/>} />
       </Routes>
     </Sidebar>
-  </BrowserRouter> */}
-
-  <SurveyComponent></SurveyComponent>
+    <Routes>
+    <Route path='/survey' element={<SurveyModal/>} />
+    <Route path='/surveyform' element={<SurveyComponent/>}/>
+    </Routes>
+  </BrowserRouter>
     </div>
   );
 }
-
 export default App;
+
+
+
+
+
 

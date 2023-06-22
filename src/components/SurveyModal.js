@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
+import { useNavigate } from 'react-router-dom';
+
 
 const SurveyModal = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
@@ -13,9 +16,11 @@ const SurveyModal = () => {
     setAnchorEl(null);
   };
   
-  const handleSurvey = () => {
+  const handleSurvey = (e) => {
+    e.preventDefault()
     // Handle survey button click event
     console.log('User wants to fill out the mental health survey');
+    navigate(`/surveyform`)
   }
 
   return (

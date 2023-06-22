@@ -11,6 +11,8 @@ import Calendar from '../pages/calendar/Calendar';
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
+import SurveyModal from '../components/SurveyModal';
+import SurveyComponent from '../components/patient/SurveyComponent';
 
 const Sidebar = styled('div')(
   {
@@ -101,7 +103,6 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'home' && <Home />}
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
-    
     </Box>
   );
 }
