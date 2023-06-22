@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Sidebar from "../global/Sidebar";
 import { Box, Button, IconButton, InputBase } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import patient from "../images/patient.png";
 import doctor from "../images/doctor.png";
+import { AuthContext } from "./AuthContext";
 
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
+  // const [loginUserId, setLoginUserId] = useState('');
   const [patientEditMode, setPatientEditMode] = useState(false);
   const [counselorEditMode, setCounselorEditMode] = useState(false);
   const [userData, setUserData] = useState({});
@@ -21,8 +23,15 @@ const UserProfile = () => {
   const [role, setRole] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
-  const [guardian_phone_number, setGuardianPhoneNumber] = useState("");
+  const [guardianPhoneNumber, setGuardianPhoneNumber] = useState("");
+  const { loginUserId } = useContext(AuthContext);
 
+  const obj = JSON.parse(sessionStorage.getItem("user"));
+
+  console.log(obj);
+  const accountUrl = process.env.REACT_APP_API_KEY;
+  const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY
+  const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
   const userHandleEdit = () => {
     setUserEditMode(true);
   };
@@ -49,7 +58,7 @@ const UserProfile = () => {
     };
 
     fetch(
-      "http://accountservice.us-east-1.elasticbeanstalk.com/user/update/5",
+      `http://accountservice.us-east-1.elasticbeanstalk.com/user/update/${obj.id}`,
       {
         method: "POST",
         headers: {
@@ -69,20 +78,24 @@ const UserProfile = () => {
   };
 
   const counselorHandleSave = () => {
+  const counselordata = JSON.parse(sessionStorage.getItem("counselor_data"));
+// console.log(sessionStorage.getItem("counselor_data"));    
     const counselorUpdatedData = {
-      ...userData,
-      specialization,
-      description,
+      id: counselordata.id,
+      userId: userData.id,
+      specialization:specialization,
+      description:description,
     };
-
+    console.log(counselorUpdatedData);
     fetch(
-      "http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/12",
+      `${councelorUrl}/counselor/update`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(counselorUpdatedData),
+        
       }
     )
       .then((response) => response.text())
@@ -96,15 +109,24 @@ const UserProfile = () => {
   };
 
   const patientHandleSave = () => {
+    // const patientUpdatedData = {
+    //   ...userData,
+    //   guardianPhoneNumber,
+    // };
+
+    const userdata = JSON.parse(sessionStorage.getItem("user_data"));
     const patientUpdatedData = {
-      ...userData,
-      guardian_phone_number,
+      id: userdata.id,
+      userId: userData.id,
+      guardianPhoneNumber: guardianPhoneNumber,
     };
-    fetch("http://patient-app.us-west-2.elasticbeanstalk.com/patient/1", {
+    console.log(patientUpdatedData);
+    fetch(`${patientUrl}/patient/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      //body: JSON.stringify(patientUpdatedData),
       body: JSON.stringify(patientUpdatedData),
     })
       .then((response) => response.text())
@@ -118,8 +140,9 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    // Fetch user data based on the user ID
-    fetch("http://accountservice.us-east-1.elasticbeanstalk.com/user/get/5")
+    fetch(
+      `${accountUrl}/user/get/${obj.id}`
+    )
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
@@ -134,12 +157,14 @@ const UserProfile = () => {
 
         if (data.role === "COUNSELOR") {
           fetch(
-            "http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/4"
+            `${councelorUrl}/counselor/get/${obj.id}`
           )
             .then((response) => response.json())
             .then((counselorData) => {
+              console.log('-------======--',counselorData);
               setSpecialization(counselorData.specialization);
               setDescription(counselorData.description);
+              sessionStorage.setItem("counselor_data", JSON.stringify(counselorData))
             })
             .catch((error) => {
               console.error(error);
@@ -147,11 +172,15 @@ const UserProfile = () => {
         }
 
         if (data.role === "PATIENT") {
-          fetch("http://patient-app.us-west-2.elasticbeanstalk.com/patient/1")
+          fetch(
+            `${patientUrl}/patient/getByUserId/${obj.id}`
+          )
             .then((response) => response.json())
             .then((patientData) => {
-              setGuardianPhoneNumber(patientData.data.guardian_phone_number);
+              setGuardianPhoneNumber(patientData.data.guardianPhoneNumber);
+              sessionStorage.setItem("user_data", JSON.stringify(patientData.data))
             })
+
             .catch((error) => {
               console.error(error);
             });
@@ -176,7 +205,8 @@ const UserProfile = () => {
           flexDirection: "column",
           justifyContent: "center",
           margin: "2rem 1rem 1rem 8rem",
-        }}>
+        }}
+      >
         <Box sx={{ margin: "2rem" }}>
           <h1>My Profile:</h1>
         </Box>
@@ -190,7 +220,8 @@ const UserProfile = () => {
             fontFamily: "Quicksand, sans-serif",
             display: "flex",
             flexDirection: "row",
-          }}>
+          }}
+        >
           <img
             src={role === "COUNSELOR" ? doctor : patient}
             alt="role"
@@ -207,7 +238,8 @@ const UserProfile = () => {
               sx={{
                 fontSize: "8rem",
                 fontWeight: "bolder",
-              }}>
+              }}
+            >
               {firstName} {lastName}
             </h1>
             <h3
@@ -215,7 +247,8 @@ const UserProfile = () => {
                 fontWeight: "bold",
                 fontSize: "2rem",
                 marginTop: "50px",
-              }}>
+              }}
+            >
               {role}
             </h3>
           </Box>
@@ -231,7 +264,8 @@ const UserProfile = () => {
             fontFamily: "Quicksand, sans-serif",
             flexDirection: "column",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -239,12 +273,14 @@ const UserProfile = () => {
               justifyContent: "space-between",
               marginBottom: "1rem",
               padding: "1rem",
-            }}>
+            }}
+          >
             <h2
               sx={{
                 fontSize: "3rem",
                 fontWeight: "bolder",
-              }}>
+              }}
+            >
               Personal Information:
             </h2>
 
@@ -260,7 +296,8 @@ const UserProfile = () => {
                   "&:hover": {
                     backgroundColor: "#333",
                   },
-                }}>
+                }}
+              >
                 Edit
               </Button>
             ) : (
@@ -275,7 +312,8 @@ const UserProfile = () => {
                   "&:hover": {
                     backgroundColor: "#333",
                   },
-                }}>
+                }}
+              >
                 Save
               </Button>
             )}
@@ -292,7 +330,8 @@ const UserProfile = () => {
                 fontSize: "1.2rem",
                 fontWeight: "normal",
                 margin: "3px",
-              }}>
+              }}
+            >
               <p sx={{ fontWeight: "bold" }} styles={{}}>
                 First Name:
               </p>
@@ -307,7 +346,8 @@ const UserProfile = () => {
                 fontSize: "1.3rem",
                 fontWeight: "bold",
                 marginTop: "5px",
-              }}>
+              }}
+            >
               {!userEditMode ? (
                 <>
                   <p>{firstName}</p>
@@ -347,7 +387,8 @@ const UserProfile = () => {
                 fontSize: "1.2rem",
                 fontWeight: "normal",
                 margin: "2rem 0rem 0rem 0rem",
-              }}>
+              }}
+            >
               <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
                 Email Address:
               </p>
@@ -362,7 +403,8 @@ const UserProfile = () => {
                 fontSize: "1.2rem",
                 fontWeight: "bold",
                 marginTop: "5px",
-              }}>
+              }}
+            >
               {!userEditMode ? (
                 <>
                   <p>{email}</p>
@@ -404,7 +446,8 @@ const UserProfile = () => {
                 fontSize: "1.2rem",
                 fontWeight: "normal",
                 margin: "2rem 0rem 0rem 0rem",
-              }}>
+              }}
+            >
               <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
                 Phone Number:
               </p>
@@ -419,7 +462,8 @@ const UserProfile = () => {
                 fontSize: "1.2rem",
                 fontWeight: "bold",
                 marginTop: "5px",
-              }}>
+              }}
+            >
               {!userEditMode ? (
                 <>
                   <p>{phoneNumber}</p>
@@ -465,7 +509,8 @@ const UserProfile = () => {
               fontFamily: "Quicksand, sans-serif",
               flexDirection: "column",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -473,12 +518,14 @@ const UserProfile = () => {
                 justifyContent: "space-between",
                 marginBottom: "1rem",
                 padding: "1rem",
-              }}>
+              }}
+            >
               <h2
                 sx={{
                   fontSize: "3rem",
                   fontWeight: "bolder",
-                }}>
+                }}
+              >
                 Academic Information:
               </h2>
 
@@ -494,7 +541,8 @@ const UserProfile = () => {
                     "&:hover": {
                       backgroundColor: "#333",
                     },
-                  }}>
+                  }}
+                >
                   Edit
                 </Button>
               ) : (
@@ -509,7 +557,8 @@ const UserProfile = () => {
                     "&:hover": {
                       backgroundColor: "#333",
                     },
-                  }}>
+                  }}
+                >
                   Save
                 </Button>
               )}
@@ -520,7 +569,8 @@ const UserProfile = () => {
                 gridTemplateColumns: "1fr 1fr",
                 columnGap: "1rem",
                 marginBottom: "1rem",
-              }}>
+              }}
+            >
               <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
                 Specialization:
               </p>
@@ -537,7 +587,8 @@ const UserProfile = () => {
                 fontSize: "1.4rem",
                 fontWeight: "bold",
                 margin: "8px",
-              }}>
+              }}
+            >
               {!counselorEditMode ? (
                 <>
                   <p>{specialization}</p>
@@ -580,7 +631,8 @@ const UserProfile = () => {
               fontFamily: "Quicksand, sans-serif",
               flexDirection: "column",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -588,12 +640,14 @@ const UserProfile = () => {
                 justifyContent: "space-between",
                 marginBottom: "1rem",
                 padding: "1rem",
-              }}>
+              }}
+            >
               <h2
                 sx={{
                   fontSize: "3rem",
                   fontWeight: "bolder",
-                }}>
+                }}
+              >
                 Guardian Information:
               </h2>
 
@@ -609,7 +663,8 @@ const UserProfile = () => {
                     "&:hover": {
                       backgroundColor: "#333",
                     },
-                  }}>
+                  }}
+                >
                   Edit
                 </Button>
               ) : (
@@ -624,7 +679,8 @@ const UserProfile = () => {
                     "&:hover": {
                       backgroundColor: "#333",
                     },
-                  }}>
+                  }}
+                >
                   Save
                 </Button>
               )}
@@ -640,7 +696,8 @@ const UserProfile = () => {
                 // alignItems:"center",
                 fontWeight: "normal",
                 margin: "3px",
-              }}>
+              }}
+            >
               <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
                 Guardian Phone Number:
               </p>
@@ -655,12 +712,13 @@ const UserProfile = () => {
                 fontSize: "1.4rem",
                 fontWeight: "bold",
                 marginTop: "5px",
-              }}>
+              }}
+            >
               {!patientEditMode ? (
-                <p>{guardian_phone_number}</p>
+                <p>{guardianPhoneNumber}</p>
               ) : (
                 <InputBase
-                  value={guardian_phone_number}
+                  value={guardianPhoneNumber}
                   onChange={(e) => setGuardianPhoneNumber(e.target.value)}
                   sx={{
                     fontWeight: "bold",

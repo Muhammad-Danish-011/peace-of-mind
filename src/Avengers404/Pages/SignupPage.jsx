@@ -93,7 +93,7 @@ const SignupForm = () => {
               created: signupDateTime.toISOString(),
               specialization: formData.specialization,
               description: formData.description,
-              userid: user.id
+              userId: user.id
             };
             const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY
             console.log(councelorUrl)
@@ -114,10 +114,13 @@ const SignupForm = () => {
             }
           } else if (formData.role === "PATIENT") {
             let user = await response.json();
+            console.log(user)
             const patientData = {
               guardian_phone_number: formData.guardian_phone_number,
-              user_id: user.id
+              userId: user.id
             };
+
+
             const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
             console.log(patientUrl)
             const patientResponse = await fetch(
@@ -194,7 +197,7 @@ const SignupForm = () => {
 
     if (!password) {
       formErrors.password = "Password is required";
-    } else if (password.length < 9) {
+    } else if (password.length > 8) {
       formErrors.password = "Password must be at least 8 characters long";
     }
 

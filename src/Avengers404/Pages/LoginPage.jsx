@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import bg from "../images/bg.jpeg";
+// import  from "../images/plan_background.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -9,18 +10,29 @@ import {
   FormControl,
 } from "@mui/material";
 
+
 const Loginform = () => {
 
-  // if(sessionStorage.getItem("islogin") != null){
-    
-  //   window.location.assign("/home");
-  // }
+  if(sessionStorage.getItem("islogin")){
+    if(sessionStorage.getItem("role") == "PATIENT"){
+      window.location.assign("/user-profile");
+    }
+    else if(sessionStorage.getItem("role") == "COUNSELOR"){
+      window.location.assign("/home");
+    }
+    else{
+      
+    } 
+
+  }
+  //const [loginUserId,setLoginUserId]=useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const { setLoginStatus,setitems } = useContext(AuthContext)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
+  const { updateLoginUserId } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -44,13 +56,16 @@ const Loginform = () => {
       if (response.ok) {
         const user = await response.json();
         sessionStorage.setItem("role", user.role);
+        sessionStorage.setItem("user", JSON.stringify(user.user));
         console.log(user.role);
         setLoginStatus(true);
+        updateLoginUserId(user.user.id)
+        // setLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
-          navigate("/dashboard");
+          navigate("/user-profile");
         } else if (user.role === "COUNSELOR") {
-          navigate("/home");
+          navigate("/user-profile");
         }
       } else {
         console.log("Invalid credentials");

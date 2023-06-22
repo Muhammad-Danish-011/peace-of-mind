@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Sidebar from './Avengers404/global/Sidebar';
-import Privateroute from './Avengers404/components/Privateroute'
+import Sidebar from '../global/Sidebar';
+import Privateroute from '../components/Privateroute'
 import './App.css';
-import { AuthProvider } from './Avengers404/Pages/AuthContext';
+import { AuthProvider } from './AuthContext';
 import SignupForm from './Avengers404/components/SignupPage';
-import Loginform from './Avengers404/Pages/LoginPage';
-import ForgetPassword from './Avengers404/Pages/ForgotPassword';
-import NewPassword from './Avengers404/Pages/NewPassword';
+import Loginform from './LoginPage';
+import ForgetPassword from './ForgotPassword';
+import NewPassword from './NewPassword';
 import { Dashboard, Home } from '@mui/icons-material';
-import UserProfile from './Avengers404/Pages/UserProfile';
+import UserProfile from './UserProfile';
 
 function App() {
   return (
