@@ -66,8 +66,8 @@ const Home = () => {
   const handleSearchClick = () => {
     navigate('/councler');
   };
-  return (
-    <Box sx={{
+  return (<>
+    {!cards ? "Loading" :<Box sx={{
       ...styles.container,
       marginLeft: isSmallScreen ? 10 : theme.spacing(5)
     }}>
@@ -79,13 +79,13 @@ const Home = () => {
       >
         {
         cards.map((card) => (
-          <BasicCard key={`card-${card.id}`} cards={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
       </Box>
       <Card/>
-    </Box>
-  )
+    </Box>}
+    </>)
 }
 
 export default Home;
