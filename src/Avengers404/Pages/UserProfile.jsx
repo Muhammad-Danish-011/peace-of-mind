@@ -9,7 +9,6 @@ import { AuthContext } from "./AuthContext";
 
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
-  // const [loginUserId, setLoginUserId] = useState('');
   const [patientEditMode, setPatientEditMode] = useState(false);
   const [counselorEditMode, setCounselorEditMode] = useState(false);
   const [userData, setUserData] = useState({});
@@ -109,10 +108,7 @@ const UserProfile = () => {
   };
 
   const patientHandleSave = () => {
-    // const patientUpdatedData = {
-    //   ...userData,
-    //   guardianPhoneNumber,
-    // };
+    
 
     const userdata = JSON.parse(sessionStorage.getItem("user_data"));
     const patientUpdatedData = {

@@ -408,16 +408,6 @@ const SignupForm = () => {
               required
               sx={{ mb: 1, ml: 2 }}
             />
-            {/* <TextField
-              label="Address"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              error={!!errors.address}
-              helperText={errors.address}
-              required
-              sx={{ mb: 1 }}
-            /> */}
             <TextField
               label="Email"
               name="email"
@@ -449,8 +439,6 @@ const SignupForm = () => {
               required
               sx={{ mb: 1 }}
             />
-
-            {/* from role is here */}
             {formData.role === "COUNSELOR" && (
               <>
                 <TextField
