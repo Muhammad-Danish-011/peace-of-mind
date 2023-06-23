@@ -106,7 +106,6 @@ const Loginform = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-end",
-        
         }}
       >
         <Box
@@ -124,6 +123,11 @@ const Loginform = () => {
             backgroundColor: "rgba(255, 255, 255, 0.8)",
             borderRadius: "10px",
             backdropFilter: "blur(5px)",
+            '@media (max-width: 380px)': {
+              marginRight: "0rem",
+              margin: "1%",
+              justifyContent: "center",
+            }
           }}
           noValidate
           autoComplete="on"
