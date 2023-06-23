@@ -1,6 +1,8 @@
+
 import React, { useContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
-// import bg from '${process.env.PUBLIC_URL + /images/bg.jpr}';
+// import bg from '${process.env.PUBLIC_URL + /images/bg.jpeg}';
+// import bg from "../images/bg.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -98,9 +100,10 @@ const Loginform = () => {
       <div
         className="login-container"
         style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`,
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`, //lkjflkjdfgjfdgj
           backgroundPosition: "center",
           minHeight: "100vh",
+          width: "100%",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           display: "flex",
@@ -115,7 +118,7 @@ const Loginform = () => {
             flexDirection: "column",
             justifyContent: "center",
             maxWidth: "450px",
-            marginRight: "8rem",
+            marginRight: "18rem",
             width: "100%",
             height: "100%",
             maxHeight: "50rem",
@@ -123,15 +126,28 @@ const Loginform = () => {
             backgroundColor: "rgba(255, 255, 255, 0.8)",
             borderRadius: "10px",
             backdropFilter: "blur(5px)",
-            '@media (max-width: 380px)': {
+            // '@media (max-width: 820px)': {
+            //   marginRight: "0rem",
+            //   margin: "2%",
+            //   justifyContent: "center",
+            // },
+            '@media (max-width: 650px)': {
               marginRight: "0rem",
-              margin: "1%",
+              margin: "2%",
               justifyContent: "center",
-            }
+            },
+
+            '@media (max-width: 850px)': {
+              marginRight: "0rem",
+              margin: "2%",
+              justifyContent: "center",
+            },
+            
           }}
           noValidate
           autoComplete="on"
         >
+        
           <h2
             style={{
               fontFamily: "Quicksand, sans-serif",
@@ -140,10 +156,16 @@ const Loginform = () => {
               fontWeight: "bolder",
               textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
               textAlign: "center",
+                
+            '@media (max-width: 650px)': {
+              marginRight: "0rem",
+              fontSize: "40px",
+            }
             }}
           >
             PEACE OF MIND
           </h2>
+          
           <p
             style={{
               fontFamily: "Quicksand, sans-serif",
@@ -210,21 +232,25 @@ const Loginform = () => {
               {errorMessage}
             </p>
           )}
-          <a
+       
+           <a
+          
               href="/forget-password"
               style={{
-                marginLeft: "16rem",
+               
                 fontFamily: "Quicksand, sans-serif",
                 fontSize: "15px",
                 fontWeight: "bold",
                 color: "black",
                 textDecoration: "none",
+               
 
               }}
+              
             >
               Forgotten Password?
             </a>
-
+           
           <Button
             type="submit"
             onClick={handleLogin}
