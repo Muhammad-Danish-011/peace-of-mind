@@ -93,7 +93,7 @@ const SignupForm = () => {
               created: signupDateTime.toISOString(),
               specialization: formData.specialization,
               description: formData.description,
-              userid: user.id
+              userId: user.id
             };
             const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY
             console.log(councelorUrl)
@@ -114,10 +114,13 @@ const SignupForm = () => {
             }
           } else if (formData.role === "PATIENT") {
             let user = await response.json();
+            console.log(user)
             const patientData = {
               guardian_phone_number: formData.guardian_phone_number,
-              user_id: user.id
+              userId: user.id
             };
+
+
             const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
             console.log(patientUrl)
             const patientResponse = await fetch(
@@ -184,10 +187,6 @@ const SignupForm = () => {
     if (!gender) {
       formErrors.gender = "Gender is required";
     }
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!email) {
-    //   formErrors.email = "Email is required";
-    // } 
 
     const cnicRegex = /^\d{5}-\d{7}-\d$/;
     if (!cnic) {
@@ -198,8 +197,8 @@ const SignupForm = () => {
 
     if (!password) {
       formErrors.password = "Password is required";
-    } else if (password.length < 8) {
-      formErrors.password = "Password must be at least 6 characters long";
+    } else if (password.length > 8) {
+      formErrors.password = "Password must be at least 8 characters long";
     }
 
     if (!role) {
@@ -266,10 +265,15 @@ const SignupForm = () => {
         alignItems: "center",
         height: "100%",
         width: "100%",
-
         minHeight: "100vh",
         backgroundImage: `url(${process.env.PUBLIC_URL + '/images/plan_background.jpeg'})`,
         backgroundSize: "cover",
+        '@media (max-width: 840px)': {
+          display: "flex",
+          flexDirection: "column",
+          margin: "1%",
+          justifyContent: "center",
+        }
       }}>
       <Box
         sx={{
@@ -287,6 +291,12 @@ const SignupForm = () => {
             fontSize: "3.2rem",
             fontWeight: "bolder",
             textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            '@media (max-width: 840px)': {
+              // display: "flex",
+              flexDirection: "column",
+           
+              justifyContent: "center",
+            }
           }}>
           PEACE OF MIND
         </Typography>
@@ -315,6 +325,13 @@ const SignupForm = () => {
           boxShadow: "0px 3px 15px rgba(113,115,119,0.7)",
           backgroundColor: "rgba(255, 255, 255, 0.8)",
           backdropFilter: "blur(5px)",
+
+          '@media (max-width: 620px)': {
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: "90%",
+            justifyContent: "center",
+          }
         }}>
         <Typography
           variant="h5"
@@ -366,7 +383,15 @@ const SignupForm = () => {
               )}
             </FormControl>
           </Box>
-          <Box sx={{ paddingLeft: "3rem" }}>
+          <Box sx={{ paddingLeft: "3rem",
+         
+          
+          '@media (max-width: 610px)': {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }
+         }}>
             <TextField
               styles={{ margin: "2rem", border: "2px solid red" }}
               label="First Name"
@@ -376,7 +401,12 @@ const SignupForm = () => {
               error={!!errors.fname}
               helperText={errors.fname}
               required
-              sx={{ mb: 1 }}
+              sx={{ mb: 1,
+                '@media (max-width: 610px)': {
+                  mb: 2
+                }
+              }}
+
             />
             <TextField
               label="Last Name"
@@ -386,7 +416,13 @@ const SignupForm = () => {
               error={!!errors.lname}
               helperText={errors.lname}
               required
-              sx={{ mb: 1, ml: 2 }}
+              sx={{ mb: 1, 
+                ml: 2,
+                '@media (max-width: 610px)': {
+                  mb: 2,
+                  ml: 0
+                }
+               }}
             />
             <TextField
               label="Phone Number"
@@ -396,7 +432,11 @@ const SignupForm = () => {
               error={!!errors.phone}
               helperText={errors.phone}
               required
-              sx={{ mb: 1 }}
+              sx={{ mb: 1 ,
+                '@media (max-width: 610px)': {
+                  mb: 2,
+                  ml: 0
+                }}}
             />
 
             <TextField
@@ -407,18 +447,12 @@ const SignupForm = () => {
               error={!!errors.address}
               helperText={errors.address}
               required
-              sx={{ mb: 1, ml: 2 }}
+              sx={{ mb: 1, ml: 2 ,
+                '@media (max-width: 610px)': {
+                  mb: 2,
+                  ml: 0
+                }}}
             />
-            {/* <TextField
-              label="Address"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              error={!!errors.address}
-              helperText={errors.address}
-              required
-              sx={{ mb: 1 }}
-            /> */}
             <TextField
               label="Email"
               name="email"
@@ -427,7 +461,11 @@ const SignupForm = () => {
               error={!!errors.email}
               helperText={errors.email}
               required
-              sx={{ mb: 1 }}
+              sx={{ mb: 1,
+                '@media (max-width: 610px)': {
+                  mb: 2,
+                  ml: 0
+                } }}
             />
             <TextField
               label="CNIC"
@@ -437,7 +475,11 @@ const SignupForm = () => {
               error={!!errors.cnic}
               helperText={errors.cnic}
               required
-              sx={{ mb: 1, ml: 2 }}
+              sx={{ mb: 1, ml: 2 ,
+                '@media (max-width: 610px)': {
+                  mb: 2,
+                  ml: 0
+                }}}
             />
             <TextField
               label="Password"
@@ -448,10 +490,12 @@ const SignupForm = () => {
               error={!!errors.password}
               helperText={errors.password}
               required
-              sx={{ mb: 1 }}
+              sx={{ mb: 1,
+                '@media (max-width: 610px)': {
+                  mb: 2,
+                  ml: 0
+                } }}
             />
-
-            {/* from role is here */}
             {formData.role === "COUNSELOR" && (
               <>
                 <TextField
@@ -462,7 +506,11 @@ const SignupForm = () => {
                   error={!!errors.specialization}
                   helperText={errors.specialization}
                   required={formData.role === "COUNSELOR"}
-                  sx={{ mb: 1, ml: 2 }}
+                  sx={{ mb: 1, ml: 2,
+                    '@media (max-width: 610px)': {
+                      mb: 2,
+                      ml: 0
+                    } }}
                 />
                 <TextField
                   label="Description"
@@ -523,16 +571,26 @@ const SignupForm = () => {
               )}
             </FormControl>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1,
+         }}>
             <Button
               variant="contained"
               type="submit"
               sx={{
+                '@media (max-width: 610px)': {
+                  width: "70%",
+                 
+                },
                 width: "25%",
                 backgroundColor: "black",
                 color: "white",
+                
                 "&:hover": {
                   backgroundColor: "#333",
+                  '@media (max-width: 610px)': {
+                    width: "70%",
+                   
+                  }
                 },
               }}>
               Sign Up
