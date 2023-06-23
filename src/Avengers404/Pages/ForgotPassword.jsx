@@ -110,7 +110,7 @@ const ForgetPassword = () => {
           flexDirection: "column",
           justifyContent: "center",
           maxWidth: "450px",
-          marginRight: "8rem",
+          marginRight: "20rem",
           width: "100%",
           height: "100%",
           maxHeight: "50rem",
@@ -118,6 +118,17 @@ const ForgetPassword = () => {
           backgroundColor: "rgba(255, 255, 255, 0.8)",
           borderRadius: "10px",
           backdropFilter: "blur(5px)",
+          '@media (max-width: 650px)': {
+            marginRight: "0rem",
+            margin: "2%",
+            justifyContent: "center",
+          },
+
+          '@media (max-width: 820px)': {
+            marginRight: "0rem",
+            margin: "2%",
+            justifyContent: "center",
+          },
         }}
         noValidate
         autoComplete="off"
