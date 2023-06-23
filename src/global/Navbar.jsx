@@ -2,7 +2,7 @@ import React  from 'react';
 import { AppBar, IconButton, Toolbar,Grid } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import './navbar.css'
-import ProfileModal from '../components/ProfileModal';
+import ProfileModal from '../components/patient/ProfileModal';
 
 const Navbar = ({ handleSidebarToggle }) => {
 

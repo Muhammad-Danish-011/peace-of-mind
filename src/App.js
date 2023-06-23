@@ -19,7 +19,7 @@ import SurveyComponent from './components/patient/SurveyComponent';
 import SurveyModal from './components/patient/SurveyModal';
 
 // import './App.css';
-import ProfileCard from './components/ProfileCard';
+import ProfileCard from './pages/profileCard/ProfileCard';
 
 function App() {
   return (

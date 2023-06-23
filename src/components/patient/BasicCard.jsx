@@ -64,7 +64,8 @@ export default function OutlinedCard({basicCard}) {
                fontSize:'12px',
                padding:'10px',
                bgcolor: 'white'}}
-         size="small" >Book Now</Button>
+         size="small" 
+         onClick={handleClick}>Book Now</Button>
    
        </CardContent>
      </React.Fragment>

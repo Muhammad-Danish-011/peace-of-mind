@@ -13,6 +13,7 @@ import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SurveyModal from '../components/patient/SurveyModal';
+import SurveyComponent from '../components/patient/SurveyComponent';
 
 
 const Sidebar = styled('div')(
@@ -108,6 +109,8 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
       {selectedComponent === 'survey' && <SurveyModal/>}
+      {selectedComponent === 'surveyform' && <SurveyComponent/>}
+
 
     
     </Box>

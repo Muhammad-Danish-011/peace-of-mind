@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
-import ProfileCard from '../ProfileCard';
 
 const SurveyModal = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,7 +20,7 @@ const SurveyModal = () => {
     console.log('User wants to fill out the mental health survey');
 
     // Navigate to ProfileCard component
-    navigate('/profileCard');
+    navigate('/surveyform');
   }
 
   return (
