@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Sidebar from '../global/Sidebar';
 import Privateroute from '../components/Privateroute'
-import './App.css';
+// import './App.css';
 import { AuthProvider } from './AuthContext';
 import SignupForm from './Avengers404/components/SignupPage';
 import Loginform from './LoginPage';

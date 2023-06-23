@@ -166,6 +166,7 @@ const ForgetPassword = () => {
               id="email"
               label="Enter Your Registered Email"
               required
+              data-testid="email"
               name='user_email'
               variant="outlined"
               value={email}

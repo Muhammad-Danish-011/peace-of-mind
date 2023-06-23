@@ -62,6 +62,7 @@ const Home = ({ loggedIn }) => {
       sx={{
         ...styles.cardContainer,
         marginLeft: isSmallScreen ? 10 : theme.spacing(11),
+        
       }}
       style={{
         marginTop: "0.5rem",

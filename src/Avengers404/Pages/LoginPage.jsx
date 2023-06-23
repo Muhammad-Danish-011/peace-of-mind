@@ -17,7 +17,7 @@ const Loginform = () => {
       window.location.assign("/user-profile");
     }
     else if(sessionStorage.getItem("role") == "COUNSELOR"){
-      window.location.assign("/user-profile");
+      window.location.assign("/home");
     }
     else{
       
