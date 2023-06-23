@@ -100,6 +100,7 @@ const PreviousNotes = () => {
                         return (
                             <ListItem
                                 button
+                                data-testid="click-note"
                                 key={note.id}
                                 onClick={() => openModal(note)}
                                 sx={{ bgcolor: "#a0d4d4", borderRadius: "15px", my: 2 }}

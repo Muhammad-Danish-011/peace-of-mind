@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor , fireEvent} from "@testing-library/react";
 import PreviousNotes from "./PreviousNotes";
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -74,6 +74,34 @@ describe('testing previous notes component', () => {
           expect(noNotesElement).toBeInTheDocument();
         });
       });
+
+      test('shows the modal after clicking the note', async () => {
+        // Mock the API fetch function
+        global.fetch = jest.fn().mockImplementation(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            id: 1,
+                            created: '2023-06-21T10:00:00Z',
+                            content: 'Sample note 1',
+                        },
+                    ]),
+            })
+        );
+        render(<PreviousNotes />);
+        // Wait for the notes to be fetched and rendered
+        await waitFor(() => {
+            expect(screen.queryByText('No previous notes available')).not.toBeInTheDocument();
+        });
+        // Click the note element
+        const noteElement = screen.getByTestId('click-note');
+        fireEvent.click(noteElement);
+        // Assert that the modal heading is displayed
+        await waitFor(() => {
+            expect(screen.getByRole('heading', { name: /note/i })).toBeInTheDocument();
+        });
+    });
       
    
  
