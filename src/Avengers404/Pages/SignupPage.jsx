@@ -268,7 +268,7 @@ const SignupForm = () => {
         minHeight: "100vh",
         backgroundImage: `url(${plan_background})`,
         backgroundSize: "cover",
-        '@media (max-width: 840px)': {
+        '@media (max-width: 1090px)': {
           display: "flex",
           flexDirection: "column",
           margin: "1%",
@@ -288,14 +288,22 @@ const SignupForm = () => {
           variant="h1"
           sx={{
             fontFamily: "Quicksand, sans-serif",
-            fontSize: "3.2rem",
+            fontSize: "3.7rem",
             fontWeight: "bolder",
             textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             '@media (max-width: 840px)': {
-              // display: "flex",
+            
               flexDirection: "column",
-           
+           fontSize: "40px",
               justifyContent: "center",
+              alignSelf: "center",
+            },
+            '@media (max-width: 350px)': {
+       
+              flexDirection: "column",
+               fontSize: "25px",
+              justifyContent: "center",
+              alignSelf: "center",
             }
           }}>
           PEACE OF MIND
@@ -304,9 +312,9 @@ const SignupForm = () => {
           variant="body1"
           sx={{
             fontFamily: "Quicksand, sans-serif",
-            fontSize: "1rem",
+            fontSize: "1.2rem",
             fontWeight: "bolder",
-            textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            // textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
           }}>
           It's okay not to be okay
         </Typography>
@@ -390,6 +398,7 @@ const SignupForm = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            paddingLeft: "0rem"
           }
          }}>
             <TextField
@@ -520,7 +529,11 @@ const SignupForm = () => {
                   error={!!errors.description}
                   helperText={errors.description}
                   required={formData.role === "COUNSELOR"}
-                  sx={{ mb: 1, ml: 13 }}
+                  sx={{ mb: 1, ml: 13 ,
+                    '@media (max-width: 610px)': {
+                      mb: 2,
+                      ml: 0
+                    }}}
                 />
               </>
             )}
@@ -533,7 +546,12 @@ const SignupForm = () => {
                 error={!!errors.guardian_phone_number}
                 helperText={errors.guardian_phone_number}
                 required={formData.role === "PATIENT"}
-                sx={{ mb: 1, ml: 2 }}
+                sx={{ mb: 1, ml: 2 ,
+                  '@media (max-width: 610px)': {
+                    mb: 2,
+                    ml: 0
+                  }
+                }}
               />
             )}
             <br />
