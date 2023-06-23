@@ -119,7 +119,7 @@ const Description = styled(Typography)({
   }
 });
 
-const ProfileCard = () => {
+const ProfileCard = ({handleSurvey}) => {
   return (
     <Root>
       <NameContainer>
@@ -133,7 +133,7 @@ const ProfileCard = () => {
         </InfoItem>
         <InfoItem>
           <InfoLabel>99%</InfoLabel>
-          <InfoValue>Satisfied Patients</InfoValue>
+          <InfoValue>rating</InfoValue>
         </InfoItem>
         <InfoItem>
           <InfoLabel>gmail</InfoLabel>

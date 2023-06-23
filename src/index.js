@@ -113,7 +113,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createRoot } from 'react-dom';
-
+import App from './App'
 import SignupForm from './Avengers404/Pages/SignupPage';
 import Loginform from './Avengers404/Pages/LoginPage';
 import NewPassword from './Avengers404/Pages/NewPassword';
@@ -133,7 +133,8 @@ createRoot(document.getElementById("root")).render(
 
 
   <React.StrictMode>
-    <BrowserRouter>
+    <App/>
+    {/* <BrowserRouter>
       <AuthProvider>
         <Routes>
           <Route path="/signup" element={<SignupForm />} />
@@ -144,7 +145,7 @@ createRoot(document.getElementById("root")).render(
 
           <Route path="/user-profile" element={<Privateroute><UserProfile /></Privateroute>} />
           <Route path="/dashboard" element={<Privateroute><Dashboard /></Privateroute>} />
-          <Route path="/home" element={<Privateroute><Home /></Privateroute>} />
+          <Route path="/home" element={<Privateroute><Home /></Privateroute>} /> */}
           {/* <Route path="/login" element={<Loginform />} /> */}
 {/*         
 
@@ -191,8 +192,8 @@ createRoot(document.getElementById("root")).render(
               </Privateroute>
             }
           /> */}
-        </Routes>
+        {/* </Routes>
       </AuthProvider>
-    </BrowserRouter>
+    </BrowserRouter> */}
   </React.StrictMode>
 );

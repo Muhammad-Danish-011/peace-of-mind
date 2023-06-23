@@ -55,7 +55,7 @@ const Home = () => {
     .then(data => data.json())
     .then(data => {
       console.log({data})
-      setCards(data.slice(0, 6))
+      setCards(data.slice(0,6))
     })
     .catch(err => console.group(err))
   },[]);
@@ -66,8 +66,8 @@ const Home = () => {
   const handleSearchClick = () => {
     navigate('/councler');
   };
-  return (
-    <Box sx={{
+  return (<>
+    {!cards ? "Loading" :<Box sx={{
       ...styles.container,
       marginLeft: isSmallScreen ? 10 : theme.spacing(5)
     }}>
@@ -77,13 +77,16 @@ const Home = () => {
       <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
       >
-        {cards.map((card) => (
-          <BasicCard key={`card-${card.id}`} props={cards} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))}
+        {
+        cards.map((card) => (
+          // console.log(card)
+          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))
+        }
       </Box>
       <Card/>
-    </Box>
-  )
+    </Box>}
+    </>)
 }
 
 export default Home;

@@ -1,14 +1,10 @@
 import React from 'react'
-import SurveyModal from '../../components/SurveyModal'
-import CounclerProfile from '../counclerprofile/CounclerProfile'
-
-
+// import ProfileCard from '../../components/patient/ProfileCard';
 
 const Calendar = () => {
   return (
     <div>
-  {/* <SurveyModal/> */}
-  <CounclerProfile/>
+      Appointments
     </div>
   )
 }

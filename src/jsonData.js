@@ -138,7 +138,7 @@ export const jsonData = {
         "choices": [
          "Sometimes",
          {
-          "value": "Maytime",
+          "value": "Manytime",
           "text": "Manytime"
          },
          "Every time",
