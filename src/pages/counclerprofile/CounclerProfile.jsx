@@ -1,8 +1,7 @@
 import React from 'react'
-// import ProfileCard from '../../components/patient/ProfileCard';
 import ProfileCard from '../../components/ProfileCard'
 
-const Calendar = () => {
+const CounclerProfile = () => {
   return (
     <div>
       <ProfileCard/>
@@ -10,4 +9,4 @@ const Calendar = () => {
   )
 }
 
-export default Calendar
+export default CounclerProfile

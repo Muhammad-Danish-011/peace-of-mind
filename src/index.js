@@ -25,6 +25,6 @@ createRoot(document.getElementById("root")).render(
           <Route path="/home" element={<Privateroute><Home /></Privateroute>} />          
         </Routes>
       </AuthProvider>
-    </BrowserRouter>
+    </BrowserRouter> 
   </React.StrictMode>
 );

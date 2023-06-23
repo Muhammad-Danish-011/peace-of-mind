@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+
+.tab-list {
+  border-bottom: 1px solid  #8FB0AB; 
+  padding-left: 0;
+  /* border-color: #8FB0AB; */
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+ 
+}
+
+.tab-list-active {
+  background-color: white;
+  border: solid  #8FB0AB; 
+  border-width: 1px 1px 0 1px;
+  border-radius: 10px 10px 0px 0px;
+  /* border-color: #8FB0AB; */
+}

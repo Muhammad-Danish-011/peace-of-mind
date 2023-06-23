@@ -16,14 +16,14 @@ const styles = {
   },
   cardContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(4, 280px)',
     rowGap: '20px', // Add row gap
     columnGap: '20px', // Add column gap
     justifyContent: 'center', 
     marginTop: '60px !important',
 
     // Add media query for smaller screens
-    '@media (max-width: 768px)': {
+    '@media (max-width: 1600px)': {
       display: 'flex', // Use flexbox layout
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -44,7 +44,7 @@ const Councler = () => {
   return (
     <Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 8 : theme.spacing(45)
+      marginLeft: isSmallScreen ? 8 : theme.spacing(7)
 
     }}>
       <Search/>
