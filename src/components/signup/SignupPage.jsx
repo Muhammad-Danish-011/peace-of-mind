@@ -633,7 +633,7 @@ import {
 // import plan_background from "../images/plan_background.jpeg";
 // import doctor from "../images/doctor.png";
 // import patient from "../images/patient.png";
-import "./SignUp.module.css";
+// import "./SignUp.module.css";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({

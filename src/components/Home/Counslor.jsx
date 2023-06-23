@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import BasicCard from "../components/BasicCard";
+import BasicCard from "../BasicCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import TappointLink from "../components/TappointLink";
-import Card from "../components/Card";
+// import TappointLink from "../";
+
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
-import Sidebar from "../global/Sidebar";
+import Sidebar from "../../global/Sidebar";
 const styles = {
   container: {
     maxWidth: 1500,
@@ -41,7 +41,7 @@ const styles = {
     marginLeft: "10rem",
   },
 };
-const Home = ({ loggedIn }) => {
+const Counselor = ({ loggedIn }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const Home = ({ loggedIn }) => {
       marginLeft: isSmallScreen ? 10 : theme.spacing(10),
     }}
   >
-    <TappointLink />
+    {/* <TappointLink /> */}
     <Box
       sx={{
         ...styles.cardContainer,
@@ -74,7 +74,7 @@ const Home = ({ loggedIn }) => {
       <BasicCard />
       <BasicCard />
     </Box>
-    <Card />
+    {/* <Card /> */}
     <Box
       sx={{
         display: "flex",
@@ -159,4 +159,4 @@ const Home = ({ loggedIn }) => {
 </>
   );
 };
-export default Home;
+export default Counselor;

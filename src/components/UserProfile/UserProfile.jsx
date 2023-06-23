@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import Sidebar from "../global/Sidebar";
+import Sidebar from "../../global/Sidebar";
 import { Box, Button, IconButton, InputBase } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 // import patient from "../images/patient.png";
 // import doctor from "../images/doctor.png";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../Authcontext/AuthContext";
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
   const [patientEditMode, setPatientEditMode] = useState(false);
