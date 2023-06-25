@@ -15,11 +15,11 @@ import {
 const Loginform = () => {
 
   if(sessionStorage.getItem("islogin")){
-    if(sessionStorage.getItem("role") == "PATIENT"){
-      window.location.assign("/user-profile");
-    }
-    else if(sessionStorage.getItem("role") == "COUNSELOR"){
+    if(sessionStorage.getItem("role") === "PATIENT"){
       window.location.assign("/home");
+    }
+    else if(sessionStorage.getItem("role") === "COUNSELOR"){
+      window.location.assign("/counselor");
     }
     else{
       

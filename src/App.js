@@ -21,30 +21,38 @@ import SurveyModal from './components/patient/SurveyModal';
 // import './App.css';
 import ProfileCard from './components/ProfileCard';
 import Counselor from './components/Home/Counslor';
+import CounselorCalender from './components/counselor-calender/counselorcalender';
 
 function App() {
   return (
     <div className="App">
    
     <BrowserRouter>
-    <Sidebar>
-      <Routes>
-          <Route path="/" element={ <Home /> } />
-      </Routes>
+    <AuthProvider>
+    <Routes>
+    {/* <Sidebar> */}
+      {/* <Routes>
+         } />
+      </Routes> */}
     <Route path="/signup" element={<SignupForm />} />
    
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
-    </Sidebar>
-    <Routes>
-    <Route path="/forget-password" element={<Privateroute><ForgetPassword /></Privateroute> } />
-          <Route path="/new-password" element={<Privateroute> <NewPassword /></Privateroute> } />
+    {/* </Sidebar> */}
+    
+    <Route path="/forget-password" element={<ForgetPassword />} />
+    <Route path="/new-password" element={<NewPassword /> } />
+    <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
-          <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
-          <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
-    <Route path='/surveymodal' element={<SurveyModal/>} />  
-    <Route path='/profileCard' element={<ProfileCard/>}/>
+    
+    <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
+    <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
+    <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
+    
+    <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
+    <Route path='/profileCard' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
+    </AuthProvider>
   </BrowserRouter>
     </div>
     
