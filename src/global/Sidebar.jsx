@@ -110,7 +110,7 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'counselor' && <Counselor />}
       {selectedComponent === 'Calendar' && <CounselorCalender />}
       {selectedComponent === 'user-profile' && <UserProfile />}
-      {selectedComponent === 'survey' && <UserProfile/>}
+      {selectedComponent === 'survey' && <SurveyModal/>}
     </Box>
   );
 }
