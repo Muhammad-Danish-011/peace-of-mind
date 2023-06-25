@@ -7,7 +7,7 @@ import Calender from '../calendar/Calendar';
 const CounselorCalender = () => {
   return (
     <div>
-    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '1rem', marginLeft: '1rem' }}>
+    <Box sx={{ display: 'Flex', alignItems: 'center', marginTop: '1rem', marginLeft: '1rem' }}>
   <Avatar
     alt="Remy Sharp"
     src="https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"

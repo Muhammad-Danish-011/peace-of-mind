@@ -93,7 +93,7 @@ export default function PersistentDrawerLeft() {
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
           <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('user-profile')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyModal'} onClick={() => handleComponentChange('surveymodal')}>
@@ -109,10 +109,8 @@ export default function PersistentDrawerLeft() {
       )}
       {selectedComponent === 'counselor' && <Counselor />}
       {selectedComponent === 'Calendar' && <CounselorCalender />}
-      {/* {selectedComponent === 'user-profile' && <UserProfile />} */}
-      {selectedComponent === 'survey' && <SurveyModal/>}
-
-    
+      {selectedComponent === 'user-profile' && <UserProfile />}
+      {selectedComponent === 'survey' && <UserProfile/>}
     </Box>
   );
 }

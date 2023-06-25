@@ -188,8 +188,6 @@ const UserProfile = () => {
 
   return (
     <>
-      <Sidebar />
-
       <Box
         sx={{
           border: "2px solid green",
