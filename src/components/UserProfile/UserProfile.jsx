@@ -401,7 +401,7 @@ const UserProfile = () => {
               {!userEditMode ? (
                 <>
                   <p>{email}</p>
-                  <p>{password}</p>
+                  <p>{password.replace(/./g, "*").substring(0, Math.min(password.length, 8))}</p>
                 </>
               ) : (
                 <>
@@ -418,7 +418,8 @@ const UserProfile = () => {
                   <InputBase
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)
+                    }
                     sx={{
                       fontWeight: "bold",
                       fontSize: "1.2rem",
