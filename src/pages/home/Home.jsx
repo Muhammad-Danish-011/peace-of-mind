@@ -64,7 +64,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
-    navigate('/councler');
+    navigate('/search');
   };
   return (<>
     {!cards ? "Loading" :<Box sx={{

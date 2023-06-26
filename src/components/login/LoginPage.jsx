@@ -62,7 +62,7 @@ const Loginform = () => {
         updateLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
-          navigate("/user-profile");
+          navigate("/home");
         } else if (user.role === "COUNSELOR") {
           navigate("/user-profile");
         }
