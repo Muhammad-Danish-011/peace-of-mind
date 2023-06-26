@@ -18,6 +18,7 @@ import Navbar from './global/Navbar';
 import SurveyComponent from './components/patient/SurveyComponent';
 import SurveyModal from './components/patient/SurveyModal';
 import Search from './components/patient/Search';
+import Meeting from './components/Room/Meeting';
 
 // import './App.css';
 import ProfileCard from './pages/profileCard/ProfileCard';
@@ -40,6 +41,7 @@ function App() {
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
     {/* </Sidebar> */}
+    <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} />
     
     <Route path="/forget-password" element={<ForgetPassword />} />
     <Route path="/new-password" element={<NewPassword /> } />

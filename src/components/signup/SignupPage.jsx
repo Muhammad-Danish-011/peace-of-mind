@@ -117,7 +117,6 @@ const SignupForm = () => {
               userId: user.id
             };
 
-
             const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
             console.log(patientUrl)
             const patientResponse = await fetch(
