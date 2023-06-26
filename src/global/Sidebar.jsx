@@ -16,6 +16,7 @@ import SurveyModal from '../components/patient/SurveyModal';
 import Counselor from '../components/Home/Counslor';
 import CounselorCalender from '../components/counselor-calender/counselorcalender';
 import UserProfile from '../components/UserProfile/UserProfile';
+import AvailabilityTable from '../components/table/AppointmentAvailability';
 
 
 const Sidebar = styled('div')(
@@ -96,7 +97,7 @@ export default function PersistentDrawerLeft() {
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyModal'} onClick={() => handleComponentChange('surveymodal')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
           <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }}  />
         </SidebarIcon>
       </Sidebar>
@@ -110,7 +111,7 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'counselor' && <Counselor />}
       {selectedComponent === 'Calendar' && <CounselorCalender />}
       {selectedComponent === 'user-profile' && <UserProfile />}
-      {selectedComponent === 'survey' && <SurveyModal/>}
+      {selectedComponent === 'availibilitytable' && <AvailabilityTable/>}
     </Box>
   );
 }

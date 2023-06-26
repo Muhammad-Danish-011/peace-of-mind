@@ -22,7 +22,7 @@ import SurveyModal from './components/patient/SurveyModal';
 import ProfileCard from './components/ProfileCard';
 import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
-
+import AvailabilityTable from './components/table/AppointmentAvailability';
 function App() {
   return (
     <div className="App">
@@ -48,6 +48,7 @@ function App() {
     <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
     <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
+    <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
     
     <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard' element={<Privateroute><ProfileCard/></Privateroute>}/>

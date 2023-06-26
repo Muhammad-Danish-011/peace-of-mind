@@ -163,13 +163,53 @@
 
 
 
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
  import { Box, Typography, Rating } from "@mui/material";
  import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 
 
 
 const Counslor = () => {
+  const [appointmentCount, setAppointmentCount] = useState(0);
+  const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  console.log(obj);
+  const [ratings, setRatings] = useState([]);
+const [reviewNotes, setReviewNotes] = useState([]);
+useEffect(() => {
+  fetchRatingsAndReviewNotes();
+}, []);
+
+const fetchRatingsAndReviewNotes = async () => {
+  try {
+    const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+    const data = await response.json();
+    console.log(data.value);
+    setRatings(data.value);
+
+    const reviewNotesResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+    const reviewNotesData = await reviewNotesResponse.json();
+    setReviewNotes(reviewNotesData.note);
+    console.log(reviewNotesData.note);
+  } catch (error) {
+    console.error('Error fetching ratings and review notes:', error);
+  }
+};
+
+  useEffect(() => {
+    fetchAppointmentCount();
+  }, []);
+
+  const fetchAppointmentCount = async () => {
+    try {
+      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
+      const data = await response.json();
+      setAppointmentCount(data.length);
+    } catch (error) {
+      console.error('Error fetching appointment count:', error);
+    }
+  };
   return (
    <>
    <Box sx={{
@@ -262,7 +302,7 @@ alignContent: "space-around"
 <Typography variant= "h5">
 TOTAL NO. OF PATIENTS</Typography>
 
-<h1>106</h1>
+<h1>{appointmentCount}</h1>
 
 </Box>
 
@@ -302,7 +342,8 @@ alignContent: "space-around"
           variant="h5"
           component="div"
         >
-          Micheal Clerk
+          
+          
         </Typography>
         <AccountCircleTwoToneIcon
           style={{
@@ -324,6 +365,8 @@ alignContent: "space-around"
           name="rating"
           // value={rating}
           // onChange={handleRatingChange}
+          
+          
         />
         <Typography
           style={{ fontSize: "1.5rem" }}
