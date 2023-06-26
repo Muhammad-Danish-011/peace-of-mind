@@ -9,12 +9,9 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-// import plan_background from "../images/plan_background.jpeg";
-// import doctor from "../images/doctor.png";
-// import patient from "../images/patient.png";
-import "./SignUp.module.css";
 
 const SignupForm = () => {
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -142,7 +139,7 @@ const SignupForm = () => {
           console.log(formData);
           resetForm();
         } else {
-          console.log("Some error occurred");
+          setErrorMessage("Email Or CNIC is already Registered try new one");
         }
       } catch (error) {
         console.log(error);
@@ -197,9 +194,10 @@ const SignupForm = () => {
 
     if (!password) {
       formErrors.password = "Password is required";
-    } else if (password.length > 8) {
-      formErrors.password = "Password must be at least 8 characters long";
     }
+    //  else if (password.length >= 8) {
+    //   formErrors.password = "Password must be at least 8 characters long";
+    // }
 
     if (!role) {
       formErrors.role = "Role is required";
@@ -268,7 +266,7 @@ const SignupForm = () => {
         minHeight: "100vh",
         backgroundImage: `url(${process.env.PUBLIC_URL + '/images/plan_background.jpeg'})`,
         backgroundSize: "cover",
-        '@media (max-width: 840px)': {
+        '@media (max-width: 1090px)': {
           display: "flex",
           flexDirection: "column",
           margin: "1%",
@@ -288,14 +286,22 @@ const SignupForm = () => {
           variant="h1"
           sx={{
             fontFamily: "Quicksand, sans-serif",
-            fontSize: "3.2rem",
+            fontSize: "3.7rem",
             fontWeight: "bolder",
             textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             '@media (max-width: 840px)': {
-              // display: "flex",
+            
               flexDirection: "column",
-           
+           fontSize: "40px",
               justifyContent: "center",
+              alignSelf: "center",
+            },
+            '@media (max-width: 350px)': {
+       
+              flexDirection: "column",
+               fontSize: "25px",
+              justifyContent: "center",
+              alignSelf: "center",
             }
           }}>
           PEACE OF MIND
@@ -304,9 +310,9 @@ const SignupForm = () => {
           variant="body1"
           sx={{
             fontFamily: "Quicksand, sans-serif",
-            fontSize: "1rem",
+            fontSize: "1.2rem",
             fontWeight: "bolder",
-            textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+            // textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
           }}>
           It's okay not to be okay
         </Typography>
@@ -353,7 +359,7 @@ const SignupForm = () => {
               alignItems: "center",
             }}>
             <img
-              src={formData.role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
+               src={formData.role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
               alt="role"
               style={{ width: "100px", marginBottom: "0.5rem" }}
             />
@@ -390,6 +396,7 @@ const SignupForm = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            paddingLeft: "0rem"
           }
          }}>
             <TextField
@@ -456,6 +463,7 @@ const SignupForm = () => {
             <TextField
               label="Email"
               name="email"
+              type="email"
               value={formData.email}
               onChange={handleInputChange}
               error={!!errors.email}
@@ -466,7 +474,13 @@ const SignupForm = () => {
                   mb: 2,
                   ml: 0
                 } }}
+                
             />
+            {errors.email && (
+                  <span style={{ color: "red", fontSize: "0.8rem" }}>
+                    {errors.email}
+                  </span>
+                )}
             <TextField
               label="CNIC"
               name="cnic"
@@ -520,7 +534,11 @@ const SignupForm = () => {
                   error={!!errors.description}
                   helperText={errors.description}
                   required={formData.role === "COUNSELOR"}
-                  sx={{ mb: 1, ml: 13 }}
+                  sx={{ mb: 1, ml: 13 ,
+                    '@media (max-width: 610px)': {
+                      mb: 2,
+                      ml: 0
+                    }}}
                 />
               </>
             )}
@@ -533,7 +551,12 @@ const SignupForm = () => {
                 error={!!errors.guardian_phone_number}
                 helperText={errors.guardian_phone_number}
                 required={formData.role === "PATIENT"}
-                sx={{ mb: 1, ml: 2 }}
+                sx={{ mb: 1, ml: 2 ,
+                  '@media (max-width: 610px)': {
+                    mb: 2,
+                    ml: 0
+                  }
+                }}
               />
             )}
             <br />
@@ -570,6 +593,11 @@ const SignupForm = () => {
                 </Typography>
               )}
             </FormControl>
+            {errorMessage && (
+            <p style={{ color: "red", fontSize: "0.8rem", textAlign: "center" }}>
+              {errorMessage}
+            </p>
+          )}
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1,
          }}>
@@ -614,4 +642,5 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
+
 

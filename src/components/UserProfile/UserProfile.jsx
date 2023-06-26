@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import Sidebar from "../global/Sidebar";
+import Sidebar from "../../global/Sidebar";
 import { Box, Button, IconButton, InputBase } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 // import patient from "../images/patient.png";
 // import doctor from "../images/doctor.png";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../Authcontext/AuthContext";
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
   const [patientEditMode, setPatientEditMode] = useState(false);
@@ -188,8 +188,6 @@ const UserProfile = () => {
 
   return (
     <>
-      <Sidebar />
-
       <Box
         sx={{
           border: "2px solid green",
@@ -403,7 +401,7 @@ const UserProfile = () => {
               {!userEditMode ? (
                 <>
                   <p>{email}</p>
-                  <p>{password}</p>
+                  <p>{password.replace(/./g, "*").substring(0, Math.min(password.length, 8))}</p>
                 </>
               ) : (
                 <>
@@ -420,7 +418,8 @@ const UserProfile = () => {
                   <InputBase
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)
+                    }
                     sx={{
                       fontWeight: "bold",
                       fontSize: "1.2rem",
