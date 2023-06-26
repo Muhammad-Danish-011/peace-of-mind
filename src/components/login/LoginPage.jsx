@@ -67,7 +67,7 @@ const Loginform = () => {
           navigate("/user-profile");
         }
       } else {
-        console.log("Invalid credentials");
+        setErrorMessage("Invalid email or password");
       }
     } catch (error) {
       console.log(error);
