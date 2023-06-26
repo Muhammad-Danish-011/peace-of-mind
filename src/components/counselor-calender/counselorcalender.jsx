@@ -146,8 +146,7 @@ const CounselorCalender = () => {
       <Box sx={{ paddingTop: '1rem', paddingLeft: '9rem', height: '40%', width: '160%',marginLeft:"2rem",marginBottom:'3rem',
     '@media (max-width:840px)': {
       marginTop: 0,
-      marginLeft: 0,
-      // textAlign: 'center',
+      // marginLeft: 0,
       marginLeft:"-8rem",
       marginRight:"auto",
       width:'30rem',

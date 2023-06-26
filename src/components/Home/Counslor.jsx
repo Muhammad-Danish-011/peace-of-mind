@@ -186,7 +186,7 @@ import React, {useState,useEffect} from 'react';
 
   const fetchRatingsAndReviewNotes = async () => {
     try {
-      const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+      const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
       const data = await response.json();
       console.log(data.value);
       setRatings(data.value);
