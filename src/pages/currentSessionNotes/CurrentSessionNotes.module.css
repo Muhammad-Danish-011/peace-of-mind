@@ -1,10 +1,11 @@
-.main{
-    background-color: #A0D4D4;
-  }
+.main {
+  background-color: #a0d4d4;
+  height: 100%;
+}
 
-.noteContainer{
-    margin-top: 1%;
-    background-color:#a0d4d4 ;
-    display: flex;
-    justify-content: space-evenly;
-  }
+.noteContainer {
+  background-color: #a0d4d4;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap-reverse;
+}

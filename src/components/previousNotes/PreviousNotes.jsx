@@ -18,7 +18,8 @@ const PreviousNotes = () => {
         try {
             const response = await fetch("http://notes.us-west-2.elasticbeanstalk.com/notes/notesByPatientId/2");
             const data = await response.json();
-            setNotes(data);
+            const sortedNotes = data.sort((a, b) => moment(b.created).diff(moment(a.created)));
+            setNotes(sortedNotes);
         } catch (error) {
             console.error('Error fetching notes:', error);
         }
@@ -79,14 +80,15 @@ const PreviousNotes = () => {
     };
 
     return (
-        <Box display="flex">
+        <Box display="flex" height="100vh" overflow="hidden">
             <List
                 sx={{
                     bgcolor: "white",
                     border: "1px solid rgba(0, 128, 128, 1)",
                     borderRadius: "15px",
                     p: 2,
-                    m: 2
+                    m: 2,
+                    overflow: "auto",
                 }}
             >
                 <Typography variant='h5'>Patient previous Notes:</Typography>
