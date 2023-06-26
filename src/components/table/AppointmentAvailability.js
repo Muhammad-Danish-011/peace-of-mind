@@ -28,7 +28,7 @@ const AvailabilityTable = () => {
       .then((data) => setAppointments(data))
       .catch((error) => console.log(error));
 
-    fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/2`)
+    fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
       .then((response) => response.json())
       .then((data) => setAvailabilityData(data))
       .catch((error) => console.log(error));
