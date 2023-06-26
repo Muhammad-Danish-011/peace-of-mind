@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Privateroute from './Avengers404/components/Privateroute'
-import './App.css';
+// import './App.css';
 import { AuthProvider } from './Avengers404/Pages/AuthContext';
 import SignupForm from './Avengers404/components/SignupPage';
 import Loginform from './Avengers404/Pages/LoginPage';
@@ -53,7 +53,17 @@ function App() {
     </Routes>
   </BrowserRouter>
     </div>
+    
   );
+
+
+// function App() {
+// return(
+//   <>
+//   
+//   </>
+// )
+// check
 }
 
 export default App;

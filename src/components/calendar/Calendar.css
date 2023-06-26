@@ -1,0 +1,17 @@
+/* @import url('https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/solar/bootstrap.min.css'); */
+
+
+.fc .fc-timegrid-slot{
+    height: 1.5rem;
+
+  }
+  
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #203940;
+  }
+  
+  .fc table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    font-size: 1em;
+  }
