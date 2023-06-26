@@ -194,9 +194,10 @@ const SignupForm = () => {
 
     if (!password) {
       formErrors.password = "Password is required";
-    } else if (password.length >= 8) {
-      formErrors.password = "Password must be at least 8 characters long";
     }
+    //  else if (password.length >= 8) {
+    //   formErrors.password = "Password must be at least 8 characters long";
+    // }
 
     if (!role) {
       formErrors.role = "Role is required";

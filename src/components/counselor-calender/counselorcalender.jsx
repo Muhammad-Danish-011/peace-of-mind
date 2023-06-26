@@ -32,7 +32,7 @@ const CounselorCalender = () => {
   }, [accountUrl, obj.id]);
   return (
     <div>
-    <Box sx={{ display: 'Flex', alignItems: 'center', marginTop: '1rem', marginLeft: '1rem' }}>
+    <Box sx={{ display: 'Flex', alignItems: 'center', marginTop: '1rem', marginLeft: '10rem' }}>
   <Avatar
     alt="Remy Sharp"
     src="https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
@@ -42,7 +42,7 @@ const CounselorCalender = () => {
   {firstName} {lastName}
   </Typography>
 
-    <Box sx={{ p: 2,marginLeft:'20rem',marginTop:'1rem' ,width:'30rem' }}>
+    <Box sx={{ p: 2,marginLeft:'10rem',marginTop:'1rem' ,width:'30rem' }}>
       <Paper elevation={3} sx={{ p: 2 }}>
         <Typography variant="h6">Chat with {firstName} {lastName}</Typography>
 
@@ -70,7 +70,7 @@ const CounselorCalender = () => {
 
     </Box>
 
-    <Box sx={{paddingTop:'1rem', paddingLeft:'5rem',height :'40%', width: '90%'}}>
+    <Box sx={{paddingTop:'1rem', paddingLeft:'25rem',marginBottom:'10rem',height :'40%', width: '90%'}}>
       <Calender/>
     </Box>
     
