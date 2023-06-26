@@ -1,5 +1,5 @@
 
-import bg from "../images/bg.jpeg";
+// import bg from "../images/bg.jpeg";
 import React, { useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
 import {
@@ -21,8 +21,8 @@ const ForgetPassword = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     const userEmail = email;
-  
-    fetch(`http://accountservice.us-east-1.elasticbeanstalk.com/user/ForgotPassword/${userEmail}`, {
+    const accountUrl = process.env.REACT_APP_API_KEY
+    fetch(`${accountUrl}/user/ForgotPassword/${userEmail}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const ForgetPassword = () => {
           emailjs
             .sendForm('service_zgcb8cy', 'template_dx8gftp', form.current, '04RwhtqN7IMklYKNm')
             .then((result) => {
-              fetch(`http://accountservice.us-east-1.elasticbeanstalk.com/user/ForgotPassword/token`, {
+              fetch(`${accountUrl}/user/ForgotPassword/token`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -91,16 +91,8 @@ const ForgetPassword = () => {
   return (
     <div 
       className="Forgot-container"
-      // style={{
-      //   backgroundImage: `url(${bg})`,
-      //   backgroundPosition: "center",
-      //   height: '100vh',
-      //   backgroundSize: "cover",
-      //   backgroundRepeat: "no-repeat",
-      // }}
-
       style={{
-        backgroundImage: `url(${bg})`,
+        backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`,
         backgroundPosition: "center",
         minHeight: "100vh",
         backgroundSize: "cover",
@@ -113,22 +105,6 @@ const ForgetPassword = () => {
     >
       <Box
         component="form"
-        // sx={{
-        //   display: 'flex',
-        //   flexDirection: 'column',
-        //   justifyContent: 'center',
-        //   '& .MuiTextField-root': {
-        //     m: 1,
-        //     marginTop: '35px',
-        //     width: '19rem',
-        //     marginRight: '3.0rem',
-        //     backgroundColor: 'white',
-        //     color: 'black',
-        //     borderRadius: '10px',
-        //     borderColor: 'white',
-        //   },
-        // }}
-
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -148,55 +124,9 @@ const ForgetPassword = () => {
         onSubmit={sendEmail}
         ref={form}
       >
-        {/* <div>
-          <h1
-            style={{
-              fontFamily: "Quicksand, sans-serif",
-              fontSize: "2.5rem",
-              fontWeight: "bolder",
-              marginTop: "8rem",
-              textAlign: "center",
-              marginLeft: "25rem",
-            }}
-          >
-            Forgot Password
-          </h1>
-          <div
-            style={{
-              textAlign: "left",
-              marginLeft: "15rem",
-              marginTop: "10rem",
-              display: "block",
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "3.2rem",
-                fontWeight: "bolder",
-                textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                marginRight: "10rem",
-              }}
-            >
-              PEACE OF MIND
-            </h2>
-            <p
-              style={{
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1rem",
-                fontWeight: "bolder",
-                marginLeft: "7rem",
-                marginTop: "-2.5rem",
-                textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                textAlign: "left",
-              }}
-            >
-              It's okay not to be okay
-            </p>
-          </div>
-        </div> */}
 
-<h2
+
+        <h2
             style={{
               fontFamily: "Quicksand, sans-serif",
               fontSize: "2.8rem",
@@ -231,38 +161,12 @@ const ForgetPassword = () => {
             Forgot Password
           </h1>
 
-        {/* <div
-          className="thirdrow"
-          style={{ display: "flex", marginLeft: "50rem", marginTop: "-10rem" }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <label
-              style={{
-                marginRight: "2.5rem",
-                fontSize: "1.4rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontWeight: "bolder",
-              }}
-            >
-              Enter Your Registered Email
-            </label>
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Enter your Email"
-              name="user_email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </div> */}
-
-<FormControl >
+          <FormControl >
             <TextField
               id="email"
               label="Enter Your Registered Email"
               required
+              data-testid="email"
               name='user_email'
               variant="outlined"
               value={email}
@@ -271,37 +175,12 @@ const ForgetPassword = () => {
                 marginTop: "2rem",
               }}
             />
-            {/* {errors.email && (
-              <span style={{ color: "red", fontSize: "0.8rem" }}>
-                {errors.email}
-              </span>
-            )} */}
           </FormControl>
 
-        {/* <div
-          style={{ marginBottom: '1rem', borderRadius: '10px', marginLeft: '27rem', marginTop: '40px', textAlign: 'center' }}
-        >
-          <button
-            type="submit"
-            value="send"
-            style={{
-              borderRadius: '10px',
-              marginTop:'2rem',
-              padding: '15px',
-              color: 'black',
-              backgroundColor: "white",
-              fontSize: '20px',
-            }}
-          >
-            Verification Code
-          </button>
-        </div> */}
-
-<Button
+            <Button
             type="submit"
             value = "send"
             
-            // variant="contained"
             sx={{
               marginTop: "1rem",
               backgroundColor: "black",
@@ -334,11 +213,7 @@ const ForgetPassword = () => {
   )}
       </Box>
 
-      
 
-  {/* {!emailSent && error && (
-    <p style={{ marginLeft: "51rem", marginTop: '-8.5rem', fontSize: '1rem', fontWeight: 'bolder', fontFamily: "Quicksand, sans-serif" }}>Invalid Email Kindly Enter Correct Email</p>
-  )} */}
 
   {!emailSent && !error && (
     <div>

@@ -1,0 +1,10 @@
+.main{
+    background-color: #A0D4D4;
+  }
+
+.noteContainer{
+    margin-top: 1%;
+    background-color:#a0d4d4 ;
+    display: flex;
+    justify-content: space-evenly;
+  }
