@@ -49,7 +49,7 @@ function App() {
     </Sidebar>
     <Routes>
     <Route path='/surveymodal' element={<SurveyModal/>} />  
-    <Route path='/profileCard' element={<ProfileCard/>}/>
+    <Route path='/profileCard/:userId' element={<ProfileCard/>}/>
     </Routes>
   </BrowserRouter>
     </div>
