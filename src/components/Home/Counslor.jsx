@@ -169,47 +169,50 @@ import React, {useState,useEffect} from 'react';
 
 
 
-const Counslor = () => {
+ const Counslor = () => {
   const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
-
+  // const objs = JSON.parse(sessionStorage.getItem('availibilty_data'));
+  // console.log(objs);
   console.log(obj);
-  const [ratings, setRatings] = useState([]);
-const [reviewNotes, setReviewNotes] = useState([]);
-useEffect(() => {
-  fetchRatingsAndReviewNotes();
-}, []);
-
-const fetchRatingsAndReviewNotes = async () => {
-  try {
-    const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
-    const data = await response.json();
-    console.log(data.value);
-    setRatings(data.value);
-
-    const reviewNotesResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
-    const reviewNotesData = await reviewNotesResponse.json();
-    setReviewNotes(reviewNotesData.note);
-    console.log(reviewNotesData.note);
-  } catch (error) {
-    console.error('Error fetching ratings and review notes:', error);
-  }
-};
-
+  const [value, setRatings] = useState("");
+  const [note, setReviewNotes] = useState("");
+  
   useEffect(() => {
+    fetchRatingsAndReviewNotes();
     fetchAppointmentCount();
   }, []);
 
-  const fetchAppointmentCount = async () => {
+  const fetchRatingsAndReviewNotes = async () => {
     try {
-      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
+      const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
       const data = await response.json();
-      setAppointmentCount(data.length);
+      console.log(data.value);
+      setRatings(data.value);
+      setReviewNotes(data.note);
+
+      // const reviewNotesResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+      // const reviewNotesData = await reviewNotesResponse.json();
+      // setReviewNotes(reviewNotesData.note);
+      // console.log(reviewNotesData.note);
     } catch (error) {
-      console.error('Error fetching appointment count:', error);
+      console.error('Error fetching ratings and review notes:', error);
     }
   };
+
+  const fetchAppointmentCount = async () => {
+    try {
+      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
+      const data = await response.json();
+      const latestAvailabilityId = data[data.length - 1].id;
+      setAppointmentCount(data.length);
+    } 
+      catch (error) {
+        console.error('Error fetching appointment count:', error);
+      }
+  };
+
   return (
    <>
    <Box sx={{
@@ -355,7 +358,7 @@ alignContent: "space-around"
           
            }}
         />
-        <Rating    defaultValue= {2.5}
+        <Rating    value= {value}
   precision= {0.5}
         style ={{
 
@@ -363,18 +366,19 @@ alignContent: "space-around"
         }}
 
           name="rating"
-          // value={rating}
+          // value={value}
           // onChange={handleRatingChange}
           
           
         />
+                
+
         <Typography
           style={{ fontSize: "1.5rem" }}
           variant="body"
           component="div"
         >
-          Great experience! Made a same <br />
-          day appointment
+          {note}
         </Typography>
       </Box>
  
