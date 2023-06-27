@@ -11,6 +11,13 @@ import Calendar from '../pages/calendar/Calendar';
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
+// import SurveyModal from '../components/patient/SurveyModal';
+import SurveyModal from '../components/SurveyModal';
+import Counselor from '../components/Home/Counslor';
+import CounselorCalender from '../components/counselor-calender/counselorcalender';
+import UserProfile from '../components/UserProfile/UserProfile';
+import AvailabilityTable from '../components/table/AppointmentAvailability';
+
 
 const Sidebar = styled('div')(
   {
