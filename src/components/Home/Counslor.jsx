@@ -15,12 +15,14 @@ const Counslor = () => {
   // const [availabilityId, setAvailabilityId] = useState(null);
   const [averageRating, setAverageRating] = useState(0);
   const [latestReview, setLatestReview] = useState(null);
-
+  const [rating,setRating]=useState("")
+  const [value,setValue]=useState("")
+  // const[note,setReviewNotes]=user
 
 
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [appointments, setAppointments] = useState([]);
-
+  const [patientCount, setPatientCount] = useState(0);
   useEffect(() => {
     fetchAvailabilityIds();
   }, []);
@@ -96,6 +98,30 @@ const Counslor = () => {
   //   }
   // };
 
+  // const fetchAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const promises = availabilityIds.map(availabilityId =>
+  //       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvail/${availabilityId}`)
+  //     );
+  //     const responses = await Promise.all(promises);
+  //     const appointmentsData = await Promise.all(responses.map(response => response.json()));
+  //     const allAppointments = appointmentsData.flat();
+      
+  //     const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
+      
+  //     // const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
+  
+  //     // console.log("Total number of patients:", patientIds.length);
+  //     // const appointmentIds = filteredAppointments.map(appointment => appointment.appointmentId);
+  
+  //     console.log("Filtered Appointments:", filteredAppointments);
+  //     // console.log("Appointment IDs:", appointmentIds);
+  
+  //     setAppointments(filteredAppointments);
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       const promises = availabilityIds.map(availabilityId =>
@@ -104,14 +130,22 @@ const Counslor = () => {
       const responses = await Promise.all(promises);
       const appointmentsData = await Promise.all(responses.map(response => response.json()));
       const allAppointments = appointmentsData.flat();
-      const appointmentIds = allAppointments.map(appointment => appointment.appointmentId); // Extract appointment IDs
-      console.log("////////////", appointmentIds);
-      setAppointments(allAppointments);
+      
+      const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
+  
+      console.log("Filtered Appointments:", filteredAppointments);
+  
+      // Get the unique patient IDs
+      const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
+  
+      console.log("Total number of patients:", patientIds.length);
+      setPatientCount(patientIds.length);
+  
+      setAppointments(filteredAppointments);
     } catch (error) {
       console.error('Error fetching appointments:', error);
     }
   };
-  
 
 
   useEffect(() => {
@@ -121,44 +155,86 @@ const Counslor = () => {
 
 
 
-  const fetchRatingsAndReviewNotes = async () => {
-    try {
-      const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
-      const data = await response.json();
-      console.log(data);
+//   const fetchRatingsAndReviewNotes = async () => {
+//     try {
+//       const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
+//       const data = await response.json();
+//       console.log(data);
   
-      // Filter ratings based on the appointment ID
-      const matchedRatings = data.filter(rating => rating.appointmentId === latestAppointment.id);
+//       // Filter ratings based on the appointment ID
+//       const matchedRatings = data.filter(rating => rating.appointmentId === latestAppointment.id);
   
-      const matchedRatingsWithReviews = matchedRatings.map(rating => {
-        const reviewNote = reviewNotes.find(review => review.ratingId === rating.id);
-        console.log(reviewNote);
-        return {
-          ratingValue: rating.value,
-          reviewNote: reviewNote ? reviewNote.note : "",
+//       const matchedRatingsWithReviews = matchedRatings.map(rating => {
+//         const reviewNote = reviewNotes.find(review => review.ratingId === rating.appointmentId);
+//         console.log("=========",reviewNote);
+//         // setValue(reviewNote.note)
+//         return {
+//           ratingValue: rating.value,
+//           //ratingNote:rating.note,
+//           reviewNote:rating.note
          
-        };
+//         };
         
-      });
+//       });
      
-      console.log( "matchedddd", matchedRatingsWithReviews);
+//       console.log( "matchedddd", matchedRatings);
       
-      // Calculate the average rating value
-      const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
-      const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
-      setAverageRating(averageRating);
-      console.log("Average Rating:", averageRating);
+//       // Calculate the average rating value
+//       const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+//       const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+//       setAverageRating(averageRating);
+//       console.log("Average Rating:", averageRating);
 
-      const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
-setLatestReview(latestReview);
-console.log( "latest reviewwwwwwssss", latestReview);
+//       const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+// setLatestReview(latestReview);
+// console.log( "latest reviewwwwwwssss", latestReview);
 
-      // Use the averageRating value as needed
-    } catch (error) {
-      console.error('Error fetching ratings and review notes:', error);
-    }
-  };
-  
+//       // Use the averageRating value as needed
+//     } catch (error) {
+//       console.error('Error fetching ratings and review notes:', error);
+//     }
+//   };
+const fetchRatingsAndReviewNotes = async () => {
+  try {
+    const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
+    const data = await response.json();
+    console.log(data);
+
+    // Filter ratings based on the counselor's ID
+    const counselorRatings = data.filter(rating => rating.appointmentId === latestAppointment.id);
+    console.log("=========",counselorRatings.id);
+    const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+      ratingValue: rating.value,
+      reviewNote: rating.note
+    }));
+    // const matchedRatingsWithReviews = counselorRatings.map(rating => {
+      
+    //   const reviewNote = reviewNotes.find(review => review.appointmentId === review.id);
+    //   console.log('Review Note:', reviewNote);
+    //   return {
+    //     ratingValue: rating.value,
+    //     reviewNote: rating.note
+    //   };
+    // });
+
+    console.log('Matched Ratings:', matchedRatingsWithReviews);
+
+    // Calculate the average rating value
+    const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+    const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+    setAverageRating(averageRating);
+    console.log('Average Rating:', averageRating);
+
+    const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+    setLatestReview(latestReview);
+    console.log('Latest Review:', latestReview);
+
+    // Use the averageRating value as needed
+  } catch (error) {
+    console.error('Error fetching ratings and review notes:', error);
+  }
+};
+
 
   // const fetchRatingsAndReviewNotes = async () => {
   //   try {
@@ -326,8 +402,7 @@ style={{width: "400px", height: "300px", borderRadius: "5px"}}
           }}>
             <Typography variant="h5">
               TOTAL NO. OF PATIENTS</Typography>
-
-            <h1>{appointmentCount}</h1>
+            <h1>{patientCount}</h1>
 
           </Box>
 
@@ -354,8 +429,8 @@ style={{width: "400px", height: "300px", borderRadius: "5px"}}
 <Box sx={{}}>
   {/* <Rating name="half-rating " size="large" value={averageRating} precision={0.5} style={{fontSize: "3rem"}} /> */}
   <Rating name="half-rating-read"
-  //  value = {averageRating} 
-  defaultValue= {3.5}
+   value = {averageRating} 
+  // defaultValue= {3.5}
    
    precision={0.5} readOnly style= {{fontSize: "2.5rem"}}/>
   <h3>Overall Rating</h3>
@@ -431,8 +506,9 @@ style={{width: "400px", height: "300px", borderRadius: "5px"}}
     <Rating value={latestReview.ratingValue} precision={0.5} style={{ fontSize: "2.5rem" }} name="rating" readOnly />
     <Typography style={{ fontSize: "1.5rem" }} variant="body" component="div">
       {/* {latestReview.reviewNote} */}
-     Great experience! Made a same <br />
-              day appointment 
+     {/* Great experience! Made a same <br />
+              day appointment  */}
+              {latestReview.reviewNote}
 
     </Typography>
   </>
