@@ -17,7 +17,6 @@ const AvailabilityTable = () => {
   const [availabilityData, setAvailabilityData] = useState([]);
   const [acceptedAppointments, setAcceptedAppointments] = useState([]);
 
-  const Nav = useNavigate();
 
   useEffect(() => {
     fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
@@ -50,42 +49,53 @@ const AvailabilityTable = () => {
   };
 
   const handleAccept = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return {
-          ...appointment,
-          confirmed: true,
-        };
-      }
-      return appointment;
-    });
-    setAppointments(updatedAppointments);
-
-    // Send the updated appointment to the API
-    fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        updatedAppointments.find((appointment) => appointment.id === appointmentId)
-      ),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle success response
-        console.log(`Appointment with ID ${appointmentId} has been accepted.`);
-        setAcceptedAppointments((prevAcceptedAppointments) => [
-          ...prevAcceptedAppointments,
-          appointmentId,
-        ]);
-      })
-      .catch((error) => {
-        // Handle error
-        console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
+    const enteredText = window.prompt("Enter your text:");
+    if (enteredText !== null) {
+      const updatedAppointments = appointments.map((appointment) => {
+        if (appointment.id === appointmentId) {
+          return {
+            ...appointment,
+            confirmed: true,
+            meetingURL: enteredText,
+          };
+        }
+        return appointment;
       });
+  
+      // Update the local state with the entered text
+      setAppointments(updatedAppointments);
+  
+      const updatedAppointment = updatedAppointments.find((appointment) => appointment.id === appointmentId);
+  
+      // Set the meetingURL field as a string
+      updatedAppointment.meetingURL = String(enteredText);
+  
+      // Send the updated appointment to the API
+      fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedAppointment),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle success response
+          console.log(`Appointment with ID ${appointmentId} has been accepted.`);
+          setAcceptedAppointments((prevAcceptedAppointments) => [
+            ...prevAcceptedAppointments,
+            appointmentId,
+          ]);
+        })
+        .catch((error) => {
+          // Handle error
+          console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
+        });
+  
+      console.log("Enter Meeting Url:", enteredText);
+    }
   };
-
+  
   const handleDecline = (appointmentId) => {
     // Update the appointments state by removing the declined appointment
     const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
@@ -119,20 +129,30 @@ const AvailabilityTable = () => {
   };
 
   const handleJoin = (appointmentId) => {
-    // Handle join logic here
-    Nav(`/room/${appointmentId}`);
+    const appointment = appointments.find((appointment) => appointment.id === appointmentId);
+    if (appointment) {
+      const meetingUrl = appointment.meetingURL;
+  
+      if (meetingUrl) {
+        console.log("Joining meeting:", meetingUrl);
+        window.open(meetingUrl, "_blank");
+      } else {
+        console.log("No meeting URL found for the selected appointment.");
+      }
+    }
   };
+
 
   const filteredAppointments = appointments.filter((appointment) => {
     const matchingAvailability = availabilityData.find(
-      (item) => item.id === appointment.availability_id
+      (item) => item.id === appointment.availabilityId
     );
     return matchingAvailability !== undefined;
   });
 
   const sortedAppointments = filteredAppointments.sort((a, b) => {
-    const dateA = getAvailabilityDate(a.availability_id);
-    const dateB = getAvailabilityDate(b.availability_id);
+    const dateA = getAvailabilityDate(a.availabilityId);
+    const dateB = getAvailabilityDate(b.availabilityId);
     return new Date(dateB) - new Date(dateA);
   });
 
@@ -234,7 +254,7 @@ const AvailabilityTable = () => {
                       borderRight: "1px solid #000000",
                     }}
                   >
-                    {appointment.availability_id}
+                    {appointment.availabilityId}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -243,7 +263,7 @@ const AvailabilityTable = () => {
                     }}
                   >
                     {formatDateTime(
-                      getAvailabilityDate(appointment.availability_id)
+                      getAvailabilityDate(appointment.availabilityId)
                     )}
                   </TableCell>
                   <TableCell
@@ -253,7 +273,7 @@ const AvailabilityTable = () => {
                     }}
                   >
                     {getPendingStatus(
-                      getAvailabilityDate(appointment.availability_id)
+                      getAvailabilityDate(appointment.availabilityId)
                     )}
                   </TableCell>
                   <TableCell
@@ -263,10 +283,10 @@ const AvailabilityTable = () => {
                     }}
                   >
                     {getPendingStatus(
-                      getAvailabilityDate(appointment.availability_id)
+                      getAvailabilityDate(appointment.availabilityId)
                     ) === "Future" ||
                     getPendingStatus(
-                      getAvailabilityDate(appointment.availability_id)
+                      getAvailabilityDate(appointment.availabilityId)
                     ) === "Today" ? (
                       <>
                         {appointment.confirmed ? (
@@ -322,10 +342,10 @@ const AvailabilityTable = () => {
                     }}
                   >
                     {getPendingStatus(
-                      getAvailabilityDate(appointment.availability_id)
+                      getAvailabilityDate(appointment.availabilityId)
                     ) === "Future" ||
                     getPendingStatus(
-                      getAvailabilityDate(appointment.availability_id)
+                      getAvailabilityDate(appointment.availabilityId)
                     ) === "Today" ? (
                       <Button
                         disabled={!appointment.confirmed}
