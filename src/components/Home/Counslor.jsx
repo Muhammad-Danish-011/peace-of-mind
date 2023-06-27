@@ -41,11 +41,9 @@ const Counslor = () => {
 
   const fetchAppointmentCountForAppointment = async () => {
     try {
-        const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/2`);
+        const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
       //${user.id}
         const data = await response.json();
-
-
         if (data && data.length > 0) {
           const latestAppointment = data[data.length - 1]; 
           setAppointmentCount(data.length);
@@ -63,7 +61,7 @@ const Counslor = () => {
 
   const fetchAvailabilityIds = async () => {
     try {
-      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/2`);
+      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
       if (response.ok) {
         const data = await response.json();
         if (data && data.length > 0) {
