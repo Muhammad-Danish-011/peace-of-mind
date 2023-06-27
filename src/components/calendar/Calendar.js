@@ -13,7 +13,7 @@ import UseFetchAppointment from '../../hooks/UseFetchAppointment';
 import './Calendar.css'
 
 const Calendar = ({ type }) => {
-
+  const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const { data, loading, setLoading, fetchAllAvailability } = UseFetchAvailabilities();
@@ -167,7 +167,7 @@ const Calendar = ({ type }) => {
       console.log(dateNow);
 
       const availability = {
-          counselorId : 2,
+          counselorId : obj.id,
           created : dateNow,
           updated : dateNow,
           date : selectedEvent

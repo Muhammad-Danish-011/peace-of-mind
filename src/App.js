@@ -1,56 +1,60 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Privateroute from './Avengers404/components/Privateroute'
+import Privateroute from './components/PrivateRoute/Privateroute';
 // import './App.css';
-import { AuthProvider } from './Avengers404/Pages/AuthContext';
-import SignupForm from './Avengers404/components/SignupPage';
-import Loginform from './Avengers404/Pages/LoginPage';
-import ForgetPassword from './Avengers404/Pages/ForgotPassword';
-import NewPassword from './Avengers404/Pages/NewPassword';
+import { AuthProvider } from './components/Authcontext/AuthContext';
+import SignupForm from './components/signup/SignupPage';
+import Loginform from './components/login/LoginPage';
+import ForgetPassword from './components/ForgetPassword/ForgotPassword';
+import NewPassword from './components/newpassword/NewPassword';
 
-import UserProfile from './Avengers404/Pages/UserProfile';
+import UserProfile from './components/UserProfile/UserProfile';
 import Sidebar from './global/Sidebar';
 import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 import SurveyModal from './components/patient/SurveyModal';
-import './App.css';
-import SurveyComponent from './components/patient/SurveyComponent';
-import Navbar from './global/Navbar'; 
+import Search from './components/patient/Search';
+import Meeting from './components/Room/Meeting';
 
 // import './App.css';
 import ProfileCard from './pages/profileCard/ProfileCard';
-
+import Counselor from './components/Home/Counslor';
+import CounselorCalender from './components/counselor-calender/counselorcalender';
+import AvailabilityTable from './components/table/AppointmentAvailability';
 function App() {
   return (
     <div className="App">
+   
     <BrowserRouter>
-    <Sidebar>
-      <Routes>
-          <Route path="/" element={ <Home /> } />
-      </Routes>
-    {/* <AuthProvider>
+    <AuthProvider>
     <Routes>
+    {/* <Sidebar> */}
+      {/* <Routes>
+         } />
+      </Routes> */}
     <Route path="/signup" element={<SignupForm />} />
+   
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
+    {/* </Sidebar> */}
+    <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} />
+    
+    <Route path="/forget-password" element={<ForgetPassword />} />
+    <Route path="/new-password" element={<NewPassword /> } />
+    <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
+          {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
+    
+    <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
+    <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
+    <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
+    <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
+    <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
+    
+    <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
+    <Route path='/profileCard' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
-        <Routes>
-          <Route path="/forget-password" element={<Privateroute><ForgetPassword /></Privateroute> } />
-          <Route path="/new-password" element={<Privateroute> <NewPassword /></Privateroute> } />
-          <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } />
-          <Route path="/home" element={<Privateroute> <Home /></Privateroute> } />
-          <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
-        </Routes>
-      </AuthProvider> */}
-      {/* </Sidebar>
-    </BrowserRouter> */}
-     
-    </Sidebar>
-    <Routes>
-    <Route path='/surveymodal' element={<SurveyModal/>} />  
-    <Route path='/profileCard' element={<ProfileCard/>}/>
-    </Routes>
+    </AuthProvider>
   </BrowserRouter>
     </div>
     
