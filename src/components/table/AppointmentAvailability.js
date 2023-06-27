@@ -123,8 +123,8 @@ const AvailabilityTable = () => {
 
   const handleJoin = (appointmentId) => {
     // Handle join logic here
-    const roomUrl = `/room/${appointmentId}`;
-    window.open(roomUrl, '_blank', 'width=1500,height=800');
+    // const roomUrl = `/room/${appointmentId}`;
+    // window.open(roomUrl, '_blank', 'width=1500,height=800');
   };
 
   const filteredAppointments = appointments.filter((appointment) => {

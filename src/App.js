@@ -41,7 +41,7 @@ function App() {
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
     {/* </Sidebar> */}
-    <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} />
+    {/* <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} /> */}
     
     <Route path="/forget-password" element={<ForgetPassword />} />
     <Route path="/new-password" element={<NewPassword /> } />
