@@ -39,7 +39,18 @@ const Councler = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const cards = [1,2,3,4,5,6,7];
+  // const cards = [1,2,3,4,5,6,7];
+  useEffect(() => {
+    //Runs on every render
+    fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
+    .then(data => data.json())
+    .then(data => {
+      console.log({data})
+      setCards(data); // Limit to first 6 elements
+
+    })
+    .catch(err => console.group(err))
+  },[]);
 
   return (
     <Box sx={{

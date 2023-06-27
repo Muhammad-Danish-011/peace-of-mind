@@ -5,29 +5,76 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const card = (
- <React.Fragment>
+// const card = (
+//  <React.Fragment>
 
-    <CardContent style={{backgroundColor: "rgb(	184	215	209)",
+    {/* <CardContent style={{backgroundColor: "rgb(	184	215	209)",
               width:'220px',
               justifyContent:"center",
               borderRadius:'30px',
               alignItems:"center",
               paddingLeft:"20px"
-             }}>
+             }}> */}
 
+  const [user, setUser] = useState("")
+  useEffect(() =>{
+    console.log({basicCard})
+    fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)
+    .then(data => data.json())
+    .then(data => {
+      // console.log(data)
+      setUser(data)
+      console.log({user})
 
-      <Typography variant="h5" component="div">
-       Aoun Ali 
-      </Typography>
-      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-        Social Psychology
-      </Typography>
-      <Typography variant="body2">
-        You can add any Description here
-        <br />
-       
-      </Typography>
+    })
+  },[])
+  const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
+
+  const card = (
+    <React.Fragment>
+        
+       <CardContent style={{backgroundColor: "rgb(	184	215	209)",
+                 width:'250px',
+                 justifyContent:"center",
+                 borderRadius:'30px',
+                 alignItems:"center",
+                 paddingLeft:"20px",
+                 height: '180px'
+                }}>
+   
+   
+         <Typography sx={{fontSize: '1rem', fontWeight: 'bold'}} variant="h5" component="div">
+          {`${user.firstName} ${user.lastName}` } 
+         </Typography>
+         <Typography sx={{ mb: 1.5, fontSize: '0.8rem' }} color="text.secondary">
+           {basicCard.specialization}
+         </Typography>
+         <Typography variant="body2" sx={{fontSize: '0.8rem'}}>
+         {/* {basicCard.description.slice(0,70) +  */}
+         {slicedDesc}
+          
+         
+           <br />
+          
+         </Typography>
+   
+   
+         <Button
+         variant='outlined'
+         sx= {{color: 'black',
+               borderRadius:'15px', 
+               display:'flex',
+               marginLeft:'55px',
+               marginTop:'10px',
+               fontSize:'12px',
+               padding:'10px',
+               bgcolor: 'white'}}
+         size="small" 
+         onClick={()=>handleClick(basicCard.userId)}>Book Now</Button>
+   
+       </CardContent>
+     </React.Fragment>
+   );
 
 
       <Button
@@ -42,15 +89,21 @@ const card = (
             bgcolor: 'white'}}
       size="small" >Book Now</Button>
 
-    </CardContent>
-  </React.Fragment>
-);
+    // </CardContent>
+  // </React.Fragment>
+// );
 
 export default function OutlinedCard(props) {
   
   // useEffect(() =>{
   //   console.log({card: props.cards})
   // },[])
+  const navigate = useNavigate();
+
+  function handleClick(userId) {
+    navigate(`/profileCard/${userId}`);
+  }
+
 
   return (
     

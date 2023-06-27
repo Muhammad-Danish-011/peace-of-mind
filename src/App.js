@@ -12,15 +12,36 @@ import SurveyComponent from './components/SurveyComponent';
 function App() {
   return (
     <div className="App">
-     <BrowserRouter>
-    <Sidebar>
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/councler' element={<Councler />} />
-        <Route path='/calendar' element={<Calendar />} />
-        <Route path='/counclerprofile' element={<CounclerProfile/>} />
-      </Routes>
-    </Sidebar>
+   
+    <BrowserRouter>
+    <AuthProvider>
+    <Routes>
+    {/* <Sidebar> */}
+      {/* <Routes>
+         } />
+      </Routes> */}
+    <Route path="/signup" element={<SignupForm />} />
+   
+    <Route path="/login" element={<Loginform />} />
+    <Route index element={<Loginform />} />
+    {/* </Sidebar> */}
+    <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} />
+    
+    <Route path="/forget-password" element={<ForgetPassword />} />
+    <Route path="/new-password" element={<NewPassword /> } />
+    <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
+          {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
+    
+    <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
+    <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
+    <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
+    <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
+    <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
+    
+    <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
+    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    </Routes>
+    </AuthProvider>
   </BrowserRouter>
 
   {/* <SurveyComponent></SurveyComponent> */}
