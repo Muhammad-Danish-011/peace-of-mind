@@ -1,20 +1,16 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Route } from 'react-router-dom';
 
-// const card = (
-//  <React.Fragment>
+import { useNavigate } from 'react-router-dom';
+import Councler from '../../pages/councler/Councler';
 
-    {/* <CardContent style={{backgroundColor: "rgb(	184	215	209)",
-              width:'220px',
-              justifyContent:"center",
-              borderRadius:'30px',
-              alignItems:"center",
-              paddingLeft:"20px"
-             }}> */}
+export default function OutlinedCard({basicCard}) {
 
   const [user, setUser] = useState("")
   useEffect(() =>{
@@ -76,28 +72,8 @@ import Typography from '@mui/material/Typography';
      </React.Fragment>
    );
 
-
-      <Button
-      variant='outlined'
-      sx= {{color: 'black',
-            borderRadius:'15px', 
-            display:'flex',
-            marginLeft:'40px',
-            marginTop:'10px',
-            fontSize:'12px',
-            padding:'10px',
-            bgcolor: 'white'}}
-      size="small" >Book Now</Button>
-
-    // </CardContent>
-  // </React.Fragment>
-// );
-
-export default function OutlinedCard(props) {
+// export default function OutlinedCard(props) {
   
-  // useEffect(() =>{
-  //   console.log({card: props.cards})
-  // },[])
   const navigate = useNavigate();
 
   function handleClick(userId) {
@@ -117,10 +93,7 @@ export default function OutlinedCard(props) {
     }}
     
     >
-      <Card style={{"borderRadius":'30px'}}>{card}</Card>
+      <Card style={{"borderRadius":'30px'}}>{!user ? "Loading" : card}</Card>
     </Box>
   );
 }
-
-
-

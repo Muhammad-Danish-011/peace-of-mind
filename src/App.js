@@ -1,14 +1,30 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Privateroute from './components/PrivateRoute/Privateroute';
+import './App.css';
+import { AuthProvider } from './components/Authcontext/AuthContext';
+import SignupForm from './components/signup/SignupPage';
+import Loginform from './components/login/LoginPage';
+import ForgetPassword from './components/ForgetPassword/ForgotPassword';
+import NewPassword from './components/newpassword/NewPassword';
+
+import UserProfile from './components/UserProfile/UserProfile';
 import Sidebar from './global/Sidebar';
 import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
-
 import './App.css';
-import Navbar from './global/Navbar';
-import SurveyComponent from './components/SurveyComponent';
+import Navbar from './global/Navbar'; 
+// import SurveyComponent from './components/SurveyComponent';
+// import SurveyModal from './components/SurveyModal';
+import Search from './components/patient/Search';
+import Meeting from './components/Room/Meeting';
 
+// import './App.css';
+// import ProfileCard from './pages/profileCard/ProfileCard';
+// import Counselor from './components/Home/Counslor';
+// import CounselorCalender from './components/counselor-calender/counselorcalender';
+// import AvailabilityTable from './components/table/AppointmentAvailability';
 function App() {
   return (
     <div className="App">
