@@ -1,171 +1,83 @@
-import React from 'react';
 import { styled } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
-const Root = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  padding: '1rem',
-  backgroundColor: '#d7eded',
-  borderRadius: '0.5rem',
-  width: '87%',
-  marginLeft:'7.5rem',
-  marginTop: '35px !important',
+const Root = styled('div')(({ theme }) => ({
+  margin: 'auto',
+  maxWidth: '600px',
+  padding: theme.spacing(3),
+}));
 
-  // add media query for smaller screens
-  '@media (max-width: 768px)': {
-    width: '90%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: '0.5rem',
-  }
-});
+const ProfilePicture = styled(Avatar)(({ theme }) => ({
+  width: '120px',
+  height: '120px',
+  margin: '0 auto',
+  marginBottom: theme.spacing(2),
+}));
 
-const NameContainer = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  marginBottom: '0.5rem',
-});
-
-const Name = styled(Typography)({
-  fontWeight: 'bold',
-  fontSize: '1.2rem',
-  marginLeft: '2rem',
-});
-
-const InfoContainer = styled('div')({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  width: '50%',
-  marginTop: '1rem',
-  gap: '1rem', 
-
-  // add media query for smaller screens
-  '@media (max-width: 768px)': {
-    width: '80%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '2rem'
-  }
-});
-
-const InfoItem = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-
-});
-
-const InfoLabel = styled(Typography)({
-  fontSize: '0.8rem',
-  color: '#666',
-});
-
-const InfoValue = styled(Typography)({
-  fontWeight: 'bold',
-  fontSize: '1.2rem',
-  color:'#008080'
-});
-
-const ServicesContainer = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  marginTop: '2rem',
-});
-
-const ServicesTitle = styled(Typography)({
-  fontSize: '1.2rem',
-  fontWeight: 'bold',
-  marginRight:'15rem',
-
-  // add media query for smaller screens
-  '@media (max-width: 768px)': {
-    marginRight: 0,
-    marginBottom: '1rem',
-    textAlign: 'center',
-  }
-});
-
-const ServicesList = styled('ul')({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '1rem',
-  color:'#008080',
-
-  // add media query for smaller screens
-  '@media (max-width: 768px)': {
-    gridTemplateColumns: 'repeat(2, 1fr)'
-  }
-});
-
-const ServicesItem = styled(Typography)({
-  fontSize: '0.9rem',
-  fontWeight: 'bold',
-});
-
-const Description = styled(Typography)({
-  marginTop: '2rem',
+const Title = styled(Typography)({
   textAlign: 'center',
-  width:'50%',
-
-  // add media query for smaller screens
-  '@media (max-width: 768px)': {
-    width: '100%',
-    fontSize: '0.9rem',
-  }
+  fontWeight: 'bold',
 });
 
-const ProfileCard = ({handleSurvey}) => {
+const Subtitle = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  marginTop: theme.spacing(1),
+}));
+
+const ProfileCard = () => {
+  const { userId } = useParams();
+  const [user, setUser] = useState(null);
+  const [counselor, setCounselor] = useState(null);
+
+  // Fetch user and counselor data
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_KEY}/user/get/${userId}`)
+      .then(response => response.json())
+      .then(user => setUser(user));
+
+    fetch('http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get')
+      .then(response => response.json())
+      .then(data => {
+        // Find the counselor with matching userId
+        const matchingCounselor = data.find(counselor => counselor.userId === parseInt(userId));
+        setCounselor(matchingCounselor);
+      });
+  }, [userId]);
+
+  // Render loading message while data is being fetched
+  if (!user || !counselor) {
+    return <p>Loading...</p>;
+  }
+
+  // Render user and counselor data in a Material UI Grid layout
   return (
     <Root>
-      <NameContainer>
-        <AccountCircleRoundedIcon style={{ fontSize: '98px' }} sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
-        <Name variant="h5">Asad Ahmad Rao - Psychologist</Name>
-      </NameContainer>
-      <InfoContainer>
-        <InfoItem>
-          <InfoLabel>11 Year</InfoLabel>
-          <InfoValue>Experience</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>99%</InfoLabel>
-          <InfoValue>rating</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>gmail</InfoLabel>
-          <InfoValue>asad@gmail.com</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>phoneNumber</InfoLabel>
-          <InfoValue>03093893928</InfoValue>
-        </InfoItem>
-      </InfoContainer>
-      <ServicesContainer>
-        <ServicesTitle>Specialization</ServicesTitle>
-        <ServicesList>
-          <ServicesItem>Phycology</ServicesItem>
-          <ServicesItem>Acupunctrurist</ServicesItem>
-          <ServicesItem>Herbalist</ServicesItem>
-</ServicesList>
-<ServicesTitle>Services</ServicesTitle>
-<ServicesList>
-<ServicesItem>Phobias</ServicesItem>
-<ServicesItem>Depression</ServicesItem>
-<ServicesItem>Social Phobia</ServicesItem>
-<ServicesItem>Mood disorders</ServicesItem>
-<ServicesItem>Panic Attacks</ServicesItem>
-<ServicesItem>Family Problems</ServicesItem>
-</ServicesList>
-</ServicesContainer>
-<Description>
-Asad Ahmad Rao is a consultant Psychologist. He is having over 11 year(s) of experience in the field of Psychologist and practices at Iffat Anwar Medical Complex Hospital. Field of interest includes Stress Management,Mood disorders,Emotional Outbursts,Anxiety Disorder,Depression,Family Problems,Social Phobia, Social Anxiety Disorder, Individual Psychotherapy,Phobias, Personality/ IQ Assessment, Panic Attacks,Early Parenting Issues.
-</Description>
-</Root>
-);
+      <ProfilePicture src={user.profilePictureUrl} alt="Profile Picture">
+        <AccountCircleRoundedIcon fontSize="large" />
+      </ProfilePicture>
+      <Title variant="h4">{`${user.firstName} ${user.lastName}`}</Title>
+      <Subtitle variant="subtitle1">{counselor.specialization}</Subtitle>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6}>
+          <Title variant="body1">Phone Number</Title>
+          <Subtitle variant="subtitle1">{user.phoneNumber}</Subtitle>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Title variant="body1">Email</Title>
+          <Subtitle variant="subtitle1">{user.email}</Subtitle>
+        </Grid>
+        <Grid item xs={12}>
+          <Title variant="body1">Description</Title>
+          <Subtitle variant="subtitle1">{counselor.description}</Subtitle>
+        </Grid>
+      </Grid>
+    </Root>
+  );
 };
 
 export default ProfileCard;
