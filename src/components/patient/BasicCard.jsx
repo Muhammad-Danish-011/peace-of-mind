@@ -21,6 +21,7 @@ export default function OutlinedCard({basicCard}) {
       // console.log(data)
       setUser(data)
       console.log({user})
+
     })
   },[])
   const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
@@ -65,7 +66,7 @@ export default function OutlinedCard({basicCard}) {
                padding:'10px',
                bgcolor: 'white'}}
          size="small" 
-         onClick={handleClick}>Book Now</Button>
+         onClick={()=>handleClick(basicCard.userId)}>Book Now</Button>
    
        </CardContent>
      </React.Fragment>
@@ -75,8 +76,8 @@ export default function OutlinedCard({basicCard}) {
   
   const navigate = useNavigate();
 
-  function handleClick() {
-    navigate('/profileCard');
+  function handleClick(userId) {
+    navigate(`/profileCard/${userId}`);
   }
 
 

@@ -18,7 +18,6 @@ const styles = {
     // backgroundColor: '#f5f5f5', 
     margin: '0 auto' ,
 
-
   },
   cardContainer: {
     display: 'grid',
@@ -26,7 +25,7 @@ const styles = {
     rowGap: '15px', 
     columnGap: '0px', 
     justifyContent: 'center', 
-    marginTop: '60px !important',
+    marginTop: '40px !important',
 
     // Add media query for smaller screens
     '@media (max-width: 1000px)': {// import Card from '../../components/patient/Card';
@@ -67,7 +66,7 @@ const Home = () => {
     navigate('/search');
   };
   return (<>
-    {!cards ? "Loading" :<Box sx={{
+    {<Box sx={{
       ...styles.container,
       marginLeft: isSmallScreen ? 10 : theme.spacing(5)
     }}>

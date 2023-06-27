@@ -55,7 +55,7 @@ function App() {
     <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
     
     <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
-    <Route path='/profileCard' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
     </AuthProvider>
   </BrowserRouter>
