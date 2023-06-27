@@ -14,6 +14,7 @@ import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 import SurveyModal from './components/patient/SurveyModal';
+import SurveyComponent from './components/patient/SurveyComponent';
 import Search from './components/patient/Search';
 import Meeting from './components/Room/Meeting';
 
@@ -51,7 +52,8 @@ function App() {
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
     <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
     
-    <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
+    <Route path='/survey' element={<Privateroute><SurveyModal/></Privateroute>} />
+    <Route path='/surveyform' element={<Privateroute><SurveyComponent/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
     </AuthProvider>

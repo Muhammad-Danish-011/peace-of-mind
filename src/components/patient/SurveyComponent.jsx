@@ -168,7 +168,10 @@ function SurveyComponent() {
         
         const pdfData = doc.output('arraybuffer');
         const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
-        const objectKey = 'final-data';
+
+        const timestamp = Date.now();
+        console.log(timestamp); // This would be the timestamp you want to format
+        const objectKey = `survey-form-${timestamp}`;
         const file = new File([pdfData], objectKey, { type: 'application/pdf' });
         const config = {
         bucketName: S3_BUCKET,
