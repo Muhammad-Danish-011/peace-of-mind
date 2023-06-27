@@ -48,7 +48,7 @@ const Councler = () => {
     .then(data => data.json())
     .then(data => {
       console.log({data})
-      setCards(data.slice(0, 6)); // Limit to first 6 elements
+      setCards(data); // Limit to first 6 elements
 
     })
     .catch(err => console.group(err))
