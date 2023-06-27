@@ -11,9 +11,9 @@ const Calendar = () => {
     <div>
   {/* <SurveyModal/> */}
   
-  <Router>
+  
   <Appointments/>
-  </Router>
+  
  
     </div>
   )
