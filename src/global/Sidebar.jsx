@@ -91,7 +91,7 @@ export default function PersistentDrawerLeft() {
   return (
     <Box sx={{ position: 'relative' }}>
       <Navbar handleSidebarToggle={handleSidebarToggle} />
-      {role == "PATIENT" ? <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
+      {role === "PATIENT" ? <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('home')}>
           <HomeIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
@@ -132,9 +132,9 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'survey' && <SurveyModal />}
       {selectedComponent === 'surveyform' && <SurveyComponent />}
       {selectedComponent === 'search' && <Search />}
-
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
+
       {selectedComponent === 'counselor' && <Counselor />}
       {selectedComponent === 'Calendar' && <CounselorCalender />}
       {selectedComponent === 'user-profile' && <UserProfile />}
