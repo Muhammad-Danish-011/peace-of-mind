@@ -109,7 +109,7 @@ describe('check calendar is rendering',()=>{
       render(<Calendar />);
 
       
-      waitFor(() => {
+      await waitFor(() => {
         expect( screen.getByTestId('calendar-id')).toBeInTheDocument();
       })
 

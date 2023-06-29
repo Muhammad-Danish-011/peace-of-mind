@@ -13,7 +13,7 @@
 //   console.log(obj);
 //   const [value, setRatings] = useState("");
 //   const [note, setReviewNotes] = useState("");
-  
+
 //   useEffect(() => {
 //     fetchRatingsAndReviewNotes();
 //     fetchAppointmentCount();
@@ -122,7 +122,7 @@
 //                         </div>
 //                     ))} */}
 //            </Box>
-  
+
 //             {/* )} */}
 
 // <Box sx={{
@@ -141,12 +141,12 @@
 
 
 //   }
- 
+
 
 // }}>
 
 // <Box sx={{
- 
+
 //   borderRadius: "10px",
 //   backgroundColor: "#00b3b3",
 //   height: "100%",
@@ -155,9 +155,9 @@
 //   '@media (max-width: 950px)': {
 //    marginBottom: "1rem",
 //    alignItems: "center",
-   
- 
- 
+
+
+
 //    }
 // }}>
 // <Typography variant= "h5">
@@ -188,7 +188,7 @@
 // </Box>
 
 // <Box sx={{
-  
+
 //   display: "flex",
 //   flexDirection: "row",
 // alignItems: "center",
@@ -206,7 +206,7 @@
 // }}>
 
 // <Box sx={{
-  
+
 // }}>
 // <Rating name="half-rating " size= "large"  defaultValue={2.5} precision={0.5}  style= {{fontSize: "3rem"}}/>
 // <h3>Overall Rating</h3>
@@ -214,24 +214,24 @@
 // <Box>
 //        <Typography
 //           style={{
-           
+
 //             fontWeight: "bolder",
 //             paddingLeft: "2rem",
 //           }}
 //           variant="h5"
 //           component="div"
 //         >
-          
-          
+
+
 //         </Typography>
 //         <AccountCircleTwoToneIcon
 //           style={{
 //             fontSize: "4rem",
-            
-          
+
+
 //           }}
 //           sx={{ color: "#008080", 
-          
+
 //            }}
 //         />
 //         <Rating    value= {value}
@@ -244,10 +244,10 @@
 //           name="rating"
 //           // value={value}
 //           // onChange={handleRatingChange}
-          
-          
+
+
 //         />
-                
+
 
 //         <Typography
 //           style={{ fontSize: "1.5rem" }}
@@ -257,13 +257,13 @@
 //           {note}
 //         </Typography>
 //       </Box>
- 
+
 
 //     </Box>
 
 
 //    </Box>
-   
+
 //    </>
 //   )
 // }
@@ -334,7 +334,7 @@
 //       sx={{
 //         ...styles.cardContainer,
 //         marginLeft: isSmallScreen ? 10 : theme.spacing(11),
-        
+
 //       }}
 //       style={{
 //         marginTop: "0.5rem",
@@ -435,228 +435,292 @@
 
 
 
-import React, {useState,useEffect} from 'react';
- import { Box, Typography, Rating } from "@mui/material";
- import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Box, Typography, Rating, CircularProgress } from "@mui/material";
+import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import UseFetchAvailabilities from '../../hooks/UseFetchAvailabilities';
+import StarIcon from '@mui/icons-material/Star';
 
 
 
 const Counslor = () => {
-  const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
 
-  console.log(obj);
+  const [appointmentCount, setAppointmentCount] = useState(0);
+  // console.log('---obj-----',obj.id)
+  const { data, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj.id}`);
+ 
   const [ratings, setRatings] = useState([]);
-const [reviewNotes, setReviewNotes] = useState([]);
-useEffect(() => {
-  fetchRatingsAndReviewNotes();
-}, []);
+  const [ratingLoading, setRatingLoding] = useState(null);
+  const [overallRating, setOverAllRating] = useState(0);
 
-const fetchRatingsAndReviewNotes = async () => {
-  try {
-    const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
-    const data = await response.json();
-    console.log(data.value);
-    setRatings(data.value);
 
-    const reviewNotesResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
-    const reviewNotesData = await reviewNotesResponse.json();
-    setReviewNotes(reviewNotesData.note);
-    console.log(reviewNotesData.note);
-  } catch (error) {
-    console.error('Error fetching ratings and review notes:', error);
-  }
-};
-
+  
   useEffect(() => {
-    fetchAppointmentCount();
+    fetchAllAvailability();
   }, []);
+  
+  useEffect(() => {
+    if (data.length > 0) {
+      console.log('---data----',data)
+      setRatingLoding(true);
+  
+      const fetchRatings = async () => {
+        const tempRatings = [];
+        let averageRating = 0;
+  
+        for (const item of data) {
+          try {
+            const availabilityResponse = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${item.id}`);
+            const availabilityData = await availabilityResponse.json();
+            console.log('---availabilityData----',availabilityData)
+  
+            for (const availabilityItem of availabilityData) {
+              const ratingResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${availabilityItem.id}`);
+              const ratingData = await ratingResponse.json();
 
-  const fetchAppointmentCount = async () => {
-    try {
-      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
-      const data = await response.json();
-      setAppointmentCount(data.length);
-    } catch (error) {
-      console.error('Error fetching appointment count:', error);
+              tempRatings.push(...ratingData);
+              averageRating += ratingData[0].value;
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+        console.log(tempRatings);
+        console.log(averageRating);
+        
+        setOverAllRating(averageRating / tempRatings.length);
+        setRatings(tempRatings);
+        setRatingLoding(false);
+      };
+  
+      fetchRatings();
     }
-  };
+  }, [data]);
+
+  //here we fetch the ratings and review
+  // const fetchRatingsAndReviewNotes = async () => {
+  //   try {
+  //     const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+  //     const data = await response.json();
+  //     console.log(data.value);
+  //     setRatings(data.value);
+
+  //     const reviewNotesResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+  //     const reviewNotesData = await reviewNotesResponse.json();
+  //     setReviewNotes(reviewNotesData.note);
+  //     console.log(reviewNotesData.note);
+  //   } catch (error) {
+  //     console.error('Error fetching ratings and review notes:', error);
+  //   }
+  // };
+
+
+  // const fetchAppointmentCount = async () => {
+  //   try {
+  //     const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
+  //     const data = await response.json();
+  //     setAppointmentCount(data.length);
+  //   } catch (error) {
+  //     console.error('Error fetching appointment count:', error);
+  //   }
+  // };
   return (
-   <>
-   <Box sx={{
-      border: "2px solid green",
-      borderRadius: "10px",
-      fontFamily: "Quicksand, sans-serif",
-      backgroundColor: "white",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      margin: "2rem 1rem 1rem 8rem",
-   }}>
+    <>
+      <Box sx={{
+        border: "2px solid green",
+        borderRadius: "10px",
+        fontFamily: "Quicksand, sans-serif",
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        margin: "2rem 1rem 1rem 8rem",
+      }}>
 
 
-<Box sx={{
-  border: "1px solid green",
-alignSelf: "center",
-borderRadius: "10px",
-width: "60%",
-height: "10%",
-margin: "8% 0% 2% 0%",
-backgroundColor: "#00b3b3",
-justifyContent: "center",
-display: "flex",
-flexDirection: "column"
+        <Box sx={{
+          border: "1px solid green",
+          alignSelf: "center",
+          borderRadius: "10px",
+          width: "60%",
+          height: "10%",
+          margin: "8% 0% 2% 0%",
+          backgroundColor: "#00b3b3",
+          justifyContent: "center",
+          display: "flex",
+          flexDirection: "column"
 
 
-}}>
+        }}>
 
-<h3>Today's Appointments</h3>
+          <h3>Today's Appointments</h3>
 
-<p>Date & Time: 22-May-2023 Friday 6:00 PM</p>
+          <p>Date & Time: 22-May-2023 Friday 6:00 PM</p>
 
- <p>Today's Meeting Link: <a href="www.zoom.com">www.zoom.com</a></p>
-</Box>
+          <p>Today's Meeting Link: <a href="www.zoom.com">www.zoom.com</a></p>
+        </Box>
 
-<Box sx={{
-  display: "flex",
-  flexDirection: "row",
-  width: "80%",
-  justifyContent: "space-between",
-  alignItems: "center",
-  margin: "0% 3% 2% 6%",
+        <Box sx={{
+          display: "flex",
+          flexDirection: "row",
+          width: "80%",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0% 3% 2% 6%",
 
-  '@media (max-width: 950px)': {
-   display: "flex",
-flexDirection: "column",
-alignContent: "space-around"
-
-
-
-  }
- 
-
-}}>
-
-<Box sx={{
- 
-  borderRadius: "10px",
-  backgroundColor: "#00b3b3",
-  height: "100%",
-  padding: "3%",
-
-  '@media (max-width: 950px)': {
-   marginBottom: "1rem",
-   alignItems: "center",
-   
- 
- 
-   }
-}}>
-<Typography variant= "h5">
-  WEEKLY APPOINTMENTS
-</Typography> 
-<br />
-
-
-<p>You may add statistics graph if you want</p>
-
-</Box>
+          '@media (max-width: 950px)': {
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "space-around"
 
 
 
-<Box sx={{
-  border: "10px",
-  backgroundColor: "#00b3b3",
-  borderRadius: "10px",
-  padding: "3%"
-}}>
-<Typography variant= "h5">
-TOTAL NO. OF PATIENTS</Typography>
+          }
 
-<h1>{appointmentCount}</h1>
 
-</Box>
+        }}>
 
-</Box>
+          <Box sx={{
 
-<Box sx={{
-  
-  display: "flex",
-  flexDirection: "row",
-alignItems: "center",
-justifyContent: "space-around",
-margin: "0% 0% 2% 4%",
+            borderRadius: "10px",
+            backgroundColor: "#00b3b3",
+            height: "100%",
+            padding: "3%",
 
-'@media (max-width: 950px)': {
-  display: "flex",
-flexDirection: "column",
-alignContent: "space-around"
+            '@media (max-width: 950px)': {
+              marginBottom: "1rem",
+              alignItems: "center",
 
 
 
- }
-}}>
+            }
+          }}>
+            <Typography variant="h5">
+              WEEKLY APPOINTMENTS
+            </Typography>
+            <br />
 
-<Box sx={{
-  
-}}>
-<Rating name="half-rating " size= "large"  defaultValue={2.5} precision={0.5}  style= {{fontSize: "3rem"}}/>
-<h3>Overall Rating</h3>
-</Box>
-<Box>
-       <Typography
-          style={{
-           
-            fontWeight: "bolder",
-            paddingLeft: "2rem",
-          }}
-          variant="h5"
-          component="div"
-        >
+
+            <p>You may add statistics graph if you want</p>
+
+          </Box>
+
+
+
+          <Box sx={{
+            border: "10px",
+            backgroundColor: "#00b3b3",
+            borderRadius: "10px",
+            padding: "3%"
+          }}>
+            <Typography variant="h5">
+              TOTAL NO. OF PATIENTS</Typography>
+
+            <h1>{appointmentCount}</h1>
+
+          </Box>
+
+        </Box>
+
+        <Box sx={{
+
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-around",
+          margin: "0% 0% 2% 4%",
+
+          '@media (max-width: 950px)': {
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "space-around"
+
+
+
+          }
+        }}>
+
+        {
+            ratingLoading ? <CircularProgress /> :
+              <Box sx={{
+
+              }}>
+                <Rating
+                  name="hover-feedback"
+                  value={overallRating}
+                  precision={0.5}
+                  readOnly
+                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                />
+                <h3>Overall Rating</h3>
+            </Box>
+        }
+          {
+            ratingLoading ? <CircularProgress /> :
+              
+              ratings.map((item) => {
+                return(
+                  <Box key={item.id}>
+                    <Typography
+                      style={{
+
+                        fontWeight: "bolder",
+                        paddingLeft: "2rem",
+                      }}
+                      variant="h5"
+                      component="div"
+                    >
+
+
+                    </Typography>
+                    <AccountCircleTwoToneIcon
+                      style={{
+                        fontSize: "4rem",
+
+
+                      }}
+                      sx={{
+                        color: "#008080",
+
+                      }}
+                    />
+                    <Rating defaultValue={item.value}
+                      precision={0.5}
+                      readOnly
+                      style={{
+
+                        fontSize: "2.5rem",
+                      }}
+
+                      name="rating"
+                    // value={rating}
+                    // onChange={handleRatingChange}
+
+
+                    />
+                    <Typography
+                      style={{ fontSize: "1.5rem" }}
+                      variant="body"
+                      component="div"
+                    >
+                      {item.note}
+                    </Typography>
+                  </Box>
+                )
+              })
+
+          }
           
-          
-        </Typography>
-        <AccountCircleTwoToneIcon
-          style={{
-            fontSize: "4rem",
-            
-          
-          }}
-          sx={{ color: "#008080", 
-          
-           }}
-        />
-        <Rating    defaultValue= {2.5}
-  precision= {0.5}
-        style ={{
 
-   fontSize : "2.5rem",
-        }}
+        </Box>
 
-          name="rating"
-          // value={rating}
-          // onChange={handleRatingChange}
-          
-          
-        />
-        <Typography
-          style={{ fontSize: "1.5rem" }}
-          variant="body"
-          component="div"
-        >
-          Great experience! Made a same <br />
-          day appointment
-        </Typography>
+
       </Box>
- 
 
-    </Box>
-
-
-   </Box>
-   
-   </>
+    </>
   )
 }
 

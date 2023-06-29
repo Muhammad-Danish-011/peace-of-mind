@@ -152,7 +152,7 @@ const CounselorCalender = () => {
       width:'30rem',
       height:'auto'
     },}}>
-        <Calender />
+        <Calender type={'private'} />
       </Box>
     </Box>
   );

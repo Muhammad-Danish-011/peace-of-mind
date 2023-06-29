@@ -16,8 +16,8 @@ const Calendar = ({ type }) => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const { data, loading, setLoading, fetchAllAvailability } = UseFetchAvailabilities();
-  const { appointmentData, fetchAllAppointment } = UseFetchAppointment();
+  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj.id}`);
+  const { appointmentData, fetchAllAppointment } = UseFetchAppointment('/getall');
   const [event, setEvent] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [select, setSelect] = useState(null);
@@ -30,14 +30,15 @@ const Calendar = ({ type }) => {
   },[])
 
   useEffect(() => {
-    if (data && appointmentData) {
+    if (data.length > 0 && appointmentData.length > 0) {
+
       const formattedEvents = data.map(availabilities => {
         
         const startDate = new Date(availabilities.date);
         const endDate = new Date(startDate.getTime() + 30 * 60 * 1000);
 
-        console.log(startDate)
-        console.log(endDate)
+        // console.log(startDate)
+        // console.log(endDate)
 
         const isPast = new Date(startDate) < new Date();
         const isBooked = appointmentData.some(item => item.availabilityId === availabilities.id);
@@ -60,9 +61,12 @@ const Calendar = ({ type }) => {
             color: isBooked ? '#dc3545' : '#007bff',
           };
         }
-      });    
+      });  
       setEvent(formattedEvents);
     }
+    if(noAvailability){
+       setEvent([{}]);
+     }
   }, [data, appointmentData]);
 
   const handleClickOpen = () => {
