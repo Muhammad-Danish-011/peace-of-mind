@@ -9,18 +9,34 @@ import {
   Paper,
   Button,
   Box,
+  Modal,
+  Typography,
+  Input,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 
 const AvailabilityTable = () => {
   const [appointments, setAppointments] = useState([]);
   const [availabilityData, setAvailabilityData] = useState([]);
-  const [acceptedAppointments, setAcceptedAppointments] = useState([]);
-  const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
+  const [acceptedAppointments, setAcceptedAppointments] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [meetifyURL, setMeetifyURL] = useState("");
 
-  console.log(obj);
-
-  const Nav = useNavigate();
 
   useEffect(() => {
     fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
@@ -28,7 +44,7 @@ const AvailabilityTable = () => {
       .then((data) => setAppointments(data))
       .catch((error) => console.log(error));
 
-    fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
+    fetch("http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/all")
       .then((response) => response.json())
       .then((data) => setAvailabilityData(data))
       .catch((error) => console.log(error));
@@ -52,49 +68,55 @@ const AvailabilityTable = () => {
     }
   };
 
-  const handleAccept = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return {
-          ...appointment,
-          confirmed: true,
-        };
-      }
-      return appointment;
-    });
-    setAppointments(updatedAppointments);
+  const handleAccept = () => {
+    console.log("Accepting appointment", acceptedAppointments );
 
-    // Send the updated appointment to the API
-    fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        updatedAppointments.find((appointment) => appointment.id === appointmentId)
-      ),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle success response
-        console.log(`Appointment with ID ${appointmentId} has been accepted.`);
-        setAcceptedAppointments((prevAcceptedAppointments) => [
-          ...prevAcceptedAppointments,
-          appointmentId,
-        ]);
+    let obj = {
+      ...acceptedAppointments,
+      meetingURL: meetifyURL,
+      confirmed: true,
+    }
+
+    console.log("obj", obj);
+
+    try{
+
+      fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(obj),
       })
-      .catch((error) => {
-        // Handle error
-        console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
-      });
-  };
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle success response
+          console.log(`Appointment with ID ${data} has been accepted.`);
 
+          const updatedAppointments = appointments.map((appointment) => {
+            if (appointment.id === obj.id) {
+              return {
+                ...appointment,
+                confirmed: true,
+                meetingURL: meetifyURL,
+              };
+            }
+            return appointment;
+          });
+      
+          // Update the local state with the entered text
+          setAppointments(updatedAppointments);
+          setOpen(false);
+
+
+        })
+    }catch(error){
+      console.log(error);
+    }
+  };
+  
   const handleDecline = (appointmentId) => {
-    // Update the appointments state by removing the declined appointment
     const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
     setAppointments(updatedAppointments);
 
-    // Send a request to delete the appointment
     fetch(
       `http://appointment.us-west-2.elasticbeanstalk.com/appointments/delete/${appointmentId}`,
       {
@@ -122,10 +144,19 @@ const AvailabilityTable = () => {
   };
 
   const handleJoin = (appointmentId) => {
-    // Handle join logic here
-    // const roomUrl = `/room/${appointmentId}`;
-    // window.open(roomUrl, '_blank', 'width=1500,height=800');
+    const appointment = appointments.find((appointment) => appointment.id === appointmentId);
+    console.log("appointment", appointment);
+    if (appointment) {
+      const meetingUrl = appointment.meetingURL;
+
+      if (meetingUrl) {
+        console.log("Joining meeting:", meetingUrl);
+      } else {
+        console.log("No meeting URL found for the selected appointment.");
+      }
+    }
   };
+
 
   const filteredAppointments = appointments.filter((appointment) => {
     const matchingAvailability = availabilityData.find(
@@ -150,12 +181,26 @@ const AvailabilityTable = () => {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
-      // timeZone: "UTC",
+      timeZone: "UTC",
     };
     return dateTime.toLocaleString("en-US", options);
   };
 
+  const handleClose = () => {
+    setOpen(false)
+    setAcceptedAppointments(null)
+  };
+
+  const handleOpen = (appointment) => {
+    setOpen(true);
+    
+    setAcceptedAppointments(appointment)
+    console.log(appointment)
+  }
+
+
   return (
+    <>
     <Box sx={{ overflowX: "auto" }}>
       <TableContainer
         component={Paper}
@@ -289,7 +334,7 @@ const AvailabilityTable = () => {
                         ) : (
                           <>
                             <Button
-                              onClick={() => handleAccept(appointment.id)}
+                              onClick={() => handleOpen(appointment)}
                               variant="outlined"
                               color="success"
                               sx={{ marginRight: "8px" }}
@@ -349,6 +394,26 @@ const AvailabilityTable = () => {
         </Box>
       </TableContainer>
     </Box>
+
+    {/* modal for confirm appointment */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Enter your meerting Url
+          </Typography>
+          <Input sx={{
+            mt: 2,
+          }} onChange={(e)=> setMeetifyURL(e.target.value)}  placeholder="Type in here…" />
+
+          <Button onClick={()=> handleAccept()}  >Confirm</Button>
+        </Box>
+      </Modal>
+    </>
   );
 };
 
