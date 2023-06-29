@@ -9,13 +9,33 @@ import {
   Paper,
   Button,
   Box,
+  Modal,
+  Typography,
+  Input,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 
 const AvailabilityTable = () => {
   const [appointments, setAppointments] = useState([]);
   const [availabilityData, setAvailabilityData] = useState([]);
-  const [acceptedAppointments, setAcceptedAppointments] = useState([]);
+  const [acceptedAppointments, setAcceptedAppointments] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [meetifyURL, setMeetifyURL] = useState("");
 
 
   useEffect(() => {
@@ -48,52 +68,95 @@ const AvailabilityTable = () => {
     }
   };
 
-  const handleAccept = (appointmentId) => {
-    const enteredText = window.prompt("Enter your text:");
-    if (enteredText !== null) {
-      const updatedAppointments = appointments.map((appointment) => {
-        if (appointment.id === appointmentId) {
-          return {
-            ...appointment,
-            confirmed: true,
-            meetingURL: enteredText,
-          };
-        }
-        return appointment;
-      });
-  
-      // Update the local state with the entered text
-      setAppointments(updatedAppointments);
-  
-      const updatedAppointment = updatedAppointments.find((appointment) => appointment.id === appointmentId);
-  
-      // Set the meetingURL field as a string
-      updatedAppointment.meetingURL = String(enteredText);
-  
-      // Send the updated appointment to the API
+  const handleAccept = () => {
+    console.log("Accepting appointment", acceptedAppointments );
+
+    let obj = {
+      ...acceptedAppointments,
+      meetingURL: meetifyURL,
+      confirmed: true,
+    }
+
+    console.log("obj", obj);
+
+    try{
+
       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedAppointment),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(obj),
       })
         .then((response) => response.json())
         .then((data) => {
           // Handle success response
-          console.log(`Appointment with ID ${appointmentId} has been accepted.`);
-          setAcceptedAppointments((prevAcceptedAppointments) => [
-            ...prevAcceptedAppointments,
-            appointmentId,
-          ]);
+          console.log(`Appointment with ID ${data} has been accepted.`);
+
+          const updatedAppointments = appointments.map((appointment) => {
+            if (appointment.id === obj.id) {
+              return {
+                ...appointment,
+                confirmed: true,
+                meetingURL: meetifyURL,
+              };
+            }
+            return appointment;
+          });
+      
+          // Update the local state with the entered text
+          setAppointments(updatedAppointments);
+          setOpen(false);
+
+
         })
-        .catch((error) => {
-          // Handle error
-          console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
-        });
-  
-      console.log("Enter Meeting Url:", enteredText);
+    }catch(error){
+      console.log(error);
     }
+
+    // const enteredText = window.prompt("Enter meeting url:");
+    // if (enteredText !== null) {
+    //   const updatedAppointments = appointments.map((appointment) => {
+    //     if (appointment.id === appointmentId) {
+    //       return {
+    //         ...appointment,
+    //         confirmed: true,
+    //         meetingURL: enteredText,
+    //       };
+    //     }
+    //     return appointment;
+    //   });
+  
+    //   // Update the local state with the entered text
+    //   setAppointments(updatedAppointments);
+  
+    //   const updatedAppointment = updatedAppointments.find((appointment) => appointment.id === appointmentId);
+  
+    //   // Set the meetingURL field as a string
+    //   updatedAppointment.meetingURL = String(enteredText);
+  
+    //   // Send the updated appointment to the API
+    //   fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(updatedAppointment),
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       // Handle success response
+    //       console.log(`Appointment with ID ${appointmentId} has been accepted.`);
+    //       setAcceptedAppointments((prevAcceptedAppointments) => [
+    //         ...prevAcceptedAppointments,
+    //         appointmentId,
+    //       ]);
+    //     })
+    //     .catch((error) => {
+    //       // Handle error
+    //       console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
+    //     });
+  
+    //   console.log("Enter Meeting Url:", enteredText);
+    // }
   };
   
   const handleDecline = (appointmentId) => {
@@ -130,12 +193,12 @@ const AvailabilityTable = () => {
 
   const handleJoin = (appointmentId) => {
     const appointment = appointments.find((appointment) => appointment.id === appointmentId);
+    console.log("appointment", appointment);
     if (appointment) {
       const meetingUrl = appointment.meetingURL;
-  
+
       if (meetingUrl) {
         console.log("Joining meeting:", meetingUrl);
-        window.open(meetingUrl, "_blank");
       } else {
         console.log("No meeting URL found for the selected appointment.");
       }
@@ -171,7 +234,21 @@ const AvailabilityTable = () => {
     return dateTime.toLocaleString("en-US", options);
   };
 
+  const handleClose = () => {
+    setOpen(false)
+    setAcceptedAppointments(null)
+  };
+
+  const handleOpen = (appointment) => {
+    setOpen(true);
+    
+    setAcceptedAppointments(appointment)
+    console.log(appointment)
+  }
+
+
   return (
+    <>
     <Box sx={{ overflowX: "auto" }}>
       <TableContainer
         component={Paper}
@@ -305,7 +382,7 @@ const AvailabilityTable = () => {
                         ) : (
                           <>
                             <Button
-                              onClick={() => handleAccept(appointment.id)}
+                              onClick={() => handleOpen(appointment)}
                               variant="outlined"
                               color="success"
                               sx={{ marginRight: "8px" }}
@@ -365,6 +442,26 @@ const AvailabilityTable = () => {
         </Box>
       </TableContainer>
     </Box>
+
+    {/* modal for confirm appointment */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Enter your meerting Url
+          </Typography>
+          <Input sx={{
+            mt: 2,
+          }} onChange={(e)=> setMeetifyURL(e.target.value)}  placeholder="Type in here…" />
+
+          <Button onClick={()=> handleAccept()}  >Confirm</Button>
+        </Box>
+      </Modal>
+    </>
   );
 };
 

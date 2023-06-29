@@ -5,8 +5,8 @@ function App() {
 return(
   <>
   <BrowserRouter>
-  <Routes>
-        <Route exact path="/" element={<AvailabilityTable />}   />
+    <Routes>
+          <Route exact path="/" element={<AvailabilityTable />}   />
       </Routes>
   </BrowserRouter>
   </>
