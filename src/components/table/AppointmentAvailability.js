@@ -86,28 +86,28 @@ const AvailabilityTable = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(obj),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle success response
-          console.log(`Appointment with ID ${data} has been accepted.`);
-
-          const updatedAppointments = appointments.map((appointment) => {
-            if (appointment.id === obj.id) {
-              return {
-                ...appointment,
-                confirmed: true,
-                meetingURL: meetifyURL,
-              };
-            }
-            return appointment;
-          });
-      
-          // Update the local state with the entered text
-          setAppointments(updatedAppointments);
-          setOpen(false);
-
-
+        .then((response) => {
+          console.log(response);
+          {
+            // Handle success response
+            console.log(`Appointment with ID ${response} has been accepted.`);
+  
+            const updatedAppointments = appointments.map((appointment) => {
+              if (appointment.id === obj.id) {
+                return {
+                  ...appointment,
+                  confirmed: true,
+                  meetingURL: meetifyURL,
+                };
+              }
+              return appointment;
+            });
+        
+            setAppointments(updatedAppointments);
+            setOpen(false);
+          }
         })
+
     }catch(error){
       console.log(error);
     }
@@ -148,6 +148,7 @@ const AvailabilityTable = () => {
     console.log("appointment", appointment);
     if (appointment) {
       const meetingUrl = appointment.meetingURL;
+      window.open(meetingUrl, "_blank");
 
       if (meetingUrl) {
         console.log("Joining meeting:", meetingUrl);
