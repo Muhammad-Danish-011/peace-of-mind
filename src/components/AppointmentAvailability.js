@@ -13,7 +13,7 @@ import {
   Typography,
   Input,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+
 
 
 const style = {
@@ -22,10 +22,11 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: 'background.paper',
+  backgroundColor:"#a0d4d4",
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  borderRadius:"10px",
 };
 
 
@@ -69,18 +70,17 @@ const AvailabilityTable = () => {
   };
 
   const handleAccept = () => {
-    console.log("Accepting appointment", acceptedAppointments );
-
+    console.log("Accepting appointment", acceptedAppointments);
+  
     let obj = {
       ...acceptedAppointments,
       meetingURL: meetifyURL,
       confirmed: true,
-    }
-
+    };
+  
     console.log("obj", obj);
-
-    try{
-
+  
+    try {
       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -90,7 +90,7 @@ const AvailabilityTable = () => {
         .then((data) => {
           // Handle success response
           console.log(`Appointment with ID ${data} has been accepted.`);
-
+  
           const updatedAppointments = appointments.map((appointment) => {
             if (appointment.id === obj.id) {
               return {
@@ -101,63 +101,35 @@ const AvailabilityTable = () => {
             }
             return appointment;
           });
-      
+  
           // Update the local state with the entered text
           setAppointments(updatedAppointments);
           setOpen(false);
-
-
         })
-    }catch(error){
+        .catch((error) => {
+          // Handle error
+          console.log("Error accepting appointment:", error);
+        });
+  
+      // Immediately update the confirmation status
+      const updatedAppointments = appointments.map((appointment) => {
+        if (appointment.id === acceptedAppointments.id) {
+          return {
+            ...appointment,
+            confirmed: true,
+            meetingURL: meetifyURL,
+          };
+        }
+        return appointment;
+      });
+  
+      setAppointments(updatedAppointments);
+      setOpen(false);
+    } catch (error) {
       console.log(error);
     }
-
-    // const enteredText = window.prompt("Enter meeting url:");
-    // if (enteredText !== null) {
-    //   const updatedAppointments = appointments.map((appointment) => {
-    //     if (appointment.id === appointmentId) {
-    //       return {
-    //         ...appointment,
-    //         confirmed: true,
-    //         meetingURL: enteredText,
-    //       };
-    //     }
-    //     return appointment;
-    //   });
-  
-    //   // Update the local state with the entered text
-    //   setAppointments(updatedAppointments);
-  
-    //   const updatedAppointment = updatedAppointments.find((appointment) => appointment.id === appointmentId);
-  
-    //   // Set the meetingURL field as a string
-    //   updatedAppointment.meetingURL = String(enteredText);
-  
-    //   // Send the updated appointment to the API
-    //   fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(updatedAppointment),
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       // Handle success response
-    //       console.log(`Appointment with ID ${appointmentId} has been accepted.`);
-    //       setAcceptedAppointments((prevAcceptedAppointments) => [
-    //         ...prevAcceptedAppointments,
-    //         appointmentId,
-    //       ]);
-    //     })
-    //     .catch((error) => {
-    //       // Handle error
-    //       console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
-    //     });
-  
-    //   console.log("Enter Meeting Url:", enteredText);
-    // }
   };
+  
   
   const handleDecline = (appointmentId) => {
     // Update the appointments state by removing the declined appointment
@@ -196,9 +168,9 @@ const AvailabilityTable = () => {
     console.log("appointment", appointment);
     if (appointment) {
       const meetingUrl = appointment.meetingURL;
-
+  
       if (meetingUrl) {
-        console.log("Joining meeting:", meetingUrl);
+        window.open(meetingUrl, "_blank", "width=800,height=600"); // Redirect to the meeting URL
       } else {
         console.log("No meeting URL found for the selected appointment.");
       }
@@ -246,6 +218,10 @@ const AvailabilityTable = () => {
     console.log(appointment)
   }
 
+  const isURLValid = /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g.test(
+    meetifyURL
+  );
+
 
   return (
     <>
@@ -265,6 +241,7 @@ const AvailabilityTable = () => {
                     fontWeight: "600",
                     borderBottom: "0px solid #ffffff",
                     textAlign: "center",
+                  width: "10%",
                   }}
                 >
                   Availability ID
@@ -276,6 +253,7 @@ const AvailabilityTable = () => {
                     fontWeight: "600",
                     borderBottom: "0px solid #ffffff",
                     textAlign: "center",
+                  width: "20%",
                   }}
                 >
                   Availability Date
@@ -287,6 +265,7 @@ const AvailabilityTable = () => {
                     fontWeight: "600",
                     borderBottom: "0px solid #ffffff",
                     textAlign: "center",
+                    width:"20%"
                   }}
                 >
                   Pending Status
@@ -298,6 +277,7 @@ const AvailabilityTable = () => {
                     fontWeight: "600",
                     borderBottom: "0px solid #ffffff",
                     textAlign: "center",
+                  width: "20%",
                   }}
                 >
                   Confirmation
@@ -309,6 +289,7 @@ const AvailabilityTable = () => {
                     fontWeight: "600",
                     borderBottom: "0px solid #ffffff",
                     textAlign: "center",
+                  width: "20%",
                   }}
                 >
                   Session
@@ -329,6 +310,7 @@ const AvailabilityTable = () => {
                     sx={{
                       borderBottom: "1px solid #f5f5f5",
                       borderRight: "1px solid #000000",
+                      textAlign:"center",
                     }}
                   >
                     {appointment.availabilityId}
@@ -347,6 +329,7 @@ const AvailabilityTable = () => {
                     sx={{
                       borderBottom: "1px solid #f5f5f5",
                       borderRight: "1px solid #000000",
+                      textAlign: "center",
                     }}
                   >
                     {getPendingStatus(
@@ -425,14 +408,24 @@ const AvailabilityTable = () => {
                       getAvailabilityDate(appointment.availabilityId)
                     ) === "Today" ? (
                       <Button
-                        disabled={!appointment.confirmed}
-                        onClick={() => handleJoin(appointment.id)}
-                        variant="outlined"
-                        color="primary"
-                        sx={{ marginLeft: "8px" }}
-                      >
-                        Join
-                      </Button>
+  disabled={!appointment.confirmed}
+  onClick={() => handleJoin(appointment.id)}
+  variant="outlined"
+  color="primary"
+  sx={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "8px",
+    width: "100%", // Adjust the width as needed
+    "@media screen and (max-width: 600px)": {
+      marginLeft: 0,
+      marginTop: "8px",
+    },
+  }}
+>
+  Join
+</Button>
                     ) : null}
                   </TableCell>
                 </TableRow>
@@ -455,10 +448,37 @@ const AvailabilityTable = () => {
             Enter your meerting Url
           </Typography>
           <Input sx={{
-            mt: 2,
-          }} onChange={(e)=> setMeetifyURL(e.target.value)}  placeholder="Type in here…" />
+            mt: 1,
+            border: '1px solid black',
+            borderRadius:'10px',
+            padding:'0px 5px',
+          }} onChange={(e)=> setMeetifyURL(e.target.value)}  placeholder="Link here" />
 
-          <Button onClick={()=> handleAccept()}  >Confirm</Button>
+<Button
+  sx={{
+    mt: 2,
+    backgroundColor: '#a0d4g8', // Green background color
+    color: 'black', // Text color
+    borderRadius: '3px', // Rounded corners  
+    cursor: 'pointer', // Cursor style
+    margin:'0px 0px 0px 10px',
+    outline: 'solid 1px', // Remove outline
+    '&:hover': {
+      backgroundColor: '#4ab3b3', // Darker green background color on hover
+    },
+    '&:disabled': {
+      backgroundColor: '#a0d4g8', // Light gray background color when disabled
+      cursor: 'not-allowed', // Not allowed cursor when disabled
+      outline:'none',
+      color:'white',
+    },
+  }}
+  onClick={handleAccept}
+  disabled={!isURLValid}
+>
+  Confirm
+</Button>
+
         </Box>
       </Modal>
     </>
