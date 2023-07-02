@@ -16,6 +16,7 @@ const Counslor = () => {
 
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
+  const[appointmentId,setAppointmentsId]=useState(null)
   const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -53,10 +54,14 @@ const Counslor = () => {
   });}, []);
   // console.log(obj);
   console.log(user);
+  // useEffect(() => {
+  //   fetchRatingsAndReviewNotes(appointmentId.id);
+  // }, []);
   useEffect(() => {
-    fetchRatingsAndReviewNotes();
-  }, []);
-
+    if (latestAppointment) {
+      fetchRatingsAndReviewNotes(latestAppointment.id);
+    }
+  }, [latestAppointment]);
 
   const fetchAppointmentCountForAppointment = async () => {
     try {
@@ -95,7 +100,6 @@ const Counslor = () => {
       console.error('Error fetching availability IDs:', error);
     }
   };
-
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       const promises = availabilityIds.map(availabilityId =>
@@ -107,8 +111,11 @@ const Counslor = () => {
       
       const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
   
-
+      // Map the appointment IDs
+      const appointmentIds = filteredAppointments.map(appointment => appointment.id);
+  
       console.log("Filtered Appointments:", filteredAppointments);
+      console.log("Appointment IDs:", appointmentIds);
   
       // Get the unique patient IDs
       const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
@@ -117,41 +124,130 @@ const Counslor = () => {
       setPatientCount(patientIds.length);
   
       setAppointments(filteredAppointments);
+      setAppointmentsId(appointmentIds); // Add this line to store the appointment IDs
     } catch (error) {
       console.error('Error fetching appointments:', error);
     }
   };
+  
+  // const fetchAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const promises = availabilityIds.map(availabilityId =>
+  //       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
+  //     );
+  //     const responses = await Promise.all(promises);
+  //     const appointmentsData = await Promise.all(responses.map(response => response.json()));
+  //     const allAppointments = appointmentsData.flat();
+      
+  //     const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
+  
+
+  //     console.log("Filtered Appointments:", filteredAppointments);
+  
+  //     // Get the unique patient IDs
+  //     const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
+  
+  //     console.log("Total number of patients:", patientIds.length);
+  //     setPatientCount(patientIds.length);
+  
+  //     setAppointments(filteredAppointments);
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
 
 
   useEffect(() => {
     fetchAppointmentsByAvailabilityIds();
   }, [availabilityIds]);
+  // const fetchRatingsAndReviewNotes = async (appointmentId) => {
+  //   try {
+  //     const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${appointmentId}`);
+  //     const data = await response.json();
+  //     console.log(data);
+  
+  //     // Calculate overall rating
+  //     const counselorRatings = data.filter(rating => rating.appointmentId === appointmentId);
+  //     console.log("=========", counselorRatings);
+  //     const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+  //       ratingValue: rating.value,
+  //       reviewNote: rating.note
+  //     }));
+      
+  //     console.log('Matched Ratings:', matchedRatingsWithReviews);
+  //     const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+  //     const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+  //     setAverageRating(averageRating);
+  //     console.log('Average Rating:', averageRating);
+  //     const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+  //     setLatestReview(latestReview)
+  //     // Get rating by appointment ID
+  //     const ratingByAppointmentId = data.find(rating => rating.appointmentId === appointmentId);
+  //     setLatestReview(ratingByAppointmentId);
+  //     console.log('Rating by Appointment ID:', ratingByAppointmentId);
+  //   } catch (error) {
+  //     console.error('Error fetching ratings and review notes:', error);
+  //   }
+  // };
+  const fetchRatingsAndReviewNotes = async (appointmentId) => {
+    try {
+      const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${appointmentId}`);
+      const data = await response.json();
+      console.log(data);
+  
+      // Calculate overall rating
+      const counselorRatings = data.filter(rating => rating.appointmentId === appointmentId);
+      console.log("=========", counselorRatings);
+      const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+        ratingValue: rating.value,
+        reviewNote: rating.note
+      }));
+  
+      console.log('Matched Ratings:', matchedRatingsWithReviews);
+      const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+      const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+      setAverageRating(averageRating);
+      console.log('Average Rating:', averageRating);
+  
+      // Find the matching appointment using the appointment ID
+      const matchingAppointment = appointments.find(appointment => appointment.id === appointmentId);
+      console.log('Matching Appointment:', matchingAppointment);
+  
+      const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+      setLatestReview(latestReview);
+      console.log('Latest Review:', latestReview);
+    } catch (error) {
+      console.error('Error fetching ratings and review notes:', error);
+    }
+  };
+  
+  
+// const fetchRatingsAndReviewNotes = async (appointmentId) => {
+//   try {
+//     const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${appointmentId}`)
+//     // const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
+//     const data = await response.json();
+//     console.log(data);
+//     const counselorRatings = data.filter(rating => rating.appointmentId===appointmentId);
+//     console.log("=========",counselorRatings);
+//     const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+//       ratingValue: rating.value,
+//       reviewNote: rating.note
+//     }));
 
-const fetchRatingsAndReviewNotes = async () => {
-  try {
-    const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
-    const data = await response.json();
-    console.log(data);
-    const counselorRatings = data.filter(rating => rating.appointmentId===rating.appointmentId);
-    console.log("=========",counselorRatings);
-    const matchedRatingsWithReviews = counselorRatings.map(rating => ({
-      ratingValue: rating.value,
-      reviewNote: rating.note
-    }));
 
-
-    console.log('Matched Ratings:', matchedRatingsWithReviews);
-    const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
-    const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
-    setAverageRating(averageRating);
-    console.log('Average Rating:', averageRating);
-    const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
-    setLatestReview(latestReview);
-    console.log('Latest Review:', latestReview);
-  } catch (error) {
-    console.error('Error fetching ratings and review notes:', error);
-  }
-};
+//     console.log('Matched Ratings:', matchedRatingsWithReviews);
+//     const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+//     const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+//     setAverageRating(averageRating);
+//     console.log('Average Rating:', averageRating);
+//     const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+//     setLatestReview(latestReview);
+//     console.log('Latest Review:', latestReview);
+//   } catch (error) {
+//     console.error('Error fetching ratings and review notes:', error);
+//   }
+// };
   return (
     <>
       <Box
