@@ -3,19 +3,19 @@ import ForgetPassword from './ForgotPassword';
 describe('ForgetPassword', () => {
     it("renders Forget Password component", () => {
         render(<ForgetPassword />);
-        expect(screen.getByText("PEACE OF MIND")).toBeInTheDocument();
+        expect(screen.getByText("PEACE OF MIND")).toBeTruthy();
     });
     it("renders ForgetPassword component", () => {
         render(<ForgetPassword />);
-        expect(screen.getByText("Forgot Password")).toBeInTheDocument();
+        expect(screen.getByText("Forgot Password")).toBeTruthy();
     });
     it("renders Forget component", () => {
         render(<ForgetPassword />);
-        expect(screen.getByText("It's okay not to be okay")).toBeInTheDocument();
+        expect(screen.getByText("It's okay not to be okay")).toBeTruthy();
     });
     it("renders component", () => {
         render(<ForgetPassword />);
-        expect(screen.getByTestId("email")).toBeInTheDocument();
+        expect(screen.getByTestId("email")).toBeTruthy();
     });
     test('Valid Email Submission', () => {
         render(<ForgetPassword />);

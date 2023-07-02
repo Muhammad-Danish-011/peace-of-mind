@@ -13,7 +13,7 @@ const CounselorCalender = () => {
   const obj = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
-    fetch(`${accountUrl}/user/get/${obj.id}`, {
+    fetch(`${accountUrl}/user/get/${obj?.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -76,6 +76,7 @@ const CounselorCalender = () => {
   <Typography
     variant="h6"
     component="h6"
+    data-testid="name"
     sx={{
       fontSize: '1.5rem',
       fontWeight: 'bolder',
@@ -116,7 +117,7 @@ const CounselorCalender = () => {
         marginRight:"10rem"
       },}}>
           <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant="h6">Chat with {firstName} {lastName}</Typography>
+            <Typography variant="h6" data-testid="chat">Chat with {firstName} {lastName}</Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
               <CardMedia
@@ -125,7 +126,7 @@ const CounselorCalender = () => {
                 alt="Clock"
                 sx={{ width: 25, height: 25, mr: 2 }}
               />
-              <Typography variant="body1">30 mins appointment</Typography>
+              <Typography variant="body1" data-testid="30">30 mins appointment</Typography>
             </Box>
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -135,7 +136,7 @@ const CounselorCalender = () => {
                 alt="Meet Video"
                 sx={{ width: 25, height: 25, mr: 2 }}
               />
-              <Typography variant="body1">
+              <Typography variant="body1" data-testid="google-meet">
                 Google Meet video conference info added after booking
               </Typography>
             </Box>

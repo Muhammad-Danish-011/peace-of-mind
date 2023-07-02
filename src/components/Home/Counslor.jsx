@@ -22,7 +22,7 @@ const Counslor = () => {
   const user = JSON.parse(sessionStorage.getItem('user'));
   useEffect(() => {
     fetch(
-      `${accountUrl}/user/get/${user.id}`
+      `${accountUrl}/user/get/${user?.id}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -369,7 +369,7 @@ style={{width: "400px", height: "300px", borderRadius: "5px"}}
 <Box sx={{}}>
   <Rating name="half-rating-read"
    value = {averageRating}
-   
+   data-testid="ratings"
    precision={0.5} readOnly style= {{fontSize: "2.5rem"}}/>
   <h3>Overall Rating</h3>
 </Box>

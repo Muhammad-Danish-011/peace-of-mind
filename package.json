@@ -16,10 +16,6 @@
     "@mui/system": "^5.13.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
-    "@zegocloud/zego-uikit-prebuilt": "^1.8.5",
-=======
->>>>>>> 79d74f32fba0a2b0ba4fc8dac9df51c1d58c11cb
     "buffer": "^6.0.3",
     "chart.js": "^3.7.0",
     "dotenv": "^16.3.1",

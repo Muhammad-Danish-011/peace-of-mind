@@ -23,7 +23,7 @@ describe('Counslor component', () => {
 
   test('renders overall rating', () => {
     render(<Counslor />);
-    const overallRatingElement = screen.getByTestId('rating');
+    const overallRatingElement = screen.getByTestId('ratings');
     expect(overallRatingElement).toBeTruthy();
   });
 });
