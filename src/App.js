@@ -17,10 +17,11 @@ import './App.css';
 import Navbar from './global/Navbar'; 
 import SurveyComponent from './components/patient/SurveyComponent';
 import SurveyModal from './components/patient/SurveyModal';
+import Search from './components/patient/Search';
 import Meeting from './components/Room/Meeting';
 
 // import './App.css';
-import ProfileCard from './components/ProfileCard';
+import ProfileCard from './pages/profileCard/ProfileCard';
 import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
 import AvailabilityTable from './components/table/AppointmentAvailability';
@@ -40,20 +41,21 @@ function App() {
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
     {/* </Sidebar> */}
-    <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} />
+    {/* <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} /> */}
     
     <Route path="/forget-password" element={<ForgetPassword />} />
     <Route path="/new-password" element={<NewPassword /> } />
     <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
     
-    <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
+    <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
     <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
+    <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
     
     <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
-    <Route path='/profileCard' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
     </AuthProvider>
   </BrowserRouter>
@@ -68,6 +70,7 @@ function App() {
 //   
 //   </>
 // )
+// check
 }
 
 

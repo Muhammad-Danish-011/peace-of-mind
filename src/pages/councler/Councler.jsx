@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import Search from '../../components/patient/Search';
 import BasicCard from '../../components/patient/BasicCard';
@@ -38,8 +39,20 @@ const styles = {
 const Councler = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [cards, setCards] = useState([]);
 
-  const cards = [1,2,3,4,5,6,7];
+  // const cards = [1,2,3,4,5,6,7];
+  useEffect(() => {
+    //Runs on every render
+    fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
+    .then(data => data.json())
+    .then(data => {
+      console.log({data})
+      setCards(data); // Limit to first 6 elements
+
+    })
+    .catch(err => console.group(err))
+  },[]);
 
   return (
     <Box sx={{
@@ -49,9 +62,11 @@ const Councler = () => {
     }}>
       <Search/>
       <Box sx={styles.cardContainer}>
-        {cards.map((card) => (
-          <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))}
+      {
+        cards.map((card) => (
+          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))
+        }
       </Box>
     </Box>
   )

@@ -1,25 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-// import { Bar } from 'react-chartjs-2';
-// import Chart from 'chart.js';
-// import { ChartDateFormatter, ChartEngine } from 'chartjs-adapter-date-fns';
-
-// Register the adapter
-// Chart.register(ChartDateFormatter, ChartEngine);
 
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
-  // const [availabilityId, setAvailabilityId] = useState(null);
   const [averageRating, setAverageRating] = useState(0);
   const [latestReview, setLatestReview] = useState(null);
-  const [rating,setRating]=useState("")
-  const [value,setValue]=useState("")
-  // const[note,setReviewNotes]=user
-
-
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
@@ -27,19 +14,54 @@ const Counslor = () => {
     fetchAvailabilityIds();
   }, []);
 
-
+  const accountUrl = process.env.REACT_APP_API_KEY;
+  const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
+  const[appointmentId,setAppointmentsId]=useState(null)
   const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
+  useEffect(() => {
+    fetch(
+      `${accountUrl}/user/get/${user.id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // setUserData(data);
+        // setFirstName(data.firstName);
+        // setLastName(data.lastName);
+        // setPassword(data.password);
+        // setAddress(data.address);
+        // setEmail(data.email);
+        // setPhoneNumber(data.phoneNumber);
+        // setRole(data.role);
+        // setCnic(data.cnic);
 
+        if (data.role === "COUNSELOR") {
+          fetch(
+            `${councelorUrl}/counselor/get/${user.id}`
+          )
+            .then((response) => response.json())
+            .then((counselorData) => {
+              console.log('-------======--',counselorData);
+              // setSpecialization(counselorData.specialization);
+              // setDescription(counselorData.description);
+              sessionStorage.setItem("counselor_data", JSON.stringify(counselorData))
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+  });}, []);
   // console.log(obj);
   console.log(user);
-  const [ratings, setRatings] = useState([]);
-  const [reviewNotes, setReviewNotes] = useState([]);
+  // useEffect(() => {
+  //   fetchRatingsAndReviewNotes(appointmentId.id);
+  // }, []);
   useEffect(() => {
-    fetchRatingsAndReviewNotes();
-  }, []);
-
+    if (latestAppointment) {
+      fetchRatingsAndReviewNotes(latestAppointment.id);
+    }
+  }, [latestAppointment]);
 
   const fetchAppointmentCountForAppointment = async () => {
     try {
@@ -68,7 +90,7 @@ const Counslor = () => {
         const data = await response.json();
         if (data && data.length > 0) {
           const availabilityIds = data.map(availability => availability.id);
-          console.log("????????????????", availabilityIds);
+          console.log("Availibilities ID", availabilityIds);
           setAvailabilityIds(availabilityIds);
         }
       } else {
@@ -78,54 +100,10 @@ const Counslor = () => {
       console.error('Error fetching availability IDs:', error);
     }
   };
-
-
-
-
-
-  // const fetchAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     const promises = availabilityIds.map(availabilityId =>
-  //       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvail/${availabilityId}`)
-  //     );
-  //     const responses = await Promise.all(promises);
-  //     const appointmentsData = await Promise.all(responses.map(response => response.json()));
-  //     const allAppointments = appointmentsData.flat();
-  //     console.log("////////////", allAppointments);
-  //     setAppointments(allAppointments);
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
-
-  // const fetchAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     const promises = availabilityIds.map(availabilityId =>
-  //       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvail/${availabilityId}`)
-  //     );
-  //     const responses = await Promise.all(promises);
-  //     const appointmentsData = await Promise.all(responses.map(response => response.json()));
-  //     const allAppointments = appointmentsData.flat();
-      
-  //     const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
-      
-  //     // const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
-  
-  //     // console.log("Total number of patients:", patientIds.length);
-  //     // const appointmentIds = filteredAppointments.map(appointment => appointment.appointmentId);
-  
-  //     console.log("Filtered Appointments:", filteredAppointments);
-  //     // console.log("Appointment IDs:", appointmentIds);
-  
-  //     setAppointments(filteredAppointments);
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       const promises = availabilityIds.map(availabilityId =>
-        fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvail/${availabilityId}`)
+        fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
       );
       const responses = await Promise.all(promises);
       const appointmentsData = await Promise.all(responses.map(response => response.json()));
@@ -133,7 +111,11 @@ const Counslor = () => {
       
       const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
   
+      // Map the appointment IDs
+      const appointmentIds = filteredAppointments.map(appointment => appointment.id);
+  
       console.log("Filtered Appointments:", filteredAppointments);
+      console.log("Appointment IDs:", appointmentIds);
   
       // Get the unique patient IDs
       const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
@@ -142,167 +124,130 @@ const Counslor = () => {
       setPatientCount(patientIds.length);
   
       setAppointments(filteredAppointments);
+      setAppointmentsId(appointmentIds); // Add this line to store the appointment IDs
     } catch (error) {
       console.error('Error fetching appointments:', error);
     }
   };
+  
+  // const fetchAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const promises = availabilityIds.map(availabilityId =>
+  //       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
+  //     );
+  //     const responses = await Promise.all(promises);
+  //     const appointmentsData = await Promise.all(responses.map(response => response.json()));
+  //     const allAppointments = appointmentsData.flat();
+      
+  //     const filteredAppointments = allAppointments.filter(appointment => appointment.availabilityId);
+  
+
+  //     console.log("Filtered Appointments:", filteredAppointments);
+  
+  //     // Get the unique patient IDs
+  //     const patientIds = [...new Set(filteredAppointments.map(appointment => appointment.patientid))];
+  
+  //     console.log("Total number of patients:", patientIds.length);
+  //     setPatientCount(patientIds.length);
+  
+  //     setAppointments(filteredAppointments);
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
 
 
   useEffect(() => {
     fetchAppointmentsByAvailabilityIds();
   }, [availabilityIds]);
-
-
-
-
-//   const fetchRatingsAndReviewNotes = async () => {
-//     try {
-//       const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
-//       const data = await response.json();
-//       console.log(data);
-  
-//       // Filter ratings based on the appointment ID
-//       const matchedRatings = data.filter(rating => rating.appointmentId === latestAppointment.id);
-  
-//       const matchedRatingsWithReviews = matchedRatings.map(rating => {
-//         const reviewNote = reviewNotes.find(review => review.ratingId === rating.appointmentId);
-//         console.log("=========",reviewNote);
-//         // setValue(reviewNote.note)
-//         return {
-//           ratingValue: rating.value,
-//           //ratingNote:rating.note,
-//           reviewNote:rating.note
-         
-//         };
-        
-//       });
-     
-//       console.log( "matchedddd", matchedRatings);
-      
-//       // Calculate the average rating value
-//       const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
-//       const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
-//       setAverageRating(averageRating);
-//       console.log("Average Rating:", averageRating);
-
-//       const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
-// setLatestReview(latestReview);
-// console.log( "latest reviewwwwwwssss", latestReview);
-
-//       // Use the averageRating value as needed
-//     } catch (error) {
-//       console.error('Error fetching ratings and review notes:', error);
-//     }
-//   };
-const fetchRatingsAndReviewNotes = async () => {
-  try {
-    const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
-    const data = await response.json();
-    console.log(data);
-
-    // Filter ratings based on the counselor's ID
-    const counselorRatings = data.filter(rating => rating.appointmentId === latestAppointment.id);
-    console.log("=========",counselorRatings.id);
-    const matchedRatingsWithReviews = counselorRatings.map(rating => ({
-      ratingValue: rating.value,
-      reviewNote: rating.note
-    }));
-    // const matchedRatingsWithReviews = counselorRatings.map(rating => {
-      
-    //   const reviewNote = reviewNotes.find(review => review.appointmentId === review.id);
-    //   console.log('Review Note:', reviewNote);
-    //   return {
-    //     ratingValue: rating.value,
-    //     reviewNote: rating.note
-    //   };
-    // });
-
-    console.log('Matched Ratings:', matchedRatingsWithReviews);
-
-    // Calculate the average rating value
-    const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
-    const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
-    setAverageRating(averageRating);
-    console.log('Average Rating:', averageRating);
-
-    const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
-    setLatestReview(latestReview);
-    console.log('Latest Review:', latestReview);
-
-    // Use the averageRating value as needed
-  } catch (error) {
-    console.error('Error fetching ratings and review notes:', error);
-  }
-};
-
-
-  // const fetchRatingsAndReviewNotes = async () => {
+  // const fetchRatingsAndReviewNotes = async (appointmentId) => {
   //   try {
-  //     const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
+  //     const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${appointmentId}`);
   //     const data = await response.json();
-  //     console.log(data.value);
-  //     setRatings(data.value);
-
-  //     const reviewNotesResponse = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/26`);
-  //     const reviewNotesData = await reviewNotesResponse.json();
-  //     setReviewNotes(reviewNotesData.note);
-  //     console.log(reviewNotesData.note);
+  //     console.log(data);
+  
+  //     // Calculate overall rating
+  //     const counselorRatings = data.filter(rating => rating.appointmentId === appointmentId);
+  //     console.log("=========", counselorRatings);
+  //     const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+  //       ratingValue: rating.value,
+  //       reviewNote: rating.note
+  //     }));
+      
+  //     console.log('Matched Ratings:', matchedRatingsWithReviews);
+  //     const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+  //     const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+  //     setAverageRating(averageRating);
+  //     console.log('Average Rating:', averageRating);
+  //     const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+  //     setLatestReview(latestReview)
+  //     // Get rating by appointment ID
+  //     const ratingByAppointmentId = data.find(rating => rating.appointmentId === appointmentId);
+  //     setLatestReview(ratingByAppointmentId);
+  //     console.log('Rating by Appointment ID:', ratingByAppointmentId);
   //   } catch (error) {
   //     console.error('Error fetching ratings and review notes:', error);
   //   }
   // };
-
-  // useEffect(() => {
-  //   fetchAppointmentCount();
-
-  // }, []);
-
-  // const fetchAppointmentCount = async () => {
-  //   try {
-  //     const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
-  //     const data = await response.json();
-  //     setAppointmentCount(data.length);
-  //   } catch (error) {
-  //     console.error('Error fetching appointment count:', error);
-  //   }
-  // };
-
-
-  // const chartData = {
-  //   labels: appointments.map(appointment => appointment.date),
-  //   datasets: [
-  //     {
-  //       label: 'Appointments',
-  //       data: appointments.map(appointment => appointment.count),
-  //       backgroundColor: 'rgba(75,192,192,0.4)',
-  //       borderColor: 'rgba(75,192,192,1)',
-  //       borderWidth: 1,
-  //     },
-  //   ],
-  // };
-
-  // const chartOptions = {
-  //   scales: {
-  //     x: {
-  //       type: 'time',
-  //       time: {
-  //         unit: 'day',
-  //       },
-  //     },
-  //   },
-  // };
+  const fetchRatingsAndReviewNotes = async (appointmentId) => {
+    try {
+      const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${appointmentId}`);
+      const data = await response.json();
+      console.log(data);
   
+      // Calculate overall rating
+      const counselorRatings = data.filter(rating => rating.appointmentId === appointmentId);
+      console.log("=========", counselorRatings);
+      const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+        ratingValue: rating.value,
+        reviewNote: rating.note
+      }));
+  
+      console.log('Matched Ratings:', matchedRatingsWithReviews);
+      const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+      const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+      setAverageRating(averageRating);
+      console.log('Average Rating:', averageRating);
+  
+      // Find the matching appointment using the appointment ID
+      const matchingAppointment = appointments.find(appointment => appointment.id === appointmentId);
+      console.log('Matching Appointment:', matchingAppointment);
+  
+      const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+      setLatestReview(latestReview);
+      console.log('Latest Review:', latestReview);
+    } catch (error) {
+      console.error('Error fetching ratings and review notes:', error);
+    }
+  };
+  
+  
+// const fetchRatingsAndReviewNotes = async (appointmentId) => {
+//   try {
+//     const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/getbyappointment/${appointmentId}`)
+//     // const response = await fetch(`http://ratingapp-env.eba-f5gxzjhm.us-east-1.elasticbeanstalk.com/rating/all`);
+//     const data = await response.json();
+//     console.log(data);
+//     const counselorRatings = data.filter(rating => rating.appointmentId===appointmentId);
+//     console.log("=========",counselorRatings);
+//     const matchedRatingsWithReviews = counselorRatings.map(rating => ({
+//       ratingValue: rating.value,
+//       reviewNote: rating.note
+//     }));
 
 
-
-
-
-
-
-
-
-
-
+//     console.log('Matched Ratings:', matchedRatingsWithReviews);
+//     const totalRatingValues = matchedRatingsWithReviews.reduce((sum, rating) => sum + rating.ratingValue, 0);
+//     const averageRating = totalRatingValues / matchedRatingsWithReviews.length;
+//     setAverageRating(averageRating);
+//     console.log('Average Rating:', averageRating);
+//     const latestReview = matchedRatingsWithReviews[matchedRatingsWithReviews.length - 1];
+//     setLatestReview(latestReview);
+//     console.log('Latest Review:', latestReview);
+//   } catch (error) {
+//     console.error('Error fetching ratings and review notes:', error);
+//   }
+// };
   return (
     <>
       <Box
@@ -318,7 +263,6 @@ const fetchRatingsAndReviewNotes = async () => {
         }}
       >
 
-        {/* {availability.length > 0 && ( */}
         <Box
           sx={{
             border: "1px solid green",
@@ -334,8 +278,6 @@ const fetchRatingsAndReviewNotes = async () => {
           }}
         >
           <h3>Today's Appointments</h3>
-          {/* {latestAppointment.map((item) => (
-              <div key={item.id}> */}
           <p>Date & Time: {<strong>{latestAppointment.date}</strong>} </p>
           <p>Today's Meeting Link: <a href="www.zoom.com">www.zoom.com</a></p>
           {/* </div>
@@ -382,11 +324,9 @@ const fetchRatingsAndReviewNotes = async () => {
             </Typography>
             <br />
 
-<img src={`${process.env.PUBLIC_URL + '/images/graph.jpg'}`} alt="graph"  
-// sx={{width: "100px", height: "100px"}}
+<img src={`${process.env.PUBLIC_URL + '/images/graph.jpg'}`} alt="graph"
 style={{width: "400px", height: "300px", borderRadius: "5px"}}
 />
-            {/* <Bar key="appointmentsChart" data={chartData} options={chartOptions} /> */}
 
           </Box>
 
@@ -427,72 +367,19 @@ style={{width: "400px", height: "300px", borderRadius: "5px"}}
         }}>
 
 <Box sx={{}}>
-  {/* <Rating name="half-rating " size="large" value={averageRating} precision={0.5} style={{fontSize: "3rem"}} /> */}
   <Rating name="half-rating-read"
-   value = {averageRating} 
-  // defaultValue= {3.5}
+   value = {averageRating}
    
    precision={0.5} readOnly style= {{fontSize: "2.5rem"}}/>
   <h3>Overall Rating</h3>
 </Box>
-          {/* <Box>
-            <Typography
-              style={{
-
-                fontWeight: "bolder",
-                paddingLeft: "2rem",
-              }}
-              variant="h5"
-              component="div"
-            >
-
-
-            </Typography>
-            <AccountCircleTwoToneIcon
-              style={{
-                fontSize: "4rem",
-
-
-              }}
-              sx={{
-                color: "#008080",
-
-              }}
-            />
-            {/* <Rating defaultValue={2.5}
-              precision={0.5}
-              style={{
-
-                fontSize: "2.5rem",
-              }}
-
-              name="rating"
-            // value={rating}
-            // onChange={handleRatingChange}
-
-
-            /> */}
-
-{/* <Rating value={latestReview.ratingValue} precision={0.5} style={{ fontSize: "2.5rem" }} name="rating"  readOnly/>
-
-            <Typography
-              style={{ fontSize: "1.5rem" }}
-              variant="body"
-              component="div"
-            >
-              {/* Great experience! Made a same <br />
-              day appointment */}
-{/* 
-               {latestReview.reviewNote}
-            </Typography>
-          </Box> */}
-
           {latestReview ? (
   <>
    
             <AccountCircleTwoToneIcon
               style={{
                 fontSize: "4rem",
+                // marginLeft:'25rem',
              
 
 
@@ -505,11 +392,7 @@ style={{width: "400px", height: "300px", borderRadius: "5px"}}
             />
     <Rating value={latestReview.ratingValue} precision={0.5} style={{ fontSize: "2.5rem" }} name="rating" readOnly />
     <Typography style={{ fontSize: "1.5rem" }} variant="body" component="div">
-      {/* {latestReview.reviewNote} */}
-     {/* Great experience! Made a same <br />
-              day appointment  */}
               {latestReview.reviewNote}
-
     </Typography>
   </>
 ) : (
