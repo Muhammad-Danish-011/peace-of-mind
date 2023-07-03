@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Privateroute from './components/PrivateRoute/Privateroute';
-import './App.css';
+// import './App.css';
 import { AuthProvider } from './components/Authcontext/AuthContext';
 import SignupForm from './components/signup/SignupPage';
 import Loginform from './components/login/LoginPage';
@@ -12,18 +12,19 @@ import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
-import './App.css';
+// import './App.css';
 import Navbar from './global/Navbar'; 
-// import SurveyComponent from './components/SurveyComponent';
-// import SurveyModal from './components/SurveyModal';
+import SurveyModal from './components/SurveyModal';
 import Search from './components/patient/Search';
 import Meeting from './components/Room/Meeting';
+import SurveyComponent from './components/SurveyComponent'
+
 
 // import './App.css';
-// import ProfileCard from './pages/profileCard/ProfileCard';
-// import Counselor from './components/Home/Counslor';
-// import CounselorCalender from './components/counselor-calender/counselorcalender';
-// import AvailabilityTable from './components/table/AppointmentAvailability';
+import ProfileCard from './pages/profileCard/ProfileCard';
+import Counselor from './components/Home/Counslor';
+import CounselorCalender from './components/counselor-calender/counselorcalender';
+import AvailabilityTable from './components/table/AppointmentAvailability';
 function App() {
   return (
     <div className="App">
@@ -50,7 +51,7 @@ function App() {
     <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
     
-    <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
+    <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
     <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
