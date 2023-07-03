@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import { Link} from "react-router-dom";
+import moment from 'moment';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [latestReview, setLatestReview] = useState(null);
   const [availabilityIds, setAvailabilityIds] = useState([]);
+ 
+
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
+  const [weeklyAppointments, setWeeklyAppointments] = useState([]);
   useEffect(() => {
     fetchAvailabilityIds();
   }, []);
@@ -65,12 +73,26 @@ const Counslor = () => {
   const fetchAvailabilityIds = async () => {
     try {
       const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
+
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         if (data && data.length > 0) {
           const availabilityIds = data.map(availability => availability.id);
-          console.log("Availibilities ID", availabilityIds);
+          console.log("Availabilities ID:", availabilityIds);
           setAvailabilityIds(availabilityIds);
+    
+          // Get weekly appointments
+          const now = new Date();
+          const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    
+          const weeklyAppointments = data.filter(appointment => {
+            const appointmentDate = new Date(appointment.date);
+            return appointmentDate >= oneWeekAgo;
+          }).map(appointment=> appointment.date)
+    
+          console.log("Weekly Appointments:", weeklyAppointments);
+          setWeeklyAppointments(weeklyAppointments);
         }
       } else {
         console.error('Error fetching availability IDs:', response.status);
@@ -79,6 +101,60 @@ const Counslor = () => {
       console.error('Error fetching availability IDs:', error);
     }
   };
+
+  // const ChartComponent = () => {
+  //   return (
+  //     <LineChart width={600} height={300} data={weeklyAppointments}>
+  //       <CartesianGrid strokeDasharray="4 4" />
+  //       <XAxis dataKey="date" />
+  //       <YAxis />
+  //       <Tooltip />
+  //       <Legend />
+  //       <Line type="monotone" dataKey="value" fill="#8884d8" />
+  //     </LineChart>
+  //   );
+  // };
+  
+  const ChartComponent = () => {
+    // Calculate the number of appointments for each week
+
+// const weeklyAppointmentsData = weeklyAppointments.reduce((data, appointment) => {
+//   const weekStart = moment(appointment).startOf('week').format('YYYY-MM-DD');
+//   if (data[weekStart]) {
+//     data[weekStart] += 1;
+//   } else {
+//     data[weekStart] = 1;
+//   }
+//   return data;
+// }, {});
+
+const countByDate = weeklyAppointments.reduce((counts, date) => {
+  counts[date] = (counts[date] || 0) + 1;
+  return counts;
+}, {});
+    // Convert the appointment data to an array of objects
+    const chartData = Object.entries(countByDate).map(([date, count]) => ({
+      date,
+      count
+    }));
+  
+    return (
+      <BarChart width={400} height={300} data={chartData}>
+        <CartesianGrid strokeDasharray="5 5" />
+        <XAxis dataKey="date"/>
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="count" stroke="#8884d8" />
+      </BarChart>
+    );
+  };
+  
+
+
+
+
+
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       availabilityIds.map(availabilityId =>
@@ -92,6 +168,8 @@ const Counslor = () => {
         if(data){
           setAppointments(appointments => [...appointments,data]);
         }
+
+      
       })
 
       );
@@ -140,11 +218,10 @@ return (
           flexDirection: "column",
         }}
       >
-        <h3>Today's Appointments</h3>
+        <h3>UpComing Latest Appointment</h3>
         <p>Date & Time: {<strong>{latestAppointment.date}</strong>} </p>
-        <p>Today's Meeting Link: <a href="www.zoom.com">www.zoom.com</a></p>
-        {/* </div>
-          ))} */}
+        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{latestAppointment.meetingURL}</Link></p>
+       
       </Box>
 
       <Box sx={{
@@ -187,9 +264,10 @@ return (
           </Typography>
           <br />
 
-          <img src={`${process.env.PUBLIC_URL + '/images/graph.jpg'}`} alt="graph"
+          {/* <img src={`${process.env.PUBLIC_URL + '/images/graph.jpg'}`} alt="graph"
             style={{ width: "400px", height: "300px", borderRadius: "5px" }}
-          />
+          /> */}
+          <ChartComponent />
 
         </Box>
 
