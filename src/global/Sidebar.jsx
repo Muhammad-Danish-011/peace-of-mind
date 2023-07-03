@@ -5,12 +5,21 @@ import PsychologyRoundedIcon from '@mui/icons-material/PsychologyRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
-import Home from '../pages/home/Home';
-import Councler from '../pages/councler/Councler';
-import Calendar from '../pages/calendar/Calendar';
+// import Home from '../pages/home/Home';
+// import Councler from '../pages/councler/Councler';
+// import Calendar from '../pages/calendar/Calendar'
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
+// import SurveyModal from '../components/patient/SurveyModal';
+// import SurveyComponent from '../components/patient/SurveyComponent';
+// import Counselor from '../components/Home/Counslor';
+// import CounselorCalender from '../components/counselor-calender/counselorcalender';
+// import UserProfile from '../components/UserProfile/UserProfile';
+// import AvailabilityTable from '../components/table/AppointmentAvailability';
+// import Search from '../components/patient/Search';
+// import ProfileCard from '../pages/profileCard/ProfileCard';
+
 
 const Sidebar = styled('div')(
   {
@@ -60,9 +69,12 @@ export default function PersistentDrawerLeft() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [selectedComponent, setSelectedComponent] = React.useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const role = sessionStorage.getItem('role');
+  console.log(role)
 
   React.useEffect(() => {
+
     // This effect runs whenever the location changes (i.e. the user navigates to a new URL)
     const path = location.pathname.slice(1); // Remove the leading "/"
     setSelectedComponent(path || 'home'); // If there's no path, default to the home component
@@ -72,40 +84,90 @@ export default function PersistentDrawerLeft() {
     setSidebarOpen(true);
   };
 
-  const handleComponentChange = (component) => {
-    setSelectedComponent(component);
-    navigate(`/${component}`);
-  };
+  // const handleComponentChange = (component) => {
+  //   setSelectedComponent(component);
+  //   navigate(`/${component}`);
+  // };
 
   return (
     <Box sx={{ position: 'relative' }}>
       <Navbar handleSidebarToggle={handleSidebarToggle} />
       {role === "PATIENT" ? <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('home')}>
-          <HomeIcon style={{ fontSize: '48px' }} />
+        <Link to={'/home'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <HomeIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/search'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/user-profile'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/surveyform'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'search'} onClick={() => handleComponentChange('search')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'search'} onClick={() => handleComponentChange('search')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyform'} onClick={() => handleComponentChange('surveyform')}>
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        
+      </Sidebar> 
+      : 
+      <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
+
+        <Link to={'/home'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <HomeIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/councler'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/user-profile'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/availibilitytable'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('counselor')}>
+          <HomeIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
           <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
-          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-      </Sidebar>
-        :
-        <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
-          <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('home')}>
-            <HomeIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-          <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('councler')}>
-            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-          <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calendar'} onClick={() => handleComponentChange('calendar')}>
-            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Sidebar>}
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} /> */}
+        {/* </SidebarIcon> */}
+      </Sidebar>}
       {sidebarOpen && (
         <CloseIconWrapper>
           <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
@@ -113,7 +175,8 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </CloseIconWrapper>
       )}
-      {selectedComponent === 'home' && <Home />}
+      {/* routes for patinet */}
+      {/* {selectedComponent === 'home' && <Home />}
       {selectedComponent === 'survey' && <SurveyModal />}
       {selectedComponent === 'surveyform' && <SurveyComponent />}
       {selectedComponent === 'search' && <Search />}
@@ -123,7 +186,7 @@ export default function PersistentDrawerLeft() {
       {selectedComponent === 'counselor' && <Counselor />}
       {selectedComponent === 'Calendar' && <CounselorCalender />}
       {selectedComponent === 'user-profile' && <UserProfile />}
-      {selectedComponent === 'availibilitytable' && <AvailabilityTable />}
+      {selectedComponent === 'availibilitytable' && <AvailabilityTable />} */}
     </Box>
   );
 }
