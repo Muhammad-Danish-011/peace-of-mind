@@ -13,12 +13,7 @@ const CounselorCalender = () => {
   const obj = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
-    fetch(`${accountUrl}/user/get/${obj?.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    fetch(`${accountUrl}/user/get/${obj?.id}`)
       .then((response) => response.json())
       .then((data) => {
         setFirstName(data.firstName);
