@@ -22,7 +22,7 @@ const UserProfile = () => {
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
   const [guardianPhoneNumber, setGuardianPhoneNumber] = useState("");
-  const { loginUserId } = useContext(AuthContext);
+  // const { loginUserId } = useContext(AuthContext);
 
   const obj = JSON.parse(sessionStorage.getItem("user"));
 
@@ -56,7 +56,7 @@ const UserProfile = () => {
     };
 
     fetch(
-      `http://accountservice.us-east-1.elasticbeanstalk.com/user/update/${obj.id}`,
+      `http://accountservice.us-east-1.elasticbeanstalk.com/user/update/${obj?.id}`,
       {
         method: "POST",
         headers: {
@@ -136,7 +136,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetch(
-      `${accountUrl}/user/get/${obj.id}`
+      `${accountUrl}/user/get/${obj?.id}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -152,7 +152,7 @@ const UserProfile = () => {
 
         if (data.role === "COUNSELOR") {
           fetch(
-            `${councelorUrl}/counselor/get/${obj.id}`
+            `${councelorUrl}/counselor/get/${obj?.id}`
           )
             .then((response) => response.json())
             .then((counselorData) => {
@@ -298,6 +298,7 @@ const UserProfile = () => {
                 variant="contained"
                 onClick={userHandleSave}
                 startIcon={<SaveIcon />}
+
                 sx={{
                   width: "10%",
                   backgroundColor: "black",
@@ -360,6 +361,7 @@ const UserProfile = () => {
                   <InputBase
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
+                    data-testid = 'lastname'
                     sx={{
                       fontWeight: "bold",
                       fontSize: "1.2rem",

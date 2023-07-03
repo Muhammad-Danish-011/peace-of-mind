@@ -7,7 +7,7 @@ import { jsonData } from "../../jsonData";
 import * as SurveyPDF from "survey-pdf";
 import jsPDF from "jspdf";
 // import pdfForm from './pdfForm'
-import { uploadFile } from 'react-s3';
+// import { uploadFile } from 'react-s3';
 import { Buffer } from "buffer";
 // const pdfForm = require('./pdfForm')
 window.Buffer = window.Buffer || Buffer;
