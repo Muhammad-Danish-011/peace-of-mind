@@ -236,33 +236,7 @@ return (
             precision={0.5} readOnly style={{ fontSize: "2.5rem" }} />
           <h3>Overall Rating</h3>
         </Box>
-        {latestReview ? (
-          <>
-
-            <AccountCircleTwoToneIcon
-              style={{
-                fontSize: "4rem",
-                // marginLeft:'25rem',
-
-
-
-              }}
-              sx={{
-                color: "#008080",
-                marginLeft: "5rem"
-
-              }}
-            />
-            <Rating value={latestReview.ratingValue} precision={0.5} style={{ fontSize: "2.5rem" }} name="rating" readOnly />
-            <Typography style={{ fontSize: "1.5rem" }} variant="body" component="div">
-              {latestReview.reviewNote}
-            </Typography>
-          </>
-        ) : (
-          <Typography variant="body" component="div">
-            No review available.
-          </Typography>
-        )}
+       
       </Box>
 
 
