@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Route } from 'react-router-dom';
 
@@ -83,18 +83,16 @@ export default function OutlinedCard({basicCard}) {
 
 
   return (
-    
-     <Box
-    width='300px'
-    display='flex'
-    justifyContent="center"
-    alignItems="center"
-    sx={{
-        borderRadius:'50px',
-    }}
-    
+    <Box
+      width='300px'
+      display='flex'
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        borderRadius: '50px',
+      }}
     >
-      <Card style={{"borderRadius":'30px'}}>{card}</Card>
+      <Card style={{ "borderRadius": '30px' }}>{card}</Card>
     </Box>
   );
 }
