@@ -24,7 +24,7 @@ const Search = ({onClick}) => {
         justifyContent: 'center',
         alignItems: 'center',
         margin: 'auto',
-        width: { xs: '90%', md: '60%' },
+        width: { xs: '90%', md: '70%' },
       }}
     >
       <Paper
@@ -40,7 +40,7 @@ const Search = ({onClick}) => {
         }}
       >
         <InputBase
-          placeholder='Search...'
+          placeholder='Search here'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           sx={{

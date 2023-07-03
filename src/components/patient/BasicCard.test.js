@@ -4,8 +4,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import BasicCard from './BasicCard';
 
-
-
 jest.mock('react-router-dom', () => ({
     useNavigate: () => jest.fn(),
   }));

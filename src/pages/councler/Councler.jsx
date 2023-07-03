@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import Search from '../../components/patient/Search';
 import BasicCard from '../../components/patient/BasicCard';
@@ -16,14 +17,14 @@ const styles = {
   },
   cardContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(4, 280px)',
     rowGap: '20px', // Add row gap
     columnGap: '20px', // Add column gap
     justifyContent: 'center', 
     marginTop: '60px !important',
 
     // Add media query for smaller screens
-    '@media (max-width: 768px)': {
+    '@media (max-width: 1600px)': {
       display: 'flex', // Use flexbox layout
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -38,20 +39,34 @@ const styles = {
 const Councler = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [cards, setCards] = useState([]);
 
-  const cards = [1,2,3,4,5,6,7];
+  // const cards = [1,2,3,4,5,6,7];
+  useEffect(() => {
+    //Runs on every render
+    fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
+    .then(data => data.json())
+    .then(data => {
+      console.log({data})
+      setCards(data); // Limit to first 6 elements
+
+    })
+    .catch(err => console.group(err))
+  },[]);
 
   return (
     <Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 8 : theme.spacing(45)
+      marginLeft: isSmallScreen ? 8 : theme.spacing(7)
 
     }}>
       <Search/>
       <Box sx={styles.cardContainer}>
-        {cards.map((card) => (
-          <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))}
+      {
+        cards.map((card) => (
+          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))
+        }
       </Box>
     </Box>
   )

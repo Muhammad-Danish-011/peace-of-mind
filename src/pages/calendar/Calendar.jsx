@@ -1,12 +1,10 @@
 import React from 'react'
-import Card from '../../components/patient/Card';
-
-
+// import ProfileCard from '../../components/patient/ProfileCard';
 
 const Calendar = () => {
   return (
     <div>
-      {/* <Card/> */}
+      Appointments
     </div>
   )
 }

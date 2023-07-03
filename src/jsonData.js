@@ -35,8 +35,8 @@ export const jsonData = {
        },
        {
         "type": "checkbox",
-        "name": "Are you",
-        "title": "Are you",
+        "name": "Are you currently2",
+        "title": "Are you currently",
         "isRequired": true,
         "validators": [
          {
@@ -138,7 +138,7 @@ export const jsonData = {
         "choices": [
          "Sometimes",
          {
-          "value": "Maytime",
+          "value": "Manytime",
           "text": "Manytime"
          },
          "Every time",
