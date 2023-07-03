@@ -47,6 +47,7 @@ const Home = () => {
 
   // const cards = [1,2,3,4,5,6];
   const [cards, setCards] = useState([]);
+  const [ appointment, setAppopintment] = useState();
 
   useEffect(() => {
     //Runs on every render
@@ -57,6 +58,13 @@ const Home = () => {
       setCards(data.slice(0,6))
     })
     .catch(err => console.group(err))
+
+    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
+    .then(data => data.json())
+    .then(data => {
+      console.log({data})
+      setAppopintment(data)
+    })
   },[]);
  
 

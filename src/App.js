@@ -31,6 +31,9 @@ function App() {
    
     <BrowserRouter>
     <AuthProvider>
+
+
+
     <Routes>
     {/* <Sidebar> */}
       {/* <Routes>
@@ -41,7 +44,7 @@ function App() {
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
     {/* </Sidebar> */}
-    <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} />
+    {/* <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} /> */}
     
     <Route path="/forget-password" element={<ForgetPassword />} />
     <Route path="/new-password" element={<NewPassword /> } />
@@ -54,7 +57,7 @@ function App() {
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
     <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
     
-    <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
+    <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
     </AuthProvider>
