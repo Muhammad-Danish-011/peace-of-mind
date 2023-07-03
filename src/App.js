@@ -51,7 +51,7 @@ function App() {
     <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
     
-    <Route path="/counselor" element={<Privateroute> <Counselor/></Privateroute> } />
+    <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
     <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />

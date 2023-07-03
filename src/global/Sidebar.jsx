@@ -144,7 +144,7 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/user-profile'}>
+        <Link to={'/Calendar'}>
           <SidebarIcon component={IconButton} color="primary">
             <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
@@ -162,7 +162,10 @@ export default function PersistentDrawerLeft() {
         {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
           <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
