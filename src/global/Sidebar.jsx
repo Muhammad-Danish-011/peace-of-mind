@@ -101,7 +101,7 @@ export default function PersistentDrawerLeft() {
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveymodal'} onClick={() => handleComponentChange('surveymodal')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
           <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
       </Sidebar> 
@@ -130,7 +130,7 @@ export default function PersistentDrawerLeft() {
       {/* routes for patinet */}
       {selectedComponent === 'home' && <Home />}
       {selectedComponent === 'survey' && <SurveyModal />}
-      {selectedComponent === 'surveymodal' && <SurveyModal />}
+      {selectedComponent === 'surveyform' && <SurveyComponent />}
       {selectedComponent === 'search' && <Search />}
       {selectedComponent === 'councler' && <Councler />}
       {selectedComponent === 'calendar' && <Calendar />}
