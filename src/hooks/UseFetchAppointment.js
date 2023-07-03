@@ -1,15 +1,15 @@
 import { useState } from "react";
 
-const UseFetchAppointment = () => {
-    const [appointmentData, setAppointmentData] = useState(null);
+const UseFetchAppointment = (url) => {
+    const [appointmentData, setAppointmentData] = useState([]);
     const [loading, setLoading] = useState(false);
 
     function fetchAllAppointment() {
         setLoading(true);
-        fetch('http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall')
+        fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments${url}`)
             .then((response) => response.json())
             .then((appointment) => {
-                console.log(appointment);
+                // console.log(appointment);
                 setAppointmentData(appointment);
                 setLoading(false);
             })

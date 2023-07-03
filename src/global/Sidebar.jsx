@@ -107,13 +107,13 @@ export default function PersistentDrawerLeft() {
       </Sidebar> 
       : 
       <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('counselor')}>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'counselor'} onClick={() => handleComponentChange('counselor')}>
           <HomeIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
           <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
         </SidebarIcon>
         <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
