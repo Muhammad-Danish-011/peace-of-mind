@@ -1,10 +1,49 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Tappoint from '../../components/patient/Tappoint';
 import Prevappoints from '../../components/patient/Prevappoints';
 import MiniCard from '../../components/patient/MiniCard';
 import { Box } from '@mui/material';
 
 const Card = () => {
+
+  const [tapAppointment, setTapAppoinetment] = useState([]);
+  const [loader, setLoader] = useState(null);
+  const [ appointments, setAppopintments] = useState([]);
+  const userId = sessionStorage.getItem('loginUserId')
+
+  
+  useEffect(() =>{
+
+    setLoader(true);
+    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
+    .then(data => data.json())
+    .then(data => {
+      setAppopintments(data);
+    })
+    
+    setLoader(false)
+
+},[])
+
+  useEffect(()=>{
+
+    if(appointments.length>0)
+    {
+      const appointment = [];
+      appointments.map((item)=>{
+        if(+userId === item.patientid && item.confirmed === true){
+          appointment.push(item);
+        }
+      })
+
+      console.log('inner useEffect', appointment);
+      setTapAppoinetment(appointment)
+
+    }
+
+  },[appointments])
+
+
   return (
     <Box sx={{
       p: 2,
@@ -31,7 +70,7 @@ const Card = () => {
       },
     }}>
       <Box mt={-15}>
-        <Tappoint />
+        {loader && tapAppointment.length > 0 ? "loading" : <Tappoint tapAppointment={tapAppointment}/>  }
       </Box>
       <Box mt={2}>
         <Prevappoints />

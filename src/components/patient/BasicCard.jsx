@@ -15,13 +15,13 @@ export default function OutlinedCard({basicCard}) {
   const [user, setUser] = useState("")
 
   useEffect(() =>{
-    console.log({basicCard})
+    // console.log({basicCard})
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)
     .then(data => data.json())
     .then(data => {
       // console.log(data)
       setUser(data)
-      console.log({user})
+      // console.log({user})
 
     })
   },[])
