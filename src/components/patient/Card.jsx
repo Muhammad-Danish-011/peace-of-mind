@@ -7,21 +7,21 @@ import { Box } from '@mui/material';
 const Card = () => {
 
   const [tapAppointment, setTapAppoinetment] = useState([]);
-  const [loader, setLoader] = useState(null);
+  const [loader, setLoader] = useState(true);
   const [ appointments, setAppopintments] = useState([]);
   const userId = sessionStorage.getItem('loginUserId')
 
   
   useEffect(() =>{
 
-    setLoader(true);
+    // setLoader(true);
     fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
     .then(data => data.json())
     .then(data => {
       setAppopintments(data);
+      setLoader(false)
     })
     
-    setLoader(false)
 
 },[])
 
@@ -41,7 +41,7 @@ const Card = () => {
 
     }
 
-  },[appointments])
+  },[appointments.length>0])
 
 
   return (
@@ -70,7 +70,7 @@ const Card = () => {
       },
     }}>
       <Box mt={-15}>
-        {loader && tapAppointment.length > 0 ? "loading" : <Tappoint tapAppointment={tapAppointment}/>  }
+        {loader ? "loading" : <Tappoint tapAppointment={tapAppointment}/>  }
       </Box>
       <Box mt={2}>
         <Prevappoints />
