@@ -31,6 +31,7 @@ const style = {
 
 
 const AvailabilityTable = () => {
+  const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const [appointments, setAppointments] = useState([]);
   const [availabilityData, setAvailabilityData] = useState([]);
   const [acceptedAppointments, setAcceptedAppointments] = useState(null);
@@ -44,7 +45,7 @@ const AvailabilityTable = () => {
       .then((data) => setAppointments(data))
       .catch((error) => console.log(error));
 
-    fetch("http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/all")
+    fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`)
       .then((response) => response.json())
       .then((data) => setAvailabilityData(data))
       .catch((error) => console.log(error));
