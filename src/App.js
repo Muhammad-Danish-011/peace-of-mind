@@ -7,7 +7,6 @@ import Loginform from './components/login/LoginPage';
 import ForgetPassword from './components/ForgetPassword/ForgotPassword';
 import NewPassword from './components/newpassword/NewPassword';
 
-import UserProfile from './components/UserProfile/UserProfile';
 import Sidebar from './global/Sidebar';
 import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
