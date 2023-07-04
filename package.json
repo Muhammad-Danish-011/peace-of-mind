@@ -6,9 +6,6 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@fullcalendar/bootstrap": "^6.1.8",
-    "@fullcalendar/core": "^6.1.8",
-    "@fullcalendar/daygrid": "^6.1.8",
-    "@fullcalendar/react": "^6.1.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "@testing-library/jest-dom": "^5.16.5",
@@ -54,5 +51,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "msw": "^1.2.2"
   }
 }

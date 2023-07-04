@@ -147,14 +147,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
-import SurveyModal from '../components/patient/SurveyModal';
-import SurveyComponent from '../components/patient/SurveyComponent';
-import Counselor from '../components/Home/Counslor';
-import CounselorCalender from '../components/counselor-calender/counselorcalender';
-import UserProfile from '../components/UserProfile/UserProfile';
-import AvailabilityTable from '../components/table/AppointmentAvailability';
-import Search from '../components/patient/Search';
-import ProfileCard from '../pages/profileCard/ProfileCard';
+import FormatAlignLeftRoundedIcon from '@mui/icons-material/FormatAlignLeftRounded';
+// import SurveyModal from '../components/patient/SurveyModal';
+// import SurveyComponent from '../components/patient/SurveyComponent';
+// import Counselor from '../components/Home/Counslor';
+// import CounselorCalender from '../components/counselor-calender/counselorcalender';
+// import UserProfile from '../components/UserProfile/UserProfile';
+// import AvailabilityTable from '../components/table/AppointmentAvailability';
+// import Search from '../components/patient/Search';
+// import ProfileCard from '../pages/profileCard/ProfileCard';
 
 
 const Sidebar = styled('div')(
@@ -228,85 +229,60 @@ export default function PersistentDrawerLeft() {
   return (
     <Box sx={{ position: 'relative' }}>
       <Navbar handleSidebarToggle={handleSidebarToggle} />
-      {role === "PATIENT" ? <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
-        <Link to={'/home'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <HomeIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
+      {role === "PATIENT" ? (
+        <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
+          <Link to={'/home'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <HomeIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
 
-        <Link to={'/search'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
+          <Link to={'/search'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
 
-        <Link to={'/user-profile'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
+          <Link to={'/user-profile'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
 
-        <Link to={'/surveyform'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
+          <Link to={'/surveyform'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <FormatAlignLeftRoundedIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
+        </Sidebar>
+      ) : (
+        <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
+          <Link to={'/home'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <HomeIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
 
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'search'} onClick={() => handleComponentChange('search')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
-          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyform'} onClick={() => handleComponentChange('surveyform')}>
-          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        
-      </Sidebar> 
-      : 
-      <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
+          <Link to={'/councler'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
 
-        <Link to={'/home'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <HomeIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
+          <Link to={'/user-profile'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
 
-        <Link to={'/councler'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        <Link to={'/Calendar'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        <Link to={'/availibilitytable'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('counselor')}>
-          <HomeIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
-          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
-          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} /> */}
-        {/* </SidebarIcon> */}
-      </Sidebar>}
+          <Link to={'/availibilitytable'}>
+            <SidebarIcon component={IconButton} color="primary">
+              <FormatAlignLeftRoundedIcon style={{ fontSize: '48px' }} />
+            </SidebarIcon>
+          </Link>
+        </Sidebar>
+      )}
+      
       {sidebarOpen && (
         <CloseIconWrapper>
           <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
@@ -329,4 +305,3 @@ export default function PersistentDrawerLeft() {
     </Box>
   );
 }
-

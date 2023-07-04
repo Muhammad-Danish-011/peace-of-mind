@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export default function Appointments() {
 
+    //updated
     return (
         <div>
             <Tabs>

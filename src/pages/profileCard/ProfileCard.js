@@ -56,6 +56,7 @@ const ProfileCard = () => {
 
   // Render user and counselor data in a Material UI Grid layout
   return (
+    <>
     <Root>
       <ProfilePicture src={user.profilePictureUrl} alt="Profile Picture">
         <AccountCircleRoundedIcon fontSize="large" />
@@ -77,6 +78,7 @@ const ProfileCard = () => {
         </Grid>
       </Grid>
     </Root>
+    </>
   );
 };
 
