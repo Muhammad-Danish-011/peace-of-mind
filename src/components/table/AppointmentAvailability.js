@@ -17,7 +17,7 @@ import {
 const style = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "0%",
   transform: "translate(-50%, -50%)",
   width: 400,
   backgroundColor: "#a0d4d4",
@@ -235,7 +235,7 @@ const AvailabilityTable = () => {
 
   return (
     <>
-      <Box sx={{ overflowX: "auto" }}>
+      <Box sx={{  margin: "0.5% 3% 0% 3%"}}>
         <TableContainer
           component={Paper}
           sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}

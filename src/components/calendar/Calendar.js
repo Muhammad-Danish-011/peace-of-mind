@@ -218,7 +218,7 @@ const Calendar = ({ type }) => {
 
 
   return (
-    <div style={{ height :'50%', width: '50%' }}>
+    <div style={{ height :'50%', width: '100vw' }}>
       <h1>Calendar</h1>
 
       {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import { Link} from "react-router-dom";
-import moment from 'moment';
+// import moment from 'moment';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 
@@ -10,8 +10,8 @@ import SideBarCounselor from './SideBarCounselor';
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
-  const [averageRating, setAverageRating] = useState(0);
-  const [latestReview, setLatestReview] = useState(null);
+  // const [averageRating, setAverageRating] = useState(0);
+  // const [latestReview, setLatestReview] = useState(null);
   const [availabilityIds, setAvailabilityIds] = useState([]);
  
 
