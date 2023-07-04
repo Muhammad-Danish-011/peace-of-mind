@@ -56,7 +56,9 @@ function App() {
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
     <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
-    
+    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    <Route path='/survey' element={<Privateroute><SurveyComponent/></Privateroute>} />  
+
     <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     </Routes>
