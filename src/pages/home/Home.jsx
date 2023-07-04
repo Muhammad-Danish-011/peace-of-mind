@@ -54,7 +54,7 @@ const Home = () => {
     .then(data => data.json())
     .then(data => {
       console.log({data})
-      setCards(data)
+      setCards(data.slice(0,6))
     })
     .catch(err => console.group(err))
 
@@ -65,7 +65,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
-    navigate('/councler');
+    navigate('/search');
   };
   return (<>
     {<Box sx={{
@@ -78,15 +78,16 @@ const Home = () => {
       <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
       >
-        {/* {cards.map((card) => (
-          <BasicCard key={`card-${card.counselorId}`} props={cards} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))} */}
-        <BasicCard/>
+        {
+        cards.map((card) => (
+          // console.log(card)
+          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))
+        }
       </Box>
       <Card />
     </Box>}
-    </>
-  )
+    </>)
 }
 
 export default Home;

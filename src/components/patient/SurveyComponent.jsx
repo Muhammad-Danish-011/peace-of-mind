@@ -45,7 +45,7 @@ function SurveyComponent() {
     doc.setFont("Arial", "normal");
     const questions = [
       { question: "Q: Are you currently", key: "Are you currently" },
-      { question: "Q: Are you", key: "Are you" },
+      { question: "Q: Are you currently2", key: "Are you currently2" },
       { question: "Q: Do you have any children", key: "Do you have any children" },
       { question: "Q: Primary Care Physician", key: "Primary Care Physician" },
       { question: "Q: Current Therapist / Counselor", key: "Current Therapist / Counselor" },

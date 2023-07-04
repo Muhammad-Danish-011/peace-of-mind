@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfileCard from '../../pages/profileCard/ProfileCard'
+import ProfileCard from '../profileCard/ProfileCard'
 
 const CounclerProfile = () => {
   return (

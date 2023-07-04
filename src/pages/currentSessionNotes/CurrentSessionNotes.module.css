@@ -1,0 +1,11 @@
+  .main {
+    background-color: #a0d4d4;
+    height: 100%;
+  }
+  
+  .noteContainer {
+    background-color: #a0d4d4;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap-reverse;
+  }

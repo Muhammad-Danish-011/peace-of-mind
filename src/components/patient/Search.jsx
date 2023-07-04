@@ -24,6 +24,7 @@ const Search = ({onClick}) => {
         justifyContent: 'center',
         alignItems: 'center',
         margin: 'auto',
+        marginTop: '30px',
         width: { xs: '90%', md: '70%' },
       }}
     >

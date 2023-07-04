@@ -7,41 +7,43 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import Modal from './Modal';
 
 import UseFetchAvailabilities from '../../hooks/UseFetchAvailabilities';
-import moment from 'react-moment';
+import moment from 'moment';
 import UseFetchAppointment from '../../hooks/UseFetchAppointment';
 
-// import Moment from 'react-moment'
 import './Calendar.css'
 
 const Calendar = ({ type }) => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const { data, loading, setLoading, fetchAllAvailability } = UseFetchAvailabilities();
-  const { appointmentData, fetchAllAppointment } = UseFetchAppointment();
+  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj.id}`);
+  const { appointmentData, fetchAllAppointment } = UseFetchAppointment('/getall');
   const [event, setEvent] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [select, setSelect] = useState(null);
 
+
+
   useEffect(() => {
     fetchAllAvailability();
     fetchAllAppointment();
-  }, [])
+  },[])
 
   useEffect(() => {
-    if (data && appointmentData) {
-      const formattedEvents = data.map(availabilities => {
+    if (data.length > 0 && appointmentData.length > 0) {
 
+      const formattedEvents = data.map(availabilities => {
+        
         const startDate = new Date(availabilities.date);
         const endDate = new Date(startDate.getTime() + 30 * 60 * 1000);
 
-        console.log(startDate)
-        console.log(endDate)
+        // console.log(startDate)
+        // console.log(endDate)
 
         const isPast = new Date(startDate) < new Date();
         const isBooked = appointmentData.some(item => item.availabilityId === availabilities.id);
 
-
+        
         if (isPast) {
           return {
             id: availabilities.id,
@@ -55,13 +57,16 @@ const Calendar = ({ type }) => {
             id: availabilities.id,
             title: isBooked ? 'Booked' : 'Available',
             start: availabilities.date,
-            end: endDate.toISOString(),
+            end:  endDate.toISOString(),
             color: isBooked ? '#dc3545' : '#007bff',
           };
         }
-      });
+      });  
       setEvent(formattedEvents);
     }
+    if(noAvailability){
+       setEvent([{}]);
+     }
   }, [data, appointmentData]);
 
   const handleClickOpen = () => {
@@ -79,11 +84,11 @@ const Calendar = ({ type }) => {
     let dateNow = moment().format('YYYY-MM-DDTHH:mm:ss');
     console.log(dateNow)
 
-    if (selectInfo.endStr < dateNow) {
-      console.log('Date is before');
+    if(selectInfo.endStr < dateNow ){
+      console.log( 'Date is before');
       return false;
-
-    } else {
+      
+    }else{
       console.log(selectInfo.startStr)
       setSelect(false)
       setSelectedEvent(selectInfo.startStr);
@@ -93,16 +98,16 @@ const Calendar = ({ type }) => {
   }
 
   const handleEventClick = (clickInfo) => {
-
-    console.log(clickInfo.event.startStr);
+    
+    console.log(clickInfo.event.startStr);    
     let dateNow = moment().format('YYYY-MM-DDTHH:mm:ss');
     console.log(dateNow)
 
-    if (clickInfo.event.startStr < dateNow || clickInfo.event.backgroundColor === '#dc3545') {
-      console.log('Date is before');
-
-
-    } else {
+    if(clickInfo.event.startStr < dateNow || clickInfo.event.backgroundColor === '#dc3545' ){
+      console.log( 'Date is before');
+     
+      
+    }else{
       setSelect(true)
       setSelectedEvent(clickInfo.event);
       handleClickOpen();
@@ -114,11 +119,11 @@ const Calendar = ({ type }) => {
     setLoading(true);
     try {
       console.log(selectedEvent);
-      let appointment = {
-        availabilityId: selectedEvent.id,
-        patientid: 3,
-        confirmed: false,
-        deleted: 0
+      let appointment= {
+        availabilityId : selectedEvent.id,
+        patientid : 3,
+        confirmed : false,
+        deleted : 0
       }
 
       const response = await fetch('http://appointment.us-west-2.elasticbeanstalk.com/appointments', {
@@ -128,21 +133,20 @@ const Calendar = ({ type }) => {
         },
         body: JSON.stringify(appointment),
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
 
-        let newData = event.map(item => {
-          if (item.id === responseData.availabilityId) {
-            return { ...item, title: 'Booked', color: '#dc3545' }
+        let newData = event.map(item=>{
+          if(item.id === responseData.availabilityId){
+            return { ...item , title : 'Booked', color: '#dc3545' }
           }
-          else {
+          else{
             return item;
-          }
-        })
-
+          }})
+          
         setEvent([...newData]);
-
+        
         setLoading(false);
         setLoader(false);
         setOpen(false);
@@ -167,10 +171,10 @@ const Calendar = ({ type }) => {
       console.log(dateNow);
 
       const availability = {
-        counselorId: obj.id,
-        created: dateNow,
-        updated: dateNow,
-        date: selectedEvent
+          counselorId : obj.id,
+          created : dateNow,
+          updated : dateNow,
+          date : selectedEvent
       }
 
       const response = await fetch('http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/add', {
@@ -180,7 +184,7 @@ const Calendar = ({ type }) => {
         },
         body: JSON.stringify(availability),
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
 
@@ -196,9 +200,9 @@ const Calendar = ({ type }) => {
           end: endDate.toISOString(),
           color: '#007bff',
         }
-
+          
         setEvent([...event, obj]);
-
+        
         setLoading(false);
         setLoader(false);
         setOpen(false);
@@ -214,14 +218,14 @@ const Calendar = ({ type }) => {
 
 
   return (
-    <div style={{ height: '50%', width: '50%' }}>
+    <div style={{ height :'50%', width: '50%' }}>
       <h1>Calendar</h1>
 
       {
         !loading && event.length > 0 && (
           <main data-testid="calendar-id" >
             <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, bootstrapPlugin]}
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin , bootstrapPlugin]}
               headerToolbar={{
                 left: 'prev,next today',
                 center: 'title',
@@ -229,7 +233,7 @@ const Calendar = ({ type }) => {
               }}
               initialView='timeGridWeek'
               editable={false}
-              selectable={type === 'public' ? false : true}
+              selectable={ type === 'public' ? false : true }
               // themeSystem = 'bootstrap'
               selectMirror={true}
               dayMaxEvents={true}
@@ -244,13 +248,13 @@ const Calendar = ({ type }) => {
 
 
       {
-        select ?
+        select ? 
           <Modal data-testid="appointment-modal-trigger" open={open} handleClose={handleClose} loader={loader} bookAnAppointment={bookAnAppointment} type={"Appointment"} />
           :
           <Modal open={open} handleClose={handleClose} loader={loader} addAvailability={addAvailability} type={"Availability"} />
 
       }
-
+    
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { useEffect } from 'react';
 import Search from '../../components/patient/Search';
 import BasicCard from '../../components/patient/BasicCard';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -39,6 +39,7 @@ const styles = {
 const Councler = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [cards, setCards] = useState([]);
 
   // const cards = [1,2,3,4,5,6,7];
   useEffect(() => {
@@ -61,9 +62,11 @@ const Councler = () => {
     }}>
       <Search/>
       <Box sx={styles.cardContainer}>
-        {cards.map((card) => (
-          <BasicCard key={`card-${card}`} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))}
+      {
+        cards.map((card) => (
+          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+        ))
+        }
       </Box>
     </Box>
   )
