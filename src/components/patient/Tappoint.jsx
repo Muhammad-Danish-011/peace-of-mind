@@ -16,6 +16,15 @@ export default function OutlinedCard({tapAppointment}) {
   const [ availibility, setAvailibity] = useState([]);
   const [loader, setLoader] = useState(true)
 
+    //method for check today`s date
+    const isToday = (someDate) => {
+      const today = new Date()
+      someDate = new Date(someDate)
+      return someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+    }
+
   useEffect(()=>{
     
     if(tapAppointment.length>0){
@@ -27,15 +36,14 @@ export default function OutlinedCard({tapAppointment}) {
         .then(data => data.json())
         .then(data => {
           setLoader(false)
-          // availibility.push(data)
-          myData.push(data);
-          console.log(`+++++++++++++++++++++++++availibility++++++++++++`, data)
+          if(isToday(data.date)){
+            myData.push(data);
+            }
         })
         .catch(e=>{
           console.log(e);
         })
       })
-      console.log({myData})
       setAvailibity(myData)
       setLoader(true)
     }
@@ -60,7 +68,7 @@ export default function OutlinedCard({tapAppointment}) {
    
    <h1 style={{ fontSize: '22px', marginTop:'1rem' }}> Today's Appointments</h1>
          {!availibility > 0 ? "loading": availibility.map((avail) => {
-          console.log(avail);
+          // console.log(avail);
           return <Box key={`appointment-${avail.id}`}
            sx={{
              display:'flex',
