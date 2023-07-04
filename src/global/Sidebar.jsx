@@ -263,11 +263,27 @@ export default function PersistentDrawerLeft() {
             </SidebarIcon>
           </Link>
 
+<<<<<<< HEAD
           <Link to={'/councler'}>
             <SidebarIcon component={IconButton} color="primary">
               <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
             </SidebarIcon>
           </Link>
+=======
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'search'} onClick={() => handleComponentChange('search')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyform'} onClick={() => handleComponentChange('surveyform')}>
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        
+      </Sidebar> 
+      : 
+      <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
+>>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
 
           <Link to={'/user-profile'}>
             <SidebarIcon component={IconButton} color="primary">
@@ -275,6 +291,7 @@ export default function PersistentDrawerLeft() {
             </SidebarIcon>
           </Link>
 
+<<<<<<< HEAD
           <Link to={'/availibilitytable'}>
             <SidebarIcon component={IconButton} color="primary">
               <FormatAlignLeftRoundedIcon style={{ fontSize: '48px' }} />
@@ -283,6 +300,42 @@ export default function PersistentDrawerLeft() {
         </Sidebar>
       )}
       
+=======
+        <Link to={'/councler'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/Calendar'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/availibilitytable'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('counselor')}>
+          <HomeIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon>
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} /> */}
+        {/* </SidebarIcon> */}
+      </Sidebar>}
+>>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
       {sidebarOpen && (
         <CloseIconWrapper>
           <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
