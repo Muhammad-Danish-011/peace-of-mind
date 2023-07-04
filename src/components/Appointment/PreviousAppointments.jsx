@@ -38,6 +38,7 @@ export const PreviousAppointments = () => {
 
   const getPendingStatus = (date) => {
     const currentDate = new Date().toISOString().split("T")[0];
+    console.log(date);
     const rowDate = new Date(date).toISOString().split("T")[0];
     // const currentDate = new Date();
     // const rowDate = new Date(date);

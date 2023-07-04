@@ -73,10 +73,11 @@ const Home = () => {
       marginLeft: isSmallScreen ? 10 : theme.spacing(5)
     }}>
     <TappointLink/>
-      <Search  onClick={handleSearchClick}/>
+      <Search  onClick={handleSearchClick} />
       {/* Suggested for you */}
-      <Box sx={{...styles.cardContainer,
-      marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
+      {/* <Box sx={{...styles.cardContainer,
+      marginLeft: isSmallScreen ? 1: theme.spacing(-11),
+      }}
       >
         {
         cards.map((card) => (
@@ -84,7 +85,7 @@ const Home = () => {
           <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
-      </Box>
+      </Box> */}
       <Card />
     </Box>}
     </>)

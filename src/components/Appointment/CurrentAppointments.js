@@ -45,17 +45,18 @@ export const CurrentAppointments = () => {
 
   const getPendingStatus = (date) => {
     const currentDate = new Date().toISOString().split("T")[0];
-    const rowDate = new Date(date).toISOString().split("T")[0];
+    console.log(date);
+    // const rowDate = new Date(date).toISOString().split("T")[0];
     // const currentDate = new Date();
     // const rowDate = new Date(date);
 
-    if (rowDate < currentDate) {
-      return "Past";
-    } else if (rowDate === currentDate) {
-      return "Today";
-    } else {
-      return "Future";
-    }
+    // if (rowDate < currentDate) {
+    //   return "Past";
+    // } else if (rowDate === currentDate) {
+    //   return "Today";
+    // } else {
+    //   return "Future";
+    // }
   };
 
  
