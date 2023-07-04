@@ -10,9 +10,6 @@ import {
   Button,
   Box,
 } from "@mui/material";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
 
 const style = {
   position: "absolute",
@@ -26,7 +23,6 @@ const style = {
   p: 4,
   borderRadius: "10px",
 };
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
 
 const AvailabilityTable = () => {
   const [appointments, setAppointments] = useState([]);
@@ -34,13 +30,6 @@ const AvailabilityTable = () => {
   const [acceptedAppointments, setAcceptedAppointments] = useState([]);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
 
-<<<<<<< HEAD
-  console.log(obj);
-
-  const Nav = useNavigate();
-
-=======
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
   useEffect(() => {
     fetch(
       "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall"
@@ -77,43 +66,6 @@ const AvailabilityTable = () => {
     }
   };
 
-<<<<<<< HEAD
-  const handleAccept = (appointmentId) => {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return {
-          ...appointment,
-          confirmed: true,
-        };
-      }
-      return appointment;
-    });
-    setAppointments(updatedAppointments);
-
-    // Send the updated appointment to the API
-    fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/update`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        updatedAppointments.find((appointment) => appointment.id === appointmentId)
-      ),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle success response
-        console.log(`Appointment with ID ${appointmentId} has been accepted.`);
-        setAcceptedAppointments((prevAcceptedAppointments) => [
-          ...prevAcceptedAppointments,
-          appointmentId,
-        ]);
-      })
-      .catch((error) => {
-        // Handle error
-        console.log(`Error accepting appointment with ID ${appointmentId}:`, error);
-      });
-=======
   const handleAccept = () => {
     console.log("Accepting appointment", acceptedAppointments);
 
@@ -176,18 +128,13 @@ const AvailabilityTable = () => {
     } catch (error) {
       console.log(error);
     }
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
   };
 
   const handleDecline = (appointmentId) => {
     // Update the appointments state by removing the declined appointment
-<<<<<<< HEAD
-    const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
-=======
     const updatedAppointments = appointments.filter(
       (appointment) => appointment.id !== appointmentId
     );
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
     setAppointments(updatedAppointments);
 
     // Send a request to delete the appointment
@@ -221,11 +168,6 @@ const AvailabilityTable = () => {
   };
 
   const handleJoin = (appointmentId) => {
-<<<<<<< HEAD
-    // Handle join logic here
-    // const roomUrl = `/room/${appointmentId}`;
-    // window.open(roomUrl, '_blank', 'width=1500,height=800');
-=======
     const appointment = appointments.find(
       (appointment) => appointment.id === appointmentId
     );
@@ -239,7 +181,6 @@ const AvailabilityTable = () => {
         console.log("No meeting URL found for the selected appointment.");
       }
     }
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
   };
 
   const filteredAppointments = appointments.filter((appointment) => {
@@ -270,85 +211,6 @@ const AvailabilityTable = () => {
     return dateTime.toLocaleString("en-US", options);
   };
 
-<<<<<<< HEAD
-  return (
-    <Box sx={{ overflowX: "auto" }}>
-      <TableContainer
-        component={Paper}
-        sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}
-      >
-        <Box sx={{ minWidth: 650, overflowX: "auto" }}>
-          <Table sx={{ minWidth: 650 }}>
-            <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    backgroundColor: "#a0d4d4",
-                    color: "#000000",
-                    fontWeight: "600",
-                    borderBottom: "0px solid #ffffff",
-                    textAlign: "center",
-                  }}
-                >
-                  Availability ID
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "#a0d4d4",
-                    color: "#000000",
-                    fontWeight: "600",
-                    borderBottom: "0px solid #ffffff",
-                    textAlign: "center",
-                  }}
-                >
-                  Availability Date
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "#a0d4d4",
-                    color: "#000000",
-                    fontWeight: "600",
-                    borderBottom: "0px solid #ffffff",
-                    textAlign: "center",
-                  }}
-                >
-                  Pending Status
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "#a0d4d4",
-                    color: "#000000",
-                    fontWeight: "600",
-                    borderBottom: "0px solid #ffffff",
-                    textAlign: "center",
-                  }}
-                >
-                  Confirmation
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: "#a0d4d4",
-                    color: "#000000",
-                    fontWeight: "600",
-                    borderBottom: "0px solid #ffffff",
-                    textAlign: "center",
-                  }}
-                >
-                  Session
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {sortedAppointments.map((appointment) => (
-                <TableRow
-                  key={appointment.id}
-                  sx={{
-                    "&:last-child td": { borderBottom: 0 },
-                    "&:hover": { backgroundColor: "#daf2f2" },
-                    "&:hover td": { backgroundColor: "inherit" },
-                  }}
-                >
-=======
   const handleClose = () => {
     setOpen(false);
     setAcceptedAppointments(null);
@@ -377,7 +239,6 @@ const AvailabilityTable = () => {
             <Table sx={{ minWidth: 650 }}>
               <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
                 <TableRow>
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
                   <TableCell
                     sx={{
                       backgroundColor: "#a0d4d4",
@@ -424,61 +285,7 @@ const AvailabilityTable = () => {
                       width: "20%",
                     }}
                   >
-<<<<<<< HEAD
-                    {getPendingStatus(
-                      getAvailabilityDate(appointment.availabilityId)
-                    ) === "Future" ||
-                    getPendingStatus(
-                      getAvailabilityDate(appointment.availabilityId)
-                    ) === "Today" ? (
-                      <>
-                        {appointment.confirmed ? (
-                          <Button
-                            style={{
-                              backgroundColor: "#a0d4d4",
-                              color: "white",
-                              borderRadius: "9px",
-                              padding: "4px 8px",
-                              marginLeft: "50px",
-                              textTransform: "none",
-                            }}
-                          >
-                            Pending...
-                          </Button>
-                        ) : (
-                          <>
-                            <Button
-                              onClick={() => handleAccept(appointment.id)}
-                              variant="outlined"
-                              color="success"
-                              sx={{ marginRight: "8px" }}
-                            >
-                              Accept
-                            </Button>
-                            <Button
-                              onClick={() => handleDecline(appointment.id)}
-                              variant="outlined"
-                              color="error"
-                              sx={{ marginRight: "8px" }}
-                            >
-                              Decline
-                            </Button>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                      <Button
-                        onClick={() => handleDone(appointment.id)}
-                        variant="outlined"
-                        color="success"
-                        sx={{ marginLeft: "70px" }}
-                      >
-                        Done
-                      </Button>
-                    )}
-=======
                     Confirmation
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
                   </TableCell>
                   <TableCell
                     sx={{
@@ -493,14 +300,6 @@ const AvailabilityTable = () => {
                     Session
                   </TableCell>
                 </TableRow>
-<<<<<<< HEAD
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </TableContainer>
-    </Box>
-=======
               </TableHead>
               <TableBody>
                 {sortedAppointments.map((appointment) => (
@@ -698,7 +497,6 @@ const AvailabilityTable = () => {
         </Box>
       </Modal>
     </>
->>>>>>> 9d2f4fe0b159c137ceb8f605d607172991bbf416
   );
 };
 

@@ -7,24 +7,24 @@ import Loginform from './components/login/LoginPage';
 import ForgetPassword from './components/ForgetPassword/ForgotPassword';
 import NewPassword from './components/newpassword/NewPassword';
 
+import UserProfile from './components/UserProfile/UserProfile';
 import Sidebar from './global/Sidebar';
 import Home from './pages/home/Home';
 import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
-// import './App.css';
+import './App.css';
 import Navbar from './global/Navbar'; 
-import SurveyModal from './components/SurveyModal';
+import SurveyComponent from './components/patient/SurveyComponent';
+import SurveyModal from './components/patient/SurveyModal';
 import Search from './components/patient/Search';
 import Meeting from './components/Room/Meeting';
-import SurveyComponent from './components/SurveyComponent'
-
-
 // import './App.css';
 import ProfileCard from './pages/profileCard/ProfileCard';
 import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
 import AvailabilityTable from './components/table/AppointmentAvailability';
+
 function App() {
   return (
     <div className="App">
@@ -62,11 +62,19 @@ function App() {
     </Routes>
     </AuthProvider>
   </BrowserRouter>
-
-  {/* <SurveyComponent></SurveyComponent> */}
     </div>
+    
   );
+
+
+// function App() {
+// return(
+//   <>
+//   
+//   </>
+// )
+// check
 }
 
-export default App;
 
+export default App;
