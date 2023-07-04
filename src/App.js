@@ -15,16 +15,18 @@ import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 import './App.css';
 import Navbar from './global/Navbar'; 
-// import SurveyComponent from './components/SurveyComponent';
-// import SurveyModal from './components/SurveyModal';
+import SurveyComponent from './components/patient/SurveyComponent';
+//import SurveyModal from './components/SurveyModal';
 import Search from './components/patient/Search';
 import Meeting from './components/Room/Meeting';
-
+import SurveyModal from './components/patient/SurveyModal';
 // import './App.css';
-// import ProfileCard from './pages/profileCard/ProfileCard';
-// import Counselor from './components/Home/Counslor';
-// import CounselorCalender from './components/counselor-calender/counselorcalender';
-// import AvailabilityTable from './components/table/AppointmentAvailability';
+import ProfileCard from './pages/profileCard/ProfileCard';
+import Counselor from './components/Home/Counslor';
+import CounselorCalender from './components/counselor-calender/counselorcalender'
+import AvailabilityTable from './components/table/AppointmentAvailability';
+
+
 function App() {
   return (
     <div className="App">

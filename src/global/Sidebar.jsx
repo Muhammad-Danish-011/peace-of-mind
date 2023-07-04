@@ -11,6 +11,10 @@ import Calendar from '../pages/calendar/Calendar';
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
+import SurveyModal from '../components/patient/SurveyModal';
+import SurveyComponent from '../components/patient/SurveyComponent';
+import Search from '../components/patient/Search';
+import  FormatAlignJustifyRoundedIcon  from '@mui/icons-material';
 
 const Sidebar = styled('div')(
   {

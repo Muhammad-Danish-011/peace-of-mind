@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from 'react-router-dom';
 
-const SurveyModal = () => {
+const ProfileModal = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate()
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -12,10 +14,16 @@ const SurveyModal = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
-  const handleSurvey = () => {
-    // Handle survey button click event
-    console.log('User wants to fill out the mental health survey');
+
+  const handleProfile = () => {
+    setAnchorEl(null);
+    navigate('/user-profile')
+  }
+
+  const handleLogout = () =>{
+    setAnchorEl(null);
+    sessionStorage.clear()
+    navigate("/login")
   }
 
   return (
@@ -29,32 +37,35 @@ const SurveyModal = () => {
           onClick={handleMenu}
           color="inherit"
         >
-          <InsertDriveFileRoundedIcon />
+        <AccountCircleRoundedIcon style={{ fontSize: '48px' }} sx={{ color: '#008080', bgcolor: 'white', borderRadius: '50%'  }} />
         </IconButton>
         <Menu
           id="menu-appbar"
           anchorEl={anchorEl}
           anchorOrigin={{
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'right',
           }}
-          keepMounted
           transformOrigin={{
             vertical: 'top',
             horizontal: 'right',
           }}
+          keepMounted
           open={Boolean(anchorEl)}
           onClose={handleClose}
-          classes={{ paper: 'square-menu' }} // Add this line to set the menu as square
+          PaperProps={{
+            style: {
+              maxHeight: '200px',
+              width: '20ch'
+            }
+          }}
         >
-          <h2 style={{ fontSize: '24px', margin: '16px 0' }}>Take our Mental Health Survey!</h2>
-          <p style={{ fontSize: '16px', margin: '8px 0' }}>We care about your well-being and would like to invite you to take our mental health survey.</p>
-          <MenuItem onClick={handleSurvey}>Fill out survey</MenuItem>
-          <MenuItem onClick={handleClose}>Skip</MenuItem>
+          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </div>
     </div>
   );
 };
 
-export default SurveyModal;
+export default ProfileModal;

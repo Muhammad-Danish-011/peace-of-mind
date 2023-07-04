@@ -2,7 +2,7 @@ import React from "react";
 import {CurrentAppointments} from "./CurrentAppointments";
 import {PendingAppointments} from "./PendingAppointments";
 import {PreviousAppointments} from "./PreviousAppointments";
-import Tabs from '../Tabs'
+import Tabs from './Tabs'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export default function Appointments() {
