@@ -1,33 +1,67 @@
 import { styled } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import Calendar from '../../components/calendar/Calendar';
 
-const Root = styled('div')(({ theme }) => ({
-  margin: 'auto',
-  maxWidth: '600px',
-  padding: theme.spacing(3),
+// Styled components
+const ProfileContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  padding: '1rem',
+  backgroundColor: '#d7eded',
+  borderRadius: '0.5rem',
+  width: '32%',
+  marginLeft:'18rem',
+  marginTop: '35px !important',
+  
+  '@media (max-width: 768px)': {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: '0.5rem',
+  }
 }));
 
-const ProfilePicture = styled(Avatar)(({ theme }) => ({
-  width: '120px',
-  height: '120px',
-  margin: '0 auto',
-  marginBottom: theme.spacing(2),
-}));
-
-const Title = styled(Typography)({
-  textAlign: 'center',
+const Name = styled(Typography)({
   fontWeight: 'bold',
+  fontSize: '1.2rem',
+  marginLeft: '2rem',
 });
 
-const Subtitle = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  marginTop: theme.spacing(1),
-}));
+const Specialization = styled(Typography)({
+  fontSize: '18px',
+  marginBottom: '5px',
+});
+
+const ContactInfo = styled(Box)({
+ display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '50%',
+  marginTop: '1rem',
+  gap: '1rem', 
+  color:'#008080'
+});
+
+const ContactLabel = styled(Typography)({
+  fontWeight: 'bold',
+  color: '#666',
+});
+
+const Description = styled(Typography)({
+  marginTop: '10px',
+  color:'#008080'
+});
+
+const CalendarContainer = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '400px',
+  width: '100%',
+});
 
 const ProfileCard = () => {
   const { userId } = useParams();
@@ -54,30 +88,29 @@ const ProfileCard = () => {
     return <p>Loading...</p>;
   }
 
-  // Render user and counselor data in a Material UI Grid layout
   return (
     <>
-    <Root>
-      <ProfilePicture src={user.profilePictureUrl} alt="Profile Picture">
-        <AccountCircleRoundedIcon fontSize="large" />
-      </ProfilePicture>
-      <Title variant="h4">{`${user.firstName} ${user.lastName}`}</Title>
-      <Subtitle variant="subtitle1">{counselor.specialization}</Subtitle>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} sm={6}>
-          <Title variant="body1">Phone Number</Title>
-          <Subtitle variant="subtitle1">{user.phoneNumber}</Subtitle>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Title variant="body1">Email</Title>
-          <Subtitle variant="subtitle1">{user.email}</Subtitle>
-        </Grid>
-        <Grid item xs={12}>
-          <Title variant="body1">Description</Title>
-          <Subtitle variant="subtitle1">{counselor.description}</Subtitle>
-        </Grid>
-      </Grid>
-    </Root>
+      <ProfileContainer>
+        <Name>{`${user.firstName} ${user.lastName}`}</Name>
+        <ContactInfo>
+          <ContactLabel>Specialization:</ContactLabel>
+          <Typography>{counselor.specialization}</Typography>
+        </ContactInfo>
+        <ContactInfo>
+          <ContactLabel>Phone:</ContactLabel>
+          <Typography>{user.phoneNumber}</Typography>
+        </ContactInfo>
+        <ContactInfo>
+          <ContactLabel>Email:</ContactLabel>
+          <Typography>{user.email}</Typography>
+        </ContactInfo>
+        <Description>{counselor.description}</Description>
+      </ProfileContainer>
+      <Box mt={-8}>
+        <CalendarContainer>
+          <Calendar type={'public'} id={counselor.id} />
+        </CalendarContainer>
+      </Box>
     </>
   );
 };
