@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
-import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const SurveyModal = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleClose = () => {
-    setAnchorEl(null);
+    navigate('/home')
   };
   
   const handleSurvey = () => {
@@ -22,44 +20,37 @@ const SurveyModal = () => {
 
   return (
     <div>
-      <div style={{ marginLeft: 'auto' }}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleMenu}
-          color="inherit"
-        >
-          <InsertDriveFileRoundedIcon />
-        </IconButton>
-        <Menu
-          style={{
-            margin: '190px 0',
-            width: '90ch',
-            textAlign: 'center',
-            transform: 'translate(-50%, -50%)', // Adjust positioning after centering
-          }}
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          PaperProps={{
-            style: {
-              backgroundColor: '#d7eded',
-              borderRadius: '0.5rem',
-              height: '300px',
-              width: '90ch',
-            },
-          }}
-        >
+      <Box
+      sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '120px !important',
+
+    maxWidth: '400px',
+    margin: '0 auto',
+    padding: '16px',
+    '@media (max-width: 600px)': {
+      maxWidth: '250px',
+      padding: '8px',
+      marginLeft: isSmallScreen ? 14: theme.spacing()
+
+    },
+    borderRadius: '8px',
+    border: '2px solid #96bebe',
+    backgroundColor: '#96bebe',
+    
+    
+  }}
+>
+
+        
           <h2 style={{ fontSize: '24px', margin: '36px 0' }}>Take our Mental Health Survey!</h2>
           <p style={{ fontSize: '16px', margin: '34px 0' }}>We care about your well-being and would like to invite you to take our mental health survey.</p>
-          <Button sx={{ color: '#008080' }} onClick={handleSurvey}>Fill out survey</Button>
-          <Button sx={{ color: '#008080' }} onClick={handleClose}>Skip</Button>
-        </Menu>
-      </div>
+          <Button sx={{ color: '#008080', margin: '8px' }} onClick={handleSurvey}>Fill out survey</Button>
+          <Button sx={{ color: '#008080', margin: '8px' }} onClick={handleClose}>Skip</Button>
+        </Box>
     </div>
   );
 };

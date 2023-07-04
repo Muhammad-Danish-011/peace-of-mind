@@ -103,7 +103,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
-    navigate('/search');
+    navigate('/councler');
   };
   return (<>
     {<Box sx={{
@@ -129,5 +129,4 @@ const Home = () => {
 }
 
 export default Home;
-
 

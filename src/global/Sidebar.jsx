@@ -101,7 +101,7 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/search'}>
+        <Link to={'/councler'}>
           <SidebarIcon component={IconButton} color="primary">
             <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>

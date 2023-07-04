@@ -52,6 +52,8 @@ function App() {
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
     
     <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
+    <Route path="/councler" element={<Privateroute> <Councler /></Privateroute> } />
+
     <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
