@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Privateroute from './Avengers404/components/Privateroute'
 // import './App.css';
-import { AuthProvider } from './Avengers404/Pages/AuthContext';
-import SignupForm from './Avengers404/components/SignupPage';
-import Loginform from './Avengers404/Pages/LoginPage';
-import ForgetPassword from './Avengers404/Pages/ForgotPassword';
-import NewPassword from './Avengers404/Pages/NewPassword';
+// import { AuthProvider } from './Avengers404/Pages/AuthContext';
+// import SignupForm from './Avengers404/components/SignupPage';
+// import Loginform from './Avengers404/Pages/LoginPage';
+// import ForgetPassword from './Avengers404/Pages/ForgotPassword';
+// import NewPassword from './Avengers404/Pages/NewPassword';
 
 import UserProfile from './Avengers404/Pages/UserProfile';
 import Sidebar from './global/Sidebar';
@@ -17,6 +17,7 @@ import './App.css';
 import Navbar from './global/Navbar'; 
 import SurveyComponent from './components/patient/SurveyComponent';
 import SurveyModal from './components/patient/SurveyModal';
+import CurrentSessionNotes from './pages/currentSessionNotes/CurrentSessionNotes'
 
 // import './App.css';
 import ProfileCard from './components/ProfileCard';
@@ -24,11 +25,11 @@ import ProfileCard from './components/ProfileCard';
 function App() {
   return (
     <div className="App">
-    <BrowserRouter>
+    {/* <BrowserRouter>
     <Sidebar>
       <Routes>
           <Route path="/" element={ <Home /> } />
-      </Routes>
+      </Routes> */}
     {/* <AuthProvider>
     <Routes>
     <Route path="/signup" element={<SignupForm />} />
@@ -46,12 +47,13 @@ function App() {
       {/* </Sidebar>
     </BrowserRouter> */}
      
-    </Sidebar>
+    {/* </Sidebar>
     <Routes>
     <Route path='/surveymodal' element={<SurveyModal/>} />  
     <Route path='/profileCard' element={<ProfileCard/>}/>
     </Routes>
-  </BrowserRouter>
+  </BrowserRouter> */}
+  <CurrentSessionNotes/>
     </div>
     
   );

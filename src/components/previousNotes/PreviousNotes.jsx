@@ -12,7 +12,7 @@ const PreviousNotes = () => {
 
     useEffect(() => {
         fetchNotes();
-    }, [notes]);
+    });
 
     const fetchNotes = async () => {
         try {

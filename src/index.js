@@ -10,9 +10,11 @@ import Home from './Avengers404/Pages/Home';
 import UserProfile from './Avengers404/Pages/UserProfile';
 import Privateroute from './Avengers404/components/Privateroute';
 import { AuthProvider } from './Avengers404/Pages/AuthContext';
+import App from './App';
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
+  <App/>
+    {/* <BrowserRouter>
       <AuthProvider >
         <Routes>
           <Route path="/signup" element={<SignupForm />} />
@@ -25,6 +27,6 @@ createRoot(document.getElementById("root")).render(
           <Route path="/home" element={<Privateroute><Home /></Privateroute>} />          
         </Routes>
       </AuthProvider>
-    </BrowserRouter> 
+    </BrowserRouter>  */}
   </React.StrictMode>
 );
