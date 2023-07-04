@@ -524,7 +524,7 @@ const SignupForm = () => {
                   error={!!errors.description}
                   helperText={errors.description}
                   required={formData.role === "COUNSELOR"}
-                  sx={{ mb: 1, ml: 13 ,
+                  sx={{ mb: 1,
                     '@media (max-width: 610px)': {
                       mb: 2,
                       ml: 0
