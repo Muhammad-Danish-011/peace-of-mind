@@ -1,0 +1,18 @@
+.inputBasedBox input{
+text-align: center;
+width: 100%;
+font-size: large;
+font-weight: 700;
+}
+
+.inputBasedBox{
+     display: flex;
+
+     font-weight: bold;
+     font-size: 1.2rem;
+     text-decoration: underline;
+                    
+    font-family: "Quicksand, sans-serif";
+                
+   font-weight: "bold";       
+}

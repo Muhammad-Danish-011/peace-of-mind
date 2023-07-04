@@ -4,6 +4,7 @@ import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import { Link} from "react-router-dom";
 import moment from 'moment';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import SideBarCounselor from './SideBarCounselor';
 
 
 
@@ -102,31 +103,11 @@ const Counslor = () => {
     }
   };
 
-  // const ChartComponent = () => {
-  //   return (
-  //     <LineChart width={600} height={300} data={weeklyAppointments}>
-  //       <CartesianGrid strokeDasharray="4 4" />
-  //       <XAxis dataKey="date" />
-  //       <YAxis />
-  //       <Tooltip />
-  //       <Legend />
-  //       <Line type="monotone" dataKey="value" fill="#8884d8" />
-  //     </LineChart>
-  //   );
-  // };
-  
+
   const ChartComponent = () => {
     // Calculate the number of appointments for each week
 
-// const weeklyAppointmentsData = weeklyAppointments.reduce((data, appointment) => {
-//   const weekStart = moment(appointment).startOf('week').format('YYYY-MM-DD');
-//   if (data[weekStart]) {
-//     data[weekStart] += 1;
-//   } else {
-//     data[weekStart] = 1;
-//   }
-//   return data;
-// }, {});
+
 
 const countByDate = weeklyAppointments.reduce((counts, date) => {
   counts[date] = (counts[date] || 0) + 1;
@@ -191,28 +172,33 @@ useEffect(() => {
 
 return (
   <>
+
+  <Box>
+    <SideBarCounselor/>
+  
     <Box
       sx={{
-        border: "2px solid green",
-        borderRadius: "10px",
+    
+    
         fontFamily: "Quicksand, sans-serif",
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        margin: "2rem 1rem 1rem 8rem",
+        
       }}
     >
 
       <Box
         sx={{
           border: "1px solid green",
-          alignSelf: "center",
+         
           borderRadius: "10px",
-          width: "60%",
-          height: "10%",
-          margin: "8% 0% 2% 0%",
-          backgroundColor: "#00b3b3",
+          width: "25%",
+          height: "30%",
+       
+          margin: "8% 0% 0% 30%",
+
+          backgroundColor: 'rgb(207,227,223)',
           justifyContent: "center",
           display: "flex",
           flexDirection: "column",
@@ -228,9 +214,9 @@ return (
         display: "flex",
         flexDirection: "row",
         width: "80%",
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
         alignItems: "center",
-        margin: "0% 3% 2% 6%",
+      
 
         '@media (max-width: 950px)': {
           display: "flex",
@@ -247,7 +233,7 @@ return (
         <Box sx={{
 
           borderRadius: "10px",
-          // backgroundColor: "#00b3b3",
+      
           height: "100%",
           padding: "3%",
 
@@ -264,9 +250,7 @@ return (
           </Typography>
           <br />
 
-          {/* <img src={`${process.env.PUBLIC_URL + '/images/graph.jpg'}`} alt="graph"
-            style={{ width: "400px", height: "300px", borderRadius: "5px" }}
-          /> */}
+          
           <ChartComponent />
 
         </Box>
@@ -274,11 +258,12 @@ return (
 
 
         <Box sx={{
-          border: "10px",
-          backgroundColor: "#00b3b3",
+        
+          border: "1px solid green",
+          backgroundColor: 'rgb(207,227,223)',
           borderRadius: "10px",
-          width: "40%",
-          // height: "40%",
+          width: "20%",
+      
           padding: "3%"
         }}>
           <Typography variant="h5">
@@ -293,9 +278,9 @@ return (
 
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        margin: "0% 0% 2% 4%",
+     
+        justifyContent: "center",
+        margin: "1% 20% 0% 0%",
 
         '@media (max-width: 950px)': {
           display: "flex",
@@ -317,7 +302,7 @@ return (
        
       </Box>
 
-
+      </Box>
     </Box>
 
   </>

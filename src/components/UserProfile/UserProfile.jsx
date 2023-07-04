@@ -3,8 +3,8 @@ import Sidebar from "../../global/Sidebar";
 import { Box, Button, IconButton, InputBase } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-// import patient from "../images/patient.png";
-// import doctor from "../images/doctor.png";
+import './UserProfile.css';
+
 import { AuthContext } from "../Authcontext/AuthContext";
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
@@ -76,13 +76,13 @@ const UserProfile = () => {
   };
 
   const counselorHandleSave = () => {
-  const counselordata = JSON.parse(sessionStorage.getItem("counselor_data"));
-// console.log(sessionStorage.getItem("counselor_data"));    
+    const counselordata = JSON.parse(sessionStorage.getItem("counselor_data"));
+
     const counselorUpdatedData = {
       id: counselordata.id,
       userId: userData.id,
-      specialization:specialization,
-      description:description,
+      specialization: specialization,
+      description: description,
     };
     console.log(counselorUpdatedData);
     fetch(
@@ -93,7 +93,7 @@ const UserProfile = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(counselorUpdatedData),
-        
+
       }
     )
       .then((response) => response.text())
@@ -107,7 +107,7 @@ const UserProfile = () => {
   };
 
   const patientHandleSave = () => {
-    
+
 
     const userdata = JSON.parse(sessionStorage.getItem("user_data"));
     const patientUpdatedData = {
@@ -121,7 +121,7 @@ const UserProfile = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      //body: JSON.stringify(patientUpdatedData),
+
       body: JSON.stringify(patientUpdatedData),
     })
       .then((response) => response.text())
@@ -156,7 +156,7 @@ const UserProfile = () => {
           )
             .then((response) => response.json())
             .then((counselorData) => {
-              console.log('-------======--',counselorData);
+              console.log('-------======--', counselorData);
               setSpecialization(counselorData.specialization);
               setDescription(counselorData.description);
               sessionStorage.setItem("counselor_data", JSON.stringify(counselorData))
@@ -193,14 +193,14 @@ const UserProfile = () => {
           border: "2px solid green",
           borderRadius: "10px",
           fontFamily: "Quicksand, sans-serif",
-          backgroundColor: "white",
+
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          margin: "2rem 1rem 1rem 8rem",
+          margin: "1rem 1rem 1rem 8rem",
         }}
       >
-        <Box sx={{ margin: "2rem" }}>
+        <Box sx={{ margin: "0.5rem" }}>
           <h1>My Profile:</h1>
         </Box>
 
@@ -208,7 +208,7 @@ const UserProfile = () => {
           sx={{
             border: "1px solid green",
             borderRadius: "7px",
-            padding: "3rem",
+            padding: "1rem",
             margin: "0rem 2rem ",
             fontFamily: "Quicksand, sans-serif",
             display: "flex",
@@ -216,14 +216,16 @@ const UserProfile = () => {
           }}
         >
           <img
-            src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}`: `${process.env.PUBLIC_URL + '/images/patient.png'}` }
+            src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
             alt="role"
             style={{
-              width: "100px",
-              marginBottom: "0.5rem",
+              // width: "100px",
+              // marginBottom: "0.5rem",
               borderRadius: "50%",
               border: "2px solid black",
-              width: "100px",
+              width: "150px",
+              height: "150px",
+              marginTop: "1rem"
             }}
           />
           <Box sx={{ margin: "1rem 2rem" }}>
@@ -238,8 +240,8 @@ const UserProfile = () => {
             <h3
               sx={{
                 fontWeight: "bold",
-                fontSize: "2rem",
-                marginTop: "50px",
+                fontSize: "1.5rem",
+
               }}
             >
               {role}
@@ -251,7 +253,7 @@ const UserProfile = () => {
           sx={{
             border: "1px solid green",
             borderRadius: "7px",
-            padding: "2rem",
+            padding: "1rem",
             margin: "2rem 2rem",
             display: "flex",
             fontFamily: "Quicksand, sans-serif",
@@ -264,7 +266,7 @@ const UserProfile = () => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              marginBottom: "1rem",
+              // marginBottom: "1rem",
               padding: "1rem",
             }}
           >
@@ -284,8 +286,10 @@ const UserProfile = () => {
                 startIcon={<EditIcon />}
                 sx={{
                   width: "10%",
-                  backgroundColor: "black",
-                  color: "white",
+                  // backgroundColor: "black",
+                  border: '1px solid green',
+                  backgroundColor: 'rgb(207,227,223)',
+                  color: "black",
                   "&:hover": {
                     backgroundColor: "#333",
                   },
@@ -319,17 +323,17 @@ const UserProfile = () => {
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 columnGap: "1rem",
-                marginBottom: "1rem",
+                // marginBottom: "1rem",
                 fontFamily: "Quicksand, sans-serif",
                 fontSize: "1.2rem",
                 fontWeight: "normal",
-                margin: "3px",
+
               }}
             >
               <p sx={{ fontWeight: "bold" }} styles={{}}>
                 First Name:
               </p>
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>Last Name:</p>
+              <p sx={{ fontWeight: "bold" }}>Last Name:</p>
             </Box>
             <Box
               sx={{
@@ -349,19 +353,15 @@ const UserProfile = () => {
                 </>
               ) : (
                 <>
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    data-testid = 'lastname'
+                    data-testid='lastname'
                     sx={{
                       fontWeight: "bold",
                       fontSize: "1.2rem",
@@ -407,26 +407,18 @@ const UserProfile = () => {
                 </>
               ) : (
                 <>
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)
                     }
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
                 </>
               )}
@@ -467,25 +459,17 @@ const UserProfile = () => {
                 </>
               ) : (
                 <>
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     type="text"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
                 </>
               )}
@@ -533,7 +517,9 @@ const UserProfile = () => {
                   sx={{
                     width: "10%",
                     backgroundColor: "black",
-                    color: "white",
+                    color: "black",
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
                     "&:hover": {
                       backgroundColor: "#333",
                     },
@@ -567,7 +553,7 @@ const UserProfile = () => {
                 marginBottom: "1rem",
               }}
             >
-              <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
+              <p sx={{ fontWeight: "bold", fontSize: "3rem" }}>
                 Specialization:
               </p>
               <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
@@ -592,23 +578,15 @@ const UserProfile = () => {
                 </>
               ) : (
                 <>
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     value={specialization}
                     onChange={(e) => setSpecialization(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
-                  <InputBase
+                  <InputBase className="inputBasedBox"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
+
                   />
                 </>
               )}
@@ -655,7 +633,9 @@ const UserProfile = () => {
                   sx={{
                     width: "10%",
                     backgroundColor: "black",
-                    color: "white",
+                    color: "black",
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
                     "&:hover": {
                       backgroundColor: "#333",
                     },
@@ -713,14 +693,10 @@ const UserProfile = () => {
               {!patientEditMode ? (
                 <p>{guardianPhoneNumber}</p>
               ) : (
-                <InputBase
+                <InputBase className="inputBasedBox"
                   value={guardianPhoneNumber}
                   onChange={(e) => setGuardianPhoneNumber(e.target.value)}
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: "1.2rem",
-                    textDecoration: "underline",
-                  }}
+
                 />
               )}
             </Box>
