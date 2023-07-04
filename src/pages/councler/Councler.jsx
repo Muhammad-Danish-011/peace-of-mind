@@ -40,6 +40,7 @@ const Councler = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [cards, setCards] = useState([]);
+  const [search, setSearch] = useState("");
 
   // const cards = [1,2,3,4,5,6,7];
   useEffect(() => {
@@ -60,11 +61,11 @@ const Councler = () => {
       marginLeft: isSmallScreen ? 8 : theme.spacing(7)
 
     }}>
-      <Search/>
+      <Search setSearch={setSearch}/>
       <Box sx={styles.cardContainer}>
       {
         cards.map((card) => (
-          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+          <BasicCard search={search} key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
       </Box>

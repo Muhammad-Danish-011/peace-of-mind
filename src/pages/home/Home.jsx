@@ -8,7 +8,7 @@ import TappointLink from '../../components/patient/TappointLink';
 import Card from '../../components/patient/Card';
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState } from 'react';
-
+import Councler from '../councler/Councler';
 
 const styles = {
   container: {
@@ -65,7 +65,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
-    navigate('/search');
+    navigate('/searchCouncelor');
   };
   return (<>
     {<Box sx={{
@@ -73,19 +73,20 @@ const Home = () => {
       marginLeft: isSmallScreen ? 10 : theme.spacing(5)
     }}>
     <TappointLink/>
-      <Search  onClick={handleSearchClick} />
+      <Search onClick={handleSearchClick} />
       {/* Suggested for you */}
-      {/* <Box sx={{...styles.cardContainer,
+      <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-11),
+      marginTop: "auto"
       }}
       >
         {
         cards.map((card) => (
           // console.log(card)
-          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+          <BasicCard key={`card-${card.id}`} basicCard={card, Search} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
-      </Box> */}
+      </Box>
       <Card />
     </Box>}
     </>)

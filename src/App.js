@@ -10,7 +10,6 @@ import NewPassword from './components/newpassword/NewPassword';
 import UserProfile from './components/UserProfile/UserProfile';
 import Sidebar from './global/Sidebar';
 import Home from './pages/home/Home';
-import Councler from './pages/councler/Councler';
 import Calendar from './pages/calendar/Calendar';
 import CounclerProfile from './pages/counclerprofile/CounclerProfile';
 import './App.css';
@@ -25,6 +24,8 @@ import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
 import AvailabilityTable from './components/table/AppointmentAvailability';
 import Appointments from './components/Appointment/Appointments';
+
+import Councler from './pages/councler/Councler';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
     <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
     
+    <Route path="/searchCouncelor" element={<Privateroute> <Councler /></Privateroute> } />
     <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     <Route path='/appointments' element={<Privateroute><Appointments/></Privateroute>}/> 

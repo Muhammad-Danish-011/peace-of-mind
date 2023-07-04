@@ -41,7 +41,7 @@ const styles = {
 }
 
 
-const Search = ({ onClick }) => {
+const Search = ({ onClick, setSearch }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -70,8 +70,8 @@ const Search = ({ onClick }) => {
       .then(data => {
         console.log({ data })
         setCards(data.slice(0, 8))
-        data.filter(value => value.title.toLowerCase().includes(searchTerm.toLowerCase()))
-        setSearchTerm(data)
+        // data.filter(value => value.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        // setSearchTerm(data)
       })
       .catch(err => console.group(err))
 
@@ -79,10 +79,10 @@ const Search = ({ onClick }) => {
 
   useEffect(() => {
     // Filter cards based on search term
-    const filtered = cards.filter(card =>
-      card.title && card.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredCards(filtered);
+    // const filtered = cards.filter(card =>
+    //   card.title && card.title.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    // setFilteredCards(filtered);
   }, [searchTerm, cards]);
 
 
@@ -107,7 +107,7 @@ const Search = ({ onClick }) => {
             display: 'flex',
             alignItems: 'center',
             width: '110%',
-            margin: '30px',
+            marginTop: '10px',
             borderRadius: '25px',
             boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
             backgroundColor: '#D9D9D9',
@@ -145,6 +145,7 @@ const Search = ({ onClick }) => {
             height: '51px',
             width: '150px'
           }}
+          onSubmit={()=> setSearch(searchTerm)}
         >
           <Typography variant="button" sx={{ fontWeight: "bold" }}>
             Search
@@ -174,7 +175,7 @@ const Search = ({ onClick }) => {
               <BasicCard key={`card-${card.id}`} basicCard={card} sx={{ marginRight: '20px', marginBottom: '20px' }} />
             ))
           } */}
-
+{/* 
           {searchTerm === '' ? (
             // Render all cards when no search term is entered
             cards.map(card => (
@@ -192,8 +193,8 @@ const Search = ({ onClick }) => {
                 basicCard={card}
                 sx={{ marginRight: '20px', marginBottom: '20px' }}
               />
-            ))
-          )}
+            )) */}
+          {/* )} */}
         </Box>
 
       </Box>}

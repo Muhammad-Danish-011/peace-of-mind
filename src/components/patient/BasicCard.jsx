@@ -10,7 +10,7 @@ import { Route } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Councler from '../../pages/councler/Councler';
 
-export default function OutlinedCard({basicCard}) {
+export default function OutlinedCard({basicCard, search}) {
 
   const [user, setUser] = useState("")
 
@@ -20,11 +20,14 @@ export default function OutlinedCard({basicCard}) {
     .then(data => data.json())
     .then(data => {
       // console.log(data)
-      setUser(data)
-      // console.log({user})
+
+      if(search === data.firstName){
+        setUser(data)
+      }
+      console.log(search)
 
     })
-  },[])
+  },[search])
   const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
 
   const card = (
@@ -94,7 +97,7 @@ export default function OutlinedCard({basicCard}) {
     }}
     
     >
-      <Card style={{"borderRadius":'30px'}}>{card}</Card>
+      <Card style={{"borderRadius":'30px'}}>{user && card}</Card>
     </Box>
   );
 }
