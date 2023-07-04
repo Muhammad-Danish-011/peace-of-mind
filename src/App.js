@@ -25,6 +25,7 @@ import ProfileCard from './pages/profileCard/ProfileCard';
 import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
 import AvailabilityTable from './components/table/AppointmentAvailability';
+import CurrentSessionNotes from './pages/currentSessionNotes/CurrentSessionNotes';
 function App() {
   return (
     <div className="App">
@@ -56,6 +57,9 @@ function App() {
     
     <Route path='/surveymodal' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
+
+
+    <Route path='/notes/:pateintId/:appointmentId' element={<Privateroute><CurrentSessionNotes /></Privateroute>} />
     </Routes>
     </AuthProvider>
   </BrowserRouter>

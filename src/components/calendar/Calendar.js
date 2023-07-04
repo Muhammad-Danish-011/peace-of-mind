@@ -84,11 +84,15 @@ const Calendar = ({ type }) => {
     let dateNow = moment().format('YYYY-MM-DDTHH:mm:ss');
     console.log(dateNow)
 
-    if(selectInfo.endStr < dateNow ){
+    if(selectInfo.endStr < dateNow){
       console.log( 'Date is before');
       return false;
       
-    }else{
+    }
+    else if(selectInfo.allDay == true){
+      return false;
+    }
+    else{
       console.log(selectInfo.startStr)
       setSelect(false)
       setSelectedEvent(selectInfo.startStr);
