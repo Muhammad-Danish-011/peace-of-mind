@@ -106,7 +106,7 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/user-profile'}>
+        <Link to={'/appointments'}>
           <SidebarIcon component={IconButton} color="primary">
             <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
