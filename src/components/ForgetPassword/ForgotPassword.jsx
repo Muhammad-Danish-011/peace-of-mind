@@ -299,6 +299,7 @@ const ForgetPassword = () => {
               console.log('Link will expire in three minutes')
               setEmailSent(true);
               resetform();
+              setError('');
             })
             .catch((error) => {
               console.log('An error occurred while sending the email:', error);
@@ -308,6 +309,7 @@ const ForgetPassword = () => {
       .catch((error) => {
         setError(error.message);
         console.log('Error:', error.message);
+        setEmailSent(false);
       });
   };
 
@@ -409,6 +411,7 @@ const ForgetPassword = () => {
               id="email"
               label="Enter Your Registered Email"
               required
+              type='email'
               data-testid="email"
               name='user_email'
               variant="outlined"
@@ -437,7 +440,7 @@ const ForgetPassword = () => {
           </Button>
           {!emailSent && error && (
     <p style={{
-       marginLeft: "5rem", 
+       marginLeft: "0rem", 
       marginTop: '1rem', 
        fontSize: '0.9rem',
        color: "red", fontWeight: 'bolder', fontFamily: "Quicksand, sans-serif" }}>Invalid Email Kindly Enter Correct Email</p>
@@ -445,9 +448,10 @@ const ForgetPassword = () => {
 
 {emailSent && (
     <div style={{ 
-      marginLeft: "5rem", 
+      marginLeft: "1rem", 
       marginTop: '1rem', 
        fontSize: '0.9rem',
+       textAlign:'center',
        color: "0B2447", fontWeight: 'bolder', fontFamily: "Quicksand, sans-serif" }}>
       <p>Email sent successfully. Please check your inbox for the reset password link. <br/>
       email link will expire in 3 minutes

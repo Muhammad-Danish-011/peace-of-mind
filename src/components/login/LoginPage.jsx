@@ -89,9 +89,9 @@ const Loginform = () => {
     if (!password) {
       return 'Password is required';
     }
-    if (password.length < 8) {
-      return 'Password should be at least 8 characters long';
-    }
+    // if (password.length < 8) {
+    //   return 'Password should be at least 8 characters long';
+    // }
     return '';
   };
 
