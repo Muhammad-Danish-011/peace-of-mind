@@ -171,51 +171,42 @@ const SignupForm = () => {
       formErrors.lname = "Last Name is required";
     }
 
-    const phoneRegex = /^\d{10}$/;
+    const phoneRegex = /^\d{11}$/;
     if (!phone) {
       formErrors.phone = "Phone number is required";
-    } 
-
+    } else if (!phoneRegex.test(phone)) {
+      formErrors.phone= "Invalid Phone format (e.g., 0300-0000000)";
+    }
     if (!address) {
       formErrors.address = "Address is required";
     }
-
     if (!gender) {
       formErrors.gender = "Gender is required";
     }
-
     const cnicRegex = /^\d{5}-\d{7}-\d$/;
     if (!cnic) {
       formErrors.cnic = "CNIC is required";
     } else if (!cnicRegex.test(cnic)) {
       formErrors.cnic = "Invalid CNIC format (e.g., 12345-1234567-1)";
     }
-
     if (!password) {
       formErrors.password = "Password is required";
     }
      else if (password.length < 8) {
       formErrors.password = "Password must be at least 8 characters long";
     }
-
     if (!role) {
       formErrors.role = "Role is required";
     }
-
     if (role === "COUNSELOR" && !specialization) {
       formErrors.specialization = "Specialization is required";
     }
-
     if (role === "COUNSELOR" && !description) {
       formErrors.description = "Description is required";
     }
-
     if (role === "PATIENT" && !guardian_phone_number) {
       formErrors.guardian_phone_number = "Guardian Phone Number is required";
     }
-
-    // Add more validation rules for other form fields
-
     if (Object.keys(formErrors).length > 0) {
       return formErrors;
     }
