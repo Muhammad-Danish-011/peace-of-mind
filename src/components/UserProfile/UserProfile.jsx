@@ -190,84 +190,117 @@ const UserProfile = () => {
     <>
       <Box
         sx={{
-          border: "2px solid green",
-          borderRadius: "10px",
+          // border: "2px solid green",
+          // borderRadius: "10px",
           fontFamily: "Quicksand, sans-serif",
 
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          margin: "1rem 1rem 1rem 8rem",
+          // alignItems: "center",
+          // marginTop: "5%",
+          // margin: "1rem 1rem 1rem 8rem",
         }}
-      >
-        <Box sx={{ margin: "0.5rem" }}>
-          <h1>My Profile:</h1>
-        </Box>
+       >
 
-        <Box
-          sx={{
-            border: "1px solid green",
-            borderRadius: "7px",
-            padding: "1rem",
-            margin: "0rem 2rem ",
-            fontFamily: "Quicksand, sans-serif",
-            display: "flex",
-            flexDirection: "row",
-          }}
-        >
-          <img
-            src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
-            alt="role"
-            style={{
-              // width: "100px",
-              // marginBottom: "0.5rem",
-              borderRadius: "50%",
-              border: "2px solid black",
-              width: "150px",
-              height: "150px",
-              marginTop: "1rem"
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column"
+         }}>
+
+          
+            <h1>My Profile</h1>
+          
+
+           <Box
+            sx={{
+              // border: "1px solid green",
+              // borderRadius: "7px",
+              padding: "1rem",
+              margin: "0rem 2rem ",
+              fontFamily: "Quicksand, sans-serif",
+              display: "flex",
+              flexDirection: "column",
             }}
-          />
-          <Box sx={{ margin: "1rem 2rem" }}>
-            <h1
-              sx={{
-                fontSize: "8rem",
-                fontWeight: "bolder",
+           >
+            <img
+              src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
+              alt="role"
+              style={{
+                // width: "100px",
+                // marginBottom: "0.5rem",
+                // borderRadius: "50%",
+                // border: "2px solid black",
+                alignSelf: "center",
+                width: "150px",
+                height: "150px",
+                marginTop: "1rem"
               }}
-            >
-              {firstName} {lastName}
-            </h1>
-            <h3
-              sx={{
-                fontWeight: "bold",
-                fontSize: "1.5rem",
+            />
+            <Box sx={{}}>
+              <h1
+                sx={{
+                  fontSize: "8rem",
+                  fontWeight: "bolder",
+                }}
+              >
+                {firstName} {lastName}
+              </h1>
+              <h3
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
 
-              }}
-            >
-              {role}
-            </h3>
+                }}
+              >
+                {role}
+              </h3>
+            </Box>
           </Box>
-        </Box>
 
-        <Box
+          
+        </Box>
+<Box sx={{
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  '@media (max-width: 1024px)': {
+    display: "flex",
+    flexDirection: "column",
+    alignItems:"center"
+  }
+}}>
+<Box
           sx={{
-            border: "1px solid green",
+            // border: "1px solid green",
             borderRadius: "7px",
-            padding: "1rem",
-            margin: "2rem 2rem",
+            // padding: "1rem",
+            // margin: "2rem 2rem",
+            marginTop: "2%",
+            width: "28%",
             display: "flex",
             fontFamily: "Quicksand, sans-serif",
             flexDirection: "column",
             justifyContent: "space-between",
+            '@media (max-width: 1024px)': {
+              display: "flex",
+              flexDirection: "column",
+              width: "80%",
+              alignItems:"center",
+              alignContent: "space-around"
+            }
+
           }}
         >
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               // marginBottom: "1rem",
               padding: "1rem",
+           
+
             }}
           >
             <h2
@@ -276,47 +309,10 @@ const UserProfile = () => {
                 fontWeight: "bolder",
               }}
             >
-              Personal Information:
+              Personal Information
             </h2>
 
-            {!userEditMode ? (
-              <Button
-                variant="contained"
-                onClick={userHandleEdit}
-                startIcon={<EditIcon />}
-                sx={{
-                  width: "6rem",
-                  // backgroundColor: "black",
-                  border: '1px solid green',
-                  height:'3.5rem',
-                  
-                  backgroundColor: 'rgb(207,227,223)',
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#333",
-                  },
-                }}
-              >
-                Edit
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={userHandleSave}
-                startIcon={<SaveIcon />}
-
-                sx={{
-                  width: "10%",
-                  backgroundColor: "black",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#333",
-                  },
-                }}
-              >
-                Save
-              </Button>
-            )}
+          
           </Box>
 
           <Box>
@@ -324,7 +320,7 @@ const UserProfile = () => {
               sx={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                columnGap: "1rem",
+                // columnGap: "1rem",
                 // marginBottom: "1rem",
                 fontFamily: "Quicksand, sans-serif",
                 fontSize: "1.2rem",
@@ -341,11 +337,11 @@ const UserProfile = () => {
               sx={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
+                // columnGap: "2rem",
                 fontFamily: "Quicksand, sans-serif",
                 fontSize: "1.3rem",
                 fontWeight: "bold",
-                marginTop: "5px",
+                // marginTop: "5px",
               }}
             >
               {!userEditMode ? (
@@ -360,14 +356,15 @@ const UserProfile = () => {
                     onChange={(e) => setFirstName(e.target.value)}
 
                   />
-                  <InputBase className="inputBasedBox"
+                  <InputBase className="inputBasedBox "
+
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     data-testid='lastname'
                     sx={{
                       fontWeight: "bold",
                       fontSize: "1.2rem",
-                      textDecoration: "underline",
+                      // textDecoration: "box",
                     }}
                   />
                 </>
@@ -386,7 +383,7 @@ const UserProfile = () => {
                 margin: "2rem 0rem 0rem 0rem",
               }}
             >
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+              <p sx={{ fontWeight: "bold", fontSize: "12rem" }}>
                 Email Address:
               </p>
               <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>Password:</p>
@@ -476,6 +473,53 @@ const UserProfile = () => {
                 </>
               )}
             </Box>
+            {!userEditMode ? (
+              <Button
+                variant="contained"
+                onClick={userHandleEdit}
+                startIcon={<EditIcon />}
+                sx={{
+                  width: "20%",
+                  height: "10%",
+                  marginTop: "5%",
+                  // backgroundColor: "black",
+                  border: '1px solid green',
+                  backgroundColor: 'rgb(207,227,223)',
+                  color: "black",
+
+                  '@media (max-width: 1024px)': {
+                    margin: "10%"
+                  },
+                  "&:hover": {
+                    backgroundColor: "#333",
+                  },
+                }}
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                onClick={userHandleSave}
+                startIcon={<SaveIcon />}
+
+                sx={{
+                  width: "20%",
+                  height: "10%",
+                  marginTop: "5%",
+                  backgroundColor: "black",
+                  color: "white",
+                  '@media (max-width: 1024px)': {
+                    margin: "10%"
+                  },
+                  "&:hover": {
+                    backgroundColor: "#333",
+                  },
+                }}
+              >
+                Save
+              </Button>
+            )}
           </Box>
         </Box>
 
@@ -483,23 +527,34 @@ const UserProfile = () => {
         {role === "COUNSELOR" && (
           <Box
             sx={{
-              border: "1px solid green",
-              borderRadius: "7px",
-              padding: "2rem",
-              margin: "2rem 2rem",
+              // border: "1px solid green",
+              // borderRadius: "7px",
+              // padding: "2rem",
+              // margin: "2rem 2rem",
+              marginTop: "-0.5%",
               display: "flex",
+              width: "30%",
+              marginLeft: "5%",
               fontFamily: "Quicksand, sans-serif",
               flexDirection: "column",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
+              '@media (max-width: 1024px)': {
+                display: "flex",
+                flexDirection: "column",
+                width: "80%",
+                marginTop: "5%",
+              
+              }
+  
             }}
           >
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-between",
-                marginBottom: "1rem",
-                padding: "1rem",
+                justifyContent: "space-around",
+                // marginBottom: "1rem",
+                // padding: "1rem",
               }}
             >
               <h2
@@ -508,57 +563,26 @@ const UserProfile = () => {
                   fontWeight: "bolder",
                 }}
               >
-                Academic Information:
+                Academic Information
               </h2>
 
-              {!counselorEditMode ? (
-                <Button
-                  variant="contained"
-                  onClick={counselorHandleEdit}
-                  startIcon={<EditIcon />}
-                  sx={{
-                    width: "10%",
-                    backgroundColor: "black",
-                    color: "black",
-                    border: '1px solid green',
-                    backgroundColor: 'rgb(207,227,223)',
-                    "&:hover": {
-                      backgroundColor: "#333",
-                    },
-                  }}
-                >
-                  Edit
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  onClick={counselorHandleSave}
-                  startIcon={<SaveIcon />}
-                  sx={{
-                    width: "10%",
-                    backgroundColor: "black",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "#333",
-                    },
-                  }}
-                >
-                  Save
-                </Button>
-              )}
+              
             </Box>
             <Box
               sx={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                columnGap: "1rem",
-                marginBottom: "1rem",
+                // columnGap: "1rem",
+                // marginBottom: "1rem",
+                // marginTop: "-8%",
+                fontSize: "1.3rem",
+                fontWeight: "normal",
               }}
             >
-              <p sx={{ fontWeight: "bold", fontSize: "3rem" }}>
+              <p sx={{ fontWeight: "bold" }}>
                 Specialization:
               </p>
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+              <p sx={{ fontWeight: "bold" }}>
                 Description:
               </p>
             </Box>
@@ -566,11 +590,21 @@ const UserProfile = () => {
               sx={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
+                // columnGap: "2rem",
                 fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.4rem",
+                fontSize: "1.2rem",
                 fontWeight: "bold",
-                margin: "8px",
+                marginTop: "-5%",
+                // margin: "8px",
+                '@media (max-width: 1024px)': {
+                  // display: "flex",
+                  // flexDirection: "column",
+                  // width: "80%",
+                  // alignItems:"center",
+                  // alignContent: "space-around",
+                  marginTop: "0%",
+                }
+    
               }}
             >
               {!counselorEditMode ? (
@@ -593,7 +627,52 @@ const UserProfile = () => {
                 </>
               )}
             </Box>
+            {!counselorEditMode ? (
+                <Button
+                  variant="contained"
+                  onClick={counselorHandleEdit}
+                  startIcon={<EditIcon />}
+                  sx={{
+                    width: "18%",
+                    height: "8%",
+                    marginLeft: "10%",
+                    alignSelf: "center",
+                    backgroundColor: "black",
+                    color: "black",
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
+                  }}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={counselorHandleSave}
+                  startIcon={<SaveIcon />}
+                  sx={{
+                    width: "20%",
+                    backgroundColor: "black",
+                    alignSelf: "center",
+                    color: "white",
+                    '@media (max-width: 1024px)': {
+                    
+                      margin: "10%"
+                    
+                    },
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
+                  }}
+                >
+                  Save
+                </Button>
+              )}
           </Box>
+          
         )}
 
         {role === "PATIENT" && (
@@ -704,6 +783,9 @@ const UserProfile = () => {
             </Box>
           </Box>
         )}
+
+</Box>
+        
       </Box>
     </>
   );
