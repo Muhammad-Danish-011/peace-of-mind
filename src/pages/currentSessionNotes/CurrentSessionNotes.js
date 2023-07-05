@@ -1,19 +1,17 @@
 import React from 'react'
+import { useParams } from 'react-router-dom';
 import Notes from '../../components/notes/Notes';
 import PreviousNotes from '../../components/previousNotes/PreviousNotes';
 import styles from './CurrentSessionNotes.module.css';
 
 const CurrentSessionNotes = () => {
-
-  const obj = JSON.parse(sessionStorage.getItem('user_data'));
-
-  console.log(obj.id);
+  const param = useParams();
 
   return (
     <div className={styles.main}>
         <div className={styles.noteContainer}>
-            <PreviousNotes />
-            <Notes />
+            <PreviousNotes id={param.pateintId} />
+            <Notes pateintId={param.pateintId} appointmentId={param.appointmentId} />
         </div>
     </div>
   )

@@ -13,6 +13,7 @@ import {
   Typography,
   Input,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -28,6 +29,7 @@ const style = {
 };
 
 const AvailabilityTable = () => {
+  const navigate = useNavigate();
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const [appointments, setAppointments] = useState([]);
   const [availabilityData, setAvailabilityData] = useState([]);
@@ -181,6 +183,7 @@ const AvailabilityTable = () => {
       const meetingUrl = appointment.meetingURL;
 
       if (meetingUrl) {
+        navigate(`/notes/${appointment.patientid}/${appointment.id}`)
         window.open(meetingUrl, "_blank", "width=800,height=600"); // Redirect to the meeting URL
       } else {
         console.log("No meeting URL found for the selected appointment.");
