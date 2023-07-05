@@ -25,6 +25,8 @@ import ProfileCard from './pages/profileCard/ProfileCard';
 import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
 import AvailabilityTable from './components/table/AppointmentAvailability';
+import Appointments from './components/Appointment/Appointments';
+
 function App() {
   return (
     <div className="App">
@@ -63,6 +65,7 @@ function App() {
 
     <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    <Route path='/appointments' element={<Privateroute><Appointments/></Privateroute>}/>
     </Routes>
     </AuthProvider>
   </BrowserRouter>

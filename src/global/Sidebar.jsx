@@ -101,13 +101,13 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/councler'}>
+        {/* <Link to={'/councler'}>
           <SidebarIcon component={IconButton} color="primary">
             <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
-        </Link>
+        </Link> */}
 
-        <Link to={'/user-profile'}>
+        <Link to={'/appointments'}>
           <SidebarIcon component={IconButton} color="primary">
             <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>

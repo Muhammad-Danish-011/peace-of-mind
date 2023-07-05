@@ -122,9 +122,10 @@ const Calendar = ({ type, id }) => {
     setLoading(true);
     try {
       console.log(selectedEvent);
+      console.log({obj2})
       let appointment= {
         availabilityId : selectedEvent.id,
-        patientid : obj2.id,
+        patientid : obj2.data.id,
         confirmed : false,
         deleted : 0
       }
