@@ -14,7 +14,6 @@ const Navbar = ({ handleSidebarToggle }) => {
               <IconButton
                 color="inherit"
                 aria-label="open sidebar"
-                onClick={handleSidebarToggle}
                 edge="start"
               >
                 <MenuIcon style={{ fontSize: '48px' }}/>

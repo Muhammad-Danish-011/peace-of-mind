@@ -110,7 +110,7 @@ const Home = () => {
   return (<>
     {<Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 10 : theme.spacing(8)
+      marginLeft: isSmallScreen ? 10 : theme.spacing(19)
     }}>
     <TappointLink/>
       <Search  onClick={handleSearchClick}/>

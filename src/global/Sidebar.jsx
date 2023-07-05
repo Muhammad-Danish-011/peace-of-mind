@@ -1,197 +1,164 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import PsychologyRoundedIcon from '@mui/icons-material/PsychologyRounded';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
+import AdbIcon from '@mui/icons-material/Adb';
+import MenuIcon from '@mui/icons-material/Menu';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import FormatAlignJustifyRoundedIcon from '@mui/icons-material/FormatAlignJustifyRounded';
-import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
-// import Home from '../pages/home/Home';
-// import Councler from '../pages/councler/Councler';
-// import Calendar from '../pages/calendar/Calendar'
-import { IconButton } from '@mui/material';
-import Navbar from './Navbar';
-import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
-// import SurveyModal from '../components/patient/SurveyModal';
-// import SurveyComponent from '../components/patient/SurveyComponent';
-// import Counselor from '../components/Home/Counslor';
-// import CounselorCalender from '../components/counselor-calender/counselorcalender';
-// import UserProfile from '../components/UserProfile/UserProfile';
-// import AvailabilityTable from '../components/table/AppointmentAvailability';
-// import Search from '../components/patient/Search';
-// import ProfileCard from '../pages/profileCard/ProfileCard';
+import ProfileModal from '../components/patient/ProfileModal';
+import PsychologyRoundedIcon from '@mui/icons-material/PsychologyRounded';
 
-
-const Sidebar = styled('div')(
-  {
-    height: '103vh',
-    backgroundColor: '#8fb3ac',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    transition: 'transform 0.3s ease-in-out',
-    transform: 'translateX(-100%)',
-    '@media (max-width: 600px)': {
-      width: '90px',
-    },
-    '@media (min-width: 601px) and (max-width: 960px)': {
-      width: '90px',
-    },
-    '@media (min-width: 961px)': {
-      width: '120px',
-    },
-  },
-  ({ open }) => ({
-    transform: open ? 'translateX(0)' : 'translateX(-100%)',
-  })
-);
-
-const SidebarIcon = styled(Box)(({ selected }) => ({
-  marginBottom: '60px !important',
-  
-  color: selected ? '#008080' : 'white',
-  '&:hover': {
-    color: '#008080',
-  },
-}));
-
-
-const CloseIconWrapper = styled('div')({
-  position: 'absolute',
-  top: '65px',
-  left: '20px',
-  transform: 'translateY(-50%)',
-});
-
-export default function PersistentDrawerLeft() {
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const [selectedComponent, setSelectedComponent] = React.useState(null);
-  const location = useLocation();
-  // const navigate = useNavigate();
+const Sidebar = () => {
+  const [anchorElNav, setAnchorElNav] = useState(null);
   const role = sessionStorage.getItem('role');
-  // console.log(role)
 
-  React.useEffect(() => {
-
-    // This effect runs whenever the location changes (i.e. the user navigates to a new URL)
-    const path = location.pathname.slice(1); // Remove the leading "/"
-    setSelectedComponent(path || 'counselor'); // If there's no path, default to the home component
-  }, [location.pathname]);
-
-  const handleSidebarToggle = () => {
-    setSidebarOpen(true);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
   };
 
-  // const handleComponentChange = (component) => {
-  //   setSelectedComponent(component);
-  //   navigate(`/${component}`);
-  // };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Navbar handleSidebarToggle={handleSidebarToggle} />
-      {role === "PATIENT" ? <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
-        <Link to={'/home'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <HomeIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
+<AppBar position="static" sx={{ backgroundColor: '#96bebe' }}>
+      <Toolbar   disableGutters>
+       
 
-        {/* <Link to={'/councler'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link> */}
-
-        <Link to={'/appointments'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        <Link to={'/surveyform'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'search'} onClick={() => handleComponentChange('search')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
-          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyform'} onClick={() => handleComponentChange('surveyform')}>
-          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        
-      </Sidebar> 
-      : 
-      <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
-
-        <Link to={'/home'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <HomeIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        <Link to={'/councler'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        <Link to={'/Calendar'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        <Link to={'/availibilitytable'}>
-          <SidebarIcon component={IconButton} color="primary">
-            <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
-          </SidebarIcon>
-        </Link>
-
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('counselor')}>
-          <HomeIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
-          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon> */}
-        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
-          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
-        </SidebarIcon>
-        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
-          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} /> */}
-        {/* </SidebarIcon> */}
-      </Sidebar>}
-      {sidebarOpen && (
-        <CloseIconWrapper>
-          <SidebarIcon component={IconButton} color="primary" onClick={() => setSidebarOpen(false)}>
-            <CloseIcon style={{ fontSize: '38px' }} />
-          </SidebarIcon>
-        </CloseIconWrapper>
-      )}
-      {/* routes for patinet */}
-      {/* {selectedComponent === 'home' && <Home />}
-      {selectedComponent === 'survey' && <SurveyModal />}
-      {selectedComponent === 'surveyform' && <SurveyComponent />}
-      {selectedComponent === 'search' && <Search />}
-      {selectedComponent === 'councler' && <Councler />}
-      {selectedComponent === 'calendar' && <Calendar />}
-
-      {selectedComponent === 'counselor' && <Counselor />}
-      {selectedComponent === 'Calendar' && <CounselorCalender />}
-      {selectedComponent === 'user-profile' && <UserProfile />}
-      {selectedComponent === 'availibilitytable' && <AvailabilityTable />} */}
-    </Box>
+        <Box sx={{ flexGrow: 1,   display: { xs: 'flex', md: 'none' } }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            sx={{color: '#008080'}}          >
+           <MenuIcon style={{ fontSize: '48px' }}/>
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+            }}
+            onClick={handleCloseNavMenu}
+          >
+            {role === 'PATIENT' ? (
+              <>
+                <MenuItem component={Link} to="/home">
+                  <IconButton sx={{color: '#008080'}}>
+                    <HomeIcon style={{ fontSize: '48px' }} />
+                  </IconButton>
+                </MenuItem>
+                <MenuItem component={Link} to="/appointments">
+                  <IconButton sx={{color: '#008080'}}>
+                    <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+                  </IconButton>
+                </MenuItem>
+                <MenuItem component={Link} to="/surveyform">
+                  <IconButton sx={{color: '#008080'}}>
+                    <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+                  </IconButton>
+                </MenuItem>
+              </>
+              ) : (
+                <>
+                  <MenuItem component={Link} to="/home">
+                    <IconButton sx={{color: '#008080'}}>
+                      <HomeIcon style={{ fontSize: '48px' }} />
+                    </IconButton>
+                  </MenuItem>
+                  <MenuItem component={Link} to="/counselor">
+                    <IconButton sx={{color: '#008080'}}>
+                      <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+                    </IconButton>
+                  </MenuItem>
+                  <MenuItem component={Link} to="/Calendar">
+                    <IconButton sx={{color: '#008080'}}>
+                      <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+                    </IconButton>
+                  </MenuItem>
+                  <MenuItem component={Link} to="/availibilitytable">
+                    <IconButton sx={{color: '#008080'}}>
+                      <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+                    </IconButton>
+                  </MenuItem>
+                </>
+              )}
+          </Menu>
+        </Box>
+       
+        <Box sx={{ flexGrow: 1, justifyContent:'center', display: { xs: 'none', md: 'flex' } }} onClick={handleCloseNavMenu}>
+        {role === 'PATIENT' ? (
+            <>
+              <Link to="/home">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <HomeIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+              <Link to="/appointments">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+              <Link to="/surveyform">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/home">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <HomeIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+              <Link to="/counselor">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+              <Link to="/Calendar">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+              <Link to="/availibilitytable">
+                <MenuItem component={IconButton} sx={{color: '#008080'}}>
+                  <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+                </MenuItem>
+              </Link>
+            </>
+          )}
+        </Box>
+        <Box sx={{ flexGrow: 0 }}>
+            <IconButton sx={{ p: 0 }}>
+            <ProfileModal/>
+            </IconButton>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
-}
+};
+
+export default Sidebar;
