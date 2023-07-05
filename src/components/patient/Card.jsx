@@ -9,7 +9,7 @@ const Card = () => {
   const [tapAppointment, setTapAppoinetment] = useState([]);
   const [loader, setLoader] = useState(true);
   const [ appointments, setAppopintments] = useState([]);
-  const userId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
+  const userId = JSON.parse(sessionStorage.getItem('patient_data'))//.data.id
   // console.log(userId)
   useEffect(() =>{
 
@@ -31,14 +31,14 @@ const Card = () => {
     {
       const appointment = [];
       appointments.map((item)=>{
-        console.log({item, userId})
+        // console.log({item, userId})
         if(+userId === item.patientid && item.confirmed === true ){
           appointment.push(item);
           console.log("sssssssssssssssssssssssssss",{item})
         }
       })
 
-      console.log('inner useEffect', appointment);
+      // console.log('inner useEffect', appointment);
       setTapAppoinetment(appointment)
 
     }

@@ -73,7 +73,7 @@ export default function PersistentDrawerLeft() {
   const location = useLocation();
   // const navigate = useNavigate();
   const role = sessionStorage.getItem('role');
-  console.log(role)
+  // console.log(role)
 
   React.useEffect(() => {
 
