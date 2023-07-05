@@ -1,10 +1,10 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import Search from '../../components/patient/Search';
-import BasicCard from '../../components/patient/BasicCard';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import React, { useEffect, useState } from 'react';
+import BasicCard from '../../components/patient/BasicCard';
+import Search from '../../components/patient/Search';
+import Card from '../../components/patient/Card';
 
 const styles = {
   container: {
@@ -60,14 +60,11 @@ const Councler = () => {
       marginLeft: isSmallScreen ? 8 : theme.spacing(7)
 
     }}>
+     
       <Search/>
-      <Box sx={styles.cardContainer}>
-      {
-        cards.map((card) => (
-          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))
-        }
-      </Box>
+
+
+    
     </Box>
   )
 }

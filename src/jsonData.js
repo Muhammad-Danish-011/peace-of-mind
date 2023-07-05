@@ -35,8 +35,8 @@ export const jsonData = {
        },
        {
         "type": "checkbox",
-        "name": "Are you currently2",
-        "title": "Are you currently",
+        "name": "Are you",
+        "title": "Are you",
         "isRequired": true,
         "validators": [
          {

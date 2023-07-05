@@ -1,14 +1,14 @@
+import jsPDF from "jspdf";
 import React from "react";
 import { Model } from "survey-core";
-import { Survey } from "survey-react-ui";
 import "survey-core/defaultV2.min.css";
+import * as SurveyPDF from "survey-pdf";
+import { Survey } from "survey-react-ui";
 import "../../index.css";
 import { jsonData } from "../../jsonData";
-import * as SurveyPDF from "survey-pdf";
-import jsPDF from "jspdf";
 // import pdfForm from './pdfForm'
-import { uploadFile } from 'react-s3';
 import { Buffer } from "buffer";
+import { uploadFile } from 'react-s3';
 // const pdfForm = require('./pdfForm')
 window.Buffer = window.Buffer || Buffer;
 function createSurveyPdfModel(surveyModel) {
@@ -34,10 +34,8 @@ function createSurveyPdfModel(surveyModel) {
 }
 function SurveyComponent() {
   const survey = new Model(jsonData);
-
-
-  const handleClick = async () => {
-    // event.preventDefault();
+  const handleClick = async (event) => {
+    event.preventDefault();
     createSurveyPdfModel(survey);
     const finalData = survey.data;
     console.log(finalData);
@@ -45,7 +43,7 @@ function SurveyComponent() {
     doc.setFont("Arial", "normal");
     const questions = [
       { question: "Q: Are you currently", key: "Are you currently" },
-      { question: "Q: Are you currently2", key: "Are you currently2" },
+      { question: "Q: Are you", key: "Are you" },
       { question: "Q: Do you have any children", key: "Do you have any children" },
       { question: "Q: Primary Care Physician", key: "Primary Care Physician" },
       { question: "Q: Current Therapist / Counselor", key: "Current Therapist / Counselor" },
@@ -180,49 +178,14 @@ function SurveyComponent() {
         const response = await uploadFile(file, config);
         console.log(response);
         console.log('PDF uploaded ');
-
-          if(!response.location){
-            console.log("something went wrong")
-            return;
-          }
-
-        const report = {
-          "patient_id": 1,
-          "category": null,
-          "survey_form_link": response.location 
-        }
-        fetch(`${process.env.REACT_APP_REPORT_URL}/report/add`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application.json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(report)
-        })
-        .then(data=>{
-          if(data.bool){
-          console.log(data)
-        }})
-        .catch(err=>console.log(err))
-        
-
         } catch (error) {
         console.error(error);
         }
     };
-
-    survey.onComplete.add((sender, options) => {
-      // console.log(JSON.stringify(sender.data, null, 3));
-      survey.data=sender.data;
-      const data =createSurveyPdfModel(survey);
-      console.log({data});
-      handleClick();
-  });
-
   return (
     <>
       <Survey model={survey} />
-      {/* <button onClick={handleClick}>Save</button> */}
+      <button onClick={handleClick}>Save</button>
     </>
   );
 }
