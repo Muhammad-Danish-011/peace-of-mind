@@ -56,7 +56,7 @@ const Search = ({onClick}) => {
     fetch(`${process.env.REACT_APP_API_KEY}/user`)
     .then(data => data.json())
     .then(data => {
-      console.log({data})
+      // console.log({data})
       setUsers(data)
     })
   },[])

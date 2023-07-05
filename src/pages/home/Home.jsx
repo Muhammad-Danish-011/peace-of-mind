@@ -67,22 +67,22 @@ const Home = () => {
         // setRole(data.role);
         // setCnic(data.cnic);
 
-        if (data.role === "PATIENT") {
-          fetch(
-            // /{userId}
-            `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
-          )
-            .then((response) => response.json())
-            .then((patientData) => {
-              // console.log('-------======--',patientData);
-              // setSpecialization(counselorData.specialization);
-              // setDescription(counselorData.description);
-              sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        }
+        // if (data.role === "PATIENT") {
+        //   fetch(
+        //     // /{userId}
+        //     `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
+        //   )
+        //     .then((response) => response.json())
+        //     .then((patientData) => {
+        //       // console.log('-------======--',patientData);
+        //       // setSpecialization(counselorData.specialization);
+        //       // setDescription(counselorData.description);
+        //       sessionStorage.setItem("patient_data", JSON.stringify(patientData))
+        //     })
+        //     .catch((error) => {
+        //       console.error(error);
+        //     });
+        // }
   });}, []);
   // console.log(obj);
   // console.log(user);
@@ -119,10 +119,10 @@ const Home = () => {
       marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
       >
         {
-        cards.map((card) => (
+        cards.map((card) => {
           // console.log(card)
-          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))
+          return <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/>
+        })
         }
         <Card />
       </Box>
