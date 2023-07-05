@@ -285,9 +285,11 @@ const UserProfile = () => {
                 onClick={userHandleEdit}
                 startIcon={<EditIcon />}
                 sx={{
-                  width: "10%",
+                  width: "6rem",
                   // backgroundColor: "black",
                   border: '1px solid green',
+                  height:'3.5rem',
+                  
                   backgroundColor: 'rgb(207,227,223)',
                   color: "black",
                   "&:hover": {

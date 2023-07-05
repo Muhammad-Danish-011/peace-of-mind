@@ -3,7 +3,7 @@ import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import { Link} from "react-router-dom";
 // import moment from 'moment';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Lin,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 
 
@@ -13,15 +13,19 @@ const Counslor = () => {
   // const [averageRating, setAverageRating] = useState(0);
   // const [latestReview, setLatestReview] = useState(null);
   const [availabilityIds, setAvailabilityIds] = useState([]);
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('')
  
 
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
   const [weeklyAppointments, setWeeklyAppointments] = useState([]);
+  const [confirmedAppointments, setConfirmedAppointments] = useState([]);
   useEffect(() => {
     fetchAvailabilityIds();
   }, []);
 
+  
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
   const [appointmentId, setAppointmentsId] = useState([])
@@ -120,22 +124,18 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
     }));
   
     return (
-      <BarChart width={400} height={300} data={chartData}>
-        <CartesianGrid strokeDasharray="5 5" />
-        <XAxis dataKey="date"/>
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" stroke="#8884d8" />
-      </BarChart>
+        <BarChart width={400} height={300} data={chartData}>
+          <CartesianGrid strokeDasharray="4 4" />
+          <XAxis dataKey="date"/>
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar style={{width:'1px'}}dataKey="count" stroke="#8884d8" />
+        </BarChart>
+     
     );
   };
   
-
-
-
-
-
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       availabilityIds.map(availabilityId =>
@@ -165,6 +165,27 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
         console.error('Error fetching appointments:', error);
     }
   };
+  const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
+    try {
+      const confirmedAppointments = [];
+      for (const availabilityId of availabilityIds) {
+        const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("data is", data);
+          const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
+          confirmedAppointments.push(...confirmedAppointmentsData);
+        }
+      }
+      console.log("Confirmed Appointmentsss:", confirmedAppointments);
+      setConfirmedAppointments(confirmedAppointments);
+    } catch (error) {
+      console.error('Error fetching appointments:', error);
+    }
+  };
+  useEffect(() => {
+    fetchConfirmedAppointmentsByAvailabilityIds();
+  }, [availabilityIds]);
 
 useEffect(() => {
   fetchAppointmentsByAvailabilityIds();
@@ -194,7 +215,7 @@ return (
          
           borderRadius: "10px",
           width: "25%",
-          height: "30%",
+          height: "50%",
        
           margin: "8% 0% 0% 30%",
 
@@ -204,12 +225,24 @@ return (
           flexDirection: "column",
         }}
       >
-        <h3>UpComing Latest Appointment</h3>
+        {confirmedAppointments && latestAppointment.date && (
+          <div key={confirmedAppointments.availabilityId}>
+            <h2>UpComing Latest Appointment</h2>
+            <p style={{ fontSize: '1.4rem', marginTop: '2rem', marginLeft: '0.5rem'}}>
+              Date: {latestAppointment.date.split('T')[0]}
+            </p>
+            <p style={{ fontSize: '1.4rem', marginTop: '-10px', marginLeft: '0.5rem' }}>
+              Time: {latestAppointment.date.split('T')[1]?.split('+')[0]}
+            </p>
+            <Link to={confirmedAppointments.meetingURL}>
+              Meeting Link: {confirmedAppointments[0].meetingURL}
+            </Link>
+          </div>
+        )}
+        {/* <h3>UpComing Latest Appointment</h3>
         <p>Date & Time: {<strong>{latestAppointment.date}</strong>} </p>
-        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{latestAppointment.meetingURL}</Link></p>
-       
+        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{latestAppointment.meetingURL}</Link></p> */}       
       </Box>
-
       <Box sx={{
         display: "flex",
         flexDirection: "row",
@@ -251,7 +284,7 @@ return (
           <br />
 
           
-          <ChartComponent />
+          <ChartComponent/>
 
         </Box>
 

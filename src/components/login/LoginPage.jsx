@@ -62,6 +62,20 @@ const Loginform = () => {
         updateLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
+          fetch(
+                // /{userId}
+                `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
+              )
+                .then((response) => response.json())
+                .then((patientData) => {
+                  // console.log('-------======--',patientData);
+                  // setSpecialization(counselorData.specialization);
+                  // setDescription(counselorData.description);
+                  sessionStorage.setItem("patient_data", JSON.stringify(patientData))
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
           navigate("/home");
         } else if (user.role === "COUNSELOR") {
           navigate("/user-profile");
