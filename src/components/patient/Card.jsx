@@ -53,7 +53,7 @@ const Card = () => {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       right: 0,
       width: '400px'        

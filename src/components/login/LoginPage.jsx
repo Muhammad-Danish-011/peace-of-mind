@@ -16,7 +16,7 @@ const Loginform = () => {
 
   if(sessionStorage.getItem("islogin")){
     if(sessionStorage.getItem("role") === "PATIENT"){
-      window.location.assign("/surveyform");
+      window.location.assign("/home");
     }
     else if(sessionStorage.getItem("role") === "COUNSELOR"){
       window.location.assign("/counselor");

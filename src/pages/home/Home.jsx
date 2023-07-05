@@ -2,13 +2,13 @@ import React from 'react';
 import { Box } from '@mui/material';
 import Search from '../../components/patient/Search';
 import BasicCard from '../../components/patient/BasicCard';
+import SurveyModal from '../../components/patient/SurveyModal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import TappointLink from '../../components/patient/TappointLink';
 import Card from '../../components/patient/Card';
 import { useNavigate } from 'react-router-dom';
 import {useEffect, useState } from 'react';
-
 
 const styles = {
   container: {
@@ -122,8 +122,8 @@ const Home = () => {
           <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
+        <Card />
       </Box>
-      <Card />
     </Box>}
     </>)
 }
