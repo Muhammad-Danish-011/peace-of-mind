@@ -38,6 +38,7 @@ export default function OutlinedCard({tapAppointment}) {
           setLoader(false)
           if(isToday(data.date)){
             myData.push(data);
+            console.log({avail: data})
             }
         })
         .catch(e=>{
@@ -49,7 +50,7 @@ export default function OutlinedCard({tapAppointment}) {
     }
 
     
-  },[tapAppointment])
+  },[tapAppointment.length > 0])
 
 
 

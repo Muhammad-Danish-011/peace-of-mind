@@ -74,7 +74,7 @@ const Home = () => {
           )
             .then((response) => response.json())
             .then((patientData) => {
-              console.log('-------======--',patientData);
+              // console.log('-------======--',patientData);
               // setSpecialization(counselorData.specialization);
               // setDescription(counselorData.description);
               sessionStorage.setItem("patient_data", JSON.stringify(patientData))
@@ -85,14 +85,14 @@ const Home = () => {
         }
   });}, []);
   // console.log(obj);
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     //Runs on every render
     fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
     .then(data => data.json())
     .then(data => {
-      console.log({data});
+      // console.log({data});
       setCouncelor(data);
       setCards(data.slice(0,6));
     })
