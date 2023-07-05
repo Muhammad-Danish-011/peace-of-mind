@@ -7,14 +7,18 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function OutlinedCard({tapAppointment}) {
 
   const [ availibility, setAvailibity] = React.useState([]);
   const [loader, setLoader] = React.useState(null);
+  const navigate = useNavigate();
 
-
+  const onHandleClick = () =>{
+    navigate('/appointments')
+  }
 
       //method for check previous date
       const isPrevious = (someDate, id) => {
@@ -69,7 +73,8 @@ export default function OutlinedCard({tapAppointment}) {
    
    <h1 style={{ fontSize: '22px', marginTop:'1rem' }}>Previous Appointments</h1>
          {availibility.map((item) => {
-          console.log({availibility})
+          // console.log({availibility})
+          const time = item.date.split('T')[1].split('+')[0].split('').splice(0,5).join('');
           return <Box
            sx={{
              display:'flex',
@@ -80,7 +85,7 @@ export default function OutlinedCard({tapAppointment}) {
            key={`prevApp-${item.id}`}
            >
            <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '3rem' }} />
-           <h2 style={{ fontSize: '1.2rem', marginLeft: '1rem', marginBottom: '0' }}>{loader ? "Loading" : item?.date.split('T')[1].split('+')[0]}</h2>
+           <h2 style={{ fontSize: '1.2rem', marginLeft: '1rem', marginBottom: '0' }}>{loader ? "Loading" : time}</h2>
          </Box>
          })}
 {/*    
@@ -99,12 +104,14 @@ export default function OutlinedCard({tapAppointment}) {
          sx= {{color: 'black',
                display:'flex',
                marginLeft:'115px',
-               fontSize:'20px',
+               fontSize:'15px',
                marginTop:'10px'
    
              }}
    
-         size="small" >View all</Button>
+         size="small" 
+         onClick={onHandleClick}
+         >View all</Button>
    
          {/* <Typography variant="h5" fontSize="15px"  paddingLeft="80px">
            view all 

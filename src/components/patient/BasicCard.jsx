@@ -19,10 +19,8 @@ export default function OutlinedCard({basicCard}) {
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)
     .then(data => data.json())
     .then(data => {
-      // console.log(data)
-      setUser(data)
-      // console.log({user})
-
+        setUser(data)
+        console.log({data})
     })
   },[])
   const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
