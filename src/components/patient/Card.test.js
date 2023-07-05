@@ -12,7 +12,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('Card', () => {
 
-  it("renders 'Book Now' button", async () => {
+  it("renders  button", async () => {
     const card = {
       title: 'test',
       description: 'Test Description',

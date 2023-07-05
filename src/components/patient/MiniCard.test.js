@@ -5,7 +5,7 @@ import MiniCard from './MiniCard';
 
 jest.mock('react-router-dom', () => ({
     useNavigate: () => jest.fn(),
-  }));
+}));
 
 describe("MiniCard", () => {
 
@@ -23,14 +23,14 @@ describe("MiniCard", () => {
         expect(screen.getByText("Previous Counsulted Councler")).toBeInTheDocument();
     });
 
-   
-        it("renders the 'Social Psychologist' text", () => {
-          render(<MiniCard />);
-          expect(screen.getByText("Social Psychologist")).toBeInTheDocument();
-        });
 
-        it("renders Aoun Ali", () => {
-            render(<MiniCard />);
-            expect(screen.getByText("Aoun Ali")).toBeInTheDocument();
-          });
-      });
+    it("renders the 'Social Psychologist' text", () => {
+        render(<MiniCard />);
+        expect(screen.getByText("Social Psychologist")).toBeInTheDocument();
+    });
+
+    it("renders Aoun Ali", () => {
+        render(<MiniCard />);
+        expect(screen.getByText("Aoun Ali")).toBeInTheDocument();
+    });
+});

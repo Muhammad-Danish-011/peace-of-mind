@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import ProfileModal from './ProfileModal';
 
 describe('ProfileModal', () => {
+  
   it("opens the 'Profile' menu item and navigates to '/user-profile' when clicked", () => {
     render(
       <Router>

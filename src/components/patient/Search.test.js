@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Search from './Search';
 
 describe('Search', () => {
+  
   it('renders placeholder ', () => {
     render(
       <Router>
@@ -12,8 +13,6 @@ describe('Search', () => {
     );
 
     const placeholderText = screen.getByPlaceholderText('Search here');
-   
-
     expect(placeholderText).toBeTruthy();
    
   });
@@ -26,8 +25,6 @@ describe('Search', () => {
     );
 
     const searchButton = screen.getByRole('button', { name: 'Search' });
-
     expect(searchButton).toBeTruthy();
-
   });
 });

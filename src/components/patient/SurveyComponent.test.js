@@ -45,7 +45,7 @@ describe("Survey component", () => {
 
   //3
 
-  test('Renders survey form1', () => {
+  it('Renders survey form1', () => {
     render(<SurveyComponent />);
 
     const question1 = screen.getByLabelText(/^Are you currently\s\*$/i);
@@ -55,8 +55,7 @@ describe("Survey component", () => {
 
   //4
 
-
-  test('Renders survey form2', () => {
+  it('Renders survey form2', () => {
     render(<SurveyComponent />);
 
     const question2 = screen.getByLabelText(/^Are you\s\*$/i);
@@ -64,9 +63,8 @@ describe("Survey component", () => {
     expect(question2).toBeInTheDocument();
   });
 
-
-
   //5
+
   it('renders survey form3', () => {
     render(<SurveyComponent />);
     const question3 = screen.getByText(/Primary Care Physician/i);
@@ -157,8 +155,6 @@ describe("Survey component", () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-
-
   describe('SurveyComponent Tests', () => {
 
     //15
@@ -171,5 +167,4 @@ describe("Survey component", () => {
       );
     });
   });
-
 });
