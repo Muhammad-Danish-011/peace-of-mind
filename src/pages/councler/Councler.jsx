@@ -49,7 +49,7 @@ const Councler = () => {
     .then(data => data.json())
     .then(data => {
       console.log({data})
-      setCards(data); // Limit to first 6 elements
+      setCards(data); 
 
     })
     .catch(err => console.group(err))
@@ -61,14 +61,14 @@ const Councler = () => {
       marginLeft: isSmallScreen ? 8 : theme.spacing(7)
 
     }}>
-      <Search setSearch={setSearch}/>
-      <Box sx={styles.cardContainer}>
+      <Search/>
+      {/* <Box sx={styles.cardContainer}>
       {
         cards.map((card) => (
           <BasicCard search={search} key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
-      </Box>
+      </Box> */}
     </Box>
   )
 }

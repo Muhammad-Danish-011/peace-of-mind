@@ -13,7 +13,7 @@ import Councler from '../../pages/councler/Councler';
 export default function OutlinedCard({basicCard, search}) {
 
   const [user, setUser] = useState("")
-
+  console.log({basicCard})
   useEffect(() =>{
     // console.log({basicCard})
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)

@@ -1,11 +1,12 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, InputBase, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import Card from './Card';
-import { useTheme } from '@mui/material/styles';
+import { Paper,  Box, InputBase, Button, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { useLocation } from 'react-router-dom';
+// import Councler from '../../pages/councler/Councler';
+import BasicCard from './BasicCard'
 import useMediaQuery from '@mui/material/useMediaQuery';
-import BasicCard from './BasicCard';
+import { useTheme } from '@mui/material/styles';
+
 
 
 const styles = {
@@ -13,21 +14,20 @@ const styles = {
     maxWidth: 1300,
     marginTop: '-1% !important',
     padding: '20px',
-    // backgroundColor: '#F5F5F5',
-    margin: '0 auto',
+    // backgroundColor: '#f5f5f5', 
+    margin: '0 auto' ,
 
   },
   cardContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, 280px)',
-    rowGap: '15px',
-    columnGap: '0px',
-    justifyContent: 'center',
+    gridTemplateColumns: 'repeat(3, 280px)',
+    rowGap: '15px', 
+    columnGap: '0px', 
+    justifyContent: 'center', 
     marginTop: '40px !important',
-    justifyContent: 'center',
-    alignItems: 'center',
+
     // Add media query for smaller screens
-    '@media (max-width: 1000px)': {// import Card from '../../components/patient/Card';
+    '@media (max-width: 600px)': {// import Card from '../../components/patient/Card';
       display: 'flex', // Use flexbox layout
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -36,27 +36,59 @@ const styles = {
       rowGap: '10px',
       columnGap: '5px',
     },
-
+   
   }
 }
 
 
-const Search = ({ onClick, setSearch }) => {
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate();
+const Search = ({onClick}) => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [cards, setCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [users, setUsers] = useState([]);
+  const [searchedCoouncelor, setSearchedCouncelor] = useState([]);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+
+
+  useEffect(()=>{
+    fetch(`${process.env.REACT_APP_API_KEY}/user`)
+    .then(data => data.json())
+    .then(data => {
+      console.log({data})
+      setUsers(data)
+    })
+  },[])
+
+  const {state} = useLocation();
 
   const onhandleSubmit = (e) => {
     e.preventDefault();
-    if (searchTerm) {
-      navigate(`/search/${searchTerm}`);
-      setSearchTerm('');
-    }
   };
+  // console.log(state)
+
+  const search = () =>{
+    const councelors = state.councelor;
+    const data = [];
+    
+    users.map((user) =>{
+      const fullName = user.firstName.toLowerCase()+" "+user.lastName.toLowerCase()
+      if(user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) 
+      || user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) 
+      || fullName.toLowerCase().includes(searchTerm.toLowerCase())){
+        console.log({user})
+        councelors.map((councelor)=>{
+          if(councelor.userId == user.id){
+            data.push(councelor)
+            console.log({councelor})
+          }
+        })
+      }
+    })
+    setSearchedCouncelor(data)
+  } 
+
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -89,9 +121,19 @@ const Search = ({ onClick, setSearch }) => {
 
   return (
     <>
-
-      <Box
-        onClick={onClick}
+    <Box
+      onClick={onClick}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 'auto',
+        width: { xs: '90%', md: '70%' },
+      }}
+    >
+      <Paper
+        component='form'
+        onSubmit={onhandleSubmit}
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -112,92 +154,40 @@ const Search = ({ onClick, setSearch }) => {
             boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
             backgroundColor: '#D9D9D9',
           }}
-        >
-          <InputBase
-            placeholder='Search here'
-            value={searchTerm}
+        />
+      </Paper>
+      <Button
+      // type='submit'
+      variant='contained'
+     sx={{
+      marginLeft: '10px',
+    backgroundColor: '#d9d9d9',
+    borderRadius:'15px',
+    color: '#000',
+    '&:hover': {
+      backgroundColor: '#d9d9d9',
+    },
+    height: '51px',
+    width: '150px'
+  }}
+  onClick={search}
+>
+  <Typography variant="button" sx={{ fontWeight: "bold"}}>
+    Search
+  </Typography>
+  <SearchIcon sx={{ marginLeft: "4px"}} />
+  </Button>
+    </Box>
+    <Box sx={{...styles.cardContainer,
+      marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}>
+    {searchedCoouncelor.map((councelor)=>{
+      console.log(councelor);
+      // return <h1>{councelor.userId}</h1>
+      return <BasicCard key={`card-${councelor.id}`} basicCard={councelor} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
 
-            onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{
-              border: 'none',
-              outline: 'none',
-              padding: '15px',
-              fontSize: '16px',
-              width: '100%',
-              lineHeight: '1.5em', // set line-height to adjust height of input placeholder
-              fontFamily: 'inherit',
-              color: 'black',
-            }}
-          />
-        </Paper>
-
-        <Button
-          type='submit'
-          variant='contained'
-          sx={{
-            marginLeft: '10px',
-            backgroundColor: '#D9D9D9',
-            borderRadius: '15px',
-            color: '#000',
-            '&:hover': {
-              backgroundColor: '#D9D9D9',
-            },
-            height: '51px',
-            width: '150px'
-          }}
-          onSubmit={()=> setSearch(searchTerm)}
-        >
-          <Typography variant="button" sx={{ fontWeight: "bold" }}>
-            Search
-          </Typography>
-          <SearchIcon sx={{ marginLeft: "4px" }} />
-        </Button>
-      </Box>
-
-      {<Box sx={{
-        ...styles.container,
-        marginLeft: isSmallScreen ? 10 : theme.spacing(5),
-        display: 'grid',
-
-      }}>
-
-
-        <Box sx={{
-          ...styles.cardContainer,
-          marginLeft: isSmallScreen ? 1 : theme.spacing(-11),
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        >
-          {/* {
-            cards.map((card) => (
-              // console.log(card)
-              <BasicCard key={`card-${card.id}`} basicCard={card} sx={{ marginRight: '20px', marginBottom: '20px' }} />
-            ))
-          } */}
-{/* 
-          {searchTerm === '' ? (
-            // Render all cards when no search term is entered
-            cards.map(card => (
-              <BasicCard
-                key={`card-${card.id}`}
-                basicCard={card}
-                sx={{ marginRight: '20px', marginBottom: '20px' }}
-              />
-            ))
-          ) : (
-            // Render filtered cards when a search term is entered
-            filteredCards.map(card => (
-              <BasicCard
-                key={`card-${card.id}`}
-                basicCard={card}
-                sx={{ marginRight: '20px', marginBottom: '20px' }}
-              />
-            )) */}
-          {/* )} */}
-        </Box>
-
-      </Box>}
+    })}
+  
+</Box>
     </>
   );
 };

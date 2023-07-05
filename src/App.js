@@ -54,12 +54,15 @@ function App() {
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
     
     <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
+    <Route path="/councler" element={<Privateroute> <Councler /></Privateroute> } />
+
     <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
     <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
     <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
     <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
-    
-    <Route path="/searchCouncelor" element={<Privateroute> <Councler /></Privateroute> } />
+    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    <Route path='/survey' element={<Privateroute><SurveyComponent/></Privateroute>} />  
+
     <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
     <Route path='/appointments' element={<Privateroute><Appointments/></Privateroute>}/> 

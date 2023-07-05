@@ -65,8 +65,6 @@ const card = (
 export default function OutlinedCard() {
   return (
     <Box>
-    <h1 style={{ fontSize: '20px', marginTop:'1.5rem' }}>Previous Counsulted 
-    Councler</h1>
 
     <Box
       width="100%"

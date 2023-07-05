@@ -52,6 +52,7 @@ const Sidebar = styled('div')(
 
 const SidebarIcon = styled(Box)(({ selected }) => ({
   marginBottom: '60px !important',
+  
   color: selected ? '#008080' : 'white',
   '&:hover': {
     color: '#008080',
@@ -100,7 +101,7 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/search'}>
+        <Link to={'/councler'}>
           <SidebarIcon component={IconButton} color="primary">
             <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
