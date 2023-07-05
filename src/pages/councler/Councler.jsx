@@ -61,13 +61,13 @@ const Councler = () => {
 
     }}>
       <Search/>
-      <Box sx={styles.cardContainer}>
+      {/* <Box sx={styles.cardContainer}>
       {
         cards.map((card) => (
           <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
         ))
         }
-      </Box>
+      </Box> */}
     </Box>
   )
 }
