@@ -50,6 +50,7 @@ const Home = () => {
 
   // const cards = [1,2,3,4,5,6];
   const [cards, setCards] = useState([]);
+  const [councelor, setCouncelor] = useState([]);
   useEffect(() => {
     fetch(
       `${accountUrl}/user/get/${user.id}`
@@ -91,8 +92,9 @@ const Home = () => {
     fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
     .then(data => data.json())
     .then(data => {
-      console.log({data})
-      setCards(data.slice(0,6))
+      console.log({data});
+      setCouncelor(data);
+      setCards(data.slice(0,6));
     })
     .catch(err => console.group(err))
 
@@ -103,7 +105,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
-    navigate('/councler');
+    navigate('/councler', {state: {councelor}});
   };
   return (<>
     {<Box sx={{
