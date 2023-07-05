@@ -12,11 +12,14 @@ import UseFetchAppointment from '../../hooks/UseFetchAppointment';
 
 import './Calendar.css'
 
-const Calendar = ({ type }) => {
+const Calendar = ({ type, id }) => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
+  const obj2 = JSON.parse(sessionStorage.getItem('patient_data'));
+
+  console.log(id)
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj.id}`);
+  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj === null ? id : obj?.id}`);
   const { appointmentData, fetchAllAppointment } = UseFetchAppointment('/getall');
   const [event, setEvent] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -28,10 +31,9 @@ const Calendar = ({ type }) => {
     fetchAllAvailability();
     fetchAllAppointment();
   },[])
-
   useEffect(() => {
     if (data.length > 0 && appointmentData.length > 0) {
-
+      console.log(data)
       const formattedEvents = data.map(availabilities => {
         
         const startDate = new Date(availabilities.date);
@@ -61,7 +63,8 @@ const Calendar = ({ type }) => {
             color: isBooked ? '#dc3545' : '#007bff',
           };
         }
-      });  
+      });    const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
+
       setEvent(formattedEvents);
     }
     if(noAvailability){
@@ -123,9 +126,10 @@ const Calendar = ({ type }) => {
     setLoading(true);
     try {
       console.log(selectedEvent);
+      console.log({obj2})
       let appointment= {
         availabilityId : selectedEvent.id,
-        patientid : 3,
+        patientid : obj2.data.id,
         confirmed : false,
         deleted : 0
       }

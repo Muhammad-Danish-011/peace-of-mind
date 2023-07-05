@@ -7,56 +7,102 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import Button from '@mui/material/Button';
+import { useEffect, useState } from 'react';
 
 
+export default function OutlinedCard({tapAppointment}) {
 
-const card = (
- <React.Fragment>
-    <CardContent style={{backgroundColor: "#FFFFF",
-              width:'270px',
-              justifyContent:"center",
-              borderRadius:'30px',
-              alignItems:"center",
-              paddingLeft:"20px",
-              height:'180px'
-             }}>
-      <Typography variant="h5" component="div">
+  console.log(tapAppointment)
+  const [ availibility, setAvailibity] = useState([]);
+  const [loader, setLoader] = useState(true)
 
+    //method for check today`s date
+    const isToday = (someDate) => {
+      const today = new Date()
+      someDate = new Date(someDate)
+      return someDate.getDate() == today.getDate() &&
+        someDate.getMonth() == today.getMonth() &&
+        someDate.getFullYear() == today.getFullYear()
+    }
 
-<h1 style={{ fontSize: '25px', marginTop:'1rem' }}> Today's Appointments</h1>
-      <Box
-        sx={{
-          display:'flex',
-          alignItems: 'center',
-          justifyContent:'center'
-          
-        }}>
-        <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '4rem' }} />
-        <h2 style={{ fontSize: '1.5rem', marginLeft: '1rem', marginBottom: '0' }}>At 6:00PM</h2>
-      </Box>
-
-      
-
-      <Button
-      sx= {{color: 'black',
-            display:'flex',
-            marginLeft:'115px',
-            fontSize:'20px',
-            marginTop:'10px'
-          }}
-
-      size="small" >View all</Button>
-
-      {/* <Typography variant="h5" fontSize="15px"  paddingLeft="80px">
-        view all 
-      </Typography> */}
-    </Typography>
+  useEffect(()=>{
     
-        </CardContent>
-  </React.Fragment>
-);
+    if(tapAppointment.length>0){
+      const myData = [];
+      const app = tapAppointment.length < 3 ? tapAppointment.splice(0,2) : tapAppointment;
+      console.log({app})
+      app.map((appointment)=>{
+        fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/${appointment.availabilityId}`)
+        .then(data => data.json())
+        .then(data => {
+          setLoader(false)
+          if(isToday(data.date)){
+            myData.push(data);
+            console.log({avail: data})
+            }
+        })
+        .catch(e=>{
+          console.log(e);
+        })
+      })
+      setAvailibity(myData)
+      setLoader(true)
+    }
 
-export default function OutlinedCard() {
+    
+  },[tapAppointment.length > 0])
+
+
+
+  const card = (
+    <React.Fragment>
+       <CardContent style={{backgroundColor: "#FFFFF",
+                 width:'270px',
+                 justifyContent:"center",
+                 borderRadius:'30px',
+                 alignItems:"center",
+                 paddingLeft:"20px",
+                 height:'180px'
+                }}>
+         <Typography variant="h5" component="div">
+   
+   
+   <h1 style={{ fontSize: '22px', marginTop:'1rem' }}> Today's Appointments</h1>
+         {!availibility > 0 ? "loading": availibility.map((avail) => {
+          // console.log(avail);
+          return <Box key={`appointment-${avail.id}`}
+           sx={{
+             display:'flex',
+             alignItems: 'center',
+             justifyContent:'center'
+             
+           }}>
+           <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '3rem' }} />
+           <h2 style={{ fontSize: '1.2rem', marginLeft: '1rem', marginBottom: '0' }}>{`At ${avail.date.split('T')[1].split('+')[0]}`}</h2>
+         </Box>})
+         }
+   
+         
+   
+         <Button
+         sx= {{color: 'black',
+               display:'flex',
+               marginLeft:'115px',
+               fontSize:'15px',
+               marginTop:'10px'
+             }}
+   
+         size="small" >View all</Button>
+   
+         {/* <Typography variant="h5" fontSize="15px"  paddingLeft="80px">
+           view all 
+         </Typography> */}
+       </Typography>
+       
+           </CardContent>
+     </React.Fragment>
+   );
+
   return (
      <Box
       width='300px'

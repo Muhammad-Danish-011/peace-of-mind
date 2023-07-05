@@ -13,14 +13,15 @@ import Councler from '../../pages/councler/Councler';
 export default function OutlinedCard({basicCard}) {
 
   const [user, setUser] = useState("")
+  // console.log({basicCard})
   useEffect(() =>{
-    console.log({basicCard})
+    // console.log({basicCard})
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)
     .then(data => data.json())
     .then(data => {
       // console.log(data)
       setUser(data)
-      console.log({user})
+      // console.log({user})
 
     })
   },[])
@@ -30,12 +31,12 @@ export default function OutlinedCard({basicCard}) {
     <React.Fragment>
         
        <CardContent style={{backgroundColor: "rgb(	184	215	209)",
-                 width:'250px',
+                 width:'220px',
                  justifyContent:"center",
                  borderRadius:'30px',
                  alignItems:"center",
                  paddingLeft:"20px",
-                 height: '180px'
+                 height: '150px'
                 }}>
    
    
@@ -93,7 +94,7 @@ export default function OutlinedCard({basicCard}) {
     }}
     
     >
-      <Card style={{"borderRadius":'30px'}}>{!user ? "Loading" : card}</Card>
+      <Card style={{"borderRadius":'30px'}}>{card}</Card>
     </Box>
   );
 }

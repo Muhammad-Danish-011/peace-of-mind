@@ -6,9 +6,20 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import FormatAlignJustifyRoundedIcon from '@mui/icons-material/FormatAlignJustifyRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
+// import Home from '../pages/home/Home';
+// import Councler from '../pages/councler/Councler';
+// import Calendar from '../pages/calendar/Calendar'
 import { IconButton } from '@mui/material';
 import Navbar from './Navbar';
-import { useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
+// import SurveyModal from '../components/patient/SurveyModal';
+// import SurveyComponent from '../components/patient/SurveyComponent';
+// import Counselor from '../components/Home/Counslor';
+// import CounselorCalender from '../components/counselor-calender/counselorcalender';
+// import UserProfile from '../components/UserProfile/UserProfile';
+// import AvailabilityTable from '../components/table/AppointmentAvailability';
+// import Search from '../components/patient/Search';
+// import ProfileCard from '../pages/profileCard/ProfileCard';
 
 
 const Sidebar = styled('div')(
@@ -41,6 +52,7 @@ const Sidebar = styled('div')(
 
 const SidebarIcon = styled(Box)(({ selected }) => ({
   marginBottom: '60px !important',
+  
   color: selected ? '#008080' : 'white',
   '&:hover': {
     color: '#008080',
@@ -74,6 +86,11 @@ export default function PersistentDrawerLeft() {
     setSidebarOpen(true);
   };
 
+  // const handleComponentChange = (component) => {
+  //   setSelectedComponent(component);
+  //   navigate(`/${component}`);
+  // };
+
   return (
     <Box sx={{ position: 'relative' }}>
       <Navbar handleSidebarToggle={handleSidebarToggle} />
@@ -84,13 +101,13 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/search'}>
+        {/* <Link to={'/councler'}>
           <SidebarIcon component={IconButton} color="primary">
             <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
-        </Link>
+        </Link> */}
 
-        <Link to={'/user-profile'}>
+        <Link to={'/appointments'}>
           <SidebarIcon component={IconButton} color="primary">
             <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
@@ -101,14 +118,30 @@ export default function PersistentDrawerLeft() {
             <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
         </Link>
+
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'search'} onClick={() => handleComponentChange('search')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'user-profile'} onClick={() => handleComponentChange('user-profile')}>
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'surveyform'} onClick={() => handleComponentChange('surveyform')}>
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
         
       </Sidebar> 
       : 
       <Sidebar style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }} open={sidebarOpen}>
 
-        <Link to={'/counselor'}>
+        <Link to={'/home'}>
           <SidebarIcon component={IconButton} color="primary">
             <HomeIcon style={{ fontSize: '48px' }} />
+          </SidebarIcon>
+        </Link>
+
+        <Link to={'/councler'}>
+          <SidebarIcon component={IconButton} color="primary">
+            <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
         </Link>
 
@@ -123,6 +156,22 @@ export default function PersistentDrawerLeft() {
             <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
         </Link>
+
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'home'} onClick={() => handleComponentChange('counselor')}>
+          <HomeIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'councler'} onClick={() => handleComponentChange('Calendar')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon>
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
+          <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon> */}
+        {/* <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'calender'} onClick={() => handleComponentChange('Calendar')}>
+          <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
+        </SidebarIcon>
+        <SidebarIcon component={IconButton} color="primary" selected={selectedComponent === 'availibilitytable'} onClick={() => handleComponentChange('availibilitytable')}>
+          <FormatAlignJustifyRoundedIcon style={{ fontSize: '48px' }} /> */}
+        {/* </SidebarIcon> */}
       </Sidebar>}
       {sidebarOpen && (
         <CloseIconWrapper>
@@ -131,7 +180,18 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </CloseIconWrapper>
       )}
-  
+      {/* routes for patinet */}
+      {/* {selectedComponent === 'home' && <Home />}
+      {selectedComponent === 'survey' && <SurveyModal />}
+      {selectedComponent === 'surveyform' && <SurveyComponent />}
+      {selectedComponent === 'search' && <Search />}
+      {selectedComponent === 'councler' && <Councler />}
+      {selectedComponent === 'calendar' && <Calendar />}
+
+      {selectedComponent === 'counselor' && <Counselor />}
+      {selectedComponent === 'Calendar' && <CounselorCalender />}
+      {selectedComponent === 'user-profile' && <UserProfile />}
+      {selectedComponent === 'availibilitytable' && <AvailabilityTable />} */}
     </Box>
   );
 }
