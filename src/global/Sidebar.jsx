@@ -73,7 +73,7 @@ export default function PersistentDrawerLeft() {
   const location = useLocation();
   // const navigate = useNavigate();
   const role = sessionStorage.getItem('role');
-  console.log(role)
+  // console.log(role)
 
   React.useEffect(() => {
 
@@ -101,13 +101,13 @@ export default function PersistentDrawerLeft() {
           </SidebarIcon>
         </Link>
 
-        <Link to={'/councler'}>
+        {/* <Link to={'/councler'}>
           <SidebarIcon component={IconButton} color="primary">
             <PsychologyRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
-        </Link>
+        </Link> */}
 
-        <Link to={'/user-profile'}>
+        <Link to={'/appointments'}>
           <SidebarIcon component={IconButton} color="primary">
             <CalendarMonthRoundedIcon style={{ fontSize: '48px' }} />
           </SidebarIcon>
