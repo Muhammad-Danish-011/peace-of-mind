@@ -9,7 +9,7 @@ const Card = () => {
   const [tapAppointment, setTapAppoinetment] = useState([]);
   const [loader, setLoader] = useState(true);
   const [ appointments, setAppopintments] = useState([]);
-  const userId = JSON.parse(sessionStorage.getItem('patient_data'))//.data.id
+  const userId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
   // console.log(userId)
   useEffect(() =>{
 
