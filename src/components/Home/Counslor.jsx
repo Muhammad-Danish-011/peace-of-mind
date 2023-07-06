@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, Rating,CircularProgress } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 // import moment from 'moment';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import {  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 import moment from 'moment';
 
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
+  // const [averageRating, setAverageRating] = useState(0);
+  // const [latestReview, setLatestReview] = useState(null);
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
   const [confirmedAppointments, setConfirmedAppointments] = useState([]);
@@ -68,7 +70,7 @@ const Counslor = () => {
   useEffect(() => {
     fetchAppointmentCountForAppointment();
   }, []);
-  
+
   const fetchAvailabilityIds = async () => {
     try {
       const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
@@ -82,7 +84,7 @@ const Counslor = () => {
           setAvailabilityIds(availabilityIds);
           const now = new Date();
           const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    
+
           const weeklyAppointments = data.filter(appointment => {
             const appointmentDate = new Date(appointment.date);
             return appointmentDate >= oneWeekAgo;
@@ -303,7 +305,6 @@ return (
           <h1>{patientCount}</h1>
 
         </Box>
-
       </Box>
 
       <Box sx={{

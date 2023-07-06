@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import Sidebar from "../../global/Sidebar";
+
 import { Box, Button, IconButton, InputBase, Table } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
+import { Link } from 'react-router-dom';
+import SchoolIcon from '@mui/icons-material/School';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import './UserProfile.css';
 
 import { AuthContext } from "../Authcontext/AuthContext";
@@ -22,7 +26,8 @@ const UserProfile = () => {
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
   const [guardianPhoneNumber, setGuardianPhoneNumber] = useState("");
-  // const { loginUserId } = useContext(AuthContext);
+  const [gender, setGender] = useState("");
+
 
   const obj = JSON.parse(sessionStorage.getItem("user"));
 
@@ -149,6 +154,7 @@ const UserProfile = () => {
         setPhoneNumber(data.phoneNumber);
         setRole(data.role);
         setCnic(data.cnic);
+        setGender(data.gender);
 
         if (data.role === "COUNSELOR") {
           fetch(
@@ -220,7 +226,11 @@ const UserProfile = () => {
             }}
           >
             <img
-              src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
+              
+              src={role === "COUNSELOR" ?
+              gender === "MALE" ? `${process.env.PUBLIC_URL + '/images/doctoricon.png'}`: `${process.env.PUBLIC_URL + '/images/doctor.png'}`
+             :
+              gender === "MALE" ? `${process.env.PUBLIC_URL + '/images/patient.png'}` : `${process.env.PUBLIC_URL + '/images/patienticon.png'}` }
               alt="role"
               style={{
 
@@ -248,6 +258,83 @@ const UserProfile = () => {
               >
                 {role}
               </h3>
+
+              {role === "COUNSELOR" && (
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: "row",
+
+                  justifyContent: "center",
+                  '@media (max-width: 540px)': {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+
+                    alignContent: "space-around",
+
+                  }
+
+
+                }}>
+                  <Button variant="contained" component={Link} to="/availibilitytable" color="success" sx={{
+                    padding: "10px",
+                    marginRight: "3%",
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Availability
+                  </Button>
+
+
+                  <Button variant="contained" color="success" component={Link} to="/Calendar" sx={{
+                    padding: "10px",
+                    marginRight: "3%",
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Calender
+                  </Button>
+
+                  <Button variant="contained" color="success" component={Link} to="/counselor" sx={{
+                    padding: "10px",
+                    marginRight: "3%",
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Dashboard
+                  </Button>
+
+                </Box>
+              )}
+
+              {role === "PATIENT" && (
+
+                <Box sx={{
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "row",
+                }}>
+                  <Button variant="contained" color="success" component={Link} to="/appointments" sx={{
+
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1.5rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Appointments
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Box>
 
@@ -266,13 +353,11 @@ const UserProfile = () => {
           <Box
             sx={{
 
-             
 
-              marginTop: "2%",
               width: "35%",
               display: "flex",
               fontFamily: "Quicksand, sans-serif",
-            
+
               justifyContent: "space-around",
               '@media (max-width: 1024px)': {
                 display: "flex",
@@ -284,28 +369,35 @@ const UserProfile = () => {
 
             }}
           >
-           
+
 
             <Box>
               <Box
                 sx={{
 
-                  
+
                   fontFamily: "Quicksand, sans-serif",
                   fontSize: "1.2rem",
                   fontWeight: "normal",
 
                 }}
               >
+
                 <h2
                   sx={{
                     fontSize: "3rem",
                     fontWeight: "bolder",
                   }}
                 >
+                  <ImportContactsIcon style={{
+                    fontSize: "60px",
+                    paddingRight: "30px",
+                    color: "green",
+
+                  }} />
                   Personal Information
                 </h2>
-                <Table cellpadding="3">
+                <Table cellpadding="3" style={{ width: '100%' }}>
                   <tr>
                     <td><p sx={{ fontWeight: "bold" }} styles={{}}>
                       First Name:
@@ -315,7 +407,7 @@ const UserProfile = () => {
                       {!userEditMode ? (
                         <>
                           <p>{firstName}</p>
-                          {/* <p>{lastName}</p> */}
+
                         </>
                       ) : (
                         <>
@@ -324,7 +416,7 @@ const UserProfile = () => {
                             onChange={(e) => setFirstName(e.target.value)}
 
                           />
-                 
+
                         </>
                       )}
                     </td>
@@ -338,12 +430,12 @@ const UserProfile = () => {
                     <td>
                       {!userEditMode ? (
                         <>
-                         
+
                           <p>{lastName}</p>
                         </>
                       ) : (
                         <>
-                   
+
                           <InputBase className="inputBasedBox "
 
                             value={lastName}
@@ -352,7 +444,7 @@ const UserProfile = () => {
                             sx={{
                               fontWeight: "bold",
                               fontSize: "1.2rem",
-                             
+
                             }}
                           />
                         </>
@@ -370,7 +462,7 @@ const UserProfile = () => {
                       {!userEditMode ? (
                         <>
                           <p>{email}</p>
-                         
+
                         </>
                       ) : (
                         <>
@@ -380,7 +472,7 @@ const UserProfile = () => {
                             onChange={(e) => setEmail(e.target.value)}
 
                           />
-                          
+
                         </>
                       )}
                     </td>
@@ -395,12 +487,12 @@ const UserProfile = () => {
                     <td>
                       {!userEditMode ? (
                         <>
-                         
+
                           <p>{password.replace(/./g, "*").substring(0, Math.min(password.length, 8))}</p>
                         </>
                       ) : (
                         <>
-                        
+
                           <InputBase className="inputBasedBox"
                             type="password"
                             value={password}
@@ -425,7 +517,7 @@ const UserProfile = () => {
                       {!userEditMode ? (
                         <>
                           <p>{phoneNumber}</p>
-                       
+
                         </>
                       ) : (
                         <>
@@ -435,7 +527,7 @@ const UserProfile = () => {
                             onChange={(e) => setPhoneNumber(e.target.value)}
 
                           />
-                     
+
                         </>
                       )}
                     </td>
@@ -449,12 +541,12 @@ const UserProfile = () => {
                     <td>
                       {!userEditMode ? (
                         <>
-                    
+
                           <p>{address}</p>
                         </>
                       ) : (
                         <>
-                         
+
                           <InputBase className="inputBasedBox"
                             type="text"
                             value={address}
@@ -472,12 +564,12 @@ const UserProfile = () => {
 
 
 
-                
+
               </Box>
 
 
 
-             
+
               {!userEditMode ? (
                 <Button
                   variant="contained"
@@ -486,8 +578,8 @@ const UserProfile = () => {
                   sx={{
                     width: "30%",
                     height: "10%",
-                    marginTop: "5%",
-                  
+
+
                     border: '1px solid green',
                     backgroundColor: 'rgb(207,227,223)',
                     color: "black",
@@ -509,7 +601,7 @@ const UserProfile = () => {
                   startIcon={<SaveIcon />}
 
                   sx={{
-                    width: "20%",
+                    width: "25%",
                     height: "10%",
                     marginTop: "5%",
                     backgroundColor: "black",
@@ -532,13 +624,13 @@ const UserProfile = () => {
           {role === "COUNSELOR" && (
             <Box
               sx={{
-           
+
                 display: "flex",
                 width: "40%",
 
                 marginLeft: "5%",
                 fontFamily: "Quicksand, sans-serif",
-                
+
                 paddingLeft: "5%",
                 flexDirection: "column",
                 justifyContent: "space-around",
@@ -548,20 +640,14 @@ const UserProfile = () => {
                   flexDirection: "column",
                   width: "80%",
                   marginTop: "5%",
-
-
-
-
-
-
                 }
 
               }}
             >
-            
+
               <Box
                 sx={{
-                  
+
                   fontSize: "1.3rem",
                   fontWeight: "normal",
                 }}
@@ -572,9 +658,15 @@ const UserProfile = () => {
                     fontWeight: "bolder",
                   }}
                 >
+                  <SchoolIcon style={{
+                    fontSize: "60px",
+                    paddingRight: "30px",
+                    color: "green",
+                
+                  }} />
                   Academic Information
                 </h2>
-                <Table>
+                <Table cellpadding="3" style={{ width: '100%' }}>
 
                   <tr>
                     <td>
@@ -587,7 +679,7 @@ const UserProfile = () => {
                       {!counselorEditMode ? (
                         <>
                           <p>{specialization}</p>
-                         
+
                         </>
                       ) : (
                         <>
@@ -596,7 +688,7 @@ const UserProfile = () => {
                             onChange={(e) => setSpecialization(e.target.value)}
 
                           />
-                        
+
                         </>
                       )}
                     </td>
@@ -612,12 +704,12 @@ const UserProfile = () => {
                     <td>
                       {!counselorEditMode ? (
                         <>
-                         
+
                           <p>{description}</p>
                         </>
                       ) : (
                         <>
-                       
+
                           <InputBase className="inputBasedBox"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -633,14 +725,14 @@ const UserProfile = () => {
               </Box>
               <Box
                 sx={{
-                  
+
                   fontFamily: "Quicksand, sans-serif",
                   fontSize: "1.2rem",
                   fontWeight: "bold",
                   marginTop: "-5%",
-                  
+
                   '@media (max-width: 1024px)': {
-                
+
                     marginTop: "0%",
                   }
 
@@ -656,7 +748,7 @@ const UserProfile = () => {
                   sx={{
                     width: "15%",
                     height: "10%",
-                    
+
                     alignSelf: "center",
                     backgroundColor: "black",
                     color: "black",
@@ -680,11 +772,7 @@ const UserProfile = () => {
                     backgroundColor: "black",
                     alignSelf: "center",
                     color: "white",
-                    '@media (max-width: 1024px)': {
-
-                      margin: "10%"
-
-                    },
+                  
                     "&:hover": {
                       backgroundColor: "#333",
                     },
@@ -700,120 +788,125 @@ const UserProfile = () => {
           {role === "PATIENT" && (
             <Box
               sx={{
-                border: "1px solid green",
-                borderRadius: "7px",
-                padding: "2rem",
-                margin: "2rem 2rem",
+
+
                 display: "flex",
+                width: "30%",
+
+
+                marginLeft: "5%",
                 fontFamily: "Quicksand, sans-serif",
+
                 flexDirection: "column",
-                justifyContent: "space-between",
+                justifyContent: "space-evenly",
+
+                '@media (max-width: 1024px)': {
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "80%",
+                  marginTop: "5%",
+
+
+                }
               }}
             >
+
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: "1rem",
-                  padding: "1rem",
+
+                  fontFamily: "Quicksand, sans-serif",
+                  fontSize: "1.3rem",
+
+                  fontWeight: "normal",
+
                 }}
               >
-                <h2
-                  sx={{
-                    fontSize: "3rem",
-                    fontWeight: "bolder",
-                  }}
-                >
+                <h2>
+                  <InterpreterModeIcon style={{
+                    fontSize: "60px",
+                    paddingRight: "30px",
+                    color: "green",
+
+                  }} />
                   Guardian Information:
                 </h2>
+                <Table cellpadding="3" style={{ width: '100%' }}>
 
-                {!patientEditMode ? (
-                  <Button
-                    variant="contained"
-                    onClick={patientHandleEdit}
-                    startIcon={<EditIcon />}
-                    sx={{
-                      width: "10%",
-                      backgroundColor: "black",
-                      color: "black",
-                      border: '1px solid green',
-                      backgroundColor: 'rgb(207,227,223)',
-                      "&:hover": {
-                        backgroundColor: "#333",
-                      },
-                    }}
-                  >
-                    Edit
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    onClick={patientHandleSave}
-                    startIcon={<SaveIcon />}
-                    sx={{
-                      width: "10%",
-                      backgroundColor: "black",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "#333",
-                      },
-                    }}
-                  >
-                    Save
-                  </Button>
-                )}
-              </Box>
-              <Box
-                sx={{
-                  // display: "grid",
-                  // gridTemplateColumns: "1fr 1fr",
-                  columnGap: "1rem",
-                  marginBottom: "1rem",
-                  fontFamily: "Quicksand, sans-serif",
-                  fontSize: "1.2rem",
-                  // alignItems:"center",
-                  fontWeight: "normal",
-                  margin: "3px",
-                }}
-              >
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold", }}>
 
-                <tr>
-                  <td>
-                    <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
-                      Guardian Phone Number:
-                    </p>
-                  </td>
+                        Guardian Phone Number:
+                      </p>
+                    </td>
 
-                  <td>
-                    {!patientEditMode ? (
-                      <p>{guardianPhoneNumber}</p>
-                    ) : (
-                      <InputBase className="inputBasedBox"
-                        value={guardianPhoneNumber}
-                        onChange={(e) => setGuardianPhoneNumber(e.target.value)}
+                    <td>
+                      {!patientEditMode ? (
+                        <p>{guardianPhoneNumber}</p>
+                      ) : (
+                        <InputBase className="inputBasedBox"
+                          value={guardianPhoneNumber}
+                          onChange={(e) => setGuardianPhoneNumber(e.target.value)}
 
-                      />
-                    )}
-                  </td>
-                </tr>
+                        />
+                      )}
+                    </td>
+                  </tr>
+
+                </Table>
 
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  // justifyContent:"center",
-                  gap: "2rem",
-                  fontFamily: "Quicksand, sans-serif",
-                  fontSize: "1.4rem",
-                  fontWeight: "bold",
-                  marginTop: "5px",
-                }}
-              >
 
-              </Box>
+
+              {!patientEditMode ? (
+                <Button
+                  variant="contained"
+                  onClick={patientHandleEdit}
+                  startIcon={<EditIcon />}
+                  sx={{
+                    width: "20%",
+                    height: "10%",
+                    backgroundColor: "black",
+                    alignSelf: "center",
+                    color: "black",
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
+                    '@media (max-width: 1024px)': {
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "80%",
+                      marginTop: "5%",
+    
+    
+                    }
+                  }}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={patientHandleSave}
+                  startIcon={<SaveIcon />}
+                  sx={{
+                    width: "15%",
+                    height: "10%",
+                    alignSelf: "center",
+                    backgroundColor: "black",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
+                  }}
+                >
+                  Save
+                </Button>
+              )}
             </Box>
+
           )}
 
         </Box>

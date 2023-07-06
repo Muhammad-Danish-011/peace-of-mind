@@ -24,3 +24,26 @@ Table{
    text-align: left;
    font-size:larger;
 }
+
+@media (max-width: 600px) {
+   table {
+     display: block;
+     width: 100%;
+   }
+   tr {
+     display: block;
+     margin-bottom: 10px;
+   }
+   td {
+     display: block;
+     text-align: left;
+   }
+   p {
+     margin: 0;
+     font-weight: bold;
+   }
+   .inputBasedBox {
+     width: 100%;
+     margin-bottom: 10px;
+   }
+ }
