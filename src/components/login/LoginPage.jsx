@@ -1,8 +1,6 @@
 
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../Authcontext/AuthContext";
-// import bg from '${process.env.PUBLIC_URL + /images/bg.jpeg}';
-// import bg from "../images/bg.jpeg";
+import { AuthContext } from "../Authcontext/AuthContext"; 
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
