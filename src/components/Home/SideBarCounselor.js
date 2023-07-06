@@ -9,6 +9,7 @@ const SideBarCounselor = () => {
   const [time, setTime] = useState('');
   const [confirmedAppointments, setConfirmedAppointments] = useState([]);
   const [weeklyAppointments, setWeeklyAppointments] = useState([]);
+  const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
   useEffect(() => {
     if (latestAppointment.date) {
       const [datePart, timePart] = latestAppointment.date.split('T');
@@ -42,20 +43,35 @@ const SideBarCounselor = () => {
       console.error('Error fetching appointment count:', error);
     }
   };
-   const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
+  const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
     try {
       const confirmedAppointments = [];
       for (const availabilityId of availabilityIds) {
         const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
         if (response.ok) {
           const data = await response.json();
-          console.log("data is", data);
+          console.log("Data is", data);
+          // Filter appointments where "confirmed" is true
           const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
           confirmedAppointments.push(...confirmedAppointmentsData);
         }
       }
       console.log("Confirmed Appointments:", confirmedAppointments);
-      setConfirmedAppointments(confirmedAppointments);
+      const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
+      const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
+      setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
+      const relativeDates = confirmedAppointmentIds.map(appointmentId => {
+        const matchedAppointment = availabilityIds.find(availabilityId => availabilityId === appointmentId);
+        if (matchedAppointment) {
+          const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
+          console.log("===============",weeklyAppointments[matchedAppointmentIndex])
+          return weeklyAppointments[matchedAppointmentIndex];
+        }
+        return null;
+      });
+      console.log("Relative Dates:", relativeDates);
+      console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
+      console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
     } catch (error) {
       console.error('Error fetching appointments:', error);
     }
@@ -93,20 +109,20 @@ const SideBarCounselor = () => {
     >
       <h1 style={{marginTop:'-12rem'}}>UpComing Latest Appointment</h1>
       {confirmedAppointments.length > 0 && (
-        <div>
-          <h3>Confirmed Appointments</h3>
-          {confirmedAppointments.map(appointment => (
-            <div key={appointment.availabilityId}>
-              <Card style={{ margin: '10px', height: '8rem', width: '22rem', borderRadius: '1rem' }}>
-             <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '4rem',marginTop:"8px",marginRight:'14rem' }} />
-            <p style={{ fontSize: '1.2rem', marginTop: '2rem',marginLeft:"3rem",marginTop:'-4.5rem' }}>Date: {date}</p>
-            <p style={{ fontSize: '1.2rem',marginTop:'-10px',marginLeft:"3rem" }}>Time: {time}</p>
-              <p>Meeting Link: <a href={appointment.meetingURL}>{appointment.meetingURL}</a></p>
-              </Card>
-            </div>
-          ))}
-        </div>
-      )}
+  <div>
+    <h3>Confirmed Appointments</h3>
+    {confirmedAppointments.map(appointment => (
+      <div key={appointment.availabilityId}>
+        <Card style={{ margin: '10px', height: '8rem', width: '22rem', borderRadius: '1rem' }}>
+          <CalendarMonthRoundedIcon sx={{ color: '#008080', fontSize: '4rem', marginTop: '8px', marginRight: '14rem' }} />
+          <p style={{ fontSize: '1.2rem', marginTop: '2rem', marginLeft: '3rem', marginTop: '-4.5rem' }}>Date: {appointment.date}</p>
+          <p style={{ fontSize: '1.2rem', marginTop: '-10px', marginLeft: '3rem' }}>Time: {appointment.time}</p>
+          <p>Meeting Link: <a href={appointment.meetingURL}>{appointment.meetingURL}</a></p>
+        </Card>
+      </div>
+    ))}
+  </div>
+)}
       <Link to="/availibilitytable">View All</Link>
     </Box>
   );

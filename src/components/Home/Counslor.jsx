@@ -3,29 +3,33 @@ import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import { Link} from "react-router-dom";
 // import moment from 'moment';
-import { Lin,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 
 
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
-  // const [averageRating, setAverageRating] = useState(0);
-  // const [latestReview, setLatestReview] = useState(null);
   const [availabilityIds, setAvailabilityIds] = useState([]);
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('')
+  const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
  
 
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
   const [weeklyAppointments, setWeeklyAppointments] = useState([]);
-  const [confirmedAppointments, setConfirmedAppointments] = useState([]);
   useEffect(() => {
     fetchAvailabilityIds();
   }, []);
 
-  
+  useEffect(() => {
+    if (latestAppointment.date) {
+      const [datePart, timePart] = latestAppointment.date.split('T');
+      setDate(datePart);
+      setTime(timePart.substring(0, 5)); // Extract only the time portion
+    }
+  }, [latestAppointment]);
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
   const [appointmentId, setAppointmentsId] = useState([])
@@ -74,7 +78,7 @@ const Counslor = () => {
   useEffect(() => {
     fetchAppointmentCountForAppointment();
   }, []);
-
+  
   const fetchAvailabilityIds = async () => {
     try {
       const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
@@ -124,47 +128,77 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
     }));
   
     return (
-        <BarChart width={400} height={300} data={chartData}>
-          <CartesianGrid strokeDasharray="4 4" />
-          <XAxis dataKey="date"/>
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar style={{width:'1px'}}dataKey="count" stroke="#8884d8" />
-        </BarChart>
-     
+      <BarChart width={400} height={300} data={chartData}>
+        <CartesianGrid strokeDasharray="5 5" />
+        <XAxis dataKey="date"/>
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="count" stroke="#8884d8" />
+      </BarChart>
     );
   };
+  // const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const confirmedAppointments = [];
+  //     const upcomingMeetings = [];
   
-  const fetchAppointmentsByAvailabilityIds = async () => {
-    try {
-      availabilityIds.map(availabilityId =>
-      fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
-      .then(response => {
-        if(response.ok){
-          return response.json();
-        }
-      })
-      .then(data => {
-        if(data){
-          setAppointments(appointments => [...appointments,data]);
-        }
-
-      
-      })
-
-      );
-      let arr = Array();
-      appointments.map(a=> arr.push(a[0].patientid));
-      appointments.map(a=> setAppointmentsId(appointmentId => [...appointmentId,a[0].id]));
-
-      arr = [... new Set(arr)];
-      //console.log("Total number of patients:", arr.length);
-      setPatientCount(arr.length);
-    } catch (error) {
-        console.error('Error fetching appointments:', error);
-    }
-  };
+  //     for (const availabilityId of availabilityIds) {
+  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log("data is", data);
+  //         // Filter appointments where "confirmed" is true
+  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
+  //         confirmedAppointments.push(...confirmedAppointmentsData);
+  
+  //         // Sort appointments by date in ascending order
+  //         const sortedAppointments = confirmedAppointmentsData.sort((a, b) => new Date(a.date) - new Date(b.date));
+  //         if (sortedAppointments.length > 0) {
+  //           // Get the upcoming appointment
+  //           const upcomingAppointment = sortedAppointments[0];
+  //           upcomingMeetings.push({
+  //             availabilityId,
+  //             meetingURL: upcomingAppointment.meetingURL,
+  //             date: upcomingAppointment.date
+  //           });
+  //         }
+  //       } else {
+  //         throw new Error('Response not OK');
+  //       }
+  //     }
+  
+  //     console.log("Confirmed Appointments:", confirmedAppointments);
+  //     console.log("Upcoming Meetings:", upcomingMeetings);
+  
+  //     const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
+  //     const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
+  
+  //     setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
+  
+  //     console.log("Confirmed meeting URLs are: ", confirmedAppointmentsMeetingURLS);
+  //     console.log("Confirmed Appointment's Availability Ids:", confirmedAppointmentIds); // matched appointments availability ids
+  
+  //     // Use the confirmedAppointments array and upcomingMeetings array as needed
+  //     if (confirmedAppointments.length > 0) {
+  //       const appointments = confirmedAppointments.map(appointment => ({
+  //         patientid: appointment[0].patientid,
+  //         id: appointment[0].id
+  //       }));
+  //       const uniquePatientIds = [...new Set(appointments.map(appointment => appointment.patientid))];
+  //       setPatientCount(uniquePatientIds.length);
+  //       console.log("Total number of patients:", uniquePatientIds.length);
+  //       setAppointments(appointments);
+  //       setAppointmentsId(appointments.map(appointment => appointment.id));
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
+  useEffect(() => {
+    // fetchAppointmentsByAvailabilityIds();
+    fetchConfirmedAppointmentsByAvailabilityIds();
+  }, [availabilityIds]);
   const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
     try {
       const confirmedAppointments = [];
@@ -172,24 +206,132 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
         const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
         if (response.ok) {
           const data = await response.json();
-          console.log("data is", data);
+          console.log("Data is", data);
+          // Filter appointments where "confirmed" is true
           const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
           confirmedAppointments.push(...confirmedAppointmentsData);
         }
       }
-      console.log("Confirmed Appointmentsss:", confirmedAppointments);
-      setConfirmedAppointments(confirmedAppointments);
+      console.log("Confirmed Appointments:", confirmedAppointments);
+      const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
+      const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
+      setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
+      const relativeDates = confirmedAppointmentIds.map(appointmentId => {
+        const matchedAppointment = availabilityIds.find(availabilityId => availabilityId === appointmentId);
+        if (matchedAppointment) {
+          const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
+          console.log("===============",weeklyAppointments[matchedAppointmentIndex]);
+          return weeklyAppointments[matchedAppointmentIndex];
+        }
+        return null;
+      });
+      console.log("Relative Dates:", relativeDates);
+      console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
+      console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
     } catch (error) {
       console.error('Error fetching appointments:', error);
     }
   };
-  useEffect(() => {
-    fetchConfirmedAppointmentsByAvailabilityIds();
-  }, [availabilityIds]);
+  // const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const confirmedAppointments = [];
+  //     for (const availabilityId of availabilityIds) {
+        
+  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log("data is", data);
+  //         // Filter appointments where "confirmed" is true
+  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true );
+  //         // const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed);
+  //         confirmedAppointments.push(...confirmedAppointmentsData);
+  //       }
+  //     }
+  //     console.log("Confirmed Appointments:", confirmedAppointments);
+  //     const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
+  //     const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
+  //     const date = confirmedAppointmentIds.map(appointment=>appointment.weeklyAppointments);
+  //     setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
+  //     console.log("Confirmed dates ", date);
+  //     console.log("Confirmed meeting URLS are: ", confirmedAppointmentsMeetingURLS);
+  //     console.log("Confirmed Appointment's Availability Ids:", confirmedAppointmentIds); //matched appointments availability ids
+  //     // Use the confirmedAppointments array as needed
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
 
-useEffect(() => {
-  fetchAppointmentsByAvailabilityIds();
-}, [availabilityIds]);
+  // const fetchAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const confirmedAppointments = [];
+  //     for (const availabilityId of availabilityIds) {
+  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log("data is", data);
+  //         // Filter appointments where "confirmed" is true and availability matches
+  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true && appointment.availabilityId === availabilityId);
+  //         confirmedAppointments.push(...confirmedAppointmentsData);
+  //       }
+  //     }
+  //     console.log("Confirmed Appointments:", confirmedAppointments);
+  //     // Use the confirmedAppointments array as needed
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
+  // const fetchAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     const confirmedAppointments = [];
+  //     for (const availabilityId of availabilityIds) {
+  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log("data is", data);
+  //         // Filter appointments where "confirmed" is true and availability matches
+  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true && appointment.availabilityId === availabilityId);
+  //         confirmedAppointments.push(...confirmedAppointmentsData);
+  //       }
+  //     }
+  //     console.log("Confirmed Appointments:", confirmedAppointments);
+  //     // Use the confirmedAppointments array as needed
+  //   } catch (error) {
+  //     console.error('Error fetching appointments:', error);
+  //   }
+  // };
+
+
+  // const fetchAppointmentsByAvailabilityIds = async () => {
+  //   try {
+  //     availabilityIds.map(availabilityId =>
+  //     fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
+  //     .then(response => {
+  //       if(response.ok){
+  //         return response.json();
+          
+  //       }
+  //     })
+  //     .then(data => {
+  //       if(data){
+  //         setAppointments(appointments => [...appointments,data]);
+  //       }
+  //     })
+  //     );
+  //     let arr = Array();
+  //     appointments.map(a=> arr.push(a[0].patientid));
+  //     appointments.map(a=> setAppointmentsId(appointmentId => [...appointmentId,a[0].id]));
+
+  //     arr = [... new Set(arr)];
+  //     //console.log("Total number of patients:", arr.length);
+  //     setPatientCount(arr.length);
+  //   } catch (error) {
+  //       console.error('Error fetching appointments:', error);
+  //   }
+  // };
+
+// useEffect(() => {
+//   fetchAppointmentsByAvailabilityIds();
+// }, [availabilityIds]);
 
 return (
   <>
@@ -199,23 +341,19 @@ return (
   
     <Box
       sx={{
-    
-    
         fontFamily: "Quicksand, sans-serif",
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
-        
       }}
     >
-
       <Box
         sx={{
           border: "1px solid green",
          
           borderRadius: "10px",
           width: "25%",
-          height: "50%",
+          height: "30%",
        
           margin: "8% 0% 0% 30%",
 
@@ -225,24 +363,13 @@ return (
           flexDirection: "column",
         }}
       >
-        {confirmedAppointments && latestAppointment.date && (
-          <div key={confirmedAppointments.availabilityId}>
-            <h2>UpComing Latest Appointment</h2>
-            <p style={{ fontSize: '1.4rem', marginTop: '2rem', marginLeft: '0.5rem'}}>
-              Date: {latestAppointment.date.split('T')[0]}
-            </p>
-            <p style={{ fontSize: '1.4rem', marginTop: '-10px', marginLeft: '0.5rem' }}>
-              Time: {latestAppointment.date.split('T')[1]?.split('+')[0]}
-            </p>
-            <Link to={confirmedAppointments.meetingURL}>
-              Meeting Link: {confirmedAppointments[0].meetingURL}
-            </Link>
-          </div>
-        )}
-        {/* <h3>UpComing Latest Appointment</h3>
-        <p>Date & Time: {<strong>{latestAppointment.date}</strong>} </p>
-        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{latestAppointment.meetingURL}</Link></p> */}       
+        <h3>Upcoming Latest Appointment</h3>
+        <p>Date  <strong>{latestAppointment.date}</strong></p>
+        <p>Time  <strong>{latestAppointment.time}</strong></p>
+        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{confirmedAppointmentsMeetingURLS}</Link></p>
+       
       </Box>
+
       <Box sx={{
         display: "flex",
         flexDirection: "row",
@@ -255,41 +382,23 @@ return (
           display: "flex",
           flexDirection: "column",
           alignContent: "space-around"
-
-
-
         }
-
-
       }}>
-
         <Box sx={{
-
           borderRadius: "10px",
-      
           height: "100%",
           padding: "3%",
-
           '@media (max-width: 950px)': {
             marginBottom: "1rem",
             alignItems: "center",
-
-
-
           }
         }}>
           <Typography variant="h5">
             WEEKLY APPOINTMENTS
           </Typography>
           <br />
-
-          
-          <ChartComponent/>
-
+          <ChartComponent />
         </Box>
-
-
-
         <Box sx={{
         
           border: "1px solid green",
