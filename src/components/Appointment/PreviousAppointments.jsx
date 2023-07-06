@@ -52,10 +52,13 @@ export const PreviousAppointments = () => {
     }
   };
 
-  const handleJoin = (appointment_id) => {
-    Nav(`/room/${appointment_id}`);
-  };
-
+  // const handleJoin = (appointment_id) => {
+  //   Nav(`/room/${appointment_id}`);
+  // };
+  const handleRate = (appointment_id)=>{
+    // console.log('hi')
+    Nav(`/rating/${appointment_id}`)
+  }
   const filteredAppointments = appointments.filter((appointment) => {
     const matchingAvailability = availabilityData.find(
       (item) => item.id === appointment.availabilityId
@@ -129,7 +132,7 @@ export const PreviousAppointments = () => {
                 >
                   Pending Status
                 </TableCell>
-                {/* <TableCell
+                 <TableCell
                   sx={{
                     backgroundColor: "#a0d4d4",
                     color: "#000000",
@@ -138,8 +141,8 @@ export const PreviousAppointments = () => {
                     textAlign: "center",
                   }}
                 >
-                  Session
-                </TableCell> */}
+                  Rate the Councelor
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -196,9 +199,29 @@ export const PreviousAppointments = () => {
                       </Button>
                     ) : null}
                   </TableCell> */}
+                  <TableCell
+                  sx={{
+                    borderBottom: "1px solid #f5f5f5",
+                    display: "flex",
+                    alignItems: "center",
+                  }}>
+                    <Button
+                     onClick={() => handleRate(
+                      appointment.id)}
+                     variant="outlined"
+                     color="primary"
+                     sx={{ marginLeft: "8px" }}>
+                      Rate the Councelor
+                    </Button>
+
+                  </TableCell>
                 </TableRow>
-              ))}
+               ))} 
+            
+           
             </TableBody>
+            {/* </TableHead> */}
+            
           </Table>
         </Box>
       </TableContainer>

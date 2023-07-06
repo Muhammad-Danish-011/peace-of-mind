@@ -497,15 +497,20 @@ export const CurrentAppointments = () => {
       minute: "2-digit",
       hour12: false,
       // timeZone: "UTC",
+      // timeZone: "UTC"
     };
     return dateTime.toLocaleString("en-US", options);
   };
 
   return (
+    <div sx={{minWidth: 500, width: '30px'}}>
     <Box sx={{ overflowX: "auto" }}>
       <TableContainer
         component={Paper}
-        sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}
+        sx={{ //boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
+      margin:'auto 0',
+      
+    }}
       >
         <Box sx={{ minWidth: 650, overflowX: "auto" }}>
           <Table sx={{ minWidth: 650 }}>
@@ -568,7 +573,7 @@ export const CurrentAppointments = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody >
               {sortedAppointments.map((appointment) => (
                 <TableRow
                   key={appointment.id}
@@ -695,6 +700,7 @@ export const CurrentAppointments = () => {
         </Box>
       </TableContainer>
     </Box>
+    </div>
   );
 };
 

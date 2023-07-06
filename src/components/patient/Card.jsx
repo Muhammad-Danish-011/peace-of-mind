@@ -58,8 +58,7 @@ const Card = () => {
       position: 'fixed',
       top: 0,
       right: 0,
-      width: '400px'        
-      ,
+      width: '400px',
       marginTop: '60px', 
       // Use theme breakpoints for responsive design
       '@media (max-width:1600px)': {
