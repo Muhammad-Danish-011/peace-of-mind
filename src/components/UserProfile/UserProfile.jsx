@@ -26,6 +26,7 @@ const UserProfile = () => {
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
   const [guardianPhoneNumber, setGuardianPhoneNumber] = useState("");
+  const [gender, setGender] = useState("");
 
 
   const obj = JSON.parse(sessionStorage.getItem("user"));
@@ -153,6 +154,7 @@ const UserProfile = () => {
         setPhoneNumber(data.phoneNumber);
         setRole(data.role);
         setCnic(data.cnic);
+        setGender(data.gender);
 
         if (data.role === "COUNSELOR") {
           fetch(
@@ -224,7 +226,11 @@ const UserProfile = () => {
             }}
           >
             <img
-              src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
+              
+              src={role === "COUNSELOR" ?
+              gender === "MALE" ? `${process.env.PUBLIC_URL + '/images/doctoricon.png'}`: `${process.env.PUBLIC_URL + '/images/doctor.png'}`
+             :
+              gender === "MALE" ? `${process.env.PUBLIC_URL + '/images/patient.png'}` : `${process.env.PUBLIC_URL + '/images/patienticon.png'}` }
               alt="role"
               style={{
 
