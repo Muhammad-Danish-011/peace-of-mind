@@ -20,7 +20,7 @@ export const PreviousAppointments = () => {
   const Nav = useNavigate();
 
   useEffect(() => {
-    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/")
+    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/160")
       .then((response) => response.json())
       .then((data) => setAppointments(data))
       .catch((error) => console.log(error));
@@ -52,10 +52,13 @@ export const PreviousAppointments = () => {
     }
   };
 
-  const handleJoin = (appointment_id) => {
-    Nav(`/room/${appointment_id}`);
-  };
-
+  // const handleJoin = (appointment_id) => {
+  //   Nav(`/room/${appointment_id}`);
+  // };
+  const handleRate = (appointment_id)=>{
+    // console.log('hi')
+    Nav(`/rating/${appointment_id}`)
+  }
   const filteredAppointments = appointments.filter((appointment) => {
     const matchingAvailability = availabilityData.find(
       (item) => item.id === appointment.availabilityId
@@ -129,7 +132,7 @@ export const PreviousAppointments = () => {
                 >
                   Pending Status
                 </TableCell>
-                <TableCell
+                 <TableCell
                   sx={{
                     backgroundColor: "#a0d4d4",
                     color: "#000000",
@@ -138,7 +141,7 @@ export const PreviousAppointments = () => {
                     textAlign: "center",
                   }}
                 >
-                  Session
+                  Rate the Councelor
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -176,7 +179,7 @@ export const PreviousAppointments = () => {
                   >
                     {getPendingStatus(getAvailabilityDate(appointment.availabilityId))}
                   </TableCell>
-                  <TableCell
+                  {/* <TableCell
                     sx={{
                       borderBottom: "1px solid #f5f5f5",
                       display: "flex",
@@ -195,10 +198,30 @@ export const PreviousAppointments = () => {
                         Join
                       </Button>
                     ) : null}
+                  </TableCell> */}
+                  <TableCell
+                  sx={{
+                    borderBottom: "1px solid #f5f5f5",
+                    display: "flex",
+                    alignItems: "center",
+                  }}>
+                    <Button
+                     onClick={() => handleRate(
+                      appointment.id)}
+                     variant="outlined"
+                     color="primary"
+                     sx={{ marginLeft: "8px" }}>
+                      Rate the Councelor
+                    </Button>
+
                   </TableCell>
                 </TableRow>
-              ))}
+               ))} 
+            
+           
             </TableBody>
+            {/* </TableHead> */}
+            
           </Table>
         </Box>
       </TableContainer>

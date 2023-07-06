@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import { styled } from "@mui/system";
 import {
@@ -31,16 +32,20 @@ const RatingUI = ({ value, onChange }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [temp, setTemp] = useState(false);
+  const Nav = useNavigate();
 
   const handleRatingChanging = (event) => {
     setRating(event.target.value);
   };
 
   const handleRatingChange = (newValue) => {
-    
     setRating(newValue);
   };
 
+  const handleRate = ()=>{
+    // console.log('hi')
+    Nav(`/home`)
+  } 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
@@ -97,7 +102,7 @@ const RatingUI = ({ value, onChange }) => {
             <Box
               sx={{
                 display: "flex",
-                backgroundColor: "#C2F8E4",
+                backgroundColor: "#fff",
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "16px",
@@ -107,19 +112,25 @@ const RatingUI = ({ value, onChange }) => {
                 {" "}
                 Thanks for feedback
                 <br />
-                <button variant="contained" color="primary">
-                  click here to Dashboard
+                <button variant = "outlined" style={{ backgroundColor:'#8fb3ac', 
+                marginLeft: "8px",
+                padding:'10px',
+                borderRadius:'8px',
+                marginTop:'30px',
+               border:'none'
+                 }} onClick={() => handleRate()}>
+                  Click here to go on Dashboard
                 </button>
               </h1>
             </Box>
           </div>
         ) : (
-          <div>
+          <div style={{backgroundColor:'#ffff'}}>
             <div>
               <Box
                 sx={{
                   display: "flex",
-                  backgroundColor: "#C2F8E4",
+                  // backgroundColor: "#C2F8E4",
                   flexDirection: "column",
                   alignItems: "center",
                   padding: "16px",
@@ -132,7 +143,7 @@ const RatingUI = ({ value, onChange }) => {
             <Box
               sx={{
                 display: "flex",
-                backgroundColor: "#C2F8E4",
+                // backgroundColor: "#C2F8E4",
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "16px",

@@ -1,16 +1,22 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import Sidebar from '../../global/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
-export default function Privateroute({children}) {
+export default function Privateroute({ children }) {
 
-    if(sessionStorage.getItem("islogin") == null){
-        return <Navigate to="/login"/>
-    }
-  return(
+  const navigate = useNavigate()
+
+  if (sessionStorage.getItem("islogin") == null) {
+    return <Navigate to="/login" />
+  }
+ 
+
+
+  return (
     <>
-    <Sidebar></Sidebar>
-    {children}
+      <Sidebar></Sidebar>
+      {children}
     </>
-  ) 
+  )
 }

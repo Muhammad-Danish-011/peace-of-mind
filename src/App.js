@@ -26,6 +26,7 @@ import AvailabilityTable from './components/table/AppointmentAvailability';
 import Appointments from './components/Appointment/Appointments';
 
 import Councler from './pages/councler/Councler';
+import RatingUI from './components/Rating/rating';
 
 function App() {
   return (
@@ -65,7 +66,8 @@ function App() {
 
     <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
     <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
-    <Route path='/appointments' element={<Privateroute><Appointments/></Privateroute>}/> 
+    <Route path='/appointments' element={<Privateroute><Appointments/></Privateroute>}/>
+    <Route path='/rating/:appointmentId' element={<Privateroute><RatingUI/></Privateroute>}/>
     </Routes>
     </AuthProvider>
   </BrowserRouter>

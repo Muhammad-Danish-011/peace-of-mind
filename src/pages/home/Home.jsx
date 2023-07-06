@@ -67,32 +67,32 @@ const Home = () => {
         // setRole(data.role);
         // setCnic(data.cnic);
 
-        if (data.role === "PATIENT") {
-          fetch(
-            // /{userId}
-            `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
-          )
-            .then((response) => response.json())
-            .then((patientData) => {
-              console.log('-------======--',patientData);
-              // setSpecialization(counselorData.specialization);
-              // setDescription(counselorData.description);
-              sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        }
+        // if (data.role === "PATIENT") {
+        //   fetch(
+        //     // /{userId}
+        //     `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
+        //   )
+        //     .then((response) => response.json())
+        //     .then((patientData) => {
+        //       // console.log('-------======--',patientData);
+        //       // setSpecialization(counselorData.specialization);
+        //       // setDescription(counselorData.description);
+        //       sessionStorage.setItem("patient_data", JSON.stringify(patientData))
+        //     })
+        //     .catch((error) => {
+        //       console.error(error);
+        //     });
+        // }
   });}, []);
   // console.log(obj);
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     //Runs on every render
     fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
     .then(data => data.json())
     .then(data => {
-      console.log({data});
+      // console.log({data});
       setCouncelor(data);
       setCards(data.slice(0,6));
     })
@@ -121,10 +121,10 @@ const Home = () => {
       }}
       >
         {
-        cards.map((card) => (
+        cards.map((card) => {
           // console.log(card)
-          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))
+          return <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/>
+        })
         }
       </Box>
       <Card />

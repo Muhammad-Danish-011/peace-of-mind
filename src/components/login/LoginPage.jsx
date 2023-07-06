@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Authcontext/AuthContext";
 // import bg from '${process.env.PUBLIC_URL + /images/bg.jpeg}';
 // import bg from "../images/bg.jpeg";
@@ -13,19 +13,6 @@ import {
 
 
 const Loginform = () => {
-
-  if(sessionStorage.getItem("islogin")){
-    if(sessionStorage.getItem("role") === "PATIENT"){
-      window.location.assign("/surveyform");
-    }
-    else if(sessionStorage.getItem("role") === "COUNSELOR"){
-      window.location.assign("/counselor");
-    }
-    else{
-      
-    } 
-
-  }
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const { setLoginStatus,setitems } = useContext(AuthContext)
@@ -33,12 +20,73 @@ const Loginform = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
   const { updateLoginUserId } = useContext(AuthContext);
+  const [ patient, setPatient] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("islogin")){
+      if(sessionStorage.getItem("role")=== "PATIENT"){
+        navigate("/home")
+      }
+      else if(sessionStorage.getItem("role") === "COUNSELOR"){
+        navigate("/counselor")
+      }
+    }
+  },[])
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   const emailError = validateEmail(email);
+  //   const passwordError = validatePassword(password);
+
+  //   if (emailError || passwordError) {
+  //     setErrors({ email: emailError, password: passwordError });
+  //     return;
+  //   }
+  //   try {
+  //     const accountUrl = process.env.REACT_APP_API_KEY
+  //     const response = await fetch(`${accountUrl}/user/login`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     });
+
+  //     if (response.ok) {
+  //       const user = await response.json();
+  //       sessionStorage.setItem("role", user.role);
+  //       sessionStorage.setItem("user", JSON.stringify(user.user));
+  //       console.log(user.role);
+  //       setLoginStatus(true);
+  //       updateLoginUserId(user.user.id)
+
+  //       if (user.role === "PATIENT") {
+  //         navigate("/home");
+  //       } else if (user.role === "COUNSELOR") {
+  //         navigate("/user-profile");
+  //       }
+  //     } else {
+  //       setErrorMessage("Invalid email or password");
+  //     }
+  //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
+
+    // useEffect(()=>{
+    //   handleLogin()
+    // },[])
+    
+    
+
+
+    const handleLogin = async (e) => {
+      console.log("abc")
+      e.preventDefault();
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
-
     if (emailError || passwordError) {
       setErrors({ email: emailError, password: passwordError });
       return;
@@ -52,7 +100,6 @@ const Loginform = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
       if (response.ok) {
         const user = await response.json();
         sessionStorage.setItem("role", user.role);
@@ -60,11 +107,22 @@ const Loginform = () => {
         console.log(user.role);
         setLoginStatus(true);
         updateLoginUserId(user.user.id)
-
         if (user.role === "PATIENT") {
-          navigate("/home");
+
+          console.log(user.role);
+          fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
+          //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
+                          .then((response) => response.json())
+                          .then((patientData) => {
+                             sessionStorage.setItem("patient_data", JSON.stringify(patientData))
+                             //console.log(sessionStorage.getItem("patient_data"))
+                             navigate("/surveyform");
+                          })
+                          .catch((error) => {
+                            console.error(error);
+                          });
         } else if (user.role === "COUNSELOR") {
-          navigate("/user-profile");
+          navigate("/counselor");
         }
       } else {
         setErrorMessage("Invalid email or password");
@@ -73,7 +131,6 @@ const Loginform = () => {
       console.log(error);
     }
   };
-
 
   const validateEmail = (email) => {
     if (!email) {

@@ -10,6 +10,9 @@ export default function Appointments() {
     return (
         <div>
             <Tabs>
+                {/* {switch(){
+
+                } */}
                 <div label="Current Appointments" >
                     {/* <Router> */}
                         <CurrentAppointments />
@@ -25,6 +28,7 @@ export default function Appointments() {
                         <PreviousAppointments />
                     {/* </Router> */}
                 </div>
+                {/* } */}
             </Tabs>
         </div>
     )

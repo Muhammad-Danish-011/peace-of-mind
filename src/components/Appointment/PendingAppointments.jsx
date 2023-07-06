@@ -24,7 +24,7 @@ export const PendingAppointments = () => {
     fetch(
       //"http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall"
        // "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvail/209"
-      "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/"
+      "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/160"
     )
       .then((response) => response.json())
       .then((data) => setAppointments(data))
@@ -156,7 +156,7 @@ export const PendingAppointments = () => {
                 >
                   Confirmation
                 </TableCell> */}
-                <TableCell
+                {/* <TableCell
                   sx={{
                     backgroundColor: "#a0d4d4",
                     color: "#000000",
@@ -166,7 +166,7 @@ export const PendingAppointments = () => {
                   }}
                 >
                   Session
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -207,7 +207,7 @@ export const PendingAppointments = () => {
                       getAvailabilityDate(appointment.availabilityId)
                     )}
                   </TableCell>
-                  <TableCell
+                  {/* <TableCell
                     sx={{
                       borderBottom: "1px solid #f5f5f5",
                       display: "flex",
@@ -230,7 +230,7 @@ export const PendingAppointments = () => {
                         Join
                       </Button>
                     ) : null}
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

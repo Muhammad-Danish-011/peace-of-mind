@@ -13,22 +13,17 @@ import Councler from '../../pages/councler/Councler';
 export default function OutlinedCard({basicCard, search}) {
 
   const [user, setUser] = useState("")
-  console.log({basicCard})
+  // console.log({basicCard})
   useEffect(() =>{
     // console.log({basicCard})
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)
     .then(data => data.json())
     .then(data => {
-      // console.log(data)
-
-      if(search === data.firstName){
         setUser(data)
-      }
-      console.log(search)
-
+        console.log({data})
     })
-  },[search])
-  const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
+  },[])
+  const slicedDesc = basicCard.description.length > 60 ? `${basicCard.description.slice(0, 60)}...` : basicCard.description;
 
   const card = (
     <React.Fragment>
