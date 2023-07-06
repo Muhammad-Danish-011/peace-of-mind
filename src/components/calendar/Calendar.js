@@ -243,7 +243,7 @@ const Calendar = ({ type, id }) => {
               initialEvents={event}
               select={handleDateSelect}
               eventClick={type === 'public' ? handleEventClick : false}
-              height={700}
+              height={400}
             />
 
           </main>)

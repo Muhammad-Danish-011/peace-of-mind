@@ -42,7 +42,7 @@ const Profile = () => {
       // borderRadius={8}
       bgcolor="#b8d7d1"
       maxWidth={500}
-      maxHeight={200}
+      maxHeight={500}
       mx="auto"
      
     >
@@ -59,9 +59,12 @@ const Profile = () => {
         <EmailRoundedIcon/> {user.email}
       </Typography>
       <Box>
-      <Typography variant="body1" gutterBottom>
+        <Box    bgcolor="#b8d7d1">
+        <Typography variant="body1" gutterBottom>
         {counselor.description}
-      </Typography>
+         </Typography>
+        </Box>
+    
       </Box>
     </Box>
   );

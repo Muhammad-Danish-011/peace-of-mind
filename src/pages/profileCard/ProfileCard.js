@@ -84,13 +84,21 @@ import React from 'react'
 import Profile from '../../components/patient/Profile'
 import BookAppoint from '../../components/patient/BookAppoint'
 import { Box } from '@mui/system'
+import ImageCard from '../../components/patient/ImageCard'
 
 const ProfileCard = () => {
   return (
-    <Box  sx={{display:"flex", flexDirection:"row"}} >
-      <Profile  />
-      <BookAppoint/>
+   <Box>
+    <Box>
     </Box>
+     <Box  sx={{display:"flex", flexDirection:"row"}} >
+     <ImageCard/>
+
+       <Profile  />
+       <BookAppoint/>
+     </Box>
+   </Box> 
+   
   )
 }
 

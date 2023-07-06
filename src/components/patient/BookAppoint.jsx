@@ -36,8 +36,8 @@ const BookAppoint = () => {
           justifyContent="center"
           textAlign="center"
           p={2}
-          bgcolor="#fff"
-          maxHeight={750}
+          bgcolor="#e5f0ee"
+          maxHeight={450}
           maxWidth={500}
           mx="auto"
           mt={10}
