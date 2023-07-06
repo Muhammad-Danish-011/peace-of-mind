@@ -1,27 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import { Link} from "react-router-dom";
 // import moment from 'moment';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
-
+import moment from 'moment';
 
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
+  const [confirmedAppointments, setConfirmedAppointments] = useState([]);
+
  
 
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
   const [date, setDate] = useState('');
+  
+  const [relativeDates,setRelativeDate]=useState();
   const [time, setTime] = useState('');
   const [weeklyAppointments, setWeeklyAppointments] = useState([]);
   useEffect(() => {
-    fetchAvailabilityIds();
-  }, []);
+    if(availabilityIds.length===0)
+       fetchAvailabilityIds();
+  }, [availabilityIds]);
 
   useEffect(() => {
     if (latestAppointment.date) {
@@ -29,7 +34,7 @@ const Counslor = () => {
       setDate(datePart);
       setTime(timePart.substring(0, 5)); // Extract only the time portion
     }
-  }, [latestAppointment]);
+  }, []);
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
   const [appointmentId, setAppointmentsId] = useState([])
@@ -59,6 +64,7 @@ const Counslor = () => {
         }
       });
   }, []);
+
   const fetchAppointmentCountForAppointment = async () => {
     try {
       const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
@@ -90,8 +96,6 @@ const Counslor = () => {
           const availabilityIds = data.map(availability => availability.id);
           console.log("Availabilities ID:", availabilityIds);
           setAvailabilityIds(availabilityIds);
-    
-          // Get weekly appointments
           const now = new Date();
           const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     
@@ -99,7 +103,6 @@ const Counslor = () => {
             const appointmentDate = new Date(appointment.date);
             return appointmentDate >= oneWeekAgo;
           }).map(appointment=> appointment.date)
-    
           console.log("Weekly Appointments:", weeklyAppointments);
           setWeeklyAppointments(weeklyAppointments);
         }
@@ -112,32 +115,30 @@ const Counslor = () => {
   };
 
 
-  const ChartComponent = () => {
+  const ChartComponent =  useCallback(() => {
     // Calculate the number of appointments for each week
-
-
-
-const countByDate = weeklyAppointments.reduce((counts, date) => {
-  counts[date] = (counts[date] || 0) + 1;
-  return counts;
-}, {});
+    const countByDate = weeklyAppointments.reduce((counts, date) => {
+      counts[date] = (counts[date] || 0) + 1;
+      return counts;
+    }, {});
     // Convert the appointment data to an array of objects
     const chartData = Object.entries(countByDate).map(([date, count]) => ({
       date,
       count
     }));
-  
+
     return (
       <BarChart width={400} height={300} data={chartData}>
         <CartesianGrid strokeDasharray="5 5" />
-        <XAxis dataKey="date"/>
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
         <Bar dataKey="count" stroke="#8884d8" />
       </BarChart>
     );
-  };
+  },[weeklyAppointments]);
+
   // const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
   //   try {
   //     const confirmedAppointments = [];
@@ -195,43 +196,54 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
   //     console.error('Error fetching appointments:', error);
   //   }
   // };
+
+
   useEffect(() => {
-    // fetchAppointmentsByAvailabilityIds();
-    fetchConfirmedAppointmentsByAvailabilityIds();
-  }, [availabilityIds]);
-  const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
-    try {
-      const confirmedAppointments = [];
-      for (const availabilityId of availabilityIds) {
-        const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Data is", data);
-          // Filter appointments where "confirmed" is true
-          const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
-          confirmedAppointments.push(...confirmedAppointmentsData);
+    const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
+      try {
+        const confirmedAppointments = [];
+        for (const availabilityId of availabilityIds) {
+          const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId} `);
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Data is", data);
+            const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
+            confirmedAppointments.push(...confirmedAppointmentsData);
+          }
         }
+        console.log("Confirmed Appointments:", confirmedAppointments);
+        
+        const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
+        const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
+        setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
+        setConfirmedAppointments(confirmedAppointments);
+        const relativeDates = confirmedAppointmentIds.map(appointmentId => {
+          const matchedAppointment = availabilityIds.find(availabilityId => availabilityId === appointmentId);
+  
+          if (matchedAppointment) {
+            const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
+            console.log("===============",weeklyAppointments);
+            let dateNow = moment().format('YYYY-MM-DDTHH:MM:SS')
+            console.log(dateNow)
+  
+            return weeklyAppointments[matchedAppointmentIndex];
+          }
+          return null;
+        });
+        setRelativeDate(relativeDates);
+        console.log("Relative Dates:", relativeDates);
+        console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
+        console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
+
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
       }
-      console.log("Confirmed Appointments:", confirmedAppointments);
-      const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
-      const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
-      setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
-      const relativeDates = confirmedAppointmentIds.map(appointmentId => {
-        const matchedAppointment = availabilityIds.find(availabilityId => availabilityId === appointmentId);
-        if (matchedAppointment) {
-          const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
-          console.log("===============",weeklyAppointments[matchedAppointmentIndex]);
-          return weeklyAppointments[matchedAppointmentIndex];
-        }
-        return null;
-      });
-      console.log("Relative Dates:", relativeDates);
-      console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
-      console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
-    } catch (error) {
-      console.error('Error fetching appointments:', error);
-    }
-  };
+    };
+    fetchConfirmedAppointmentsByAvailabilityIds();
+  }, [confirmedAppointments]);
+
+
+
   // const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
   //   try {
   //     const confirmedAppointments = [];
@@ -301,38 +313,50 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
   // };
 
 
-  // const fetchAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     availabilityIds.map(availabilityId =>
-  //     fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
-  //     .then(response => {
-  //       if(response.ok){
-  //         return response.json();
+  const fetchAppointmentsByAvailabilityIds = async () => {
+    try {
+      availabilityIds.map(availabilityId =>
+      fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
+      .then(response => {
+        if(response.ok){
+          return response.json();
           
-  //       }
-  //     })
-  //     .then(data => {
-  //       if(data){
-  //         setAppointments(appointments => [...appointments,data]);
-  //       }
-  //     })
-  //     );
-  //     let arr = Array();
-  //     appointments.map(a=> arr.push(a[0].patientid));
-  //     appointments.map(a=> setAppointmentsId(appointmentId => [...appointmentId,a[0].id]));
+        }
+      })
+      .then(data => {
+        if(data){
+          setAppointments(appointments => [...appointments,data]);
+        }
+      })
+      );
+      let arr = Array();
+      appointments.map(a=> arr.push(a[0].patientid));
+      appointments.map(a=> setAppointmentsId(appointmentId => [...appointmentId,a[0].id]));
 
-  //     arr = [... new Set(arr)];
-  //     //console.log("Total number of patients:", arr.length);
-  //     setPatientCount(arr.length);
-  //   } catch (error) {
-  //       console.error('Error fetching appointments:', error);
-  //   }
-  // };
+      arr = [... new Set(arr)];
+      //console.log("Total number of patients:", arr.length);
+      setPatientCount(arr.length);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+    }
+  };
 
-// useEffect(() => {
-//   fetchAppointmentsByAvailabilityIds();
-// }, [availabilityIds]);
+useEffect(() => {
+  fetchAppointmentsByAvailabilityIds();
+}, [availabilityIds]);
 
+let appointmentDate = undefined;
+let appointmentTime = undefined;
+let meetingURL = undefined;
+
+if(relativeDates){
+  if(relativeDates.length!==0){
+    meetingURL = confirmedAppointments[0].meetingURL;
+    const relativeDateSorted = relativeDates.sort((a,b)=>a-b);
+    appointmentDate = relativeDateSorted[0].split('T')[0] || '';
+    appointmentTime = relativeDateSorted[0].split('T')[1]?.substring(0, 5) || '';
+  }
+}
 return (
   <>
 
@@ -341,37 +365,32 @@ return (
   
     <Box
       sx={{
-    
-    
         fontFamily: "Quicksand, sans-serif",
         backgroundColor: "white",
         display: "flex",
-        flexDirection: "column",
-        
+        flexDirection: "column",   
       }}
     >
-
       <Box
         sx={{
           border: "1px solid green",
-         
           borderRadius: "10px",
           width: "25%",
           height: "30%",
-       
           margin: "8% 0% 0% 30%",
-
           backgroundColor: 'rgb(207,227,223)',
           justifyContent: "center",
           display: "flex",
           flexDirection: "column",
-        }}
+        }} 
       >
-        <h3>Upcoming Latest Appointment</h3>
-        <p>Date  <strong>{latestAppointment.date}</strong></p>
-        <p>Time  <strong>{latestAppointment.time}</strong></p>
-        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{confirmedAppointmentsMeetingURLS}</Link></p>
-       
+        {
+          <div >
+           <p>Date: {appointmentDate}</p>
+           <p>Time: {appointmentTime}</p> 
+           <p>Meeting Link: <a href={meetingURL}>{meetingURL}</a></p>
+         </div>
+        }
       </Box>
 
       <Box sx={{
@@ -421,33 +440,24 @@ return (
       </Box>
 
       <Box sx={{
-
         display: "flex",
         flexDirection: "row",
-     
         justifyContent: "center",
         margin: "1% 20% 0% 0%",
-
         '@media (max-width: 950px)': {
           display: "flex",
           flexDirection: "column",
           alignContent: "space-around"
-
-
-
         }
       }}>
-
-        <Box sx={{}}>
+        <Box>
           <Rating name="half-rating-read"
             value={2}
             data-testid="ratings"
             precision={0.5} readOnly style={{ fontSize: "2.5rem" }} />
           <h3>Overall Rating</h3>
         </Box>
-       
       </Box>
-
       </Box>
     </Box>
 
@@ -455,4 +465,4 @@ return (
 )
 }
 
-export default Counslor
+export default Counslor;
