@@ -23,7 +23,7 @@ export default function OutlinedCard({basicCard}) {
         console.log({data})
     })
   },[])
-  const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
+  const slicedDesc = basicCard.description.length > 60 ? `${basicCard.description.slice(0, 60)}...` : basicCard.description;
 
   const card = (
     <React.Fragment>
