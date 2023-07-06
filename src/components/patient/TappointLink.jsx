@@ -10,7 +10,7 @@ const TappointLink = () => {
         backgroundColor: '#d7eded',
         border: '1px solid #008080',
         borderRadius: '35px',
-        width: '50%',
+        width: '45%',
         height: '25%',
         color: 'black',
         fontWeight: 300,

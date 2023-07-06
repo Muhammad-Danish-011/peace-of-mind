@@ -13,7 +13,7 @@ import {useEffect, useState } from 'react';
 const styles = {
   container: {
     maxWidth: 1300,
-    marginTop: '-1% !important',
+    marginTop: '-3% !important',
     padding: '20px',
     // backgroundColor: '#f5f5f5', 
     margin: '0 auto' ,
@@ -25,10 +25,10 @@ const styles = {
     rowGap: '15px', 
     columnGap: '0px', 
     justifyContent: 'center', 
-    marginTop: '40px !important',
+    marginTop: '-20px !important',
 
     // Add media query for smaller screens
-    '@media (max-width: 600px)': {// import Card from '../../components/patient/Card';
+    '@media (max-width: 900px)': {// import Card from '../../components/patient/Card';
       display: 'flex', // Use flexbox layout
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -110,13 +110,13 @@ const Home = () => {
   return (<>
     {<Box sx={{
       ...styles.container,
-      marginLeft: isSmallScreen ? 10 : theme.spacing(19)
+      marginLeft: isSmallScreen ? 10 : theme.spacing(7)
     }}>
     <TappointLink/>
       <Search  onClick={handleSearchClick}/>
       {/* Suggested for you */}
       <Box sx={{...styles.cardContainer,
-      marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}
+      marginLeft: isSmallScreen ? 1: theme.spacing(-2)}}
       >
         {
         cards.map((card) => {

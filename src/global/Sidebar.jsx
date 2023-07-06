@@ -150,7 +150,7 @@ React.useEffect(() => {
           alignItems: 'center',
           height: '100%',
           '& > *': {
-            margin: '40px 0',
+            margin: '50px 0',
           },
         }}
       >
@@ -180,7 +180,7 @@ React.useEffect(() => {
                 alignItems: 'center',
                 height: '100%',
                 '& > *': {
-                  margin: '16px 0',
+                  margin: '50px 0',
                 },
               }}
             >
