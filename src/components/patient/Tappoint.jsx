@@ -35,19 +35,21 @@ export default function OutlinedCard({tapAppointment}) {
     if(tapAppointment.length>0){
       const myData = [];
       const app = tapAppointment.length < 3 ? tapAppointment.splice(0,2) : tapAppointment;
-      console.log({app})
+      // console.log({app})
+      const availibilityUrl = process.env.REACT_APP_AVAILIBILITY_API_KEY
       app.map((appointment)=>{
-        fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/${appointment.availabilityId}`)
+        fetch(`${availibilityUrl}/availability/${appointment.availabilityId}`)
         .then(data => data.json())
         .then(data => {
+          // console.log(data)
           setLoader(false)
           if(isToday(data.date)){
             myData.push(data);
-            console.log({avail: data})
+            // console.log({avail: data})
             }
         })
         .catch(e=>{
-          console.log(e);
+          console.log({e});
         })
       })
       setAvailibity(myData)

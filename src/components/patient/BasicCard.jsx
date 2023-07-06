@@ -20,7 +20,7 @@ export default function OutlinedCard({basicCard}) {
     .then(data => data.json())
     .then(data => {
         setUser(data)
-        console.log({data})
+        // console.log({data})
     })
   },[])
   const slicedDesc = basicCard.description.length > 60 ? `${basicCard.description.slice(0, 60)}...` : basicCard.description;
