@@ -31,7 +31,6 @@ const Calendar = ({ type }) => {
 
   useEffect(() => {
     if (data.length > 0 && appointmentData.length > 0) {
-
       const formattedEvents = data.map(availabilities => {
         
         const startDate = new Date(availabilities.date);
@@ -65,7 +64,10 @@ const Calendar = ({ type }) => {
       setEvent(formattedEvents);
     }
     if(noAvailability){
-       setEvent([{}]);
+      console.log('idhar bhi aya')
+       setEvent([
+        {}
+       ]);
      }
   }, [data, appointmentData]);
 
@@ -109,13 +111,25 @@ const Calendar = ({ type }) => {
 
     if(clickInfo.event.startStr < dateNow || clickInfo.event.backgroundColor === '#dc3545' ){
       console.log( 'Date is before');
-     
       
-    }else{
+    }
+    else if(type==='private'){
+      // setSelect('khulja');
+      // handleClickOpen();
+      console.log('private')
+
+    }
+    else{
       setSelect(true)
       setSelectedEvent(clickInfo.event);
       handleClickOpen();
     }
+  }
+
+  const deleteAnAvailability = async ()=>{
+    console.log('deleted');
+
+    
   }
 
   const bookAnAppointment = async () => {
@@ -243,7 +257,7 @@ const Calendar = ({ type }) => {
               dayMaxEvents={true}
               initialEvents={event}
               select={handleDateSelect}
-              eventClick={type === 'public' ? handleEventClick : false}
+              eventClick={ handleEventClick}
               height={700}
             />
 
@@ -252,10 +266,12 @@ const Calendar = ({ type }) => {
 
 
       {
-        select ? 
-          <Modal data-testid="appointment-modal-trigger" open={open} handleClose={handleClose} loader={loader} bookAnAppointment={bookAnAppointment} type={"Appointment"} />
+        select !=='khulja' ? 
+          (select? <Modal data-testid="appointment-modal-trigger" open={open} handleClose={handleClose} loader={loader} bookAnAppointment={bookAnAppointment} type={"Appointment"} />
           :
-          <Modal open={open} handleClose={handleClose} loader={loader} addAvailability={addAvailability} type={"Availability"} />
+          <Modal open={open} handleClose={handleClose} loader={loader} addAvailability={addAvailability} type={"Availability"} />)
+          :
+          <Modal open={open} handleClose={handleClose} loader={loader} deleteAnAvailability={deleteAnAvailability} type={"delete"} />
 
       }
     
