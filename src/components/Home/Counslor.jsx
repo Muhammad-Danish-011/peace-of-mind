@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, Rating } from "@mui/material";
+import { Box, Typography, Rating,CircularProgress } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import { Link} from "react-router-dom";
 // import moment from 'moment';
@@ -13,34 +13,21 @@ const Counslor = () => {
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
   const [confirmedAppointments, setConfirmedAppointments] = useState([]);
-
- 
-
   const [appointments, setAppointments] = useState([]);
-  const [patientCount, setPatientCount] = useState(0);
-  const [date, setDate] = useState('');
-  
+  const [patientCount, setPatientCount] = useState(0);  
   const [relativeDates,setRelativeDate]=useState();
-  const [time, setTime] = useState('');
   const [weeklyAppointments, setWeeklyAppointments] = useState([]);
-  useEffect(() => {
-    if(availabilityIds.length===0)
-       fetchAvailabilityIds();
-  }, [availabilityIds]);
-
-  useEffect(() => {
-    if (latestAppointment.date) {
-      const [datePart, timePart] = latestAppointment.date.split('T');
-      setDate(datePart);
-      setTime(timePart.substring(0, 5)); // Extract only the time portion
-    }
-  }, []);
+  const [loading, setLoading] = useState(true);
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
   const [appointmentId, setAppointmentsId] = useState([])
   const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
+  useEffect(() => {
+    if(availabilityIds.length===0)
+       fetchAvailabilityIds();
+  }, [availabilityIds]);
   useEffect(() => {
     fetch(
       `${accountUrl}/user/get/${user?.id}`
@@ -53,9 +40,6 @@ const Counslor = () => {
           )
             .then((response) => response.json())
             .then((counselorData) => {
-              console.log('-------======--', counselorData);
-              // setSpecialization(counselorData.specialization);
-              // setDescription(counselorData.description);
               sessionStorage.setItem("counselor_data", JSON.stringify(counselorData))
             })
             .catch((error) => {
@@ -106,11 +90,13 @@ const Counslor = () => {
           console.log("Weekly Appointments:", weeklyAppointments);
           setWeeklyAppointments(weeklyAppointments);
         }
+        setLoading(false);
       } else {
         console.error('Error fetching availability IDs:', response.status);
       }
     } catch (error) {
       console.error('Error fetching availability IDs:', error);
+      setLoading(false);
     }
   };
 
@@ -126,80 +112,27 @@ const Counslor = () => {
       date,
       count
     }));
+    let mydata = [];
+    chartData.map((a) => {
+      let arr = { "date": new Date(a.date).getDate() + "/" + new Date(a.date).getMonth(), "count": a.count }
+      mydata.push(arr);
+    })
 
     return (
-      <BarChart width={400} height={300} data={chartData}>
-        <CartesianGrid strokeDasharray="5 5" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="count" stroke="#8884d8" />
-      </BarChart>
+      <BarChart width={400} height={300} data={mydata}>
+      <CartesianGrid strokeDasharray="4 4" />
+      <XAxis dataKey="date" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar style={{ width: '1px' }} dataKey="count" stroke="#8884D8" />
+    </BarChart>
+
     );
   },[weeklyAppointments]);
-
-  // const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     const confirmedAppointments = [];
-  //     const upcomingMeetings = [];
-  
-  //     for (const availabilityId of availabilityIds) {
-  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log("data is", data);
-  //         // Filter appointments where "confirmed" is true
-  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
-  //         confirmedAppointments.push(...confirmedAppointmentsData);
-  
-  //         // Sort appointments by date in ascending order
-  //         const sortedAppointments = confirmedAppointmentsData.sort((a, b) => new Date(a.date) - new Date(b.date));
-  //         if (sortedAppointments.length > 0) {
-  //           // Get the upcoming appointment
-  //           const upcomingAppointment = sortedAppointments[0];
-  //           upcomingMeetings.push({
-  //             availabilityId,
-  //             meetingURL: upcomingAppointment.meetingURL,
-  //             date: upcomingAppointment.date
-  //           });
-  //         }
-  //       } else {
-  //         throw new Error('Response not OK');
-  //       }
-  //     }
-  
-  //     console.log("Confirmed Appointments:", confirmedAppointments);
-  //     console.log("Upcoming Meetings:", upcomingMeetings);
-  
-  //     const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
-  //     const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
-  
-  //     setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
-  
-  //     console.log("Confirmed meeting URLs are: ", confirmedAppointmentsMeetingURLS);
-  //     console.log("Confirmed Appointment's Availability Ids:", confirmedAppointmentIds); // matched appointments availability ids
-  
-  //     // Use the confirmedAppointments array and upcomingMeetings array as needed
-  //     if (confirmedAppointments.length > 0) {
-  //       const appointments = confirmedAppointments.map(appointment => ({
-  //         patientid: appointment[0].patientid,
-  //         id: appointment[0].id
-  //       }));
-  //       const uniquePatientIds = [...new Set(appointments.map(appointment => appointment.patientid))];
-  //       setPatientCount(uniquePatientIds.length);
-  //       console.log("Total number of patients:", uniquePatientIds.length);
-  //       setAppointments(appointments);
-  //       setAppointmentsId(appointments.map(appointment => appointment.id));
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
-
-
   useEffect(() => {
     const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
+      setLoading(true);
       try {
         const confirmedAppointments = [];
         for (const availabilityId of availabilityIds) {
@@ -212,7 +145,7 @@ const Counslor = () => {
           }
         }
         console.log("Confirmed Appointments:", confirmedAppointments);
-        
+  
         const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
         const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
         setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
@@ -223,96 +156,27 @@ const Counslor = () => {
           if (matchedAppointment) {
             const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
             console.log("===============",weeklyAppointments);
-            let dateNow = moment().format('YYYY-MM-DDTHH:MM:SS')
-            console.log(dateNow)
+            let dateNow = moment().format('YYYY-MM-DDTHH:MM:SS');
+            console.log(dateNow);
   
             return weeklyAppointments[matchedAppointmentIndex];
           }
           return null;
         });
         setRelativeDate(relativeDates);
+        setLoading(false); // Set loading to false after setting all the data
         console.log("Relative Dates:", relativeDates);
         console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
         console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
-
+  
       } catch (error) {
         console.error('Error fetching appointments:', error);
+        setLoading(false); // Set loading to false in case of error
       }
     };
     fetchConfirmedAppointmentsByAvailabilityIds();
   }, [confirmedAppointments]);
-
-
-
-  // const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     const confirmedAppointments = [];
-  //     for (const availabilityId of availabilityIds) {
-        
-  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log("data is", data);
-  //         // Filter appointments where "confirmed" is true
-  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true );
-  //         // const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed);
-  //         confirmedAppointments.push(...confirmedAppointmentsData);
-  //       }
-  //     }
-  //     console.log("Confirmed Appointments:", confirmedAppointments);
-  //     const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
-  //     const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
-  //     const date = confirmedAppointmentIds.map(appointment=>appointment.weeklyAppointments);
-  //     setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
-  //     console.log("Confirmed dates ", date);
-  //     console.log("Confirmed meeting URLS are: ", confirmedAppointmentsMeetingURLS);
-  //     console.log("Confirmed Appointment's Availability Ids:", confirmedAppointmentIds); //matched appointments availability ids
-  //     // Use the confirmedAppointments array as needed
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
-
-  // const fetchAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     const confirmedAppointments = [];
-  //     for (const availabilityId of availabilityIds) {
-  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log("data is", data);
-  //         // Filter appointments where "confirmed" is true and availability matches
-  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true && appointment.availabilityId === availabilityId);
-  //         confirmedAppointments.push(...confirmedAppointmentsData);
-  //       }
-  //     }
-  //     console.log("Confirmed Appointments:", confirmedAppointments);
-  //     // Use the confirmedAppointments array as needed
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
-  // const fetchAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     const confirmedAppointments = [];
-  //     for (const availabilityId of availabilityIds) {
-  //       const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`);
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log("data is", data);
-  //         // Filter appointments where "confirmed" is true and availability matches
-  //         const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true && appointment.availabilityId === availabilityId);
-  //         confirmedAppointments.push(...confirmedAppointmentsData);
-  //       }
-  //     }
-  //     console.log("Confirmed Appointments:", confirmedAppointments);
-  //     // Use the confirmedAppointments array as needed
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
-
-
+  
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       availabilityIds.map(availabilityId =>
@@ -384,13 +248,15 @@ return (
           flexDirection: "column",
         }} 
       >
-        {
-          <div >
-           <p>Date: {appointmentDate}</p>
-           <p>Time: {appointmentTime}</p> 
-           <p>Meeting Link: <a href={meetingURL}>{meetingURL}</a></p>
-         </div>
-        }
+      <div>
+        <h1>Upcoming Latest Appointment</h1>
+        <p>Date: {appointmentDate}</p>
+        <p>Time: {appointmentTime}</p>
+        <p>
+          Meeting Link: <Link to={meetingURL}>{meetingURL}</Link>
+        </p>
+      </div>
+    
       </Box>
 
       <Box sx={{
@@ -431,6 +297,7 @@ return (
       
           padding: "3%"
         }}>
+          
           <Typography variant="h5">
             TOTAL NO. OF PATIENTS</Typography>
           <h1>{patientCount}</h1>
