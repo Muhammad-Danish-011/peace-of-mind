@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Rating } from "@mui/material";
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 // import moment from 'moment';
-import { Lin,BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Lin, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 
 
@@ -15,7 +15,7 @@ const Counslor = () => {
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('')
- 
+
 
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
@@ -25,7 +25,7 @@ const Counslor = () => {
     fetchAvailabilityIds();
   }, []);
 
-  
+
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
   const [appointmentId, setAppointmentsId] = useState([])
@@ -86,16 +86,16 @@ const Counslor = () => {
           const availabilityIds = data.map(availability => availability.id);
           console.log("Availabilities ID:", availabilityIds);
           setAvailabilityIds(availabilityIds);
-    
+
           // Get weekly appointments
           const now = new Date();
           const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    
+
           const weeklyAppointments = data.filter(appointment => {
             const appointmentDate = new Date(appointment.date);
             return appointmentDate >= oneWeekAgo;
-          }).map(appointment=> appointment.date)
-    
+          }).map(appointment => appointment.date)
+
           console.log("Weekly Appointments:", weeklyAppointments);
           setWeeklyAppointments(weeklyAppointments);
         }
@@ -113,56 +113,62 @@ const Counslor = () => {
 
 
 
-const countByDate = weeklyAppointments.reduce((counts, date) => {
-  counts[date] = (counts[date] || 0) + 1;
-  return counts;
-}, {});
+    const countByDate = weeklyAppointments.reduce((counts, date) => {
+      counts[date] = (counts[date] || 0) + 1;
+      return counts;
+    }, {});
     // Convert the appointment data to an array of objects
     const chartData = Object.entries(countByDate).map(([date, count]) => ({
       date,
       count
     }));
-  
+
+
+    let mydata = [];
+    chartData.map((a) => {
+      let arr = { "date": new Date(a.date).getDate() + "/" + new Date(a.date).getMonth(), "count": a.count }
+      mydata.push(arr);
+    })
     return (
-        <BarChart width={400} height={300} data={chartData}>
-          <CartesianGrid strokeDasharray="4 4" />
-          <XAxis dataKey="date"/>
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar style={{width:'1px'}}dataKey="count" stroke="#8884d8" />
-        </BarChart>
-     
+      <BarChart width={400} height={300} data={mydata}>
+        <CartesianGrid strokeDasharray="4 4" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar style={{ width: '1px' }} dataKey="count" stroke="#8884d8" />
+      </BarChart>
+
     );
   };
-  
+
   const fetchAppointmentsByAvailabilityIds = async () => {
     try {
       availabilityIds.map(availabilityId =>
-      fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
-      .then(response => {
-        if(response.ok){
-          return response.json();
-        }
-      })
-      .then(data => {
-        if(data){
-          setAppointments(appointments => [...appointments,data]);
-        }
+        fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then(data => {
+            if (data) {
+              setAppointments(appointments => [...appointments, data]);
+            }
 
-      
-      })
+
+          })
 
       );
       let arr = Array();
-      appointments.map(a=> arr.push(a[0].patientid));
-      appointments.map(a=> setAppointmentsId(appointmentId => [...appointmentId,a[0].id]));
+      appointments.map(a => arr.push(a[0].patientid));
+      appointments.map(a => setAppointmentsId(appointmentId => [...appointmentId, a[0].id]));
 
       arr = [... new Set(arr)];
       //console.log("Total number of patients:", arr.length);
       setPatientCount(arr.length);
     } catch (error) {
-        console.error('Error fetching appointments:', error);
+      console.error('Error fetching appointments:', error);
     }
   };
   const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
@@ -187,159 +193,159 @@ const countByDate = weeklyAppointments.reduce((counts, date) => {
     fetchConfirmedAppointmentsByAvailabilityIds();
   }, [availabilityIds]);
 
-useEffect(() => {
-  fetchAppointmentsByAvailabilityIds();
-}, [availabilityIds]);
+  useEffect(() => {
+    fetchAppointmentsByAvailabilityIds();
+  }, [availabilityIds]);
 
-return (
-  <>
+  return (
+    <>
 
-  <Box>
-    <SideBarCounselor/>
-  
-    <Box
-      sx={{
-    
-    
-        fontFamily: "Quicksand, sans-serif",
-        backgroundColor: "white",
-        display: "flex",
-        flexDirection: "column",
-        
-      }}
-    >
+      <Box>
+        <SideBarCounselor />
 
-      <Box
-        sx={{
-          border: "1px solid green",
-         
-          borderRadius: "10px",
-          width: "25%",
-          height: "50%",
-       
-          margin: "8% 0% 0% 30%",
+        <Box
+          sx={{
 
-          backgroundColor: 'rgb(207,227,223)',
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        {confirmedAppointments && latestAppointment.date && (
-          <div key={confirmedAppointments.availabilityId}>
-            <h2>UpComing Latest Appointment</h2>
-            <p style={{ fontSize: '1.4rem', marginTop: '2rem', marginLeft: '0.5rem'}}>
-              Date: {latestAppointment.date.split('T')[0]}
-            </p>
-            <p style={{ fontSize: '1.4rem', marginTop: '-10px', marginLeft: '0.5rem' }}>
-              Time: {latestAppointment.date.split('T')[1]?.split('+')[0]}
-            </p>
-            <Link to={confirmedAppointments.meetingURL}>
-              Meeting Link: {confirmedAppointments[0].meetingURL}
-            </Link>
-          </div>
-        )}
-        {/* <h3>UpComing Latest Appointment</h3>
+
+            fontFamily: "Quicksand, sans-serif",
+            backgroundColor: "white",
+            display: "flex",
+            flexDirection: "column",
+
+          }}
+        >
+
+          <Box
+            sx={{
+              border: "1px solid green",
+
+              borderRadius: "10px",
+              width: "25%",
+              height: "50%",
+
+              margin: "8% 0% 0% 30%",
+
+              backgroundColor: 'rgb(207,227,223)',
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {confirmedAppointments && latestAppointment.date && (
+              <div key={confirmedAppointments.availabilityId}>
+                <h2>UpComing Latest Appointment</h2>
+                <p style={{ fontSize: '1.4rem', marginTop: '2rem', marginLeft: '0.5rem' }}>
+                  Date: {latestAppointment.date.split('T')[0]}
+                </p>
+                <p style={{ fontSize: '1.4rem', marginTop: '-10px', marginLeft: '0.5rem' }}>
+                  Time: {latestAppointment.date.split('T')[1]?.split('+')[0]}
+                </p>
+                <Link to={confirmedAppointments.meetingURL}>
+                  {/* Meeting Link: {confirmedAppointments[0].meetingURL} */}
+                </Link>
+              </div>
+            )}
+            {/* <h3>UpComing Latest Appointment</h3>
         <p>Date & Time: {<strong>{latestAppointment.date}</strong>} </p>
-        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{latestAppointment.meetingURL}</Link></p> */}       
-      </Box>
-      <Box sx={{
-        display: "flex",
-        flexDirection: "row",
-        width: "80%",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-      
-
-        '@media (max-width: 950px)': {
-          display: "flex",
-          flexDirection: "column",
-          alignContent: "space-around"
-
-
-
-        }
-
-
-      }}>
-
-        <Box sx={{
-
-          borderRadius: "10px",
-      
-          height: "100%",
-          padding: "3%",
-
-          '@media (max-width: 950px)': {
-            marginBottom: "1rem",
+        <p>Today's Meeting Link: <Link to={latestAppointment.meetingURL}>{latestAppointment.meetingURL}</Link></p> */}
+          </Box>
+          <Box sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "80%",
+            justifyContent: "space-evenly",
             alignItems: "center",
 
 
+            '@media (max-width: 950px)': {
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "space-around"
 
-          }
-        }}>
-          <Typography variant="h5">
-            WEEKLY APPOINTMENTS
-          </Typography>
-          <br />
 
-          
-          <ChartComponent/>
+
+            }
+
+
+          }}>
+
+            <Box sx={{
+
+              borderRadius: "10px",
+
+              height: "100%",
+              padding: "3%",
+
+              '@media (max-width: 950px)': {
+                marginBottom: "1rem",
+                alignItems: "center",
+
+
+
+              }
+            }}>
+              <Typography variant="h5">
+                WEEKLY APPOINTMENTS
+              </Typography>
+              <br />
+
+
+              <ChartComponent />
+
+            </Box>
+
+
+
+            <Box sx={{
+
+              border: "1px solid green",
+              backgroundColor: 'rgb(207,227,223)',
+              borderRadius: "10px",
+              width: "20%",
+
+              padding: "3%"
+            }}>
+              <Typography variant="h5">
+                TOTAL NO. OF PATIENTS</Typography>
+              <h1>{patientCount}</h1>
+
+            </Box>
+
+          </Box>
+
+          <Box sx={{
+
+            display: "flex",
+            flexDirection: "row",
+
+            justifyContent: "center",
+            margin: "1% 20% 0% 0%",
+
+            '@media (max-width: 950px)': {
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "space-around"
+
+
+
+            }
+          }}>
+
+            <Box sx={{}}>
+              <Rating name="half-rating-read"
+                value={2}
+                data-testid="ratings"
+                precision={0.5} readOnly style={{ fontSize: "2.5rem" }} />
+              <h3>Overall Rating</h3>
+            </Box>
+
+          </Box>
 
         </Box>
-
-
-
-        <Box sx={{
-        
-          border: "1px solid green",
-          backgroundColor: 'rgb(207,227,223)',
-          borderRadius: "10px",
-          width: "20%",
-      
-          padding: "3%"
-        }}>
-          <Typography variant="h5">
-            TOTAL NO. OF PATIENTS</Typography>
-          <h1>{patientCount}</h1>
-
-        </Box>
-
       </Box>
 
-      <Box sx={{
-
-        display: "flex",
-        flexDirection: "row",
-     
-        justifyContent: "center",
-        margin: "1% 20% 0% 0%",
-
-        '@media (max-width: 950px)': {
-          display: "flex",
-          flexDirection: "column",
-          alignContent: "space-around"
-
-
-
-        }
-      }}>
-
-        <Box sx={{}}>
-          <Rating name="half-rating-read"
-            value={2}
-            data-testid="ratings"
-            precision={0.5} readOnly style={{ fontSize: "2.5rem" }} />
-          <h3>Overall Rating</h3>
-        </Box>
-       
-      </Box>
-
-      </Box>
-    </Box>
-
-  </>
-)
+    </>
+  )
 }
 
 export default Counslor

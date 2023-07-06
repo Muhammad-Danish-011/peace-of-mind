@@ -1,25 +1,26 @@
 .inputBasedBox input{
-text-align: center;
-width: 90%;
+text-align: left;
+width: 100%;
 font-size: large;
 font-weight: 700;
-border: 1px solid green;
-/* background-color: green; */
-/* cursor: blinking;
- */
- 
- 
-
+border: 1px solid #ccc;
+padding: 10px;
+transition: all 0.5s ease-in-out;
 }
 
-.inputBasedBox{
-     display: flex;
+.inputBasedBox input:focus{
+   box-shadow: 2px 2px 15px #ccc;
+   width: 270px;
+}
 
-     font-weight: bold;
-     font-size: 1.2rem;
-     /* text-decoration: underline; */
-                    
-    font-family: "Quicksand, sans-serif";
-                
-   /* font-weight: "bold";        */
+
+.inputBasedBox{
+   display: flex;
+   font-weight: bold;
+   font-size: 1.5rem;                 
+   font-family: "Quicksand, sans-serif";
+}
+Table{
+   text-align: left;
+   font-size:larger;
 }
