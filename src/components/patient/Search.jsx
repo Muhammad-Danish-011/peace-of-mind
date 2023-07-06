@@ -49,6 +49,7 @@ const Search = ({onClick}) => {
   const [users, setUsers] = useState([]);
   const [searchedCoouncelor, setSearchedCouncelor] = useState([]);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const {state} = useLocation();
 
 
 
@@ -61,7 +62,6 @@ const Search = ({onClick}) => {
     })
   },[])
 
-  const {state} = useLocation();
 
   const onhandleSubmit = (e) => {
     e.preventDefault();

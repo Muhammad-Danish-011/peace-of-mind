@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function OutlinedCard({tapAppointment}) {
 
-  // console.log(tapAppointment)
+  console.log({tapAppointment})
   const [ availibility, setAvailibity] = useState([]);
   const [loader, setLoader] = useState(true)
   const navigate = useNavigate();
@@ -42,11 +42,13 @@ export default function OutlinedCard({tapAppointment}) {
         .then(data => data.json())
         .then(data => {
           // console.log(data)
-          setLoader(false)
+          // setLoader(false)
+          if(data.ok){
           if(isToday(data.date)){
             myData.push(data);
             // console.log({avail: data})
             }
+          }
         })
         .catch(e=>{
           console.log({e});

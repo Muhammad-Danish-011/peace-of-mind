@@ -4,46 +4,46 @@ import Prevappoints from '../../components/patient/Prevappoints';
 import MiniCard from '../../components/patient/MiniCard';
 import { Box } from '@mui/material';
 
-const Card = () => {
+const Card = ({tapAppointment}) => {
 
-  const [tapAppointment, setTapAppoinetment] = useState([]);
-  const [loader, setLoader] = useState(true);
-  const [ appointments, setAppopintments] = useState([]);
-  const userId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
+  // const [tapAppointment, setTapAppoinetment] = useState([]);
+  // const [loader, setLoader] = useState(true);
+  // const [ appointments, setAppopintments] = useState([]);
+  // const userId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
   // console.log(userId)
-  useEffect(() =>{
+//   useEffect(() =>{
 
-    // setLoader(true);
-    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
-    .then(data => data.json())
-    .then(data => {
-      // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
-      setAppopintments(data);
-      setLoader(false)
-    })
+//     // setLoader(true);
+//     fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
+//     .then(data => data.json())
+//     .then(data => {
+//       // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data)
+//       setAppopintments(data);
+//       setLoader(false)
+//     })
     
 
-},[])
+// },[])
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    if(appointments.length>0)
-    {
-      const appointment = [];
-      appointments.map((item)=>{
-        // console.log({item, userId})
-        if(+userId === item.patientid && item.confirmed === true ){
-          appointment.push(item);
-          console.log("sssssssssssssssssssssssssss",{item})
-        }
-      })
+  //   if(appointments.length>0)
+  //   {
+  //     const appointment = [];
+  //     appointments.map((item)=>{
+  //       // console.log({item, userId})
+  //       if(+userId === item.patientid && item.confirmed === true ){
+  //         appointment.push(item);
+  //         console.log("sssssssssssssssssssssssssss",{item})
+  //       }
+  //     })
 
-      // console.log('inner useEffect', appointment);
-      setTapAppoinetment(appointment)
+  //     // console.log('inner useEffect', appointment);
+  //     setTapAppoinetment(appointment)
 
-    }
+  //   }
 
-  },[appointments.length>0])
+  // },[appointments.length>0])
 
 
   return (
@@ -73,10 +73,10 @@ const Card = () => {
       },
     }}>
       <Box mt={-15}>
-        {loader ? "loading" : <Tappoint tapAppointment={tapAppointment}/>  }
+        {tapAppointment.length > 0 ?  <Tappoint tapAppointment={tapAppointment}/> : "loading"  }
       </Box>
       <Box mt={2}>
-        {loader ? "loading" : <Prevappoints tapAppointment={tapAppointment}/>}
+        {tapAppointment.length > 0 ?  <Prevappoints tapAppointment={tapAppointment}/> : "loading"}
       </Box>
       <Box  mt={2}>
         <MiniCard />

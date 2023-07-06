@@ -43,49 +43,24 @@ const styles = {
 
 const Home = () => {
   const theme = useTheme();
-  const obj = JSON.parse(sessionStorage.getItem('patient_data'));
-  const user = JSON.parse(sessionStorage.getItem('user'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const accountUrl = process.env.REACT_APP_API_KEY;
 
   // const cards = [1,2,3,4,5,6];
   const [cards, setCards] = useState([]);
   const [councelor, setCouncelor] = useState([]);
-  useEffect(() => {
-    fetch(
-      `${accountUrl}/user/get/${user.id}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // setUserData(data);
-        // setFirstName(data.firstName);
-        // setLastName(data.lastName);
-        // setPassword(data.password);
-        // setAddress(data.address);
-        // setEmail(data.email);
-        // setPhoneNumber(data.phoneNumber);
-        // setRole(data.role);
-        // setCnic(data.cnic);
+  const [ appointments, setAppopintments] = useState([]);
+  const [availability, setAvailability] = useState([])
 
-        // if (data.role === "PATIENT") {
-        //   fetch(
-        //     // /{userId}
-        //     `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
-        //   )
-        //     .then((response) => response.json())
-        //     .then((patientData) => {
-        //       // console.log('-------======--',patientData);
-        //       // setSpecialization(counselorData.specialization);
-        //       // setDescription(counselorData.description);
-        //       sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-        //     })
-        //     .catch((error) => {
-        //       console.error(error);
-        //     });
-        // }
-  });}, []);
-  // console.log(obj);
-  // console.log(user);
+  const userId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
+
+      //method for check today`s date
+      const isToday = (someDate) => {
+        const today = new Date()
+        someDate = new Date(someDate)
+        return someDate.getDate() == today.getDate() &&
+          someDate.getMonth() == today.getMonth() &&
+          someDate.getFullYear() == today.getFullYear()
+      }
 
   useEffect(() => {
     //Runs on every render
@@ -100,6 +75,59 @@ const Home = () => {
 
    
   },[]);
+
+  // console.log(userId)
+  useEffect( () =>{
+
+    // const appointment = []
+    // setLoader(true);
+    const appointment = async () => {
+      const app = await fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
+      return await app.json()
+      
+    }
+    
+
+    const userAppointment =  (appointment) =>{
+      const avail = []
+      appointment.map((app) => {
+        if(+userId === app.patientid && app.confirmed === true ){
+          avail.push(app);
+        }
+      })
+      return avail;
+    }
+
+    const availability = async (app) =>{
+      const availibilityUrl = process.env.REACT_APP_AVAILIBILITY_API_KEY
+      const myData = [];
+      app.map(async (appointment)=>{
+        let avail = await fetch(`${availibilityUrl}/availability/${appointment.availabilityId}`)
+        avail = await avail.json()
+          if(isToday(avail.date)){
+            myData.push(avail);
+            }
+        // })
+    })
+
+    return myData;
+  }
+    
+    const fun = async () =>{
+      const app = await appointment()
+      const userApp = await userAppointment(app)
+      const avail = await availability(userApp)
+      console.log({app, userApp, avail})
+      // setAppopintments(app);
+      setAppopintments(userApp)
+      setAvailability(avail)
+    }
+    
+   fun()
+    // console.log({funData})
+    // setLoader(false)
+},[userId])
+
  
 
   const navigate = useNavigate();
@@ -112,7 +140,7 @@ const Home = () => {
       ...styles.container,
       marginLeft: isSmallScreen ? 10 : theme.spacing(8)
     }}>
-    <TappointLink/>
+    <TappointLink availability={availability}/>
       <Search  onClick={handleSearchClick}/>
       {/* Suggested for you */}
       <Box sx={{...styles.cardContainer,
@@ -125,7 +153,7 @@ const Home = () => {
         })
         }
       </Box>
-      <Card />
+      {appointments.length > 0  ?  <Card tapAppointment={appointments}/> : "Loading"}
     </Box>}
     </>)
 }

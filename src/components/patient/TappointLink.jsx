@@ -1,7 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 
-const TappointLink = () => {
+const TappointLink = ({availability}) => {
+  const [councelor, setCouncelor] = useState([])
+  const [user, setUser] = useState('');
+
+  useEffect(()=>{
+    console.log({availability})
+
+    const councelorFun = async (ava) =>{
+      const councelorArr = [];
+      const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
+      
+      const counId = await ava.counselorId;
+      console.log({counId})
+      // ava.map(async (avail) =>{
+        let data = await fetch(`${councelorUrl}/counselor/${counId}`)
+        data = await data.json();
+        councelorArr.push({c: data, a: ava})
+      // })
+      // const usr = await user(councelorArr[0])
+      return councelorArr;
+    }
+
+    const user = async () =>{
+      const userUrl = process.env.REACT_APP_API_KEY;
+      let data = await fetch(`${userUrl}/user`)
+      data = await data.json()
+       return data;
+      
+    }
+
+    const fun = async (availability) =>{
+      // const couArr = []
+        const counc = await councelorFun(availability[0])
+        const usr = await user()
+        console.log({counc, usr})
+        setCouncelor(counc)
+        setUser(usr)
+    }
+
+    fun(availability)
+  },[availability])
+
+  // useEffect(()=>{
+    console.log({councelor, user})
+    if(councelor.length > 0 && user.length > 0){
+      const couArr = [];
+      councelor.map((c)=>{
+        user.map(u=>{
+          if(c.c.userId === u.id){
+            couArr.push({c: c.c,a: c.a, u})
+          }
+        })
+      })
+
+      console.log({couArr})
+    }
+  // },[councelor.length > 0, user.length > 0])
+
   return (
     <Typography
       sx={{
