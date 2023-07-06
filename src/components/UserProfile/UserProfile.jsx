@@ -315,7 +315,7 @@ const UserProfile = () => {
                       {!userEditMode ? (
                         <>
                           <p>{firstName}</p>
-                          {/* <p>{lastName}</p> */}
+                       
                         </>
                       ) : (
                         <>
@@ -509,7 +509,7 @@ const UserProfile = () => {
                   startIcon={<SaveIcon />}
 
                   sx={{
-                    width: "20%",
+                    width: "25%",
                     height: "10%",
                     marginTop: "5%",
                     backgroundColor: "black",
@@ -548,12 +548,6 @@ const UserProfile = () => {
                   flexDirection: "column",
                   width: "80%",
                   marginTop: "5%",
-
-
-
-
-
-
                 }
 
               }}
@@ -574,7 +568,7 @@ const UserProfile = () => {
                 >
                   Academic Information
                 </h2>
-                <Table>
+                 <Table cellpadding="3">
 
                   <tr>
                     <td>
@@ -700,87 +694,47 @@ const UserProfile = () => {
           {role === "PATIENT" && (
             <Box
               sx={{
-                border: "1px solid green",
-                borderRadius: "7px",
-                padding: "2rem",
-                margin: "2rem 2rem",
+               
+
                 display: "flex",
+                width: "30%",
+             
+
+                marginLeft: "5%",
                 fontFamily: "Quicksand, sans-serif",
+                
                 flexDirection: "column",
-                justifyContent: "space-between",
+                justifyContent: "space-evenly",
+
+                '@media (max-width: 1024px)': {
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "80%",
+                  marginTop: "5%",
+
+
+                }
               }}
             >
+              
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: "1rem",
-                  padding: "1rem",
+                  
+                  fontFamily: "Quicksand, sans-serif",
+                  fontSize: "1.3rem",
+                 
+                  fontWeight: "normal",
+                 
                 }}
               >
-                <h2
-                  sx={{
-                    fontSize: "3rem",
-                    fontWeight: "bolder",
-                  }}
-                >
+                <h2>
                   Guardian Information:
                 </h2>
+                <Table cellpadding="3">
 
-                {!patientEditMode ? (
-                  <Button
-                    variant="contained"
-                    onClick={patientHandleEdit}
-                    startIcon={<EditIcon />}
-                    sx={{
-                      width: "10%",
-                      backgroundColor: "black",
-                      color: "black",
-                      border: '1px solid green',
-                      backgroundColor: 'rgb(207,227,223)',
-                      "&:hover": {
-                        backgroundColor: "#333",
-                      },
-                    }}
-                  >
-                    Edit
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    onClick={patientHandleSave}
-                    startIcon={<SaveIcon />}
-                    sx={{
-                      width: "10%",
-                      backgroundColor: "black",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "#333",
-                      },
-                    }}
-                  >
-                    Save
-                  </Button>
-                )}
-              </Box>
-              <Box
-                sx={{
-                  // display: "grid",
-                  // gridTemplateColumns: "1fr 1fr",
-                  columnGap: "1rem",
-                  marginBottom: "1rem",
-                  fontFamily: "Quicksand, sans-serif",
-                  fontSize: "1.2rem",
-                  // alignItems:"center",
-                  fontWeight: "normal",
-                  margin: "3px",
-                }}
-              >
-
-                <tr>
+<tr>
                   <td>
-                    <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
+                    <p sx={{ fontWeight: "bold",}}>
                       Guardian Phone Number:
                     </p>
                   </td>
@@ -798,22 +752,52 @@ const UserProfile = () => {
                   </td>
                 </tr>
 
+           </Table>
+                
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  // justifyContent:"center",
-                  gap: "2rem",
-                  fontFamily: "Quicksand, sans-serif",
-                  fontSize: "1.4rem",
-                  fontWeight: "bold",
-                  marginTop: "5px",
-                }}
-              >
+              
 
+{!patientEditMode ? (
+                  <Button
+                    variant="contained"
+                    onClick={patientHandleEdit}
+                    startIcon={<EditIcon />}
+                    sx={{
+                      width: "20%",
+                      height: "10%",
+                      backgroundColor: "black",
+                      alignSelf: "center",
+                      color: "black",
+                      border: '1px solid green',
+                      backgroundColor: 'rgb(207,227,223)',
+                      "&:hover": {
+                        backgroundColor: "#333",
+                      },
+                    }}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={patientHandleSave}
+                    startIcon={<SaveIcon />}
+                    sx={{
+                      width: "15%",
+                      height: "10%",
+                      alignSelf: "center",
+                      backgroundColor: "black",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#333",
+                      },
+                    }}
+                  >
+                    Save
+                  </Button>
+                )}
               </Box>
-            </Box>
+            
           )}
 
         </Box>
