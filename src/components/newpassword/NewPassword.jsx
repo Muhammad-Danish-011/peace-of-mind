@@ -228,6 +228,8 @@ import {
 
 const NewPassword = () => {
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const [expired, setExpired] = useState(false);
   const [remainingTime, setRemainingTime] = useState(180); // 3 minutes in seconds
   const emailAndToken = window.location.href.split('email=')[1];
@@ -273,6 +275,12 @@ const NewPassword = () => {
       return;
     }
 
+    if(password.length < 8){
+      setPasswordError("Password must be atleast 8 characters long.");
+      return;
+    }
+
+
     const newUser = {
       id: 1,
       email: email,
@@ -302,8 +310,7 @@ const NewPassword = () => {
       console.log(error);
     }
   };
-
-  const formatTime = (timeInSeconds) => {
+   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -402,6 +409,11 @@ const NewPassword = () => {
                 marginTop: "2rem",
               }}
             />
+            {passwordError && <Typography
+            
+              variant="caption" color="error">
+                {passwordError}
+                </Typography>}
           </FormControl>
 
           {expired ? (
