@@ -76,7 +76,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const [selectedComponent, setSelectedComponent] = React.useState(null);
   const location = useLocation();
-
   const role = sessionStorage.getItem('role');
 // console.log(role)
 

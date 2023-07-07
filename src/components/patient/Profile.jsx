@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Calendar from '../../components/calendar/Calendar';
 import CardContent from '@mui/material/CardContent';
-import MiniCard from '../../components/patient/MiniCard';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import PhoneInTalkRoundedIcon from '@mui/icons-material/PhoneInTalkRounded';
+import { Phone } from '@mui/icons-material';
 
 export default function ComplexGrid() {
   const { userId } = useParams();
@@ -37,16 +38,20 @@ export default function ComplexGrid() {
       sx={{
         p: 2,
         margin: 'auto',
-        maxWidth: 900,
+        maxWidth: 850,
         flexGrow: 1,
         textAlign: 'left',
         backgroundColor: (theme) =>
-          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-          height: '700px', // Set the desired height here
-
+          theme.palette.mode === 'dark' ? '#1A2027' : '#c1d5d1',
+        height: 'auto',
+        width: '100%',
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginLeft: { xs: '80px', sm: '490px' }, // Added margin left for small screens
       }}
     >
-    
       <Grid container spacing={2}>
         <Grid item>
           <CardContent>
@@ -61,22 +66,17 @@ export default function ComplexGrid() {
             </Typography>
             <Typography variant="subtitle1" component="div"></Typography>
             <Typography mt={2} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
-              Contact
+             <PhoneInTalkRoundedIcon/> Contact
             </Typography>
             <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2">
               {user.phoneNumber}
             </Typography>
             <Typography mt={2} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
-              Email
+            <EmailRoundedIcon/> Email
             </Typography>
             <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2">
               {user.email}
             </Typography>
-            <Typography mt={6} sx={{ fontSize: 16 }} variant="body2">
-             {Array(3).fill().map((_, index) => (
-             <MiniCard key={index} />
-             ))}
-            </Typography> 
           </CardContent>
         </Grid>
         <Grid item xs={12} sm container>
@@ -88,17 +88,15 @@ export default function ComplexGrid() {
               <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2" gutterBottom>
                 {counselor.description}
               </Typography>
+              <Grid item xs>
+                <ButtonBase sx={{ width: '100%', maxWidth: 400, height: 'auto', marginTop: '60px',  backgroundColor:'#fff' }}>
+                  <Calendar type="public" id={counselor.id} />
+                </ButtonBase>
+              </Grid>
             </Grid>
-            
           </Grid>
-          <Grid item xs>
-              <ButtonBase  sx={{ width: 400, height: 128, marginTop:'-250px' }}>
-               <Calendar type="public" id={counselor.id} />
-              </ButtonBase>
-            </Grid>
         </Grid>
       </Grid>
-      
     </Paper>
   );
 }

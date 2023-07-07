@@ -4,7 +4,7 @@ import { Box, Typography, TextareaAutosize, Button, TextField, useTheme } from '
 
 
 
-function Notes() {
+function Notes({pateintId, appointmentId}) {
     const [content, setContent] = useState('');
 
     function handleSave() {
@@ -15,8 +15,8 @@ function Notes() {
 
         const newNote = {
             // id: 1,
-            appointment_id: 2,
-            patientId: 2,
+            appointment_id: appointmentId,
+            patientId: pateintId,
             created: currentDateTime,
             updated: currentDateTime,
             content: content,
