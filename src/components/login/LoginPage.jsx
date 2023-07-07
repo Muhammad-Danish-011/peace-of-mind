@@ -108,12 +108,6 @@ const Loginform = () => {
         setLoginStatus(true);
         updateLoginUserId(user.user.id)
         if (user.role === "PATIENT") {
-          
-          navigate("/home");
-        } else if (user.role === "COUNSELOR") {
-          console.log(' me aya')
-
-          console.log(user.role);
           fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
           //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
                           .then((response) => response.json())
@@ -125,7 +119,24 @@ const Loginform = () => {
                           .catch((error) => {
                             console.error(error);
                           });
-        } else if (user.role === "COUNSELOR") {
+        } 
+        // else if (user.role === "COUNSELOR") {
+        //   console.log(' me aya')
+
+        //   console.log(user.role);
+        //   fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
+        //   //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
+        //                   .then((response) => response.json())
+        //                   .then((patientData) => {
+        //                      sessionStorage.setItem("patient_data", JSON.stringify(patientData))
+        //                      //console.log(sessionStorage.getItem("patient_data"))
+        //                      navigate("/surveyform");
+        //                   })
+        //                   .catch((error) => {
+        //                     console.error(error);
+        //                   });
+        // }
+         else if (user.role === "COUNSELOR") {
           navigate("/counselor");
         }
       } else {
