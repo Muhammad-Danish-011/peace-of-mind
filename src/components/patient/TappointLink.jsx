@@ -1,63 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const TappointLink = ({availability}) => {
-  const [councelor, setCouncelor] = useState([])
-  const [user, setUser] = useState('');
+
+  const [todayApp, setTodayApp] = useState('');
+  const [date, setDate] =useState('')
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
-    console.log({availability})
-
-    const councelorFun = async (ava) =>{
-      const councelorArr = [];
-      const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
-      
-      const counId = await ava.counselorId;
-      console.log({counId})
-      // ava.map(async (avail) =>{
-        let data = await fetch(`${councelorUrl}/counselor/${counId}`)
-        data = await data.json();
-        councelorArr.push({c: data, a: ava})
-      // })
-      // const usr = await user(councelorArr[0])
-      return councelorArr;
+    // setTodayApp(availability)
+    // setLoading(true)
+    if(availability){
+      let d = new Date(availability.avail.date)
+    setDate(d)
+    // setTodayApp(availability)
+    console.log({a: availability})
+    setLoading(true)
     }
-
-    const user = async () =>{
-      const userUrl = process.env.REACT_APP_API_KEY;
-      let data = await fetch(`${userUrl}/user`)
-      data = await data.json()
-       return data;
-      
-    }
-
-    const fun = async (availability) =>{
-      // const couArr = []
-        const counc = await councelorFun(availability[0])
-        const usr = await user()
-        console.log({counc, usr})
-        setCouncelor(counc)
-        setUser(usr)
-    }
-
-    fun(availability)
   },[availability])
 
-  // useEffect(()=>{
-    console.log({councelor, user})
-    if(councelor.length > 0 && user.length > 0){
-      const couArr = [];
-      councelor.map((c)=>{
-        user.map(u=>{
-          if(c.c.userId === u.id){
-            couArr.push({c: c.c,a: c.a, u})
-          }
-        })
-      })
 
-      console.log({couArr})
-    }
-  // },[councelor.length > 0, user.length > 0])
 
   return (
     <Typography
@@ -102,8 +65,8 @@ const TappointLink = ({availability}) => {
       }}
     >
       <h1>Today's Appointment</h1>
-      <h2>Date & Time: 22 May-2023 Friday 6:00PM</h2>
-      <h3>Today's Meeting Link: www.zoom.com</h3>
+      <h2>{loading ? date.toString().split(' ').splice(0,5).join(' ') : "Loading"}</h2>
+      <h3>Today's Meeting Link: <a href={availability.appointment.meetingURL} target="_blank" rel="noreferrer" > {availability.appointment.meetingURL}</a></h3>
     </Typography>
   );
 };

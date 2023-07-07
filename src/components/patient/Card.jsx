@@ -79,7 +79,7 @@ const Card = ({tapAppointment}) => {
         {tapAppointment.length > 0 ?  <Prevappoints tapAppointment={tapAppointment}/> : "loading"}
       </Box>
       <Box  mt={2}>
-        <MiniCard />
+        {/* <MiniCard /> */}
       </Box>
     </Box>
   )

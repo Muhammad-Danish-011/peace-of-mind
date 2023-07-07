@@ -24,7 +24,7 @@ export default function OutlinedCard({tapAppointment}) {
       const isPrevious = (someDate, id) => {
         const today = new Date().getTime()
         someDate = new Date(someDate).getTime()
-        console.log({someDate, today, id})
+        // console.log({someDate, today, id})
         return  someDate < today;
         // someDate.getDate() <= today.getDate() &&
           // someDate.getMonth() <= today.getMonth() &&
@@ -33,7 +33,7 @@ export default function OutlinedCard({tapAppointment}) {
 
   React.useEffect(()=>{
     if(tapAppointment.length > 0){
-      console.log('tapAppointment', tapAppointment);
+      // console.log('tapAppointment', tapAppointment);
       setLoader(true);
       const myData = [];
       const app = tapAppointment.length < 3 ? tapAppointment.splice(0,3) : tapAppointment;
