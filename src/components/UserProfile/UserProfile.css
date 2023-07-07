@@ -1,0 +1,49 @@
+.inputBasedBox input{
+text-align: left;
+width: 100%;
+font-size: large;
+font-weight: 700;
+border: 1px solid #ccc;
+padding: 10px;
+transition: all 0.5s ease-in-out;
+}
+
+.inputBasedBox input:focus{
+   box-shadow: 2px 2px 15px #ccc;
+   width: 270px;
+}
+
+
+.inputBasedBox{
+   display: flex;
+   font-weight: bold;
+   font-size: 1.5rem;                 
+   font-family: "Quicksand, sans-serif";
+}
+Table{
+   text-align: left;
+   font-size:larger;
+}
+
+@media (max-width: 600px) {
+   table {
+     display: block;
+     width: 100%;
+   }
+   tr {
+     display: block;
+     margin-bottom: 10px;
+   }
+   td {
+     display: block;
+     text-align: left;
+   }
+   p {
+     margin: 0;
+     font-weight: bold;
+   }
+   .inputBasedBox {
+     width: 100%;
+     margin-bottom: 10px;
+   }
+ }

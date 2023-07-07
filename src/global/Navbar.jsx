@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import './navbar.css'
 import ProfileModal from '../components/patient/ProfileModal';
 
+
 const Navbar = ({ handleSidebarToggle }) => {
 
   

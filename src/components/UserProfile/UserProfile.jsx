@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import Sidebar from "../../global/Sidebar";
-import { Box, Button, IconButton, InputBase } from "@mui/material";
+
+import { Box, Button, IconButton, InputBase, Table } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-// import patient from "../images/patient.png";
-// import doctor from "../images/doctor.png";
+import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
+import { Link } from 'react-router-dom';
+import SchoolIcon from '@mui/icons-material/School';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import './UserProfile.css';
+
 import { AuthContext } from "../Authcontext/AuthContext";
 const UserProfile = () => {
   const [userEditMode, setUserEditMode] = useState(false);
@@ -22,7 +26,8 @@ const UserProfile = () => {
   const [specialization, setSpecialization] = useState("");
   const [description, setDescription] = useState("");
   const [guardianPhoneNumber, setGuardianPhoneNumber] = useState("");
-  const { loginUserId } = useContext(AuthContext);
+  const [gender, setGender] = useState("");
+
 
   const obj = JSON.parse(sessionStorage.getItem("user"));
 
@@ -56,7 +61,7 @@ const UserProfile = () => {
     };
 
     fetch(
-      `http://accountservice.us-east-1.elasticbeanstalk.com/user/update/${obj.id}`,
+      `http://accountservice.us-east-1.elasticbeanstalk.com/user/update/${obj?.id}`,
       {
         method: "POST",
         headers: {
@@ -76,13 +81,13 @@ const UserProfile = () => {
   };
 
   const counselorHandleSave = () => {
-  const counselordata = JSON.parse(sessionStorage.getItem("counselor_data"));
-// console.log(sessionStorage.getItem("counselor_data"));    
+    const counselordata = JSON.parse(sessionStorage.getItem("counselor_data"));
+
     const counselorUpdatedData = {
       id: counselordata.id,
       userId: userData.id,
-      specialization:specialization,
-      description:description,
+      specialization: specialization,
+      description: description,
     };
     console.log(counselorUpdatedData);
     fetch(
@@ -93,7 +98,7 @@ const UserProfile = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(counselorUpdatedData),
-        
+
       }
     )
       .then((response) => response.text())
@@ -107,7 +112,7 @@ const UserProfile = () => {
   };
 
   const patientHandleSave = () => {
-    
+
 
     const userdata = JSON.parse(sessionStorage.getItem("user_data"));
     const patientUpdatedData = {
@@ -121,7 +126,7 @@ const UserProfile = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      //body: JSON.stringify(patientUpdatedData),
+
       body: JSON.stringify(patientUpdatedData),
     })
       .then((response) => response.text())
@@ -136,7 +141,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     fetch(
-      `${accountUrl}/user/get/${obj.id}`
+      `${accountUrl}/user/get/${obj?.id}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -149,14 +154,15 @@ const UserProfile = () => {
         setPhoneNumber(data.phoneNumber);
         setRole(data.role);
         setCnic(data.cnic);
+        setGender(data.gender);
 
         if (data.role === "COUNSELOR") {
           fetch(
-            `${councelorUrl}/counselor/get/${obj.id}`
+            `${councelorUrl}/counselor/get/${obj?.id}`
           )
             .then((response) => response.json())
             .then((counselorData) => {
-              console.log('-------======--',counselorData);
+              console.log('-------======--', counselorData);
               setSpecialization(counselorData.specialization);
               setDescription(counselorData.description);
               sessionStorage.setItem("counselor_data", JSON.stringify(counselorData))
@@ -190,348 +196,564 @@ const UserProfile = () => {
     <>
       <Box
         sx={{
-          border: "2px solid green",
-          borderRadius: "10px",
+
           fontFamily: "Quicksand, sans-serif",
-          backgroundColor: "white",
+
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          margin: "2rem 1rem 1rem 8rem",
+
         }}
       >
-        <Box sx={{ margin: "2rem" }}>
-          <h1>My Profile:</h1>
-        </Box>
 
-        <Box
-          sx={{
-            border: "1px solid green",
-            borderRadius: "7px",
-            padding: "3rem",
-            margin: "0rem 2rem ",
-            fontFamily: "Quicksand, sans-serif",
-            display: "flex",
-            flexDirection: "row",
-          }}
-        >
-          <img
-            src={role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}`: `${process.env.PUBLIC_URL + '/images/patient.png'}` }
-            alt="role"
-            style={{
-              width: "100px",
-              marginBottom: "0.5rem",
-              borderRadius: "50%",
-              border: "2px solid black",
-              width: "100px",
-            }}
-          />
-          <Box sx={{ margin: "1rem 2rem" }}>
-            <h1
-              sx={{
-                fontSize: "8rem",
-                fontWeight: "bolder",
-              }}
-            >
-              {firstName} {lastName}
-            </h1>
-            <h3
-              sx={{
-                fontWeight: "bold",
-                fontSize: "2rem",
-                marginTop: "50px",
-              }}
-            >
-              {role}
-            </h3>
-          </Box>
-        </Box>
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column"
+        }}>
 
-        <Box
-          sx={{
-            border: "1px solid green",
-            borderRadius: "7px",
-            padding: "2rem",
-            margin: "2rem 2rem",
-            display: "flex",
-            fontFamily: "Quicksand, sans-serif",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
+
+          <h1>My Profile</h1>
+
+
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: "1rem",
+
               padding: "1rem",
-            }}
-          >
-            <h2
-              sx={{
-                fontSize: "3rem",
-                fontWeight: "bolder",
-              }}
-            >
-              Personal Information:
-            </h2>
-
-            {!userEditMode ? (
-              <Button
-                variant="contained"
-                onClick={userHandleEdit}
-                startIcon={<EditIcon />}
-                sx={{
-                  width: "10%",
-                  backgroundColor: "black",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#333",
-                  },
-                }}
-              >
-                Edit
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={userHandleSave}
-                startIcon={<SaveIcon />}
-                sx={{
-                  width: "10%",
-                  backgroundColor: "black",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#333",
-                  },
-                }}
-              >
-                Save
-              </Button>
-            )}
-          </Box>
-
-          <Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "1rem",
-                marginBottom: "1rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.2rem",
-                fontWeight: "normal",
-                margin: "3px",
-              }}
-            >
-              <p sx={{ fontWeight: "bold" }} styles={{}}>
-                First Name:
-              </p>
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>Last Name:</p>
-            </Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.3rem",
-                fontWeight: "bold",
-                marginTop: "5px",
-              }}
-            >
-              {!userEditMode ? (
-                <>
-                  <p>{firstName}</p>
-                  <p>{lastName}</p>
-                </>
-              ) : (
-                <>
-                  <InputBase
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                  <InputBase
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                </>
-              )}
-            </Box>
-
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
-                // marginTop: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.2rem",
-                fontWeight: "normal",
-                margin: "2rem 0rem 0rem 0rem",
-              }}
-            >
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-                Email Address:
-              </p>
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>Password:</p>
-            </Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                marginTop: "5px",
-              }}
-            >
-              {!userEditMode ? (
-                <>
-                  <p>{email}</p>
-                  <p>{password.replace(/./g, "*").substring(0, Math.min(password.length, 8))}</p>
-                </>
-              ) : (
-                <>
-                  <InputBase
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                  <InputBase
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)
-                    }
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                </>
-              )}
-            </Box>
-
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
-                // marginTop: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.2rem",
-                fontWeight: "normal",
-                margin: "2rem 0rem 0rem 0rem",
-              }}
-            >
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-                Phone Number:
-              </p>
-              <p sx={{ fontWeight: "bold", fontSize: "5rem" }}>Address:</p>
-            </Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                marginTop: "5px",
-              }}
-            >
-              {!userEditMode ? (
-                <>
-                  <p>{phoneNumber}</p>
-                  <p>{address}</p>
-                </>
-              ) : (
-                <>
-                  <InputBase
-                    type="text"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                  <InputBase
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                </>
-              )}
-            </Box>
-          </Box>
-        </Box>
-
-        {/* academic information */}
-        {role === "COUNSELOR" && (
-          <Box
-            sx={{
-              border: "1px solid green",
-              borderRadius: "7px",
-              padding: "2rem",
-              margin: "2rem 2rem",
-              display: "flex",
+              margin: "0rem 2rem ",
               fontFamily: "Quicksand, sans-serif",
+              display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginBottom: "1rem",
-                padding: "1rem",
+            <img
+              
+              src={role === "COUNSELOR" ?
+              gender === "MALE" ? `${process.env.PUBLIC_URL + '/images/doctoricon.png'}`: `${process.env.PUBLIC_URL + '/images/doctor.png'}`
+             :
+              gender === "MALE" ? `${process.env.PUBLIC_URL + '/images/patient.png'}` : `${process.env.PUBLIC_URL + '/images/patienticon.png'}` }
+              alt="role"
+              style={{
+
+                alignSelf: "center",
+                width: "150px",
+                height: "150px",
+                marginTop: "1rem"
               }}
-            >
-              <h2
+            />
+            <Box sx={{}}>
+              <h1
                 sx={{
-                  fontSize: "3rem",
+                  fontSize: "8rem",
                   fontWeight: "bolder",
                 }}
               >
-                Academic Information:
-              </h2>
+                {firstName} {lastName}
+              </h1>
+              <h3
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
 
+                }}
+              >
+                {role}
+              </h3>
+
+              {role === "COUNSELOR" && (
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: "row",
+
+                  justifyContent: "center",
+                  '@media (max-width: 540px)': {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+
+                    alignContent: "space-around",
+
+                  }
+
+
+                }}>
+                  <Button variant="contained" component={Link} to="/availibilitytable" color="success" sx={{
+                    padding: "10px",
+                    marginRight: "3%",
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Availability
+                  </Button>
+
+
+                  <Button variant="contained" color="success" component={Link} to="/Calendar" sx={{
+                    padding: "10px",
+                    marginRight: "3%",
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Calender
+                  </Button>
+
+                  <Button variant="contained" color="success" component={Link} to="/counselor" sx={{
+                    padding: "10px",
+                    marginRight: "3%",
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Dashboard
+                  </Button>
+
+                </Box>
+              )}
+
+              {role === "PATIENT" && (
+
+                <Box sx={{
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "row",
+                }}>
+                  <Button variant="contained" color="success" component={Link} to="/appointments" sx={{
+
+                    fontFamily: "Quicksand, sans-serif",
+                    fontSize: "1.5rem",
+                    '@media (max-width: 540px)': {
+                      margin: "2%",
+                    }
+                  }}>
+                    View Appointments
+                  </Button>
+                </Box>
+              )}
+            </Box>
+          </Box>
+
+
+        </Box>
+        <Box sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          '@media (max-width: 1024px)': {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }
+        }}>
+          <Box
+            sx={{
+
+
+              width: "35%",
+              display: "flex",
+              fontFamily: "Quicksand, sans-serif",
+
+              justifyContent: "space-around",
+              '@media (max-width: 1024px)': {
+                display: "flex",
+                flexDirection: "column",
+                width: "80%",
+                alignItems: "center",
+                alignContent: "space-around"
+              }
+
+            }}
+          >
+
+
+            <Box>
+              <Box
+                sx={{
+
+
+                  fontFamily: "Quicksand, sans-serif",
+                  fontSize: "1.2rem",
+                  fontWeight: "normal",
+
+                }}
+              >
+
+                <h2
+                  sx={{
+                    fontSize: "3rem",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  <ImportContactsIcon style={{
+                    fontSize: "60px",
+                    paddingRight: "30px",
+                    color: "green",
+
+                  }} />
+                  Personal Information
+                </h2>
+                <Table cellpadding="3" style={{ width: '100%' }}>
+                  <tr>
+                    <td><p sx={{ fontWeight: "bold" }} styles={{}}>
+                      First Name:
+                    </p></td>
+
+                    <td>
+                      {!userEditMode ? (
+                        <>
+                          <p>{firstName}</p>
+
+                        </>
+                      ) : (
+                        <>
+                          <InputBase className="inputBasedBox"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+
+                          />
+
+                        </>
+                      )}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold" }}>Last Name:</p>
+                    </td>
+
+                    <td>
+                      {!userEditMode ? (
+                        <>
+
+                          <p>{lastName}</p>
+                        </>
+                      ) : (
+                        <>
+
+                          <InputBase className="inputBasedBox "
+
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            data-testid='lastname'
+                            sx={{
+                              fontWeight: "bold",
+                              fontSize: "1.2rem",
+
+                            }}
+                          />
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold", fontSize: "12rem" }}>
+                        Email Address:
+                      </p>
+                    </td>
+
+                    <td>
+                      {!userEditMode ? (
+                        <>
+                          <p>{email}</p>
+
+                        </>
+                      ) : (
+                        <>
+                          <InputBase className="inputBasedBox"
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+
+                          />
+
+                        </>
+                      )}
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold" }}>Password:</p>
+                    </td>
+
+                    <td>
+                      {!userEditMode ? (
+                        <>
+
+                          <p>{password.replace(/./g, "*").substring(0, Math.min(password.length, 8))}</p>
+                        </>
+                      ) : (
+                        <>
+
+                          <InputBase className="inputBasedBox"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)
+                            }
+
+                          />
+                        </>
+                      )}
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+                        Phone Number:
+                      </p>
+                    </td>
+
+                    <td>
+                      {!userEditMode ? (
+                        <>
+                          <p>{phoneNumber}</p>
+
+                        </>
+                      ) : (
+                        <>
+                          <InputBase className="inputBasedBox"
+                            type="text"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+
+                          />
+
+                        </>
+                      )}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold", fontSize: "5rem" }}>Address:</p>
+                    </td>
+
+                    <td>
+                      {!userEditMode ? (
+                        <>
+
+                          <p>{address}</p>
+                        </>
+                      ) : (
+                        <>
+
+                          <InputBase className="inputBasedBox"
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+
+                          />
+                        </>
+                      )}
+                    </td>
+                  </tr>
+
+
+                </Table>
+
+
+
+
+
+              </Box>
+
+
+
+
+              {!userEditMode ? (
+                <Button
+                  variant="contained"
+                  onClick={userHandleEdit}
+                  startIcon={<EditIcon />}
+                  sx={{
+                    width: "30%",
+                    height: "10%",
+
+
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
+                    color: "black",
+
+                    '@media (max-width: 1024px)': {
+                      margin: "10%"
+                    },
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
+                  }}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={userHandleSave}
+                  startIcon={<SaveIcon />}
+
+                  sx={{
+                    width: "25%",
+                    height: "10%",
+                    marginTop: "5%",
+                    backgroundColor: "black",
+                    color: "white",
+                    '@media (max-width: 1024px)': {
+                      margin: "10%"
+                    },
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
+                  }}
+                >
+                  Save
+                </Button>
+              )}
+            </Box>
+          </Box>
+
+          {/* academic information */}
+          {role === "COUNSELOR" && (
+            <Box
+              sx={{
+
+                display: "flex",
+                width: "40%",
+
+                marginLeft: "5%",
+                fontFamily: "Quicksand, sans-serif",
+
+                paddingLeft: "5%",
+                flexDirection: "column",
+                justifyContent: "space-around",
+
+                '@media (max-width: 1024px)': {
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "80%",
+                  marginTop: "5%",
+                }
+
+              }}
+            >
+
+              <Box
+                sx={{
+
+                  fontSize: "1.3rem",
+                  fontWeight: "normal",
+                }}
+              >
+                <h2
+                  sx={{
+                    fontSize: "3rem",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  <SchoolIcon style={{
+                    fontSize: "60px",
+                    paddingRight: "30px",
+                    color: "green",
+                
+                  }} />
+                  Academic Information
+                </h2>
+                <Table cellpadding="3" style={{ width: '100%' }}>
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold" }}>
+                        Specialization:
+                      </p>
+                    </td>
+
+                    <td>
+                      {!counselorEditMode ? (
+                        <>
+                          <p>{specialization}</p>
+
+                        </>
+                      ) : (
+                        <>
+                          <InputBase className="inputBasedBox"
+                            value={specialization}
+                            onChange={(e) => setSpecialization(e.target.value)}
+
+                          />
+
+                        </>
+                      )}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold" }}>
+                        Description:
+                      </p>
+                    </td>
+
+                    <td>
+                      {!counselorEditMode ? (
+                        <>
+
+                          <p>{description}</p>
+                        </>
+                      ) : (
+                        <>
+
+                          <InputBase className="inputBasedBox"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+
+                          />
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                </Table>
+
+
+              </Box>
+              <Box
+                sx={{
+
+                  fontFamily: "Quicksand, sans-serif",
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                  marginTop: "-5%",
+
+                  '@media (max-width: 1024px)': {
+
+                    marginTop: "0%",
+                  }
+
+                }}
+              >
+
+              </Box>
               {!counselorEditMode ? (
                 <Button
                   variant="contained"
                   onClick={counselorHandleEdit}
                   startIcon={<EditIcon />}
                   sx={{
-                    width: "10%",
+                    width: "15%",
+                    height: "10%",
+
+                    alignSelf: "center",
                     backgroundColor: "black",
-                    color: "white",
+                    color: "black",
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
                     "&:hover": {
                       backgroundColor: "#333",
                     },
@@ -545,9 +767,12 @@ const UserProfile = () => {
                   onClick={counselorHandleSave}
                   startIcon={<SaveIcon />}
                   sx={{
-                    width: "10%",
+                    width: "15%",
+                    height: "10%",
                     backgroundColor: "black",
+                    alignSelf: "center",
                     color: "white",
+                  
                     "&:hover": {
                       backgroundColor: "#333",
                     },
@@ -557,93 +782,81 @@ const UserProfile = () => {
                 </Button>
               )}
             </Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "1rem",
-                marginBottom: "1rem",
-              }}
-            >
-              <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
-                Specialization:
-              </p>
-              <p sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-                Description:
-              </p>
-            </Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.4rem",
-                fontWeight: "bold",
-                margin: "8px",
-              }}
-            >
-              {!counselorEditMode ? (
-                <>
-                  <p>{specialization}</p>
-                  <p>{description}</p>
-                </>
-              ) : (
-                <>
-                  <InputBase
-                    value={specialization}
-                    onChange={(e) => setSpecialization(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                  <InputBase
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      textDecoration: "underline",
-                    }}
-                  />
-                </>
-              )}
-            </Box>
-          </Box>
-        )}
 
-        {role === "PATIENT" && (
-          <Box
-            sx={{
-              border: "1px solid green",
-              borderRadius: "7px",
-              padding: "2rem",
-              margin: "2rem 2rem",
-              display: "flex",
-              fontFamily: "Quicksand, sans-serif",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
+          )}
+
+          {role === "PATIENT" && (
             <Box
               sx={{
+
+
                 display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginBottom: "1rem",
-                padding: "1rem",
+                width: "30%",
+
+
+                marginLeft: "5%",
+                fontFamily: "Quicksand, sans-serif",
+
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+
+                '@media (max-width: 1024px)': {
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "80%",
+                  marginTop: "5%",
+
+
+                }
               }}
             >
-              <h2
+
+              <Box
                 sx={{
-                  fontSize: "3rem",
-                  fontWeight: "bolder",
+
+                  fontFamily: "Quicksand, sans-serif",
+                  fontSize: "1.3rem",
+
+                  fontWeight: "normal",
+
                 }}
               >
-                Guardian Information:
-              </h2>
+                <h2>
+                  <InterpreterModeIcon style={{
+                    fontSize: "60px",
+                    paddingRight: "30px",
+                    color: "green",
+
+                  }} />
+                  Guardian Information:
+                </h2>
+                <Table cellpadding="3" style={{ width: '100%' }}>
+
+                  <tr>
+                    <td>
+                      <p sx={{ fontWeight: "bold", }}>
+
+                        Guardian Phone Number:
+                      </p>
+                    </td>
+
+                    <td>
+                      {!patientEditMode ? (
+                        <p>{guardianPhoneNumber}</p>
+                      ) : (
+                        <InputBase className="inputBasedBox"
+                          value={guardianPhoneNumber}
+                          onChange={(e) => setGuardianPhoneNumber(e.target.value)}
+
+                        />
+                      )}
+                    </td>
+                  </tr>
+
+                </Table>
+
+              </Box>
+
 
               {!patientEditMode ? (
                 <Button
@@ -651,12 +864,24 @@ const UserProfile = () => {
                   onClick={patientHandleEdit}
                   startIcon={<EditIcon />}
                   sx={{
-                    width: "10%",
+                    width: "20%",
+                    height: "10%",
                     backgroundColor: "black",
-                    color: "white",
+                    alignSelf: "center",
+                    color: "black",
+                    border: '1px solid green',
+                    backgroundColor: 'rgb(207,227,223)',
                     "&:hover": {
                       backgroundColor: "#333",
                     },
+                    '@media (max-width: 1024px)': {
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "80%",
+                      marginTop: "5%",
+    
+    
+                    }
                   }}
                 >
                   Edit
@@ -667,7 +892,9 @@ const UserProfile = () => {
                   onClick={patientHandleSave}
                   startIcon={<SaveIcon />}
                   sx={{
-                    width: "10%",
+                    width: "15%",
+                    height: "10%",
+                    alignSelf: "center",
                     backgroundColor: "black",
                     color: "white",
                     "&:hover": {
@@ -679,53 +906,16 @@ const UserProfile = () => {
                 </Button>
               )}
             </Box>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                columnGap: "1rem",
-                marginBottom: "1rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.2rem",
-                // alignItems:"center",
-                fontWeight: "normal",
-                margin: "3px",
-              }}
-            >
-              <p sx={{ fontWeight: "bold", fontSize: "2rem" }}>
-                Guardian Phone Number:
-              </p>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                // justifyContent:"center",
-                gap: "2rem",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.4rem",
-                fontWeight: "bold",
-                marginTop: "5px",
-              }}
-            >
-              {!patientEditMode ? (
-                <p>{guardianPhoneNumber}</p>
-              ) : (
-                <InputBase
-                  value={guardianPhoneNumber}
-                  onChange={(e) => setGuardianPhoneNumber(e.target.value)}
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: "1.2rem",
-                    textDecoration: "underline",
-                  }}
-                />
-              )}
-            </Box>
-          </Box>
-        )}
+
+          )}
+
+        </Box>
+
       </Box>
     </>
   );
 };
 export default UserProfile;
+
+
+

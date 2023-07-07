@@ -1,8 +1,6 @@
 
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../Authcontext/AuthContext";
-// import bg from '${process.env.PUBLIC_URL + /images/bg.jpeg}';
-// import bg from "../images/bg.jpeg";
+import { AuthContext } from "../Authcontext/AuthContext"; 
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -32,7 +30,7 @@ const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const { updateLoginUserId } = useContext(AuthContext);
+  const {updateLoginUserId } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -62,9 +60,11 @@ const Loginform = () => {
         updateLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
+          
           navigate("/home");
         } else if (user.role === "COUNSELOR") {
-          navigate("/user-profile");
+          console.log(' me aya')
+          navigate("/counselor");
         }
       } else {
         setErrorMessage("Invalid email or password");
@@ -89,9 +89,9 @@ const Loginform = () => {
     if (!password) {
       return 'Password is required';
     }
-    if (password.length < 8) {
-      return 'Password should be at least 8 characters long';
-    }
+    // if (password.length < 8) {
+    //   return 'Password should be at least 8 characters long';
+    // }
     return '';
   };
 

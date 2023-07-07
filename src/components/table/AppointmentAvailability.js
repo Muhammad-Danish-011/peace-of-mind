@@ -95,7 +95,6 @@ const AvailabilityTable = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          // Handle success response
           console.log(`Appointment with ID ${data} has been accepted.`);
 
           const updatedAppointments = appointments.map((appointment) => {
@@ -108,17 +107,12 @@ const AvailabilityTable = () => {
             }
             return appointment;
           });
-
-          // Update the local state with the entered text
           setAppointments(updatedAppointments);
           setOpen(false);
         })
         .catch((error) => {
-          // Handle error
           console.log("Error accepting appointment:", error);
         });
-
-      // Immediately update the confirmation status
       const updatedAppointments = appointments.map((appointment) => {
         if (appointment.id === acceptedAppointments.id) {
           return {
@@ -136,15 +130,11 @@ const AvailabilityTable = () => {
       console.log(error);
     }
   };
-
   const handleDecline = (appointmentId) => {
-    // Update the appointments state by removing the declined appointment
     const updatedAppointments = appointments.filter(
       (appointment) => appointment.id !== appointmentId
     );
     setAppointments(updatedAppointments);
-
-    // Send a request to delete the appointment
     fetch(
       `http://appointment.us-west-2.elasticbeanstalk.com/appointments/delete/${appointmentId}`,
       {
@@ -157,11 +147,9 @@ const AvailabilityTable = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        // Handle success response
         console.log(`Appointment with ID ${appointmentId} has been declined.`);
       })
       .catch((error) => {
-        // Handle error
         console.log(
           `Error declining appointment with ID ${appointmentId}:`,
           error
@@ -170,7 +158,6 @@ const AvailabilityTable = () => {
   };
 
   const handleDone = (appointmentId) => {
-    // Handle done logic here
     console.log(`Appointment with ID: ${appointmentId} is done`);
   };
 
@@ -238,7 +225,7 @@ const AvailabilityTable = () => {
 
   return (
     <>
-      <Box sx={{ overflowX: "auto" }}>
+      <Box sx={{  margin: "2% 4% 0% 8%"}}>
         <TableContainer
           component={Paper}
           sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}
@@ -352,7 +339,7 @@ const AvailabilityTable = () => {
                     <TableCell
                       sx={{
                         borderBottom: "1px solid #f5f5f5",
-                        borderRight: "1px solid #000000",
+                        borderRight: "1px solid #000000",appointments
                       }}
                     >
                       {getPendingStatus(
@@ -465,13 +452,14 @@ const AvailabilityTable = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Enter your meerting Url
+            Enter your meeting Url
           </Typography>
           <Input
             sx={{
               mt: 1,
               border: "1px solid black",
               borderRadius: "10px",
+              
               padding: "0px 5px",
             }}
             onChange={(e) => setMeetifyURL(e.target.value)}

@@ -21,6 +21,8 @@ export const AuthProvider = ({ children }) => {
     setLoginUserId(id);
     sessionStorage.setItem('loginUserId', id);
   };
+  // const user = JSON.parse(sessionStorage.getItem('user'));
+  // const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   return (
     <AuthContext.Provider value={{ isLoggedIn, setLoginStatus, setitems,updateLoginUserId, loginUserId }}>
       {children}

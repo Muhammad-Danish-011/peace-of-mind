@@ -19,7 +19,7 @@ const Calendar = ({ type }) => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj.id}`);
+  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj?.id}`);
   const { appointmentData, fetchAllAppointment } = UseFetchAppointment('/getall');
   const [event, setEvent] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
