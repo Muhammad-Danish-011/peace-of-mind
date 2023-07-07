@@ -71,6 +71,7 @@ const SignupForm = () => {
           role: formData.role,
           created: signupDateTime.toISOString(),
         };
+        
         const accountUrl = process.env.REACT_APP_API_KEY
         console.log(accountUrl)
         const response = await fetch(`${accountUrl}/user/signup`, {
@@ -175,7 +176,7 @@ const SignupForm = () => {
     if (!phone) {
       formErrors.phone = "Phone number is required";
     } else if (!phoneRegex.test(phone)) {
-      formErrors.phone= "Invalid Phone format (e.g., 0300-0000000)";
+      formErrors.phone= "Invalid Phone format (e.g., 03000000000)";
     }
     if (!address) {
       formErrors.address = "Address is required";

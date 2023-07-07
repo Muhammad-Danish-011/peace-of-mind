@@ -30,7 +30,7 @@ const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const { updateLoginUserId } = useContext(AuthContext);
+  const {updateLoginUserId } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -60,23 +60,11 @@ const Loginform = () => {
         updateLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
-          fetch(
-                // /{userId}
-                `http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.id}`
-              )
-                .then((response) => response.json())
-                .then((patientData) => {
-                  // console.log('-------======--',patientData);
-                  // setSpecialization(counselorData.specialization);
-                  // setDescription(counselorData.description);
-                  sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
+          
           navigate("/home");
         } else if (user.role === "COUNSELOR") {
-          navigate("/user-profile");
+          console.log(' me aya')
+          navigate("/counselor");
         }
       } else {
         setErrorMessage("Invalid email or password");
