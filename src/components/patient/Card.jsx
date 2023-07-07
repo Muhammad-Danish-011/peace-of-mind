@@ -1,25 +1,43 @@
-import React from 'react'
+
+import React, { useCallback, useEffect, useState } from 'react';
 import Tappoint from '../../components/patient/Tappoint';
 import Prevappoints from '../../components/patient/Prevappoints';
 import MiniCard from '../../components/patient/MiniCard';
-import { Box } from '@mui/material';
+import { Card, CardMedia, Box } from '@mui/material';
 
-const Card = () => {
+const MyCard = () => {
+  const [tapAppointment, setTapAppointment] = useState([]);
+  const [loader, setLoader] = useState(true);
+  const [appointments, setAppointments] = useState([]);
+  const userId = JSON.parse(sessionStorage.getItem('patient_data'))?.data.id;
+
+  useEffect(() => {
+    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
+      .then(data => data.json())
+      .then(data => {
+        setAppointments(data);
+        setLoader(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (appointments.length > 0) {
+      const appointment = appointments.filter(item => +userId === item.patientid && item.confirmed === true);
+      setTapAppointment(appointment);
+    }
+  }, [appointments, userId]);
+
   return (
-    <Box sx={{
-      p: 2,
-      backgroundColor: '#8fb3ac',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
+    <Card sx={{
+      width: 400,
       position: 'fixed',
       top: 0,
       right: 0,
-      width: '400px',
-      marginTop: '60px', 
-      // Use theme breakpoints for responsive design
+      marginTop: '73px',
+      marginLeft: '20px',
+      height: '100vh',
+      backgroundColor: '#8fb3ac',
+      
       '@media (max-width:1600px)': {
         width: '85%',
         height: 'auto',
@@ -30,17 +48,17 @@ const Card = () => {
         
       },
     }}>
-      <Box mt={-15}>
-        <Tappoint />
-      </Box>
-      <Box mt={2}>
-        <Prevappoints />
-      </Box>
-      <Box  mt={2}>
+      <CardMedia sx={{ height: 240, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '40px' }}>
+        {loader ? "loading" : <Tappoint tapAppointment={tapAppointment} />}
+      </CardMedia>
+      <CardMedia sx={{ height: 340, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {loader ? "loading" : <Prevappoints tapAppointment={tapAppointment} />}
+      </CardMedia>
+      <CardMedia sx={{ height: 140, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <MiniCard />
-      </Box>
-    </Box>
-  )
-}
+      </CardMedia>
+    </Card>
+  );
+};
 
-export default Card
+export default MyCard;

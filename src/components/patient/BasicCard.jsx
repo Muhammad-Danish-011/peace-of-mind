@@ -13,41 +13,40 @@ import Councler from '../../pages/councler/Councler';
 export default function OutlinedCard({basicCard}) {
 
   const [user, setUser] = useState("")
+  // console.log({basicCard})
   useEffect(() =>{
-    console.log({basicCard})
+    // console.log({basicCard})
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${basicCard.userId}`)
     .then(data => data.json())
     .then(data => {
-      // console.log(data)
-      setUser(data)
-      console.log({user})
-
+        setUser(data)
+        // console.log({data})
     })
   },[])
-  const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
+  // const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
 
   const card = (
     <React.Fragment>
         
        <CardContent style={{backgroundColor: "rgb(	184	215	209)",
-                 width:'250px',
+                 width:'220px',
                  justifyContent:"center",
                  borderRadius:'30px',
                  alignItems:"center",
                  paddingLeft:"20px",
-                 height: '180px'
+                 height: '150px'
                 }}>
    
    
          <Typography sx={{fontSize: '1rem', fontWeight: 'bold'}} variant="h5" component="div">
           {`${user.firstName} ${user.lastName}` } 
          </Typography>
-         <Typography sx={{ mb: 1.5, fontSize: '0.8rem' }} color="text.secondary">
+         <Typography mt={2} sx={{ mb: 1.5, fontSize: '0.8rem' }} color="text.secondary">
            {basicCard.specialization}
          </Typography>
          <Typography variant="body2" sx={{fontSize: '0.8rem'}}>
          {/* {basicCard.description.slice(0,70) +  */}
-         {slicedDesc}
+         {/* {slicedDesc} */}
           
          
            <br />
@@ -57,11 +56,12 @@ export default function OutlinedCard({basicCard}) {
    
          <Button
          variant='outlined'
+         mt
          sx= {{color: 'black',
                borderRadius:'15px', 
                display:'flex',
                marginLeft:'55px',
-               marginTop:'10px',
+               marginTop:'-16px',
                fontSize:'12px',
                padding:'10px',
                bgcolor: 'white'}}
@@ -93,7 +93,7 @@ export default function OutlinedCard({basicCard}) {
     }}
     
     >
-      <Card style={{"borderRadius":'30px'}}>{!user ? "Loading" : card}</Card>
+      <Card style={{"borderRadius":'30px'}}>{card}</Card>
     </Box>
   );
 }

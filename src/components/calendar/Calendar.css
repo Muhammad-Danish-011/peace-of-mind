@@ -15,3 +15,9 @@
     border-spacing: 0px;
     font-size: 1em;
   }
+  fc .fc-toolbar {
+    align-items: center;
+    display: flex;
+    font-size: small;
+    justify-content: space-between;
+}

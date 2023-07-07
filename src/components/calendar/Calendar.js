@@ -5,18 +5,21 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import Modal from './Modal';
-
+import { Box } from '@mui/system';
 import UseFetchAvailabilities from '../../hooks/UseFetchAvailabilities';
 import moment from 'moment';
 import UseFetchAppointment from '../../hooks/UseFetchAppointment';
 
 import './Calendar.css'
 
-const Calendar = ({ type }) => {
+const Calendar = ({ type, id }) => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
+  const obj2 = JSON.parse(sessionStorage.getItem('patient_data'));
+
+  console.log(id)
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj?.id}`);
+  const { data, loading, noAvailability, setLoading, fetchAllAvailability } = UseFetchAvailabilities(`/counselor/${obj === null ? id : obj?.id}`);
   const { appointmentData, fetchAllAppointment } = UseFetchAppointment('/getall');
   const [event, setEvent] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -28,10 +31,8 @@ const Calendar = ({ type }) => {
     fetchAllAvailability();
     fetchAllAppointment();
   },[])
-
   useEffect(() => {
     if (data.length > 0 && appointmentData.length > 0) {
-
       const formattedEvents = data.map(availabilities => {
         
         const startDate = new Date(availabilities.date);
@@ -61,11 +62,15 @@ const Calendar = ({ type }) => {
             color: isBooked ? '#dc3545' : '#007bff',
           };
         }
-      });  
+      });    const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
+
       setEvent(formattedEvents);
     }
     if(noAvailability){
-       setEvent([{}]);
+      console.log('idhar bhi aya')
+       setEvent([
+        {}
+       ]);
      }
   }, [data, appointmentData]);
 
@@ -84,11 +89,15 @@ const Calendar = ({ type }) => {
     let dateNow = moment().format('YYYY-MM-DDTHH:mm:ss');
     console.log(dateNow)
 
-    if(selectInfo.endStr < dateNow ){
+    if(selectInfo.endStr < dateNow){
       console.log( 'Date is before');
       return false;
       
-    }else{
+    }
+    else if(selectInfo.allDay == true){
+      return false;
+    }
+    else{
       console.log(selectInfo.startStr)
       setSelect(false)
       setSelectedEvent(selectInfo.startStr);
@@ -105,13 +114,25 @@ const Calendar = ({ type }) => {
 
     if(clickInfo.event.startStr < dateNow || clickInfo.event.backgroundColor === '#dc3545' ){
       console.log( 'Date is before');
-     
       
-    }else{
+    }
+    else if(type==='private'){
+      // setSelect('khulja');
+      // handleClickOpen();
+      console.log('private')
+
+    }
+    else{
       setSelect(true)
       setSelectedEvent(clickInfo.event);
       handleClickOpen();
     }
+  }
+
+  const deleteAnAvailability = async ()=>{
+    console.log('deleted');
+
+    
   }
 
   const bookAnAppointment = async () => {
@@ -119,9 +140,10 @@ const Calendar = ({ type }) => {
     setLoading(true);
     try {
       console.log(selectedEvent);
+      console.log({obj2})
       let appointment= {
         availabilityId : selectedEvent.id,
-        patientid : 3,
+        patientid : obj2.data.id,
         confirmed : false,
         deleted : 0
       }
@@ -218,8 +240,7 @@ const Calendar = ({ type }) => {
 
 
   return (
-    <div style={{ height :'50%', width: '100vw' }}>
-      <h1>Calendar</h1>
+    <Box sx={{ height: '100%', width: '100%' }}>
 
       {
         !loading && event.length > 0 && (
@@ -230,7 +251,7 @@ const Calendar = ({ type }) => {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'timeGridWeek,timeGridDay'
-              }}
+          }}
               initialView='timeGridWeek'
               editable={false}
               selectable={ type === 'public' ? false : true }
@@ -239,8 +260,9 @@ const Calendar = ({ type }) => {
               dayMaxEvents={true}
               initialEvents={event}
               select={handleDateSelect}
-              eventClick={type === 'public' ? handleEventClick : false}
-              height={700}
+              eventClick={ handleEventClick}
+              height={500}
+
             />
 
           </main>)
@@ -248,14 +270,16 @@ const Calendar = ({ type }) => {
 
 
       {
-        select ? 
-          <Modal data-testid="appointment-modal-trigger" open={open} handleClose={handleClose} loader={loader} bookAnAppointment={bookAnAppointment} type={"Appointment"} />
+        select !=='khulja' ? 
+          (select? <Modal data-testid="appointment-modal-trigger" open={open} handleClose={handleClose} loader={loader} bookAnAppointment={bookAnAppointment} type={"Appointment"} />
           :
-          <Modal open={open} handleClose={handleClose} loader={loader} addAvailability={addAvailability} type={"Availability"} />
+          <Modal open={open} handleClose={handleClose} loader={loader} addAvailability={addAvailability} type={"Availability"} />)
+          :
+          <Modal open={open} handleClose={handleClose} loader={loader} deleteAnAvailability={deleteAnAvailability} type={"delete"} />
 
       }
     
-    </div>
+    </Box>
   )
 }
 

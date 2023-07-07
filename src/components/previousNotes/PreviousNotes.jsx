@@ -3,7 +3,7 @@ import { Modal, Button, List, ListItem, ListItemText, Typography, TextField } fr
 import { Box } from '@mui/system';
 import moment from 'moment';
 
-const PreviousNotes = () => {
+const PreviousNotes = ({id}) => {
     const [notes, setNotes] = useState([]);
     const [selectedNote, setSelectedNote] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -12,11 +12,11 @@ const PreviousNotes = () => {
 
     useEffect(() => {
         fetchNotes();
-    }, [notes]);
+    });
 
     const fetchNotes = async () => {
         try {
-            const response = await fetch("http://notes.us-west-2.elasticbeanstalk.com/notes/notesByPatientId/2");
+            const response = await fetch(`http://notes.us-west-2.elasticbeanstalk.com/notes/notesByPatientId/${id}`);
             const data = await response.json();
             const sortedNotes = data.sort((a, b) => moment(b.created).diff(moment(a.created)));
             setNotes(sortedNotes);
