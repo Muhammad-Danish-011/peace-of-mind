@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import Modal from './Modal';
-
+import { Box } from '@mui/system';
 import UseFetchAvailabilities from '../../hooks/UseFetchAvailabilities';
 import moment from 'moment';
 import UseFetchAppointment from '../../hooks/UseFetchAppointment';
@@ -222,8 +222,7 @@ const Calendar = ({ type, id }) => {
 
 
   return (
-    <div style={{ height :'50%', width: '50%' }}>
-      <h1>Calendar</h1>
+    <Box sx={{ height: '100%', width: '100%' }}>
 
       {
         !loading && event.length > 0 && (
@@ -244,7 +243,7 @@ const Calendar = ({ type, id }) => {
               initialEvents={event}
               select={handleDateSelect}
               eventClick={type === 'public' ? handleEventClick : false}
-              height={700}
+              height={400}
             />
 
           </main>)
@@ -259,7 +258,7 @@ const Calendar = ({ type, id }) => {
 
       }
     
-    </div>
+    </Box>
   )
 }
 

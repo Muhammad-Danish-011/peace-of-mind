@@ -23,7 +23,7 @@ export default function OutlinedCard({basicCard}) {
         // console.log({data})
     })
   },[])
-  const slicedDesc = basicCard.description.length > 60 ? `${basicCard.description.slice(0, 60)}...` : basicCard.description;
+  // const slicedDesc = basicCard.description.length > 80 ? `${basicCard.description.slice(0, 80)}...` : basicCard.description;
 
   const card = (
     <React.Fragment>
@@ -41,12 +41,12 @@ export default function OutlinedCard({basicCard}) {
          <Typography sx={{fontSize: '1rem', fontWeight: 'bold'}} variant="h5" component="div">
           {`${user.firstName} ${user.lastName}` } 
          </Typography>
-         <Typography sx={{ mb: 1.5, fontSize: '0.8rem' }} color="text.secondary">
+         <Typography mt={2} sx={{ mb: 1.5, fontSize: '0.8rem' }} color="text.secondary">
            {basicCard.specialization}
          </Typography>
          <Typography variant="body2" sx={{fontSize: '0.8rem'}}>
          {/* {basicCard.description.slice(0,70) +  */}
-         {slicedDesc}
+         {/* {slicedDesc} */}
           
          
            <br />
@@ -56,11 +56,12 @@ export default function OutlinedCard({basicCard}) {
    
          <Button
          variant='outlined'
+         mt
          sx= {{color: 'black',
                borderRadius:'15px', 
                display:'flex',
                marginLeft:'55px',
-               marginTop:'10px',
+               marginTop:'-16px',
                fontSize:'12px',
                padding:'10px',
                bgcolor: 'white'}}

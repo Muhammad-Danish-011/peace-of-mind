@@ -19,8 +19,6 @@ import SurveyComponent from './components/patient/SurveyComponent';
 import SurveyModal from './components/patient/SurveyModal';
 import Search from './components/patient/Search';
 import Meeting from './components/Room/Meeting';
-
-// import './App.css';
 import ProfileCard from './pages/profileCard/ProfileCard';
 import Counselor from './components/Home/Counslor';
 import CounselorCalender from './components/counselor-calender/counselorcalender';
@@ -35,23 +33,19 @@ function App() {
     <AuthProvider>
 
 
-
+    
     <Routes>
-    {/* <Sidebar> */}
-      {/* <Routes>
-         } />
-      </Routes> */}
+    
     <Route path="/signup" element={<SignupForm />} />
    
     <Route path="/login" element={<Loginform />} />
     <Route index element={<Loginform />} />
-    {/* </Sidebar> */}
-    {/* <Route path='/room/:roomId' element={<Privateroute><Meeting /></Privateroute>} /> */}
+    
     
     <Route path="/forget-password" element={<ForgetPassword />} />
     <Route path="/new-password" element={<NewPassword /> } />
     <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
-          {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
+     
     
     <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
     <Route path="/councler" element={<Privateroute> <Councler /></Privateroute> } />
@@ -73,14 +67,6 @@ function App() {
     
   );
 
-
-// function App() {
-// return(
-//   <>
-//   
-//   </>
-// )
-// check
 }
 
 

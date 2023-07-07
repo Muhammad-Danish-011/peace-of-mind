@@ -13,6 +13,19 @@ import {
 
 
 const Loginform = () => {
+console.log("123")
+  if(sessionStorage.getItem("islogin")){
+    if(sessionStorage.getItem("role") === "PATIENT"){
+      window.location.assign("/home");
+    }
+    else if(sessionStorage.getItem("role") === "COUNSELOR"){
+      window.location.assign("/counselor");
+    }
+    else{
+      
+    } 
+
+  }
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const { setLoginStatus,setitems } = useContext(AuthContext)
