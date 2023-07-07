@@ -251,7 +251,7 @@ const Calendar = ({ type, id }) => {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'timeGridWeek,timeGridDay'
-              }}
+          }}
               initialView='timeGridWeek'
               editable={false}
               selectable={ type === 'public' ? false : true }
@@ -261,7 +261,7 @@ const Calendar = ({ type, id }) => {
               initialEvents={event}
               select={handleDateSelect}
               eventClick={ handleEventClick}
-              height={700}
+              height={400}
             />
 
           </main>)
