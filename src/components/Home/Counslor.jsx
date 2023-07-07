@@ -238,7 +238,7 @@ return (
         flexDirection: "column",   
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           border: "1px solid green",
           borderRadius: "10px",
@@ -252,9 +252,15 @@ return (
         }} 
       >
       <div>
-      <h1>
-      Upcoming Latest Appointment
-    </h1>
+      <h1
+      sx={{
+        fontSize: "1.5rem",
+        '@media (max-width: 950px)': {
+          fontSize: "1rem",
+          textAlign: "center",
+        }
+      }}
+    > Upcoming Latest Appointments</h1>
         <p>Date: {appointmentDate}</p>
         <p>Time: {appointmentTime}</p>
         <p>
@@ -262,7 +268,48 @@ return (
         </p>
       </div>
     
-      </Box>
+
+      </Box> */}
+
+<Box
+  sx={{
+    border: "1px solid green",
+    borderRadius: "10px",
+    width: "25%",
+    height: "30%",
+    margin: "8% 0% 0% 30%",
+    backgroundColor: 'rgb(207,227,223)',
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+
+    '@media (max-width: 950px)': {
+      width: "80%",
+      margin: "2rem auto",
+      padding: "1rem",
+    }
+  }}
+>
+  <div>
+    <h1
+      sx={{
+        fontSize: "1.5rem",
+        '@media (max-width: 950px)': {
+          fontSize: "1rem",
+          textAlign: "center",
+        }
+      }}
+    >
+      Upcoming Latest Appointments
+    </h1>
+    <p>Date: {appointmentDate}</p>
+    <p>Time: {appointmentTime}</p>
+    <p>
+      Meeting Link: <Link to={meetingURL}>{meetingURL}</Link>
+    </p>
+  </div>
+</Box>
+
 
       <Box sx={{
         display: "flex",
@@ -278,7 +325,7 @@ return (
           alignContent: "space-around"
         }
       }}>
-        <Box sx={{
+        {/* <Box sx={{
           borderRadius: "10px",
           height: "100%",
           padding: "3%",
@@ -291,7 +338,36 @@ return (
             WEEKLY APPOINTMENTS
           </Typography>
           <br />
-          <ChartComponent />
+          <ChartComponent /> */}
+          <Box
+  sx={{
+    borderRadius: "10px",
+    height: "100%",
+    padding: "3%",
+
+    '@media (max-width: 950px)': {
+      marginBottom: "1rem",
+      alignItems: "center",
+      width: "100%",
+      height: "auto",
+    }
+  }}
+>
+  <Typography variant="h5">
+    WEEKLY APPOINTMENTS
+  </Typography>
+  <br />
+  <ChartComponent
+    width={400}
+    height={300}
+    // data={mydata}
+    sx={{
+      '@media (max-width: 950px)': {
+        width: "100%",
+        height: "auto",
+      }
+    }}
+  ></ChartComponent>
         </Box>
         <Box sx={{
         
@@ -300,7 +376,13 @@ return (
           borderRadius: "10px",
           width: "20%",
       
-          padding: "3%"
+          padding: "3%",
+          '@media (max-width: 950px)': {
+            width: "80%",
+            alignSelf: "center",
+            margin: "2rem auto",
+            padding: "1rem",
+          }
         }}>
           
           <Typography variant="h5">
