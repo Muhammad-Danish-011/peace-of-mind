@@ -8,7 +8,9 @@ export default function Privateroute({ children }) {
   const navigate = useNavigate()
 
   if (sessionStorage.getItem("islogin") == null) {
-    return <Navigate to="/login" />
+    if(sessionStorage.getItem('role') === "PATIENT"){
+      return <Navigate to="/login" />
+    }
   }
  
 
