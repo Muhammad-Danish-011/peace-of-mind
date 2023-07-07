@@ -15,6 +15,7 @@ const Counslor = () => {
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
   const [confirmedAppointments, setConfirmedAppointments] = useState([]);
+
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);  
   const [relativeDates,setRelativeDate]=useState();
@@ -251,7 +252,9 @@ return (
         }} 
       >
       <div>
-        <h1>Upcoming Latest Appointment</h1>
+      <h1>
+      Upcoming Latest Appointment
+    </h1>
         <p>Date: {appointmentDate}</p>
         <p>Time: {appointmentTime}</p>
         <p>
