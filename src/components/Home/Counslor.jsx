@@ -10,12 +10,9 @@ import moment from 'moment';
 
 const Counslor = () => {
   const [latestAppointment, setLatestAppointment] = useState([]);
-  // const [averageRating, setAverageRating] = useState(0);
-  // const [latestReview, setLatestReview] = useState(null);
   const [availabilityIds, setAvailabilityIds] = useState([]);
   const [confirmedAppointmentsMeetingURLS, setConfirmedAppointmentsMeetingURLS] = useState([]);
   const [confirmedAppointments, setConfirmedAppointments] = useState([]);
-
   const [appointments, setAppointments] = useState([]);
   const [patientCount, setPatientCount] = useState(0);
   const [relativeDates, setRelativeDate] = useState();

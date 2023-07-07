@@ -20,12 +20,11 @@ const SideBarCounselor = () => {
   const [time, setTime] = useState("");
   const [confirmedAppointments, setConfirmedAppointments] = useState([]);
   const [weeklyAppointments, setWeeklyAppointments] = useState([]);
-  const [
-    confirmedAppointmentsMeetingURLS,
-    setConfirmedAppointmentsMeetingURLS,
-  ] = useState([]);
+  const [confirmedAppointmentsMeetingURLS,setConfirmedAppointmentsMeetingURLS] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
   const [appointmentCount, setAppointmentCount] = useState(0);
+  const [random, setRandom] = useState(null);
+  const [loader, setLoader] = useState(false)
   const obj = JSON.parse(sessionStorage.getItem("counselor_data"));
 
 
@@ -64,29 +63,51 @@ const SideBarCounselor = () => {
   };
 
   useEffect(() => {
-    const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
-      try {
-        const confirmedAppointments = [];
-        for (const availabilityId of availabilityIds) {
-          const response = await fetch(
-            `http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            const confirmedAppointmentsData = data.filter(
-              (appointment) => appointment.confirmed === true
-            );
-            confirmedAppointments.push(...confirmedAppointmentsData);
-          }
-        }
-        setConfirmedAppointmentsMeetingURLS(
-          confirmedAppointments.map((appointment) => appointment.meetingURL)
+
+    const fetchAvailability = async() =>{
+      const confirmedApp = Promise.all (availabilityIds.map(async(availabilityId)=>{
+        const response = await fetch(
+          `http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`
         );
+        if (response.ok) {
+          const data = await response.json();
+          const confirmedAppointmentsData = data.filter(
+            (appointment) => appointment.confirmed === true
+          );
+          return confirmedAppointmentsData[0]
+          // .push(...confirmedAppointmentsData);
+        }
+      }))
+      return confirmedApp
+    }
+
+    const availabiltySet = (data) =>{
+      return data.map((a) => {
+        if(a){
+          return a
+        }
+      })
+    }
+
+
+    const fetchConfirmedAppointmentsByAvailabilityIds = async (confirmedAppointments) => {
+      try {
+        // const confirmedAppointments = [];
+
+
+        setConfirmedAppointmentsMeetingURLS(
+           confirmedAppointments.map((appointment) => {
+            if(appointment){
+              console.log(appointment)
+              return appointment.meetingURL}
+          })
+        );
+        console.log(confirmedAppointments)
         setConfirmedAppointments(confirmedAppointments);
 
         const relativeDates = confirmedAppointments.map((appointment) => {
           const matchedAppointment = availabilityIds.find(
-            (availabilityId) => availabilityId === appointment.availabilityId
+            (availabilityId) => availabilityId === appointment?.availabilityId
           );
           if (matchedAppointment) {
             const matchedAppointmentIndex =
@@ -109,12 +130,20 @@ const SideBarCounselor = () => {
           a.relativeDate.localeCompare(b.relativeDate)
         );
         setRelativeDate(relativeDates);
+        setLoader(true)
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
     };
 
-    fetchConfirmedAppointmentsByAvailabilityIds();
+    const methodCall = async () =>{
+      // const data = await fetchAvailability()
+      const setAvailability = await availabiltySet(await fetchAvailability())
+      fetchConfirmedAppointmentsByAvailabilityIds(setAvailability);
+    }
+
+    methodCall()
+
   }, [availabilityIds]);
 
   useEffect(() => {
@@ -182,8 +211,8 @@ const SideBarCounselor = () => {
         <>
           <div>
             <h3>Confirmed Appointments</h3>
-            {confirmedAppointments.map((appointment) => {
-              const confirmedAppointmentId = appointment.availabilityId;
+            {confirmedAppointments.length > 0 ?  confirmedAppointments.slice(0,3).map((appointment) => {
+              const confirmedAppointmentId = appointment?.availabilityId;
               const matchedAppointmentIndex = availabilityIds.indexOf(
                 confirmedAppointmentId
               );
@@ -229,14 +258,14 @@ const SideBarCounselor = () => {
                     </p>
                     <p>
                       Meeting Link:{" "}
-                      <a href={appointment.meetingURL}>
-                        {appointment.meetingURL}
+                      <a href={appointment?.meetingURL}>
+                        {appointment?.meetingURL}
                       </a>
                     </p>
                   </Card>
                 </div>
               );
-            })}
+            }) : "Loading"}
           </div>
           <Link to="/availibilitytable">View All</Link>
         </>

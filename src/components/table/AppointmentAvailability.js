@@ -222,7 +222,7 @@ const AvailabilityTable = () => {
 
   return (
     <>
-      <Box sx={{  margin: "0.5% 3% 0% 3%"}}>
+      <Box sx={{  margin: "2% 4% 0% 8%"}}>
         <TableContainer
           component={Paper}
           sx={{ boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)" }}
