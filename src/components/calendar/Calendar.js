@@ -261,7 +261,8 @@ const Calendar = ({ type, id }) => {
               initialEvents={event}
               select={handleDateSelect}
               eventClick={ handleEventClick}
-              height={400}
+              height={500}
+
             />
 
           </main>)

@@ -89,7 +89,7 @@ export default function ComplexGrid() {
                 {counselor.description}
               </Typography>
               <Grid item xs>
-                <ButtonBase sx={{ width: '100%', maxWidth: 400, height: 'auto', marginTop: '60px',  backgroundColor:'#fff' }}>
+                <ButtonBase sx={{ width: '100%', maxWidth: 600, height: 'auto', marginTop: '60px',  backgroundColor:'#fff' }}>
                   <Calendar type="public" id={counselor.id} />
                 </ButtonBase>
               </Grid>
