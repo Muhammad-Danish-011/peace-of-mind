@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Calendar from '../../components/calendar/Calendar';
 import CardContent from '@mui/material/CardContent';
+import MiniCard from '../../components/patient/MiniCard';
 
 export default function ComplexGrid() {
   const { userId } = useParams();
@@ -41,7 +42,7 @@ export default function ComplexGrid() {
         textAlign: 'left',
         backgroundColor: (theme) =>
           theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-          height: '800px', // Set the desired height here
+          height: '700px', // Set the desired height here
 
       }}
     >
@@ -71,24 +72,30 @@ export default function ComplexGrid() {
             <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2">
               {user.email}
             </Typography>
+            <Typography mt={6} sx={{ fontSize: 16 }} variant="body2">
+             {Array(3).fill().map((_, index) => (
+             <MiniCard key={index} />
+             ))}
+            </Typography> 
           </CardContent>
         </Grid>
         <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
-              <Typography mt={12} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
+              <Typography mt={9} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
                 About
               </Typography>
               <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2" gutterBottom>
                 {counselor.description}
               </Typography>
             </Grid>
-            <Grid item xs>
-              <ButtonBase sx={{ width: 400, height: 128 }}>
+            
+          </Grid>
+          <Grid item xs>
+              <ButtonBase  sx={{ width: 400, height: 128, marginTop:'-250px' }}>
                <Calendar type="public" id={counselor.id} />
               </ButtonBase>
             </Grid>
-          </Grid>
         </Grid>
       </Grid>
       

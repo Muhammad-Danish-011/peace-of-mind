@@ -89,7 +89,7 @@ const ProfileCard = () => {
   return (
    
      <Box  sx={{display:"flex", flexDirection:"row", marginLeft:'30px'}} >
-     <ImageCard/>
+     {/* <ImageCard/> */}
        <Profile  />
      </Box>
    
