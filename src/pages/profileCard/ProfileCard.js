@@ -1,118 +1,103 @@
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import Calendar from '../../components/calendar/Calendar';
+// import { Box, Button, Typography } from '@mui/material';
+// import React, { useEffect, useState } from 'react';
+// import { useParams } from 'react-router-dom';
+// import Calendar from '../../components/calendar/Calendar';
+// import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
+// import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 
-// Styled components
-const ProfileContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  padding: '1rem',
-  backgroundColor: '#d7eded',
-  borderRadius: '0.5rem',
-  width: '32%',
-  marginLeft:'18rem',
-  marginTop: '35px !important',
-  
-  '@media (max-width: 768px)': {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: '0.5rem',
-  }
-}));
+// const ProfileCard = () => {
+//   const { userId } = useParams();
+//   const [user, setUser] = useState(null);
+//   const [counselor, setCounselor] = useState(null);
 
-const Name = styled(Typography)({
-  fontWeight: 'bold',
-  fontSize: '1.2rem',
-  marginLeft: '2rem',
-});
+//   // Fetch user and counselor data
+//   useEffect(() => {
+//     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${userId}`)
+//       .then(response => response.json())
+//       .then(user => setUser(user));
 
-const Specialization = styled(Typography)({
-  fontSize: '18px',
-  marginBottom: '5px',
-});
+//     fetch('http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get')
+//       .then(response => response.json())
+//       .then(data => {
+//         // Find the counselor with matching userId
+//         const matchingCounselor = data.find(counselor => counselor.userId === parseInt(userId));
+//         setCounselor(matchingCounselor);
+//       });
+//   }, [userId]);
 
-const ContactInfo = styled(Box)({
- display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  width: '50%',
-  marginTop: '1rem',
-  gap: '1rem', 
-  color:'#008080'
-});
+//   // Render loading message while data is being fetched
+//   if (!user || !counselor) {
+//     return <p>Loading...</p>;
+//   }
 
-const ContactLabel = styled(Typography)({
-  fontWeight: 'bold',
-  color: '#666',
-});
+ 
 
-const Description = styled(Typography)({
-  marginTop: '10px',
-  color:'#008080'
-});
+//   return (
+//     <Box
+//       display="flex"
+//       flexDirection="flex-end"
+//       p={5}
+//       textAlign="left"
+//       mt={8}
+//       boxShadow={1}
+//       borderRadius={8}
+//       bgcolor="#b8d7d1"
+//       mx="auto"
+//       width="80%" /* Adjusted width for small screens */
+    
+//     >
+//       <Box>
+//       <Typography variant="body2" mt={2} color="textSecondary">
+//         {counselor.description}
+//       </Typography>
+//       </Box>
+//         <Box
+//           display="flex"
+//           flexDirection="column"
+//           alignItems="center"
+//           justifyContent="center"
+//           textAlign="center"
+//           p={2}
+//           bgcolor="#fff"
+//           maxHeight={750}
+//           maxWidth={500}
+//           mx="auto"
+//           mt={10}
+//           width="90%"
+//           height="90vh"
+//         >
+//           <Typography variant="h6" mb={2}>
+//             Book Appointment
+//           </Typography>
+//           <Calendar type="public" id={counselor.id} />
+//         </Box>
+//     </Box>
+//   );
+// }
 
-const CalendarContainer = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '400px',
-  width: '100%',
-});
+// export default ProfileCard;
+
+
+
+
+import React from 'react'
+import Profile from '../../components/patient/Profile'
+import { Box } from '@mui/system'
+import ImageCard from '../../components/patient/ImageCard'
 
 const ProfileCard = () => {
-  const { userId } = useParams();
-  const [user, setUser] = useState(null);
-  const [counselor, setCounselor] = useState(null);
-
-  // Fetch user and counselor data
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_KEY}/user/get/${userId}`)
-      .then(response => response.json())
-      .then(user => setUser(user));
-
-    fetch('http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get')
-      .then(response => response.json())
-      .then(data => {
-        // Find the counselor with matching userId
-        const matchingCounselor = data.find(counselor => counselor.userId === parseInt(userId));
-        setCounselor(matchingCounselor);
-      });
-  }, [userId]);
-
-  // Render loading message while data is being fetched
-  if (!user || !counselor) {
-    return <p>Loading...</p>;
-  }
-
   return (
-    <>
-      <ProfileContainer>
-        <Name>{`${user.firstName} ${user.lastName}`}</Name>
-        <ContactInfo>
-          <ContactLabel>Specialization:</ContactLabel>
-          <Typography>{counselor.specialization}</Typography>
-        </ContactInfo>
-        <ContactInfo>
-          <ContactLabel>Phone:</ContactLabel>
-          <Typography>{user.phoneNumber}</Typography>
-        </ContactInfo>
-        <ContactInfo>
-          <ContactLabel>Email:</ContactLabel>
-          <Typography>{user.email}</Typography>
-        </ContactInfo>
-        <Description>{counselor.description}</Description>
-      </ProfileContainer>
-      <Box mt={-8}>
-        <CalendarContainer>
-          <Calendar type={'public'} id={counselor.id} />
-        </CalendarContainer>
-      </Box>
-    </>
-  );
-};
+   
+     <Box  sx={{display:"flex", flexDirection:"row", marginLeft:'30px'}} >
+     {/* <ImageCard/> */}
+       <Profile  />
+     </Box>
+   
+  )
+}
 
-export default ProfileCard;
+export default ProfileCard
+
+
+
+

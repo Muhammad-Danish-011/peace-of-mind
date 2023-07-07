@@ -49,6 +49,7 @@ const Search = ({onClick}) => {
   const [users, setUsers] = useState([]);
   const [searchedCoouncelor, setSearchedCouncelor] = useState([]);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const {state} = useLocation();
 
 
 
@@ -61,7 +62,6 @@ const Search = ({onClick}) => {
     })
   },[])
 
-  const {state} = useLocation();
 
   const onhandleSubmit = (e) => {
     e.preventDefault();
@@ -108,7 +108,7 @@ const Search = ({onClick}) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          width: '110%',
+          width: '70%',
           borderRadius: '25px',
           boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
           backgroundColor: '#d9d9d9',

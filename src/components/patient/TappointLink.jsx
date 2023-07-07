@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const TappointLink = () => {
+const TappointLink = ({availability}) => {
+
+  const [todayApp, setTodayApp] = useState('');
+  const [date, setDate] =useState('')
+  const [loading, setLoading] = useState(false);
+
+  useEffect(()=>{
+    // setTodayApp(availability)
+    // setLoading(true)
+    if(availability){
+      let d = new Date(availability.avail.date)
+    setDate(d)
+    // setTodayApp(availability)
+    console.log({a: availability})
+    setLoading(true)
+    }
+  },[availability])
+
+
+
   return (
     <Typography
       sx={{
@@ -10,7 +30,7 @@ const TappointLink = () => {
         backgroundColor: '#d7eded',
         border: '1px solid #008080',
         borderRadius: '35px',
-        width: '50%',
+        width: '45%',
         height: '25%',
         color: 'black',
         fontWeight: 300,
@@ -45,8 +65,8 @@ const TappointLink = () => {
       }}
     >
       <h1>Today's Appointment</h1>
-      <h2>Date & Time: 22 May-2023 Friday 6:00PM</h2>
-      <h3>Today's Meeting Link: www.zoom.com</h3>
+      <h2>{loading ? date.toString().split(' ').splice(0,5).join(' ') : "Loading"}</h2>
+      <h3>Today's Meeting Link: <a href={availability.appointment.meetingURL} target="_blank" rel="noreferrer" > {availability.appointment.meetingURL}</a></h3>
     </Typography>
   );
 };
