@@ -111,7 +111,7 @@ React.useEffect(() => {
             edge="start"
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
-            <MenuIcon />
+            <MenuIcon style={{ fontSize: '48px' }} />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <ProfileModal />

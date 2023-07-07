@@ -1,16 +1,18 @@
-import { Box, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-// import Calendar from '../../components/calendar/Calendar';
-import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import ButtonBase from '@mui/material/ButtonBase';
+import Calendar from '../../components/calendar/Calendar';
+import CardContent from '@mui/material/CardContent';
 
-const Profile = () => {
+export default function ComplexGrid() {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [counselor, setCounselor] = useState(null);
 
-  // Fetch user and counselor data
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_KEY}/user/get/${userId}`)
       .then(response => response.json())
@@ -25,53 +27,71 @@ const Profile = () => {
       });
   }, [userId]);
 
-  // Render loading message while data is being fetched
   if (!user || !counselor) {
     return <p>Loading...</p>;
   }
 
-
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      p={5}
-      textAlign="left"
-      mt={12}
-      boxShadow={1}
-      // borderRadius={8}
-      bgcolor="#b8d7d1"
-      maxWidth={500}
-      maxHeight={500}
-      mx="auto"
-     
+    <Paper
+      sx={{
+        p: 2,
+        margin: 'auto',
+        maxWidth: 900,
+        flexGrow: 1,
+        textAlign: 'left',
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+          height: '800px', // Set the desired height here
+
+      }}
     >
-      <Typography variant="h5" mt={2}>
-        {`${user.firstName} ${user.lastName}`}
-      </Typography>
-      <Typography variant="h6" mt={1}>
-      <p>Specialization: {counselor.specialization}</p>
-      </Typography>
-      <Typography variant="body1" mt={1}>
-        <LocalPhoneRoundedIcon/> {user.phoneNumber}
-      </Typography>
-      <Typography variant="body1" mt={1}>
-        <EmailRoundedIcon/> {user.email}
-      </Typography>
-      <Box>
-        <Box    bgcolor="#b8d7d1">
-        <Typography variant="body1" gutterBottom>
-        {counselor.description}
-         </Typography>
-        </Box>
     
-      </Box>
-    </Box>
+      <Grid container spacing={2}>
+        <Grid item>
+          <CardContent>
+            <Typography variant="h4" component="div">
+              {`${user.firstName} ${user.lastName}`}
+            </Typography>
+            <Typography mt={2} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
+              Specialization
+            </Typography>
+            <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2">
+              {counselor.specialization}
+            </Typography>
+            <Typography variant="subtitle1" component="div"></Typography>
+            <Typography mt={2} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
+              Contact
+            </Typography>
+            <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2">
+              {user.phoneNumber}
+            </Typography>
+            <Typography mt={2} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
+              Email
+            </Typography>
+            <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2">
+              {user.email}
+            </Typography>
+          </CardContent>
+        </Grid>
+        <Grid item xs={12} sm container>
+          <Grid item xs container direction="column" spacing={2}>
+            <Grid item xs>
+              <Typography mt={12} sx={{ mb: 1.5, fontSize: 20 }} color="text.secondary">
+                About
+              </Typography>
+              <Typography mt={-1} sx={{ fontSize: 16 }} variant="body2" gutterBottom>
+                {counselor.description}
+              </Typography>
+            </Grid>
+            <Grid item xs>
+              <ButtonBase sx={{ width: 400, height: 128 }}>
+               <Calendar type="public" id={counselor.id} />
+              </ButtonBase>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      
+    </Paper>
   );
 }
-
-export default Profile;
-
-
-
-
