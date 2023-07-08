@@ -203,7 +203,7 @@ const SideBarCounselor = () => {
           },
         }}
         
-      >
+        >
       <h1 style={{ marginTop: "-12rem" }}>Upcoming Latest Appointment</h1>
       {loading ? ( // Render loader when loading is true
         <CircularProgress />
@@ -211,61 +211,80 @@ const SideBarCounselor = () => {
         <>
           <div>
             <h3>Confirmed Appointments</h3>
-            {confirmedAppointments.length > 0 ?  confirmedAppointments.slice(0,3).map((appointment) => {
-              const confirmedAppointmentId = appointment?.availabilityId;
-              const matchedAppointmentIndex = availabilityIds.indexOf(
-                confirmedAppointmentId
-              );
-              const appointmentDate =
-                weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] ||
-                "";
-              const appointmentTime =
-                weeklyAppointments[matchedAppointmentIndex]
-                  ?.split("T")[1]
-                  ?.substring(0, 5) || "";
-              return (
-                <div key={confirmedAppointmentId}>
-                  <Card
+            {loading ? (
+  <CircularProgress />
+) : (
+  <>
+    <div>
+      {/* <h3>Confirmed Appointments</h3> */}
+      {confirmedAppointments.length > 0 ? (
+        confirmedAppointments
+          .filter((appointment) => appointment)
+          .slice(0, 3)
+          .map((appointment) => {
+            const confirmedAppointmentId = appointment?.availabilityId;
+            const matchedAppointmentIndex = availabilityIds.indexOf(
+              confirmedAppointmentId
+            );
+            const appointmentDate =
+              weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+            const appointmentTime =
+              weeklyAppointments[matchedAppointmentIndex]
+                ?.split("T")[1]
+                ?.substring(0, 5) || "";
+            return (
+              <div key={confirmedAppointmentId}>
+                <Card
+                  style={{
+                    margin: "10px",
+                    height: "8rem",
+                    width: "22rem",
+                    borderRadius: "1rem",
+                  }}
+                >
+                  <CalendarMonthRoundedIcon
+                    sx={{
+                      color: "#008080",
+                      fontSize: "4rem",
+                      marginTop: "8px",
+                      marginRight: "14rem",
+                    }}
+                  />
+                  <p
                     style={{
-                      margin: "10px",
-                      height: "8rem",
-                      width: "22rem",
-                      borderRadius: "1rem",
-                    }}>
-                    <CalendarMonthRoundedIcon
-                      sx={{
-                        color: "#008080",
-                        fontSize: "4rem",
-                        marginTop: "8px",
-                        marginRight: "14rem",
-                      }}
-                    />
-                    <p
-                      style={{
-                        fontSize: "1.2rem",
-                        marginLeft: "3rem",
-                        marginTop: "-4.5rem",
-                      }}>
-                      Date: {appointmentDate}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "1.2rem",
-                        marginTop: "-10px",
-                        marginLeft: "3rem",
-                      }}>
-                      Time: {appointmentTime}
-                    </p>
-                    <p>
-                      Meeting Link:{" "}
-                      <a href={appointment?.meetingURL}>
-                        {appointment?.meetingURL}
-                      </a>
-                    </p>
-                  </Card>
-                </div>
-              );
-            }) : "Loading"}
+                      fontSize: "1.2rem",
+                      marginLeft: "3rem",
+                      marginTop: "-4.5rem",
+                    }}
+                  >
+                    Date: {appointmentDate}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "1.2rem",
+                      marginTop: "-10px",
+                      marginLeft: "3rem",
+                    }}
+                  >
+                    Time: {appointmentTime}
+                  </p>
+                  <p>
+                    Meeting Link:{" "}
+                    <a href={appointment?.meetingURL}>
+                      {appointment?.meetingURL}
+                    </a>
+                  </p>
+                </Card>
+              </div>
+            );
+          })
+      ) : (
+        <p>Finding confirmed appointments please refresh the page</p>
+      )}
+    </div>
+  </>
+)}
+
           </div>
           <Link to="/availibilitytable">View All</Link>
         </>
