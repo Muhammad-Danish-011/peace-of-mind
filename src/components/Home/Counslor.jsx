@@ -21,7 +21,6 @@ const Counslor = () => {
   const [loading, setLoading] = useState(true);
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
-  const [appointmentId, setAppointmentsId] = useState([])
   const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -280,19 +279,6 @@ const Counslor = () => {
     const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
     return aDate.localeCompare(bDate);
   });
-
-  let appointmentDate = undefined;
-  let appointmentTime = undefined;
-  let meetingURL = undefined;
-
-  if (relativeDates) {
-    if (relativeDates.length !== 0) {
-      meetingURL = confirmedAppointments[0].meetingURL;
-      const relativeDateSorted = relativeDates.sort((a, b) => a - b);
-      appointmentDate = relativeDateSorted[0].split('T')[0] || '';
-      appointmentTime = relativeDateSorted[0].split('T')[1]?.substring(0, 5) || '';
-    }
-  }
   return (
     <>
 
@@ -307,38 +293,7 @@ const Counslor = () => {
             flexDirection: "column",
           }}
         >
-          {/* <Box
-        sx={{
-          border: "1px solid green",
-          borderRadius: "10px",
-          width: "25%",
-          height: "30%",
-          margin: "8% 0% 0% 30%",
-          backgroundColor: 'rgb(207,227,223)',
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-        }} 
-      >
-      <div>
-      <h1
-      sx={{
-        fontSize: "1.5rem",
-        '@media (max-width: 950px)': {
-          fontSize: "1rem",
-          textAlign: "center",
-        }
-      }}
-    > Upcoming Latest Appointments</h1>
-        <p>Date: {appointmentDate}</p>
-        <p>Time: {appointmentTime}</p>
-        <p>
-          Meeting Link: <Link to={meetingURL}>{meetingURL}</Link>
-        </p>
-      </div>
-    
-
-      </Box> */}
+        
 <Box
   sx={{
     border: "1px solid green",
@@ -431,20 +386,6 @@ const Counslor = () => {
               alignContent: "space-around"
             }
           }}>
-            {/* <Box sx={{
-          borderRadius: "10px",
-          height: "100%",
-          padding: "3%",
-          '@media (max-width: 950px)': {
-            marginBottom: "1rem",
-            alignItems: "center",
-          }
-        }}>
-          <Typography variant="h5">
-            WEEKLY APPOINTMENTS
-          </Typography>
-          <br />
-          <ChartComponent /> */}
             <Box
               sx={{
                 borderRadius: "10px",
