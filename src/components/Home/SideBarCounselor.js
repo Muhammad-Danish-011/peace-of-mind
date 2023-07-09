@@ -292,8 +292,9 @@ const SideBarCounselor = () => {
       );
     })
 ) : (
-  <p>Finding confirmed appointments, please refresh the page.</p>
+  <p>Finding confirmed appointments<br/>please refresh the page.</p>
 )}
+
     </div>
   </>
 )}

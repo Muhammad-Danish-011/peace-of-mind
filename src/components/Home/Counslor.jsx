@@ -378,7 +378,7 @@ const Counslor = () => {
       const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
       return moment(aDate).diff(moment(bDate));
     })
-    .some((appointment, index) => {
+    .filter((appointment) => {
       const confirmedAppointmentId = appointment?.availabilityId;
       const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
       const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
@@ -386,36 +386,32 @@ const Counslor = () => {
 
       const appointmentDateTime = moment(`${appointmentDate}T${appointmentTime}`);
 
-      if (appointmentDateTime.isAfter(now) || index === confirmedAppointments.length - 1) {
-        nextAppointmentIndex = index;
-        return true;
-      }
+      return appointmentDateTime.isAfter(now); // Only keep appointments that are in the future
+    })
+    .slice(nextAppointmentIndex)
+    .map((appointment, index) => {
+      const confirmedAppointmentId = appointment?.availabilityId;
+      const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
+      const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+      const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
 
-      return false;
-    }) &&
-  confirmedAppointments.slice(nextAppointmentIndex).map((appointment, index) => {
-    const confirmedAppointmentId = appointment?.availabilityId;
-    const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
-    const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
-    const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
-
-    return (
-      <div key={confirmedAppointmentId}>
-        <p style={{ fontSize: "1.4rem", marginLeft: "-3rem", marginTop: index === 0 ? "2rem" : "1rem" }}>
-          <strong>Date:</strong> {appointmentDate}
-        </p>
-        <p style={{ fontSize: "1.4rem", marginTop: "-10px", marginLeft: "-3rem" }}>
-          <strong>Time:</strong> {appointmentTime}
-        </p>
-        <p>
-          <strong>Meeting Link: </strong>
-          <a href={appointment?.meetingURL}>{appointment?.meetingURL}</a>
-        </p>
-      </div>
-    );
-  })
+      return (
+        <div key={confirmedAppointmentId}>
+          <p style={{ fontSize: "1.4rem", marginLeft: "-3rem", marginTop: index === 0 ? "2rem" : "1rem" }}>
+            <strong>Date:</strong> {appointmentDate}
+          </p>
+          <p style={{ fontSize: "1.4rem", marginTop: "-10px", marginLeft: "-3rem" }}>
+            <strong>Time:</strong> {appointmentTime}
+          </p>
+          <p>
+            <strong>Meeting Link: </strong>
+            <a href={appointment?.meetingURL}>{appointment?.meetingURL}</a>
+          </p>
+        </div>
+      );
+    })
 ) : (
-  <p>Loading......................</p>
+  <p>Loading............... </p>
 )}
   </div>
 </Box>
