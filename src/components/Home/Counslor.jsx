@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, Rating, CircularProgress,Card } from "@mui/material";
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import { Link } from "react-router-dom";
-// import moment from 'moment';
+import { Box, Typography, Rating} from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
-import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import moment from 'moment';
 
 
@@ -226,49 +222,6 @@ const Counslor = () => {
       fetchConfirmedAppointmentsByAvailabilityIds();
     }
   }, [confirmedAppointments.length > 0, weeklyAppointments.length > 0, random]);
-  // }, []);
-
-  // const fetchAppointmentsByAvailabilityIds = async () => {
-  //   try {
-  //     let myData = [];
-  //     availabilityIds.map(availabilityId =>
-  //       fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
-  //         .then(response => {
-  //           if (response.ok) {
-  //             return response.json();
-  //           }
-  //         })
-  //         .then(data => {
-  //           if (data.length > 0) {
-  //             data.map((item) => {
-  //               myData.push(item);
-  //             })
-  //             setAppointments(appointments => [...appointments, data]);
-  //           }
-  //         })
-  //         .then(() => {
-  //           console.log(myData);
-  //           let arr = Array();
-  //           myData.map((a) => {
-  //             arr.push(a.patientid)
-  //           });
-  //           myData.map(a => setAppointmentsId(appointmentId => [...appointmentId, a.id]));
-
-
-  //           arr = [... new Set(arr)];
-  //           console.log("Total number of patient:", arr.length)
-  //           setPatientCount(arr.length);
-  //         })
-  //     );
-
-
-
-
-  //   } catch (error) {
-  //     console.error('Error fetching appointments:', error);
-  //   }
-  // };
-
   useEffect(() => {
     if (random) {
       fetchAppointmentsByAvailabilityIds();
