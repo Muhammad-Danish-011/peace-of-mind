@@ -27,7 +27,8 @@ const Counslor = () => {
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [random, setRandom] = useState(null);
 
-
+  const now =moment();
+  let nextAppointmentIndex = 0;
   useEffect(() => {
     if (availabilityIds.length === 0 && random !== null)
       fetchAvailabilityIds();
@@ -370,74 +371,52 @@ const Counslor = () => {
       Upcoming Latest Appointments
     </h1>
     {confirmedAppointments.length > 0 ? (
-      confirmedAppointments
-        .slice(0, 1)
-        .map((appointment) => {
-          const confirmedAppointmentId = appointment?.availabilityId;
-          const matchedAppointmentIndex = availabilityIds.indexOf(
-            confirmedAppointmentId
-          );
-          const appointmentDate =
-            weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
-          const appointmentTime =
-            weeklyAppointments[matchedAppointmentIndex]
-              ?.split("T")[1]
-              ?.substring(0, 5) || "";
-          return (
-            <div key={confirmedAppointmentId}>
-              {/* <Card
-                style={{
-                  margin: "10px",
-                  height: "8rem",
-                  width: "22rem",
-                  borderRadius: "1rem",
-                  backgroundColor: 'rgb(207,227,223)',
-                }}
-              > */}
-                {/* <CalendarMonthRoundedIcon
-                  sx={{
-                    color: "#008080",
-                    fontSize: "4rem",
-                    marginTop: "8px",
-                    marginRight: "14rem",
-                  }}
-                /> */}
-                <p
-                  style={{
-                    fontSize: "1.2rem",
-                    marginLeft: "-2rem",
-                    marginTop: "1.5rem",
-                  }}
-                >
-                  <strong>Date:</strong> {appointmentDate}
-                </p>
-                <p
-                  style={{
-                    fontSize: "1.2rem",
-                    marginTop: "10px",
-                    marginLeft: "-1.5rem",
-                  }}
-                >
-                  <strong>Time:  </strong>{appointmentTime}
-                </p>
-                <p
-                style={{
-                  fontSize: "1.2rem",
-                  marginTop: "10px",
-                  marginLeft: "-1.5rem",
-                }}>
-                  <strong>Meeting Link:{" "}</strong>
-                  <a href={appointment?.meetingURL}>
-                    {appointment?.meetingURL}
-                  </a>
-                </p>
-              {/* </Card> */}
-            </div>
-          );
-        })
-    ) : (
-      <p>Loadings.............</p>
-    )}
+  confirmedAppointments
+    .filter((appointment) => appointment)
+    .sort((a, b) => {
+      const aDate = weeklyAppointments[availabilityIds.indexOf(a.availabilityId)];
+      const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
+      return moment(aDate).diff(moment(bDate));
+    })
+    .some((appointment, index) => {
+      const confirmedAppointmentId = appointment?.availabilityId;
+      const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
+      const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+      const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
+
+      const appointmentDateTime = moment(`${appointmentDate}T${appointmentTime}`);
+
+      if (appointmentDateTime.isAfter(now) || index === confirmedAppointments.length - 1) {
+        nextAppointmentIndex = index;
+        return true;
+      }
+
+      return false;
+    }) &&
+  confirmedAppointments.slice(nextAppointmentIndex).map((appointment, index) => {
+    const confirmedAppointmentId = appointment?.availabilityId;
+    const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
+    const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+    const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
+
+    return (
+      <div key={confirmedAppointmentId}>
+        <p style={{ fontSize: "1.4rem", marginLeft: "-3rem", marginTop: index === 0 ? "2rem" : "1rem" }}>
+          <strong>Date:</strong> {appointmentDate}
+        </p>
+        <p style={{ fontSize: "1.4rem", marginTop: "-10px", marginLeft: "-3rem" }}>
+          <strong>Time:</strong> {appointmentTime}
+        </p>
+        <p>
+          <strong>Meeting Link: </strong>
+          <a href={appointment?.meetingURL}>{appointment?.meetingURL}</a>
+        </p>
+      </div>
+    );
+  })
+) : (
+  <p>Loading......................</p>
+)}
   </div>
 </Box>
 
