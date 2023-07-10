@@ -26,7 +26,7 @@ const SideBarCounselor = () => {
   const [random, setRandom] = useState(null);
   const [loader, setLoader] = useState(false)
   const obj = JSON.parse(sessionStorage.getItem("counselor_data"));
-
+  
   const now =moment();
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -54,6 +54,7 @@ const SideBarCounselor = () => {
           })
           .map((appointment) => appointment.date);
         setWeeklyAppointments(weeklyAppointments);
+        
       }
       setLoading(false); // Set loading to false after data is fetched
     } catch (error) {
@@ -98,11 +99,10 @@ const SideBarCounselor = () => {
         setConfirmedAppointmentsMeetingURLS(
            confirmedAppointments.map((appointment) => {
             if(appointment){
-              console.log(appointment)
               return appointment.meetingURL}
           })
         );
-        console.log(confirmedAppointments)
+    
         setConfirmedAppointments(confirmedAppointments);
 
         const relativeDates = confirmedAppointments.map((appointment) => {
@@ -149,6 +149,13 @@ const SideBarCounselor = () => {
   useEffect(() => {
     fetchAppointmentCountForAppointment();
   }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     window.location.reload(); // Refresh the page
+  //   }, 1000);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   confirmedAppointments.sort((a, b) => {
     const aDate = weeklyAppointments[availabilityIds.indexOf(a.availabilityId)];
@@ -225,74 +232,73 @@ const SideBarCounselor = () => {
       const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
       return moment(aDate).diff(moment(bDate));
     })
-    .slice(0, 3)
     .map((appointment) => {
       const confirmedAppointmentId = appointment?.availabilityId;
-      const matchedAppointmentIndex = availabilityIds.indexOf(
-        confirmedAppointmentId
-      );
-      const appointmentDate =
-        weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
-      const appointmentTime =
-        weeklyAppointments[matchedAppointmentIndex]
-          ?.split("T")[1]
-          ?.substring(0, 5) || "";
+      const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
+      const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+      const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
 
-      const appointmentDateTime = moment(
-        `${appointmentDate}T${appointmentTime}`
-      );
+      const appointmentDateTime = moment(`${appointmentDate}T${appointmentTime}`);
 
       // Check if the appointment has passed
       if (appointmentDateTime.isBefore(now)) {
         return null;
       }
 
-      return (
-        <div key={confirmedAppointmentId}>
-          <Card
+      return {
+        appointmentDateTime,
+        appointmentDate,
+        appointmentTime,
+        meetingURL: appointment?.meetingURL,
+      };
+    })
+    .filter((appointment) => appointment !== null)
+    .slice(0, 5)
+    .map((appointment, index) => (
+      <div key={index}>
+        <Card
+          style={{
+            margin: "10px",
+            height: "8rem",
+            width: "22rem",
+            borderRadius: "1rem",
+          }}
+        >
+          <CalendarMonthRoundedIcon
+            sx={{
+              color: "#008080",
+              fontSize: "4rem",
+              marginTop: "8px",
+              marginRight: "14rem",
+            }}
+          />
+          <p
             style={{
-              margin: "10px",
-              height: "8rem",
-              width: "22rem",
-              borderRadius: "1rem",
+              fontSize: "1.2rem",
+              marginLeft: "3rem",
+              marginTop: "-4.5rem",
             }}
           >
-            <CalendarMonthRoundedIcon
-              sx={{
-                color: "#008080",
-                fontSize: "4rem",
-                marginTop: "8px",
-                marginRight: "14rem",
-              }}
-            />
-            <p
-              style={{
-                fontSize: "1.2rem",
-                marginLeft: "3rem",
-                marginTop: "-4.5rem",
-              }}
-            >
-              Date: {appointmentDate}
-            </p>
-            <p
-              style={{
-                fontSize: "1.2rem",
-                marginTop: "-10px",
-                marginLeft: "3rem",
-              }}
-            >
-              Time: {appointmentTime}
-            </p>
-            <p>
-              Meeting Link:{" "}
-              <a href={appointment?.meetingURL}>{appointment?.meetingURL}</a>
-            </p>
-          </Card>
-        </div>
-      );
-    })
+            Date: {appointment.appointmentDate}
+          </p>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              marginTop: "-10px",
+              marginLeft: "3rem",
+            }}
+          >
+            Time: {appointment.appointmentTime}
+          </p>
+          <p>
+            Meeting Link:{" "}
+            <a href={appointment.meetingURL}>{appointment.meetingURL}</a>
+          </p>
+        </Card>
+      </div>
+    ))
 ) : (
-  <p>Finding confirmed appointments<br/>please refresh the page.</p>
+  <p>Finding confirmed appointments<br />..............</p>
 )}
 
     </div>

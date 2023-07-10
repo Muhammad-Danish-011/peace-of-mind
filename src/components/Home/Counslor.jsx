@@ -80,7 +80,6 @@ const Counslor = () => {
         console.log(data);
         if (data && data.length > 0) {
           const availabilityIds = data.map(availability => availability.id);
-          console.log("Availabilities ID:", availabilityIds);
           setAvailabilityIds(availabilityIds);
           const now = new Date();
           const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -89,7 +88,6 @@ const Counslor = () => {
             const appointmentDate = new Date(appointment.date);
             return appointmentDate >= oneWeekAgo;
           }).map(appointment => appointment.date)
-          console.log("Weekly Appointments:", weeklyAppointments);
           setWeeklyAppointments(weeklyAppointments);
           
           // Fetch appointments by availability IDs
@@ -188,8 +186,6 @@ const Counslor = () => {
           const confirmedAppointments = appointmentResponses
             .reduce((acc, data) => [...acc, ...data], [])
             .filter(appointment => appointment.confirmed === true);
-          
-          console.log("Confirmed Appointments:", confirmedAppointments);
           const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
           const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
           setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
@@ -200,9 +196,8 @@ const Counslor = () => {
       
             if (matchedAppointment) {
               const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
-              console.log("===============", weeklyAppointments);
+
               let dateNow = moment().format('YYYY-MM-DDTHH:MM:SS');
-              console.log(dateNow);
       
               return weeklyAppointments[matchedAppointmentIndex];
             }
@@ -210,9 +205,6 @@ const Counslor = () => {
           });
           setRelativeDate(relativeDates);
           setLoading(false);
-          console.log("Relative Dates:", relativeDates);
-          console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
-          console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
         } catch (error) {
           console.error('Error fetching appointments:', error);
           setLoading(false);
@@ -236,7 +228,11 @@ const Counslor = () => {
     <>
 
       <Box>
-        <SideBarCounselor />
+        {
+          random &&
+          <SideBarCounselor />
+
+        }
 
         <Box
           sx={{
@@ -296,8 +292,8 @@ const Counslor = () => {
 
       return appointmentDateTime.isAfter(now); // Only keep appointments that are in the future
     })
-    .slice(nextAppointmentIndex)
-    .map((appointment, index) => {
+    .slice(0, 1) // Display only the first upcoming appointment
+    .map((appointment) => {
       const confirmedAppointmentId = appointment?.availabilityId;
       const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
       const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
@@ -305,7 +301,7 @@ const Counslor = () => {
 
       return (
         <div key={confirmedAppointmentId}>
-          <p style={{ fontSize: "1.4rem", marginLeft: "-3rem", marginTop: index === 0 ? "2rem" : "1rem" }}>
+          <p style={{ fontSize: "1.4rem", marginLeft: "-3rem", marginTop: "2rem" }}>
             <strong>Date:</strong> {appointmentDate}
           </p>
           <p style={{ fontSize: "1.4rem", marginTop: "-10px", marginLeft: "-3rem" }}>
@@ -321,6 +317,7 @@ const Counslor = () => {
 ) : (
   <p>Loading............... </p>
 )}
+
   </div>
 </Box>
 

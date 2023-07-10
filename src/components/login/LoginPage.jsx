@@ -33,57 +33,7 @@ const Loginform = () => {
       }
     }
   },[])
-
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   const emailError = validateEmail(email);
-  //   const passwordError = validatePassword(password);
-
-  //   if (emailError || passwordError) {
-  //     setErrors({ email: emailError, password: passwordError });
-  //     return;
-  //   }
-  //   try {
-  //     const accountUrl = process.env.REACT_APP_API_KEY
-  //     const response = await fetch(`${accountUrl}/user/login`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     if (response.ok) {
-  //       const user = await response.json();
-  //       sessionStorage.setItem("role", user.role);
-  //       sessionStorage.setItem("user", JSON.stringify(user.user));
-  //       console.log(user.role);
-  //       setLoginStatus(true);
-  //       updateLoginUserId(user.user.id)
-
-  //       if (user.role === "PATIENT") {
-  //         navigate("/home");
-  //       } else if (user.role === "COUNSELOR") {
-  //         navigate("/user-profile");
-  //       }
-  //     } else {
-  //       setErrorMessage("Invalid email or password");
-  //     }
-  //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-
-    // useEffect(()=>{
-    //   handleLogin()
-    // },[])
-    
-    
-
-
     const handleLogin = async (e) => {
-      console.log("abc")
       e.preventDefault();
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -120,22 +70,6 @@ const Loginform = () => {
                             console.error(error);
                           });
         } 
-        // else if (user.role === "COUNSELOR") {
-        //   console.log(' me aya')
-
-        //   console.log(user.role);
-        //   fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
-        //   //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
-        //                   .then((response) => response.json())
-        //                   .then((patientData) => {
-        //                      sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-        //                      //console.log(sessionStorage.getItem("patient_data"))
-        //                      navigate("/surveyform");
-        //                   })
-        //                   .catch((error) => {
-        //                     console.error(error);
-        //                   });
-        // }
          else if (user.role === "COUNSELOR") {
           navigate("/counselor");
         }
@@ -161,9 +95,6 @@ const Loginform = () => {
     if (!password) {
       return 'Password is required';
     }
-    // if (password.length < 8) {
-    //   return 'Password should be at least 8 characters long';
-    // }
     return '';
   };
 
@@ -172,7 +103,7 @@ const Loginform = () => {
       <div
         className="login-container"
         style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`, //lkjflkjdfgjfdgj
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`, 
           backgroundPosition: "center",
           minHeight: "100vh",
           width: "100%",
