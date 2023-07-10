@@ -51,25 +51,25 @@ function App() {
     
     <Route path="/forget-password" element={<ForgetPassword />} />
     <Route path="/new-password" element={<NewPassword /> } />
-    <Route path="/home" element={<Privateroute> <Home /></Privateroute>}/> 
+    <Route path="/home" element={<Privateroute role={"PATIENT"}> <Home /></Privateroute>}/> 
           {/* <Route path="/dashboard" element={<Privateroute> <Dashboard /></Privateroute> } /> */}
     
-    <Route path="/counselor" element={<Privateroute> <Counselor /></Privateroute> } />
-    <Route path="/councler" element={<Privateroute> <Councler /></Privateroute> } />
+    <Route path="/counselor" element={<Privateroute role={"COUNSELOR"}> <Counselor /></Privateroute> } />
+    <Route path="/councler" element={<Privateroute role={"PATIENT"}> <Councler /></Privateroute> } />
 
-    <Route path="/Calendar" element={<Privateroute> <CounselorCalender/></Privateroute> } />
-    <Route path="/user-profile" element={<Privateroute> <UserProfile/></Privateroute> } />
-    <Route path="/availibilitytable" element={<Privateroute> <AvailabilityTable/></Privateroute> } />
-    <Route path='/search' element={<Privateroute><Search/></Privateroute>}/>
-    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
+    <Route path="/Calendar" element={<Privateroute role={"COUNSELOR"}> <CounselorCalender/></Privateroute> } />
+    <Route path="/user-profile" element={<Privateroute role="PUBLIC"> <UserProfile/></Privateroute> } />
+    <Route path="/availibilitytable" element={<Privateroute role={"COUNSELOR"}> <AvailabilityTable/></Privateroute> } />
+    <Route path='/search' element={<Privateroute role={"PATIENT"}><Search/></Privateroute>}/>
+    {/* <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/> */}
 
 
     <Route path='/notes/:pateintId/:appointmentId' element={<Privateroute><CurrentSessionNotes /></Privateroute>} />
-    <Route path='/survey' element={<Privateroute><SurveyComponent/></Privateroute>} />  
+    <Route path='/survey' element={<Privateroute role={"PATIENT"}><SurveyComponent/></Privateroute>} />  
 
-    <Route path='/surveyform' element={<Privateroute><SurveyModal/></Privateroute>} />  
-    <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/>
-    <Route path='/appointments' element={<Privateroute><Appointments/></Privateroute>}/>
+    <Route path='/surveyform' element={<Privateroute role={"PATIENT"}><SurveyModal/></Privateroute>} />  
+    <Route path='/profileCard/:userId' element={<Privateroute role={"PATIENT"}><ProfileCard/></Privateroute>}/>
+    <Route path='/appointments' element={<Privateroute role={"PATIENT"}><Appointments/></Privateroute>}/>
     </Routes>
     </AuthProvider>
   </BrowserRouter>

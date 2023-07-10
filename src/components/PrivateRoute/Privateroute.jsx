@@ -3,22 +3,40 @@ import { Navigate } from 'react-router-dom'
 import Sidebar from '../../global/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
-export default function Privateroute({ children }) {
+export default function Privateroute({ children,role }) {
 
   const navigate = useNavigate()
 
   if (sessionStorage.getItem("islogin") == null) {
-    if(sessionStorage.getItem('role') === "PATIENT"){
-      return <Navigate to="/login" />
-    }
+    return <Navigate to="/login" />;
   }
- 
+  if(sessionStorage.getItem("role")===role || role==="PUBLIC" ){
+    return (
+      <>
+        <Sidebar></Sidebar>
+        {children}
+      </>
+    )
+    
+  }
+  else if(sessionStorage.getItem("role")===role || role==="PUBLIC"){
+    return (
+      <>
+        <Sidebar></Sidebar>
+        {children}
+      </>
+    )
 
-
-  return (
-    <>
+  }
+  else{
+    return(
+      <>
       <Sidebar></Sidebar>
-      {children}
-    </>
-  )
+      <h1>404 Page Not found</h1>
+      </>
+    )
+  }
+
+
+  
 }
