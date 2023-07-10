@@ -11,6 +11,9 @@ import moment from 'moment';
 import UseFetchAppointment from '../../hooks/UseFetchAppointment';
 
 import './Calendar.css'
+import { Alert } from '@mui/material';
+
+
 
 const Calendar = ({ type, id }) => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
@@ -24,6 +27,7 @@ const Calendar = ({ type, id }) => {
   const [event, setEvent] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [select, setSelect] = useState(null);
+  const [alert, setAlert] = useState(null);
 
 
 
@@ -82,6 +86,13 @@ const Calendar = ({ type, id }) => {
     setOpen(false);
   };
 
+  //function for making 
+  const alertFunction = ()=>{
+    setTimeout(()=>{
+      setAlert(null);
+    }, 2000)
+  }
+
 
   const handleDateSelect = (selectInfo) => {
     console.log(selectInfo);
@@ -91,6 +102,8 @@ const Calendar = ({ type, id }) => {
 
     if(selectInfo.endStr < dateNow){
       console.log( 'Date is before');
+      setAlert(true);
+      alertFunction();
       return false;
       
     }
@@ -114,12 +127,13 @@ const Calendar = ({ type, id }) => {
 
     if(clickInfo.event.startStr < dateNow || clickInfo.event.backgroundColor === '#dc3545' ){
       console.log( 'Date is before');
-      
+      setAlert(true);
+      alertFunction();
     }
     else if(type==='private'){
-      // setSelect('khulja');
-      // handleClickOpen();
-      console.log('private')
+      setSelect('khulja');
+      setSelectedEvent(clickInfo.event)
+      handleClickOpen();
 
     }
     else{
@@ -132,6 +146,36 @@ const Calendar = ({ type, id }) => {
   const deleteAnAvailability = async ()=>{
     console.log('deleted');
 
+    setLoader(true);
+    setLoading(true);
+    try {
+
+      const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/delete/${selectedEvent.id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+
+        let myEvent = [];
+        event.map((obj)=>{
+          if(obj.id !== +selectedEvent.id){
+            myEvent.push(obj);
+          }
+        })     
+        
+        setEvent([...myEvent]);
+        
+        setLoading(false);
+        setLoader(false);
+        setOpen(false);
+
+        console.log('Availability Deleted successfully');
+      } else {
+        console.error('Failed to delete Availability');
+      }
+    } catch (error) {
+      console.error('Failed to delete Availability:', error);
+    }
     
   }
 
@@ -238,10 +282,16 @@ const Calendar = ({ type, id }) => {
     }
   };
 
-
   return (
-    <Box sx={{ height: '100%', width: '100%' }}>
-
+    <div style={{ height :'100%', width: '100%' }}>
+      { alert &&
+        <Alert severity="warning" sx={{
+          margin : '0 auto',
+          width:'50%',
+          textAlign: 'center'
+        }} >Please select current or future date !! </Alert>
+      }
+      <h1>Calendar</h1>
       {
         !loading && event.length > 0 && (
           <main data-testid="calendar-id" >
@@ -279,7 +329,7 @@ const Calendar = ({ type, id }) => {
 
       }
     
-    </Box>
+    </div>
   )
 }
 
