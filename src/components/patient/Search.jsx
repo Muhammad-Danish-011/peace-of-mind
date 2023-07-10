@@ -140,6 +140,7 @@ const Search = ({onClick}) => {
     height: '51px',
     width: '150px'
   }}
+  disabled={!searchTerm}
   onClick={search}
 >
   <Typography variant="button" sx={{ fontWeight: "bold"}}>
