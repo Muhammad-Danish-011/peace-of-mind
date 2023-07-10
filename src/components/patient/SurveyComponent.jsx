@@ -101,74 +101,12 @@ function SurveyComponent() {
       }
       yPosition += 20;
     }
-
-// function SurveyComponent() {
-//     const survey = new Model(jsonData);
-//     const handleClick = async (event) => {
-//         event.preventDefault();
-//         createSurveyPdfModel(survey);
-//         const finalData = survey.data;//JSON.stringify(survey.data, null, 3);
-//         console.log(survey.data);
-//         // const doc = new jsPDF();
-//         // doc.text('Form Data', 10, 10);
-//         // doc.text(`${finalData}`, 10, 20);
-//         const doc = new jsPDF();
-//         doc.setFont("Arial", "normal");
-//         doc.text("Q: Are you currently", 10, 10);
-//         doc.text(`${finalData["Are you currently"][0]}`, 10, 20);
-//         doc.text("Q: Are you currently2", 10, 30);
-//         doc.text(`${finalData["Are you currently2"][0]}`, 10, 40);
-//         doc.text("Q: Do you have any children", 10, 50);
-//         doc.text(`${finalData["Do you have any children"]}`? `${finalData["Do you have any children"]}`:"No Children" , 10, 60);
-//         doc.text("Q: Primary Care Physician", 10, 70);
-//         doc.text(`${finalData["Primary Care Physician"]}`, 10, 80);
-//         doc.text("Q: Current Therapist / Counselor", 10, 90);
-//         doc.text(`${finalData["Current Therapist / Counselor"]}`, 10, 100);
-//         doc.text("Q: Therapist's Phone Number", 10, 110);
-//         doc.text(`${finalData["Therapist's Phone Number"]}`, 10, 120);
-//         doc.text("Q: Please list the problem(s) which you are seeking help?", 10, 130);
-//         doc.text(`${finalData["Please list the problem(s) which you are seeking help?"]}`, 10, 140);
-//         // doc.text(`${finalData["Please list the problem(s) which you are seeking help?"]["Problem 2"]}`, 10, 150);
-//         doc.text("Q: Current Symptoms", 10, 160);
-//         doc.text(finalData["Current Symptoms"], 10, 170);
-//         doc.text("Q: Have you ever had feelings or thoughts that you didn't want to live?", 10, 180);
-//         doc.text(`${finalData["Have you ever had feelings or thoughts that you didn't want to live?"]}`? "": null , 10, 190);
-//         doc.text("Q: Do you currently feel that you don't want to live?", 10, 200);
-//         doc.text(`${finalData["Do you currently feel that you don't want to live?"]}`, 10, 210);
-//         doc.addPage();
-//         doc.text("Q: How often do you have these thoughts?", 10, 10);
-//         doc.text(`${finalData["How often do you have these thoughts?"]}`, 10, 20);
-//         doc.text("Q: Do you feel hopeless and/or worthless?", 10, 30);
-//         doc.text(`${finalData["Do you feel hopeless and/or worthless?"]}`, 10, 40);
-//         doc.text("Q: Have you ever had feelings or thoughts that you didn't want to live?", 10, 50);
-//         doc.text(`${finalData["Have you ever had feelings or thoughts that you didn't want to live?"]}`, 10, 60);
-//         doc.text("Q: Outpatient Treatment", 10, 70);
-//         doc.text(`${finalData["Outpatient Treatment"]}`, 10, 80);
-//         doc.text("Q: Psychiatric Hospitalization", 10, 90);
-//         doc.text(`${finalData["Psychiatric Hospitalization"]}`, 10, 100);
-//         doc.text("Q: Do you have any allergies?", 10, 110);
-//         doc.text(`${finalData["Do you have any allergies?"]}`, 10, 120);
-//         doc.text("Q: Current Medical Problems", 10, 130);
-//         doc.text(`${finalData["Current Medical Problems"]}`, 10, 140);
-//         doc.text("Q: Past medical problems, non-psychiatric hospitalization, or surgeries?", 10, 150);
-//         doc.text(`${finalData["Past medical problems, non-psychiatric hospitalization, or surgeries?"]}`, 10, 160);
-//         doc.text("Q: Any medications?", 10, 170);
-//         doc.text(`${finalData["Any medications?"]}`, 10, 180);
-//         doc.text("Q: List down the medications", 10, 190);
-//         doc.text(`${finalData["List down the medications"]}`, 10, 200);
-//         doc.text("Q: Has anyone in your family been diagnosed with or treated for:", 10, 210);
-//         doc.text(`${finalData["Has anyone in your family been diagnosed with or treated for:"]}`, 10, 220);
-        // doc.text("List down the medications", 10, 430);
-        // doc.text(`${finalData["List down the medications"]}`, 10, 440);
-        // doc.text("Primary Care Physician", 10, 10);
-        // doc.text(`${finalData["Primary Care Physician"]}`, 10, 20);
-        // doc.text("Please list the problem(s) which you are seeking help?", 10, 10,
-        // `${finalData["Please list the problem(s) which you are seeking help?"]["Problem1"]}`, 10, 20);
-
-        
+        const user = JSON.parse(sessionStorage.getItem('user'))
+        const timestamp = Date.now();
         const pdfData = doc.output('arraybuffer');
         const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
-        const objectKey = 'final-data';
+        const objectKey = `survey-form-${timestamp}-${user.firstName}-${user.lastName}`;
+
         const file = new File([pdfData], objectKey, { type: 'application/pdf' });
         const config = {
         bucketName: S3_BUCKET,
@@ -191,7 +129,7 @@ function SurveyComponent() {
         const report = {
           "patient_id": patientId,
           "category": null,
-          "survey_form_link": response.location 
+          "survey_form_link": response.location
         }
         fetch(`${process.env.REACT_APP_REPORT_URL}/report/add`, {
           method: 'POST',
