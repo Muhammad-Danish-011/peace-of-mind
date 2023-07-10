@@ -127,9 +127,9 @@ function SurveyComponent() {
         const patientId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
 
         const report = {
-          "patient_id": patientId,
+          "patientId": patientId,
           "category": null,
-          "survey_form_link": response.location
+          "surveyFormLink": response.location
         }
         fetch(`${process.env.REACT_APP_REPORT_URL}/report/add`, {
           method: 'POST',

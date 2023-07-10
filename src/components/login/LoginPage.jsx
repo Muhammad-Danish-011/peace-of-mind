@@ -21,7 +21,8 @@ const Loginform = () => {
   const [errors, setErrors] = useState({ email: '', password: '' });
   const { updateLoginUserId } = useContext(AuthContext);
   const [ patient, setPatient] = useState("");
-
+  const [formSubmit, setFormSubmit ] = useState(false) 
+  // const patientId = JSON.parse(sessionStorage.getItem('patient_data')).data.patientId;
 
   useEffect(()=>{
     if(sessionStorage.getItem("islogin")){
@@ -32,55 +33,9 @@ const Loginform = () => {
         navigate("/counselor")
       }
     }
+
   },[])
-
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   const emailError = validateEmail(email);
-  //   const passwordError = validatePassword(password);
-
-  //   if (emailError || passwordError) {
-  //     setErrors({ email: emailError, password: passwordError });
-  //     return;
-  //   }
-  //   try {
-  //     const accountUrl = process.env.REACT_APP_API_KEY
-  //     const response = await fetch(`${accountUrl}/user/login`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     if (response.ok) {
-  //       const user = await response.json();
-  //       sessionStorage.setItem("role", user.role);
-  //       sessionStorage.setItem("user", JSON.stringify(user.user));
-  //       console.log(user.role);
-  //       setLoginStatus(true);
-  //       updateLoginUserId(user.user.id)
-
-  //       if (user.role === "PATIENT") {
-  //         navigate("/home");
-  //       } else if (user.role === "COUNSELOR") {
-  //         navigate("/user-profile");
-  //       }
-  //     } else {
-  //       setErrorMessage("Invalid email or password");
-  //     }
-  //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-
-    // useEffect(()=>{
-    //   handleLogin()
-    // },[])
     
-    
-
 
     const handleLogin = async (e) => {
       console.log("abc")
@@ -113,29 +68,23 @@ const Loginform = () => {
                           .then((response) => response.json())
                           .then((patientData) => {
                              sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-                             //console.log(sessionStorage.getItem("patient_data"))
-                             navigate("/surveyform");
+                             console.log({patientData})
+
+                             fetch(`${process.env.REACT_APP_REPORT_URL}/report/patientId/${patientData.data.id}`)
+                             .then(data => data.json())
+                             .then(data => {
+                              if(data.data){
+                                navigate("/home")
+                               }
+                               else{
+                                 navigate("/surveyform");
+                               }
+                             })
                           })
                           .catch((error) => {
                             console.error(error);
                           });
-        } 
-        // else if (user.role === "COUNSELOR") {
-        //   console.log(' me aya')
-
-        //   console.log(user.role);
-        //   fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
-        //   //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
-        //                   .then((response) => response.json())
-        //                   .then((patientData) => {
-        //                      sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-        //                      //console.log(sessionStorage.getItem("patient_data"))
-        //                      navigate("/surveyform");
-        //                   })
-        //                   .catch((error) => {
-        //                     console.error(error);
-        //                   });
-        // }
+        }
          else if (user.role === "COUNSELOR") {
           navigate("/counselor");
         }
