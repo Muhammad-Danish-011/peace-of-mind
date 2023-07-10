@@ -48,6 +48,7 @@ const Search = ({onClick}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
   const [searchedCoouncelor, setSearchedCouncelor] = useState([]);
+  const [ notSearch, setNotSearch ] = useState(null);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const {state} = useLocation();
 
@@ -68,7 +69,9 @@ const Search = ({onClick}) => {
   };
   // console.log(state)
 
-  const search = () =>{
+  const search = (e) =>{
+    setNotSearch(null)
+    setSearchedCouncelor([])
     const councelors = state.councelor;
     const data = [];
     
@@ -81,87 +84,100 @@ const Search = ({onClick}) => {
         councelors.map((councelor)=>{
           if(councelor.userId == user.id){
             data.push(councelor)
+
             console.log({councelor})
           }
         })
       }
     })
-    setSearchedCouncelor(data)
+
+    if(data.length>0){
+      setSearchedCouncelor(data)
+    }
+    else{
+      setNotSearch('khulja')
+      console.log('hello')
+    }
+
   } 
 
 
   return (
     <>
-    <Box
-      onClick={onClick}
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 'auto',
-        width: { xs: '90%', md: '70%' },
-      }}
-    >
-      <Paper
-        component='form'
-        onSubmit={onhandleSubmit}
+      <Box
+        onClick={onClick}
         sx={{
           display: 'flex',
+          justifyContent: 'center',
           alignItems: 'center',
-          width: '70%',
-          borderRadius: '25px',
-          boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
-          backgroundColor: '#d9d9d9',
+          margin: 'auto',
+          width: { xs: '90%', md: '70%' },
         }}
       >
-        <InputBase
-          placeholder='Search here'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+        <Paper
+          component='form'
+          onSubmit={onhandleSubmit}
           sx={{
-            border: 'none',
-            outline: 'none',
-            padding: '15px',
-            fontSize: '16px',
-            width: '100%',
-            lineHeight: '1.5em', // set line-height to adjust height of input placeholder
-            fontFamily: 'inherit',
-            color: 'black',
+            display: 'flex',
+            alignItems: 'center',
+            width: '70%',
+            borderRadius: '25px',
+            boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
+            backgroundColor: '#d9d9d9',
           }}
-        />
-      </Paper>
-      <Button
-      // type='submit'
-      variant='contained'
-     sx={{
-      marginLeft: '10px',
-    backgroundColor: '#d9d9d9',
-    borderRadius:'15px',
-    color: '#000',
-    '&:hover': {
+        >
+          <InputBase
+            placeholder='Search here'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{
+              border: 'none',
+              outline: 'none',
+              padding: '15px',
+              fontSize: '16px',
+              width: '100%',
+              lineHeight: '1.5em', // set line-height to adjust height of input placeholder
+              fontFamily: 'inherit',
+              color: 'black',
+            }}
+          />
+        </Paper>
+        <Button
+        // type='submit'
+        variant='contained'
+      sx={{
+        marginLeft: '10px',
       backgroundColor: '#d9d9d9',
-    },
-    height: '51px',
-    width: '150px'
-  }}
-  onClick={search}
->
-  <Typography variant="button" sx={{ fontWeight: "bold"}}>
-    Search
-  </Typography>
-  <SearchIcon sx={{ marginLeft: "4px"}} />
-  </Button>
-    </Box>
+      borderRadius:'15px',
+      color: '#000',
+      '&:hover': {
+        backgroundColor: '#d9d9d9',
+      },
+      height: '51px',
+      width: '150px'
+    }}
+    onClick={search}
+  >
+    <Typography variant="button" sx={{ fontWeight: "bold"}}>
+      Search
+    </Typography>
+    <SearchIcon sx={{ marginLeft: "4px"}} />
+    </Button>
+      </Box>
+
+
     <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}>
-    {searchedCoouncelor.map((councelor)=>{
+    {searchedCoouncelor?.length > 0 ?  searchedCoouncelor?.map((councelor)=>{
       console.log(councelor);
       // return <h1>{councelor.userId}</h1>
       return <BasicCard key={`card-${councelor.id}`} basicCard={councelor} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
 
-    })}
+    })
+    : ( notSearch === 'khulja' && <h3>No Search found</h3>)
+  }
   
-</Box>
+    </Box>
     </>
   );
 };

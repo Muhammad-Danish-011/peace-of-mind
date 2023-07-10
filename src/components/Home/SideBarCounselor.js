@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 
-const SideBarCounselor = () => {
+const SideBarCounselor = ({noAppointment}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [latestAppointment, setLatestAppointment] = useState([]);
   const [availabilityIds, setAvailabilityIds] = useState([]);
@@ -39,6 +39,7 @@ const SideBarCounselor = () => {
         `http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`
       );
       const data = await response.json();
+      
       if (data && data.length > 0) {
         const latestAppointment = data[data.length - 1];
         const availabilityIds = data.map((availability) => availability.id);
@@ -212,12 +213,17 @@ const SideBarCounselor = () => {
         
         >
       <h1 style={{ marginTop: "-12rem" }}>Upcoming Latest Appointment</h1>
+      
       {loading ? ( // Render loader when loading is true
         <CircularProgress />
       ) : (
         <>
           <div>
-            <h3>Confirmed Appointments</h3>
+            {
+              noAppointment ? <h3>No Appointment Today</h3>
+              :
+              <h3>Confirmed Appointments</h3>
+            }
             {loading ? (
   <CircularProgress />
 ) : (

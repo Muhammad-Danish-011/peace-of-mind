@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import Sidebar from '../../global/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 export default function Privateroute({ children,role }) {
 
@@ -32,7 +33,7 @@ export default function Privateroute({ children,role }) {
     return(
       <>
       <Sidebar></Sidebar>
-      <h1>404 Page Not found</h1>
+      <Typography variant="h4">You haven't rights to access this page<br/></Typography>
       </>
     )
   }

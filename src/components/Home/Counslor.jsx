@@ -3,6 +3,7 @@ import { Box, Typography, Rating} from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 import moment from 'moment';
+import { Abc } from '@mui/icons-material';
 
 
 const Counslor = () => {
@@ -21,6 +22,7 @@ const Counslor = () => {
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [random, setRandom] = useState(null);
+  const [ noAppointment, setNoAppoinment ] = useState(null);
 
   const now =moment();
   let nextAppointmentIndex = 0;
@@ -76,7 +78,10 @@ const Counslor = () => {
       const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        if(data.length === 0){
+          setNoAppoinment(true);
+        }
+
         if (data && data.length > 0) {
           const availabilityIds = data.map(availability => availability.id);
           setAvailabilityIds(availabilityIds);
@@ -104,7 +109,7 @@ const Counslor = () => {
   
   const fetchAppointmentsByAvailabilityIds = async (availabilityIds) => {
     try {
-      const promises = availabilityIds.map(availabilityId =>
+      const promises = availabilityIds?.map(availabilityId =>
         fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
           .then(response => {
             if (response.ok) {
@@ -113,9 +118,11 @@ const Counslor = () => {
           })
       );
   
-      const appointmentResponses = await Promise.all(promises);
+      const appointmentResponses = await Promise.all(promises).catch((er)=>{
+        // console.log('something')
+      });
       let myData = [];
-      appointmentResponses.forEach(data => {
+      appointmentResponses?.forEach(data => {
         if (data.length > 0) {
           data.forEach(item => {
             myData.push(item);
@@ -123,7 +130,6 @@ const Counslor = () => {
         }
       });
   
-      console.log(myData);
       let arr = Array();
       myData.forEach(a => {
         arr.push(a.patientid);
@@ -223,13 +229,15 @@ const Counslor = () => {
     const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
     return aDate.localeCompare(bDate);
   });
+
+
   return (
     <>
 
       <Box>
         {
           random &&
-          <SideBarCounselor />
+          <SideBarCounselor noAppointment={noAppointment} />
 
         }
 
@@ -273,7 +281,12 @@ const Counslor = () => {
     >
       Upcoming Latest Appointments
     </h1>
-    {confirmedAppointments.length > 0 ? (
+
+    {
+      noAppointment && <h3>No Appointment today</h3>
+    }
+
+    { 
   confirmedAppointments
     .filter((appointment) => appointment)
     .sort((a, b) => {
@@ -289,7 +302,7 @@ const Counslor = () => {
 
       const appointmentDateTime = moment(`${appointmentDate}T${appointmentTime}`);
 
-      return appointmentDateTime.isAfter(now); // Only keep appointments that are in the future
+      return appointmentDateTime.isAfter(now);
     })
     .slice(0, 1) // Display only the first upcoming appointment
     .map((appointment) => {
@@ -313,9 +326,7 @@ const Counslor = () => {
         </div>
       );
     })
-) : (
-  <p>Loading............... </p>
-)}
+}
 
   </div>
 </Box>
