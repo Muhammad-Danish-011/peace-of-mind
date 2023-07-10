@@ -31,7 +31,7 @@ const UserProfile = () => {
 
   const obj = JSON.parse(sessionStorage.getItem("user"));
 
-  console.log(obj);
+  // console.log(obj);
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY
   const patientUrl = process.env.REACT_APP_PATIENT_API_KEY
@@ -180,6 +180,7 @@ const UserProfile = () => {
             .then((patientData) => {
               setGuardianPhoneNumber(patientData.data.guardianPhoneNumber);
               sessionStorage.setItem("user_data", JSON.stringify(patientData.data))
+              console.log({patientData})
             })
 
             .catch((error) => {

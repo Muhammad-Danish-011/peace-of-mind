@@ -9,9 +9,13 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -114,7 +118,7 @@ const SignupForm = () => {
             let user = await response.json();
             console.log(user)
             const patientData = {
-              guardian_phone_number: formData.guardian_phone_number,
+              guardianPhoneNumber: formData.guardian_phone_number,
               userId: user.id
             };
 
@@ -132,6 +136,7 @@ const SignupForm = () => {
             );
             if (patientResponse.ok) {
               console.log("Patient data is saved!");
+              navigate('/login')
             } else {
               console.log("Failed to save patient data.");
             }

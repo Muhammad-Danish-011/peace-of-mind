@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, Rating, CircularProgress } from "@mui/material";
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import { Link } from "react-router-dom";
-// import moment from 'moment';
+import { Box, Typography, Rating} from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SideBarCounselor from './SideBarCounselor';
 import moment from 'moment';
@@ -20,13 +17,13 @@ const Counslor = () => {
   const [loading, setLoading] = useState(true);
   const accountUrl = process.env.REACT_APP_API_KEY;
   const councelorUrl = process.env.REACT_APP_COUNSELOR_API_KEY;
-  const [appointmentId, setAppointmentsId] = useState([])
   const [appointmentCount, setAppointmentCount] = useState(0);
   const obj = JSON.parse(sessionStorage.getItem('counselor_data'));
   const user = JSON.parse(sessionStorage.getItem('user'));
   const [random, setRandom] = useState(null);
 
-
+  const now =moment();
+  let nextAppointmentIndex = 0;
   useEffect(() => {
     if (availabilityIds.length === 0 && random !== null)
       fetchAvailabilityIds();
@@ -57,7 +54,6 @@ const Counslor = () => {
   const fetchAppointmentCountForAppointment = async () => {
     try {
       const response = await fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/counselor/${obj.id}`);
-      //${user.id}
       const data = await response.json();
       if (data && data.length > 0) {
         const latestAppointment = data[data.length - 1];
@@ -83,17 +79,18 @@ const Counslor = () => {
         console.log(data);
         if (data && data.length > 0) {
           const availabilityIds = data.map(availability => availability.id);
-          console.log("Availabilities ID:", availabilityIds);
           setAvailabilityIds(availabilityIds);
           const now = new Date();
           const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-
+  
           const weeklyAppointments = data.filter(appointment => {
             const appointmentDate = new Date(appointment.date);
             return appointmentDate >= oneWeekAgo;
           }).map(appointment => appointment.date)
-          console.log("Weekly Appointments:", weeklyAppointments);
           setWeeklyAppointments(weeklyAppointments);
+          
+          // Fetch appointments by availability IDs
+          fetchAppointmentsByAvailabilityIds(availabilityIds);
         }
         setLoading(false);
       } else {
@@ -104,6 +101,42 @@ const Counslor = () => {
       setLoading(false);
     }
   };
+  
+  const fetchAppointmentsByAvailabilityIds = async (availabilityIds) => {
+    try {
+      const promises = availabilityIds.map(availabilityId =>
+        fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+      );
+  
+      const appointmentResponses = await Promise.all(promises);
+      let myData = [];
+      appointmentResponses.forEach(data => {
+        if (data.length > 0) {
+          data.forEach(item => {
+            myData.push(item);
+          });
+        }
+      });
+  
+      console.log(myData);
+      let arr = Array();
+      myData.forEach(a => {
+        arr.push(a.patientid);
+      });
+      setPatientCount([...new Set(arr)].length);
+  
+      // Update appointments state
+      setAppointments(myData);
+    } catch (error) {
+      console.error('Error fetching appointments:', error);
+    }
+  };
+  
 
   const ChartComponent = useCallback(() => {
     // Calculate the number of appointments for each week
@@ -139,115 +172,66 @@ const Counslor = () => {
       const fetchConfirmedAppointmentsByAvailabilityIds = async () => {
         setLoading(true);
         try {
-          const confirmedAppointments = [];
-          for (const availabilityId of availabilityIds) {
-            const response = await fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId} `);
-            if (response.ok) {
-              const data = await response.json();
-              console.log("Data is", data);
-              const confirmedAppointmentsData = data.filter(appointment => appointment.confirmed === true);
-              confirmedAppointments.push(...confirmedAppointmentsData);
-            }
-          }
-          console.log("Confirmed Appointments:", confirmedAppointments);
-
+          const promises = availabilityIds.map(availabilityId =>
+            fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId} `)
+              .then(response => {
+                if (response.ok) {
+                  return response.json();
+                }
+              })
+          );
+      
+          const appointmentResponses = await Promise.all(promises);
+          const confirmedAppointments = appointmentResponses
+            .reduce((acc, data) => [...acc, ...data], [])
+            .filter(appointment => appointment.confirmed === true);
           const confirmedAppointmentIds = confirmedAppointments.map(appointment => appointment.availabilityId);
           const confirmedAppointmentsMeetingURLS = confirmedAppointments.map(appointment => appointment.meetingURL);
           setConfirmedAppointmentsMeetingURLS(confirmedAppointmentsMeetingURLS);
           setConfirmedAppointments(confirmedAppointments);
+          
           const relativeDates = confirmedAppointmentIds.map(appointmentId => {
             const matchedAppointment = availabilityIds.find(availabilityId => availabilityId === appointmentId);
-
+      
             if (matchedAppointment) {
               const matchedAppointmentIndex = availabilityIds.indexOf(matchedAppointment);
-              console.log("===============", weeklyAppointments);
-              let dateNow = moment().format('YYYY-MM-DDTHH:MM:SS');
-              console.log(dateNow);
 
+              let dateNow = moment().format('YYYY-MM-DDTHH:MM:SS');
+      
               return weeklyAppointments[matchedAppointmentIndex];
             }
             return null;
           });
           setRelativeDate(relativeDates);
-          setLoading(false); // Set loading to false after setting all the data
-          console.log("Relative Dates:", relativeDates);
-          console.log("Confirmed Meeting URLs:", confirmedAppointmentsMeetingURLS);
-          console.log("Confirmed Appointment's Availability IDs:", confirmedAppointmentIds);
-
+          setLoading(false);
         } catch (error) {
           console.error('Error fetching appointments:', error);
-          setLoading(false); // Set loading to false in case of error
+          setLoading(false);
         }
       };
+      
       fetchConfirmedAppointmentsByAvailabilityIds();
     }
   }, [confirmedAppointments.length > 0, weeklyAppointments.length > 0, random]);
-  // }, []);
-
-  const fetchAppointmentsByAvailabilityIds = async () => {
-    try {
-      let myData = [];
-      availabilityIds.map(availabilityId =>
-        fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`)
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            }
-          })
-          .then(data => {
-            if (data.length > 0) {
-              data.map((item) => {
-                myData.push(item);
-              })
-              setAppointments(appointments => [...appointments, data]);
-            }
-          })
-          .then(() => {
-            console.log(myData);
-            let arr = Array();
-            myData.map((a) => {
-              arr.push(a.patientid)
-            });
-            myData.map(a => setAppointmentsId(appointmentId => [...appointmentId, a.id]));
-
-
-            arr = [... new Set(arr)];
-            console.log("Total number of patient:", arr.length)
-            setPatientCount(arr.length);
-          })
-      );
-
-
-
-
-    } catch (error) {
-      console.error('Error fetching appointments:', error);
-    }
-  };
-
   useEffect(() => {
     if (random) {
       fetchAppointmentsByAvailabilityIds();
     }
   }, [availabilityIds, random])
-
-  let appointmentDate = undefined;
-  let appointmentTime = undefined;
-  let meetingURL = undefined;
-
-  if (relativeDates) {
-    if (relativeDates.length !== 0) {
-      meetingURL = confirmedAppointments[0].meetingURL;
-      const relativeDateSorted = relativeDates.sort((a, b) => a - b);
-      appointmentDate = relativeDateSorted[0].split('T')[0] || '';
-      appointmentTime = relativeDateSorted[0].split('T')[1]?.substring(0, 5) || '';
-    }
-  }
+  confirmedAppointments.sort((a, b) => {
+    const aDate = weeklyAppointments[availabilityIds.indexOf(a.availabilityId)];
+    const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
+    return aDate.localeCompare(bDate);
+  });
   return (
     <>
 
       <Box>
-        <SideBarCounselor />
+        {
+          random &&
+          <SideBarCounselor />
+
+        }
 
         <Box
           sx={{
@@ -257,21 +241,28 @@ const Counslor = () => {
             flexDirection: "column",
           }}
         >
-          {/* <Box
-        sx={{
-          border: "1px solid green",
-          borderRadius: "10px",
-          width: "25%",
-          height: "30%",
-          margin: "8% 0% 0% 30%",
-          backgroundColor: 'rgb(207,227,223)',
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-        }} 
-      >
-      <div>
-      <h1
+        
+<Box
+  sx={{
+    border: "1px solid green",
+    borderRadius: "10px",
+    width: "36%",
+    height: "30%",
+    margin: "8% 0% 0% 25%",
+    backgroundColor: 'rgb(207,227,223)',
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+
+    '@media (max-width: 950px)': {
+      width: "80%",
+      margin: "2rem auto",
+      padding: "1rem",
+    }
+  }}
+>
+  <div>
+    <h1
       sx={{
         fontSize: "1.5rem",
         '@media (max-width: 950px)': {
@@ -279,55 +270,55 @@ const Counslor = () => {
           textAlign: "center",
         }
       }}
-    > Upcoming Latest Appointments</h1>
-        <p>Date: {appointmentDate}</p>
-        <p>Time: {appointmentTime}</p>
-        <p>
-          Meeting Link: <Link to={meetingURL}>{meetingURL}</Link>
-        </p>
-      </div>
-    
+    >
+      Upcoming Latest Appointments
+    </h1>
+    {confirmedAppointments.length > 0 ? (
+  confirmedAppointments
+    .filter((appointment) => appointment)
+    .sort((a, b) => {
+      const aDate = weeklyAppointments[availabilityIds.indexOf(a.availabilityId)];
+      const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
+      return moment(aDate).diff(moment(bDate));
+    })
+    .filter((appointment) => {
+      const confirmedAppointmentId = appointment?.availabilityId;
+      const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
+      const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+      const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
 
-      </Box> */}
+      const appointmentDateTime = moment(`${appointmentDate}T${appointmentTime}`);
 
-          <Box
-            sx={{
-              border: "1px solid green",
-              borderRadius: "10px",
-              width: "25%",
-              height: "30%",
-              margin: "8% 0% 0% 30%",
-              backgroundColor: 'rgb(207,227,223)',
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
+      return appointmentDateTime.isAfter(now); // Only keep appointments that are in the future
+    })
+    .slice(0, 1) // Display only the first upcoming appointment
+    .map((appointment) => {
+      const confirmedAppointmentId = appointment?.availabilityId;
+      const matchedAppointmentIndex = availabilityIds.indexOf(confirmedAppointmentId);
+      const appointmentDate = weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] || "";
+      const appointmentTime = weeklyAppointments[matchedAppointmentIndex]?.split("T")[1]?.substring(0, 5) || "";
 
-              '@media (max-width: 950px)': {
-                width: "80%",
-                margin: "2rem auto",
-                padding: "1rem",
-              }
-            }}
-          >
-            <div>
-              <h1
-                sx={{
-                  fontSize: "1.5rem",
-                  '@media (max-width: 950px)': {
-                    fontSize: "1rem",
-                    textAlign: "center",
-                  }
-                }}
-              >
-                Upcoming Latest Appointments
-              </h1>
-              <p>Date: {appointmentDate}</p>
-              <p>Time: {appointmentTime}</p>
-              <p>
-                Meeting Link: <Link to={meetingURL}>{meetingURL}</Link>
-              </p>
-            </div>
-          </Box>
+      return (
+        <div key={confirmedAppointmentId}>
+          <p style={{ fontSize: "1.4rem", marginLeft: "-3rem", marginTop: "2rem" }}>
+            <strong>Date:</strong> {appointmentDate}
+          </p>
+          <p style={{ fontSize: "1.4rem", marginTop: "-10px", marginLeft: "-3rem" }}>
+            <strong>Time:</strong> {appointmentTime}
+          </p>
+          <p>
+            <strong>Meeting Link: </strong>
+            <a href={appointment?.meetingURL}>{appointment?.meetingURL}</a>
+          </p>
+        </div>
+      );
+    })
+) : (
+  <p>Loading............... </p>
+)}
+
+  </div>
+</Box>
 
 
           <Box sx={{
@@ -344,20 +335,6 @@ const Counslor = () => {
               alignContent: "space-around"
             }
           }}>
-            {/* <Box sx={{
-          borderRadius: "10px",
-          height: "100%",
-          padding: "3%",
-          '@media (max-width: 950px)': {
-            marginBottom: "1rem",
-            alignItems: "center",
-          }
-        }}>
-          <Typography variant="h5">
-            WEEKLY APPOINTMENTS
-          </Typography>
-          <br />
-          <ChartComponent /> */}
             <Box
               sx={{
                 borderRadius: "10px",

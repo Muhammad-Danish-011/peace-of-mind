@@ -1,6 +1,8 @@
 
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../Authcontext/AuthContext"; 
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Authcontext/AuthContext";
+// import bg from '${process.env.PUBLIC_URL + /images/bg.jpeg}';
+// import bg from "../images/bg.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -30,10 +32,22 @@ const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const {updateLoginUserId } = useContext(AuthContext);
+  const { updateLoginUserId } = useContext(AuthContext);
+  const [ patient, setPatient] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("islogin")){
+      if(sessionStorage.getItem("role")=== "PATIENT"){
+        navigate("/home")
+      }
+      else if(sessionStorage.getItem("role") === "COUNSELOR"){
+        navigate("/counselor")
+      }
+    }
+  },[])
+    const handleLogin = async (e) => {
+      e.preventDefault();
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
 
@@ -60,10 +74,19 @@ const Loginform = () => {
         updateLoginUserId(user.user.id)
 
         if (user.role === "PATIENT") {
-          
-          navigate("/home");
-        } else if (user.role === "COUNSELOR") {
-          console.log(' me aya')
+          fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
+          //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
+                          .then((response) => response.json())
+                          .then((patientData) => {
+                             sessionStorage.setItem("patient_data", JSON.stringify(patientData))
+                             //console.log(sessionStorage.getItem("patient_data"))
+                             navigate("/surveyform");
+                          })
+                          .catch((error) => {
+                            console.error(error);
+                          });
+        } 
+         else if (user.role === "COUNSELOR") {
           navigate("/counselor");
         }
       } else {
@@ -89,9 +112,6 @@ const Loginform = () => {
     if (!password) {
       return 'Password is required';
     }
-    // if (password.length < 8) {
-    //   return 'Password should be at least 8 characters long';
-    // }
     return '';
   };
 
@@ -100,7 +120,7 @@ const Loginform = () => {
       <div
         className="login-container"
         style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`, //lkjflkjdfgjfdgj
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/images/bg.jpeg'})`, 
           backgroundPosition: "center",
           minHeight: "100vh",
           width: "100%",
