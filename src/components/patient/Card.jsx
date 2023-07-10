@@ -33,7 +33,7 @@ const MyCard = () => {
       position: 'fixed',
       top: 0,
       right: 0,
-      marginTop: '73px',
+      marginTop: '65px',
       marginLeft: '20px',
       height: '100vh',
       backgroundColor: '#8fb3ac',

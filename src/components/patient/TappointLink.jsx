@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 const TappointLink = ({availability}) => {
 
-  const [todayApp, setTodayApp] = useState('');
   const [date, setDate] =useState('')
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
-    // setTodayApp(availability)
-    // setLoading(true)
+
     if(availability){
       let d = new Date(availability.avail.date)
     setDate(d)
-    // setTodayApp(availability)
-    console.log({a: availability})
     setLoading(true)
     }
   },[availability])

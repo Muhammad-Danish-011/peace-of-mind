@@ -61,9 +61,9 @@ const Home = () => {
   const isToday = (someDate) => {
     const today = new Date()
     someDate = new Date(someDate)
-    return someDate.getDate() == today.getDate() &&
-      someDate.getMonth() == today.getMonth() &&
-      someDate.getFullYear() == today.getFullYear()
+    return someDate.getDate() === today.getDate() &&
+      someDate.getMonth() === today.getMonth() &&
+      someDate.getFullYear() === today.getFullYear()
   }
 
   useEffect(() => {
@@ -71,20 +71,15 @@ const Home = () => {
     fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
       .then(data => data.json())
       .then(data => {
-        // console.log({data});
         setCouncelor(data);
         setCards(data.slice(0, 6));
       })
-      .catch(err => console.group(err))
+      .catch(err => console.log(err))
 
 
   }, []);
 
-  // console.log(userId)
   useEffect(() => {
-
-    // const appointment = []
-    // setLoader(true);
     const appointment = async () => {
       const app = await fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall")
       return await app.json()
@@ -110,25 +105,9 @@ const Home = () => {
         let avail = await fetch(`${availibilityUrl}/availability/${appointment.availabilityId}`)
         avail = await avail.json()
         if (isToday(avail.date)) {
-          console.log(avail)
           return {avail, appointment}
         }
-
-        // fetch(`${availibilityUrl}/availability/${appointment.availabilityId}`)
-        //   .then((resonse) => {
-        //     return resonse.json()
-        //   })
-        //   .then((data) => {
-        //     if (isToday(data.date)) {
-        //       d = data
-        //       return myData = data
-        //       // console.log(myData)
-        //     }
-        //     // setloading(true);
-        //   })
       }))
-      // setMyData(myData);
-        console.log({myData})
         return myData;
       // }
     }
@@ -137,9 +116,7 @@ const Home = () => {
       const app = await appointment()
       const userApp = await userAppointment(app)
       const avail = await availabilityFun(userApp)
-      // setAppopintments(app);
       setAppopintments(userApp)
-      console.log(avail)
 
       avail.map(a => {
         if(a){
@@ -151,8 +128,6 @@ const Home = () => {
     }
 
     fun()
-    // console.log({funData})
-    // setLoader(false)
   }, [userId])
 
 
@@ -216,16 +191,13 @@ const Home = () => {
     >
       <h1>Today's Appointment</h1>
       <h2>No Appointment for today</h2>
-      {/* <h3>Today's Meeting Link: <a href={availability.appointment.meetingURL} target="_blank" rel="noreferrer" > {availability.appointment.meetingURL}</a></h3> */}
     </Typography>}
       <Search onClick={handleSearchClick} />
-      {/* Suggested for you */}
       <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-2)}}
       >
         {
           cards.map((card) => {
-            // console.log(card)
             return <BasicCard key={`card-${card.id}`} basicCard={card} sx={{ marginRight: '20px', marginBottom: '20px' }} />
           })
         }

@@ -21,7 +21,8 @@ const Loginform = () => {
   const [errors, setErrors] = useState({ email: '', password: '' });
   const { updateLoginUserId } = useContext(AuthContext);
   const [ patient, setPatient] = useState("");
-
+  const [formSubmit, setFormSubmit ] = useState(false) 
+  // const patientId = JSON.parse(sessionStorage.getItem('patient_data')).data.patientId;
 
   useEffect(()=>{
     if(sessionStorage.getItem("islogin")){
@@ -32,6 +33,7 @@ const Loginform = () => {
         navigate("/counselor")
       }
     }
+
   },[])
     const handleLogin = async (e) => {
       e.preventDefault();
@@ -54,7 +56,6 @@ const Loginform = () => {
         const user = await response.json();
         sessionStorage.setItem("role", user.role);
         sessionStorage.setItem("user", JSON.stringify(user.user));
-        console.log(user.role);
         setLoginStatus(true);
         updateLoginUserId(user.user.id)
         if (user.role === "PATIENT") {
@@ -63,13 +64,22 @@ const Loginform = () => {
                           .then((response) => response.json())
                           .then((patientData) => {
                              sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-                             //console.log(sessionStorage.getItem("patient_data"))
-                             navigate("/surveyform");
+
+                             fetch(`${process.env.REACT_APP_REPORT_URL}/report/patientId/${patientData.data.id}`)
+                             .then(data => data.json())
+                             .then(data => {
+                              if(data.data){
+                                navigate("/home")
+                               }
+                               else{
+                                 navigate("/surveyform");
+                               }
+                             })
                           })
                           .catch((error) => {
                             console.error(error);
                           });
-        } 
+        }
          else if (user.role === "COUNSELOR") {
           navigate("/counselor");
         }

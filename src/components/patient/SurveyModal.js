@@ -14,7 +14,6 @@ const SurveyModal = () => {
   };
   
   const handleSurvey = () => {
-    console.log('User wants to fill out the mental health survey');
     navigate('/survey');
   }
 

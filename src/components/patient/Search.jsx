@@ -58,7 +58,6 @@ const Search = ({onClick}) => {
     fetch(`${process.env.REACT_APP_API_KEY}/user`)
     .then(data => data.json())
     .then(data => {
-      // console.log({data})
       setUsers(data)
     })
   },[])
@@ -67,7 +66,6 @@ const Search = ({onClick}) => {
   const onhandleSubmit = (e) => {
     e.preventDefault();
   };
-  // console.log(state)
 
   const search = (e) =>{
     setNotSearch(null)
@@ -80,12 +78,9 @@ const Search = ({onClick}) => {
       if(user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) 
       || user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) 
       || fullName.toLowerCase().includes(searchTerm.toLowerCase())){
-        console.log({user})
         councelors.map((councelor)=>{
           if(councelor.userId == user.id){
             data.push(councelor)
-
-            console.log({councelor})
           }
         })
       }
@@ -156,6 +151,7 @@ const Search = ({onClick}) => {
       height: '51px',
       width: '150px'
     }}
+    disabled={!searchTerm}
     onClick={search}
   >
     <Typography variant="button" sx={{ fontWeight: "bold"}}>
