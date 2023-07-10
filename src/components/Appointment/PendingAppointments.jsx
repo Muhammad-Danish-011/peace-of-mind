@@ -19,12 +19,13 @@ export const PendingAppointments = () => {
   const [acceptedAppointments, setAcceptedAppointments] = useState([]);
 
   const Nav = useNavigate();
+  const patientId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
 
   useEffect(() => {
     fetch(
       //"http://appointment.us-west-2.elasticbeanstalk.com/appointments/getall"
        // "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvail/209"
-      "http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/160"
+      `http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/${patientId}`
     )
       .then((response) => response.json())
       .then((data) => setAppointments(data))
