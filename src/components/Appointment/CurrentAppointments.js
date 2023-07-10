@@ -569,7 +569,7 @@ export const CurrentAppointments = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedAppointments.map((appointment) => (
+              {sortedAppointments.length > 0 ? sortedAppointments.map((appointment) => (
                 <TableRow
                   key={appointment.id}
                   sx={{
@@ -689,7 +689,7 @@ export const CurrentAppointments = () => {
                     ) : null}
                   </TableCell>
                 </TableRow>
-              ))}
+              )): <h4 style={{display: "flex", justifyContent: "center", width: "100%", alignItem: "center"}}>No Appointment</h4>}
             </TableBody>
           </Table>
         </Box>

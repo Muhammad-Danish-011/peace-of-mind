@@ -9,6 +9,8 @@ import TappointLink from '../../components/patient/TappointLink';
 import Card from '../../components/patient/Card';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+
 
 const styles = {
   container: {
@@ -171,7 +173,51 @@ const Home = () => {
       ...styles.container,
       marginLeft: isSmallScreen ? 10 : theme.spacing(7)
     }}>
-      {availability ? <TappointLink availability={availability} loading={loading}/> : "Loading"}
+      {availability ? <TappointLink availability={availability} loading={loading}/> : <Typography
+      sx={{
+        textAlign: 'center',
+        margin: '2rem auto',
+        backgroundColor: '#d7eded',
+        border: '1px solid #008080',
+        borderRadius: '35px',
+        width: '45%',
+        height: '25%',
+        color: 'black',
+        fontWeight: 300,
+        '& h1': {
+          fontSize: '2.5rem',
+          marginTop: '2rem',
+        },
+        '& h2, & h3': {
+          fontSize: '1.5rem',
+        },
+        '@media (max-width: 768px)': {
+          width: '80%',
+          height: 'auto',
+          '& h1': {
+            fontSize: '1.3rem',
+          },
+          '& h2, & h3': {
+            fontSize: '0.9rem',
+          },
+        },
+        '@media (max-width: 480px)': {
+          width: '90%',
+          height: 'auto',
+          '& h1': {
+            fontSize: '1.1rem',
+            marginTop: '0.5rem',
+          },
+          '& h2, & h3': {
+            fontSize: '0.8rem',
+          },
+        },
+      }}
+    >
+      <h1>Today's Appointment</h1>
+      <h2>No Appointment for today</h2>
+      {/* <h3>Today's Meeting Link: <a href={availability.appointment.meetingURL} target="_blank" rel="noreferrer" > {availability.appointment.meetingURL}</a></h3> */}
+    </Typography>}
       <Search onClick={handleSearchClick} />
       {/* Suggested for you */}
       <Box sx={{...styles.cardContainer,

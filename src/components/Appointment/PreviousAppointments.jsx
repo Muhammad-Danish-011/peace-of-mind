@@ -18,9 +18,10 @@ export const PreviousAppointments = () => {
   const [acceptedAppointments, setAcceptedAppointments] = useState([]);
 
   const Nav = useNavigate();
+  const patientId = JSON.parse(sessionStorage.getItem('patient_data')).data.id
 
   useEffect(() => {
-    fetch("http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/160")
+    fetch(`http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByPatientid/${patientId}`)
       .then((response) => response.json())
       .then((data) => setAppointments(data))
       .catch((error) => console.log(error));
@@ -143,7 +144,7 @@ export const PreviousAppointments = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedAppointments.map((appointment) => (
+              {sortedAppointments.length > 0 ? sortedAppointments.map((appointment) => (
                 <TableRow
                   key={appointment.id}
                   sx={{
@@ -197,7 +198,7 @@ export const PreviousAppointments = () => {
                     ) : null}
                   </TableCell> */}
                 </TableRow>
-              ))}
+              )) : <h4 style={{display: "flex", justifyContent: "center", width: "100%", alignItem: "center"}}>No Appointment</h4>}
             </TableBody>
           </Table>
         </Box>
