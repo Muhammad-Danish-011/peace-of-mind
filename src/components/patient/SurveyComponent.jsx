@@ -40,7 +40,6 @@ function SurveyComponent() {
     // event.preventDefault();
     createSurveyPdfModel(survey);
     const finalData = survey.data;
-    console.log(finalData);
     const doc = new jsPDF();
     doc.setFont("Arial", "normal");
     const questions = [
@@ -116,9 +115,6 @@ function SurveyComponent() {
         };
         try {
         const response = await uploadFile(file, config);
-        console.log(response);
-        console.log('PDF uploaded ');
-
           if(!response.location){
             console.log("something went wrong")
             return;
@@ -141,7 +137,6 @@ function SurveyComponent() {
         })
         .then(data=>{
           if(data.bool){
-          console.log(data)
         }})
         .catch(err=>console.log(err))
         
@@ -152,10 +147,8 @@ function SurveyComponent() {
     };
 
     survey.onComplete.add((sender, options) => {
-      // console.log(JSON.stringify(sender.data, null, 3));
       survey.data=sender.data;
       const data =createSurveyPdfModel(survey);
-      console.log({data});
       handleClick();
   });
 

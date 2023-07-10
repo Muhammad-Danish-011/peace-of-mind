@@ -83,13 +83,11 @@
 import React from 'react'
 import Profile from '../../components/patient/Profile'
 import { Box } from '@mui/system'
-import ImageCard from '../../components/patient/ImageCard'
 
 const ProfileCard = () => {
   return (
    
      <Box  sx={{display:"flex", flexDirection:"row", marginLeft:'30px'}} >
-     {/* <ImageCard/> */}
        <Profile  />
      </Box>
    

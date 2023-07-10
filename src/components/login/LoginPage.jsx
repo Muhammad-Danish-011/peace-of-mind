@@ -38,7 +38,6 @@ const Loginform = () => {
     
 
     const handleLogin = async (e) => {
-      console.log("abc")
       e.preventDefault();
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -59,7 +58,6 @@ const Loginform = () => {
         const user = await response.json();
         sessionStorage.setItem("role", user.role);
         sessionStorage.setItem("user", JSON.stringify(user.user));
-        console.log(user.role);
         setLoginStatus(true);
         updateLoginUserId(user.user.id)
         if (user.role === "PATIENT") {
@@ -68,7 +66,6 @@ const Loginform = () => {
                           .then((response) => response.json())
                           .then((patientData) => {
                              sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-                             console.log({patientData})
 
                              fetch(`${process.env.REACT_APP_REPORT_URL}/report/patientId/${patientData.data.id}`)
                              .then(data => data.json())

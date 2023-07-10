@@ -57,7 +57,6 @@ const Search = ({onClick}) => {
     fetch(`${process.env.REACT_APP_API_KEY}/user`)
     .then(data => data.json())
     .then(data => {
-      // console.log({data})
       setUsers(data)
     })
   },[])
@@ -66,7 +65,6 @@ const Search = ({onClick}) => {
   const onhandleSubmit = (e) => {
     e.preventDefault();
   };
-  // console.log(state)
 
   const search = () =>{
     const councelors = state.councelor;
@@ -77,11 +75,9 @@ const Search = ({onClick}) => {
       if(user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) 
       || user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) 
       || fullName.toLowerCase().includes(searchTerm.toLowerCase())){
-        console.log({user})
         councelors.map((councelor)=>{
           if(councelor.userId == user.id){
             data.push(councelor)
-            console.log({councelor})
           }
         })
       }
@@ -155,8 +151,6 @@ const Search = ({onClick}) => {
     <Box sx={{...styles.cardContainer,
       marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}>
     {searchedCoouncelor.map((councelor)=>{
-      console.log(councelor);
-      // return <h1>{councelor.userId}</h1>
       return <BasicCard key={`card-${councelor.id}`} basicCard={councelor} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
 
     })}

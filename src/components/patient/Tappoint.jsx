@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function OutlinedCard({tapAppointment}) {
 
-  console.log({tapAppointment})
   const [ availibility, setAvailibity] = useState([]);
   const [loader, setLoader] = useState(true)
   const navigate = useNavigate();
@@ -35,18 +34,14 @@ export default function OutlinedCard({tapAppointment}) {
     if(tapAppointment.length>0){
       const myData = [];
       const app = tapAppointment.length < 3 ? tapAppointment.splice(0,2) : tapAppointment;
-      // console.log({app})
       const availibilityUrl = process.env.REACT_APP_AVAILIBILITY_API_KEY
       app.map((appointment)=>{
         fetch(`${availibilityUrl}/availability/${appointment.availabilityId}`)
         .then(data => data.json())
         .then(data => {
-          // console.log(data)
-          // setLoader(false)
           if(data.ok){
           if(isToday(data.date)){
             myData.push(data);
-            // console.log({avail: data})
             }
           }
         })
@@ -78,7 +73,6 @@ export default function OutlinedCard({tapAppointment}) {
    
    <h1 style={{ fontSize: '22px', marginTop:'1rem' }}> Today's Appointments</h1>
          {!availibility > 0 ? "loading": availibility.map((avail) => {
-          // console.log(avail);
           const time = avail.date.split('T')[1].split('+')[0].split('').splice(0,5).join('');
           return <Box key={`appointment-${avail.id}`}
            sx={{
