@@ -170,8 +170,8 @@ const AvailabilityTable = () => {
       const meetingUrl = appointment.meetingURL;
 
       if (meetingUrl) {
-        navigate(`/notes/${appointment.patientid}/${appointment.id}`)
         window.open(meetingUrl, "_blank", "width=800,height=600"); // Redirect to the meeting URL
+        navigate(`/notes/${appointment.patientid}/${appointment.id}`)
       } else {
         console.log("No meeting URL found for the selected appointment.");
       }
