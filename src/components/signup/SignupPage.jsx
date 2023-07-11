@@ -111,6 +111,7 @@ const SignupForm = () => {
             );
             if (counselorResponse.ok) {
               console.log("Counselor data is saved!");
+              navigate('/login')
             } else {
               console.log("Failed to save counselor data.");
             }
