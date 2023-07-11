@@ -64,7 +64,7 @@ function App() {
     {/* <Route path='/profileCard/:userId' element={<Privateroute><ProfileCard/></Privateroute>}/> */}
 
 
-    <Route path='/notes/:pateintId/:appointmentId' element={<Privateroute role={"COUNSELOR"}><CurrentSessionNotes /></Privateroute>} />
+    <Route path='/notes/:pateintId/:appointmentId' element={<Privateroute  role={"COUNSELOR"}><CurrentSessionNotes /></Privateroute>} />
     <Route path='/survey' element={<Privateroute role={"PATIENT"}><SurveyComponent/></Privateroute>} />  
 
     <Route path='/surveyform' element={<Privateroute role={"PATIENT"}><SurveyModal/></Privateroute>} />  
