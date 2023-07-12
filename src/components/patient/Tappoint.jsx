@@ -33,7 +33,7 @@ export default function OutlinedCard({tapAppointment}) {
     
     if(tapAppointment.length>0){
       const myData = [];
-      const app = tapAppointment.length < 3 ? tapAppointment.splice(0,2) : tapAppointment;
+      const app = tapAppointment.length < 3 ? tapAppointment : tapAppointment.splice(0,2) ;
       const availibilityUrl = process.env.REACT_APP_AVAILIBILITY_API_KEY
       app.map((appointment)=>{
         fetch(`${availibilityUrl}/availability/${appointment.availabilityId}`)

@@ -36,7 +36,7 @@ export default function OutlinedCard({tapAppointment}) {
       // console.log('tapAppointment', tapAppointment);
       setLoader(true);
       const myData = [];
-      const app = tapAppointment.length < 3 ? tapAppointment.splice(0,3) : tapAppointment;
+      const app = tapAppointment.length < 3 ? tapAppointment : tapAppointment.splice(0,3) ;
       // console.log({app})
       app.map((appointment)=>{
         fetch(`http://avalaibiliyapp-env.eba-mf43a3nx.us-west-2.elasticbeanstalk.com/availability/${appointment.availabilityId}`)
