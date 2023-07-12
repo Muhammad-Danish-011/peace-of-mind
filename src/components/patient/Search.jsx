@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper,  Box, InputBase, Button, Typography } from '@mui/material';
+import { Paper, Box, InputBase, Button, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useLocation } from 'react-router-dom';
 // import Councler from '../../pages/councler/Councler';
@@ -15,15 +15,15 @@ const styles = {
     marginTop: '-1% !important',
     padding: '20px',
     // backgroundColor: '#f5f5f5', 
-    margin: '0 auto' ,
+    margin: '0 auto',
 
   },
   cardContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 280px)',
-    rowGap: '15px', 
-    columnGap: '0px', 
-    justifyContent: 'center', 
+    rowGap: '15px',
+    columnGap: '0px',
+    justifyContent: 'center',
     marginTop: '40px !important',
 
     // Add media query for smaller screens
@@ -36,65 +36,78 @@ const styles = {
       rowGap: '10px',
       columnGap: '5px',
     },
-   
+
   }
 }
 
 
 
-const Search = ({onClick}) => {
+const Search = ({ onClick }) => {
   const theme = useTheme();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
   const [searchedCoouncelor, setSearchedCouncelor] = useState([]);
-  const [ notSearch, setNotSearch ] = useState(null);
+  const [notSearch, setNotSearch] = useState(false);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const {state} = useLocation();
+  const { state } = useLocation();
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch(`${process.env.REACT_APP_API_KEY}/user`)
-    .then(data => data.json())
-    .then(data => {
-      setUsers(data)
-    })
-  },[])
+      .then(data => data.json())
+      .then(data => {
+        setUsers(data)
+      })
+  }, [])
 
 
   const onhandleSubmit = (e) => {
     e.preventDefault();
   };
 
-  const search = (e) =>{
-    setNotSearch(null)
+  const search = (e) => {
+    setNotSearch(false)
     setSearchedCouncelor([])
     const councelors = state.councelor;
     const data = [];
-    
-    users.map((user) =>{
-      const fullName = user.firstName.toLowerCase()+" "+user.lastName.toLowerCase()
-      if(user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) 
-      || user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) 
-      || fullName.toLowerCase().includes(searchTerm.toLowerCase())){
-        councelors.map((councelor)=>{
-          if(councelor.userId == user.id){
+    // console.log({ users })
+
+    let userA;
+
+    users.map((user) => {
+      const fullName = user.firstName.toLowerCase() + " " + user.lastName.toLowerCase()
+      // console.log({c: councelors[i], i})
+      if (user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+        || user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        || fullName.toLowerCase().includes(searchTerm.toLowerCase())) {
+        userA = user
+      }
+
+      councelors.map((councelor) => {
+        console.log({ userArr: userA })
+        if (councelor.specialization.toLowerCase().includes(searchTerm.toLowerCase())
+          || councelor.description.toLowerCase().includes(searchTerm.toLowerCase())
+          || userA?.id === councelor.userId) {
+          if (!data.some((c) => c.userId === userA?.id || c.userId === councelor.userId)) {
             data.push(councelor)
           }
-        })
-      }
+        }
+      })
     })
 
-    if(data.length>0){
+    // }
+
+    if (data.length > 0) {
       setSearchedCouncelor(data)
     }
-    else{
-      setNotSearch('khulja')
+    else {
+      setNotSearch(true)
       console.log('hello')
     }
 
-  } 
+  }
 
 
   return (
@@ -138,42 +151,44 @@ const Search = ({onClick}) => {
           />
         </Paper>
         <Button
-        // type='submit'
-        variant='contained'
-      sx={{
-        marginLeft: '10px',
-      backgroundColor: '#d9d9d9',
-      borderRadius:'15px',
-      color: '#000',
-      '&:hover': {
-        backgroundColor: '#d9d9d9',
-      },
-      height: '51px',
-      width: '150px'
-    }}
-    disabled={!searchTerm}
-    onClick={search}
-  >
-    <Typography variant="button" sx={{ fontWeight: "bold"}}>
-      Search
-    </Typography>
-    <SearchIcon sx={{ marginLeft: "4px"}} />
-    </Button>
+          // type='submit'
+          variant='contained'
+          sx={{
+            marginLeft: '10px',
+            backgroundColor: '#d9d9d9',
+            borderRadius: '15px',
+            color: '#000',
+            '&:hover': {
+              backgroundColor: '#d9d9d9',
+            },
+            height: '51px',
+            width: '150px'
+          }}
+          disabled={!searchTerm}
+          onClick={search}
+        >
+          <Typography variant="button" sx={{ fontWeight: "bold" }}>
+            Search
+          </Typography>
+          <SearchIcon sx={{ marginLeft: "4px" }} />
+        </Button>
       </Box>
 
 
-    <Box sx={{...styles.cardContainer,
-      marginLeft: isSmallScreen ? 1: theme.spacing(-11)}}>
-    {searchedCoouncelor?.length > 0 ?  searchedCoouncelor?.map((councelor)=>{
-      console.log(councelor);
-      // return <h1>{councelor.userId}</h1>
-      return <BasicCard key={`card-${councelor.id}`} basicCard={councelor} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
+      <Box sx={{
+        ...styles.cardContainer,
+        marginLeft: isSmallScreen ? 1 : theme.spacing(-11)
+      }}>
+        {searchedCoouncelor?.length > 0 ? searchedCoouncelor?.map((councelor) => {
+          console.log(councelor);
+          // return <h1>{councelor.userId}</h1>
+          return <BasicCard key={`card-${councelor.id}`} basicCard={councelor} sx={{ marginRight: '20px', marginBottom: '20px' }} />
 
-    })
-    : ( notSearch === 'khulja' && <h3>No Search found</h3>)
-  }
-  
-    </Box>
+        })
+          : (notSearch && <h3>No Search found</h3>)
+        }
+
+      </Box>
     </>
   );
 };
