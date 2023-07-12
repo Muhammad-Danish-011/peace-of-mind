@@ -89,6 +89,7 @@ const PreviousNotes = ({id}) => {
                     p: 2,
                     m: 2,
                     overflow: "auto",
+                    height: "77%"
                 }}
             >
                 <Typography variant='h5'>Patient previous Notes:</Typography>

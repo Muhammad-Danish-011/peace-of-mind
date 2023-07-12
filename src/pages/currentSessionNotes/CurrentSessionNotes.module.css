@@ -1,6 +1,7 @@
   .main {
-    background-color: #a0d4d4;
-    height: 100%;
+    /* background-color: #a0d4d4; */
+    /* height: 100%; */
+
   }
   
   .noteContainer {
@@ -8,4 +9,5 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap-reverse;
+    margin-top: -47px;
   }
