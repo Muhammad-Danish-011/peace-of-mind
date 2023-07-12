@@ -72,13 +72,11 @@ const Search = ({ onClick }) => {
     setSearchedCouncelor([])
     const councelors = state.councelor;
     const data = [];
-    // console.log({ users })
 
     let userA;
 
     users.map((user) => {
       const fullName = user.firstName.toLowerCase() + " " + user.lastName.toLowerCase()
-      // console.log({c: councelors[i], i})
       if (user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
         || user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
         || fullName.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -86,7 +84,6 @@ const Search = ({ onClick }) => {
       }
 
       councelors.map((councelor) => {
-        console.log({ userArr: userA })
         if (councelor.specialization.toLowerCase().includes(searchTerm.toLowerCase())
           || councelor.description.toLowerCase().includes(searchTerm.toLowerCase())
           || userA?.id === councelor.userId) {
@@ -180,8 +177,6 @@ const Search = ({ onClick }) => {
         marginLeft: isSmallScreen ? 1 : theme.spacing(-11)
       }}>
         {searchedCoouncelor?.length > 0 ? searchedCoouncelor?.map((councelor) => {
-          console.log(councelor);
-          // return <h1>{councelor.userId}</h1>
           return <BasicCard key={`card-${councelor.id}`} basicCard={councelor} sx={{ marginRight: '20px', marginBottom: '20px' }} />
 
         })

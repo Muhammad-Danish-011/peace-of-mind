@@ -41,13 +41,11 @@ const Councler = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [cards, setCards] = useState([]);
 
-  // const cards = [1,2,3,4,5,6,7];
   useEffect(() => {
     //Runs on every render
     fetch("http://councelorapp-env.eba-mdmsh3sq.us-east-1.elasticbeanstalk.com/counselor/get")
     .then(data => data.json())
     .then(data => {
-      console.log({data})
       setCards(data); 
 
     })
@@ -61,13 +59,6 @@ const Councler = () => {
 
     }}>
       <Search/>
-      {/* <Box sx={styles.cardContainer}>
-      {
-        cards.map((card) => (
-          <BasicCard key={`card-${card.id}`} basicCard={card} sx={{marginRight: '20px', marginBottom: '20px'}}/> 
-        ))
-        }
-      </Box> */}
     </Box>
   )
 }
