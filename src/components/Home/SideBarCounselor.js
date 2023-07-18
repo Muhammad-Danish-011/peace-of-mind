@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 // import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 // import moment from "moment";
 // import React, { useState } from "react";
-import { Box, Card, CircularProgress, IconButton } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Box, Card, CircularProgress, IconButton } from "@mui/material";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const SideBarCounselor = ({noAppointment}) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -67,7 +67,7 @@ const SideBarCounselor = ({noAppointment}) => {
   useEffect(() => {
 
     const fetchAvailability = async() =>{
-      const confirmedApp = Promise.all (availabilityIds.map(async(availabilityId)=>{
+      const confirmedApp = Promise?.all (availabilityIds.map(async(availabilityId)=>{
         const response = await fetch(
           `http://appointment.us-west-2.elasticbeanstalk.com/appointments/getByAvailability/${availabilityId}`
         );
@@ -113,6 +113,8 @@ const SideBarCounselor = ({noAppointment}) => {
           if (matchedAppointment) {
             const matchedAppointmentIndex =
               availabilityIds.indexOf(matchedAppointment);
+
+              if(matchedAppointmentIndex !== -1){
             return {
               appointmentDate:
                 weeklyAppointments[matchedAppointmentIndex]?.split("T")[0] ||
@@ -124,11 +126,12 @@ const SideBarCounselor = ({noAppointment}) => {
               relativeDate: weeklyAppointments[matchedAppointmentIndex],
             };
           }
+        }
           return null;
         });
 
         relativeDates.sort((a, b) =>
-          a.relativeDate.localeCompare(b.relativeDate)
+          a?.relativeDate?.localeCompare(b?.relativeDate)
         );
         setRelativeDate(relativeDates);
         setLoader(true)
@@ -158,9 +161,19 @@ const SideBarCounselor = ({noAppointment}) => {
   //   return () => clearTimeout(timer);
   // }, []);
 
+  // confirmedAppointments.sort((a, b) => {
+  //   const aDate = weeklyAppointments[availabilityIds.indexOf(a.availabilityId)];
+  //   const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
+  //   return aDate.localeCompare(bDate);
+  // });
+
   confirmedAppointments.sort((a, b) => {
-    const aDate = weeklyAppointments[availabilityIds.indexOf(a.availabilityId)];
-    const bDate = weeklyAppointments[availabilityIds.indexOf(b.availabilityId)];
+    const aIndex = availabilityIds.indexOf(a.availabilityId);
+    const bIndex = availabilityIds.indexOf(b.availabilityId);
+  
+    const aDate = aIndex !== -1 ? String(weeklyAppointments[aIndex]) : '';
+    const bDate = bIndex !== -1 ? String(weeklyAppointments[bIndex]) : '';
+  
     return aDate.localeCompare(bDate);
   });
 
