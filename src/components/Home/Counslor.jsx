@@ -162,7 +162,12 @@ const Counslor = () => {
     })
 
     return (
-      <BarChart width={400} height={300} data={mydata}>
+      <BarChart width={400} height={300} data={mydata} sx={{'@media (max-width: 950px)': {
+        width: "60%",
+        marginLeft:"-10%",
+        margin: "2rem auto",
+        padding: "1rem"
+      }}}>
         <CartesianGrid strokeDasharray="4 4" />
         <XAxis dataKey="date" />
         <YAxis />
@@ -263,9 +268,10 @@ const Counslor = () => {
     flexDirection: "column",
 
     '@media (max-width: 950px)': {
-      width: "80%",
+      width: "60%",
+      marginLeft:"-10%",
       margin: "2rem auto",
-      padding: "1rem",
+      padding: "1rem"
     }
   }}
 >

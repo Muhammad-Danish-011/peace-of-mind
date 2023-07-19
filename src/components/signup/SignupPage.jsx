@@ -169,7 +169,7 @@ const SignupForm = () => {
       description,
       guardian_phone_number,
     } = formData;
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!fname) {
       formErrors.fname = "First Name is required";
     } else if (!/^[A-Za-z]+$/.test(fname)) {
@@ -181,7 +181,11 @@ const SignupForm = () => {
     } else if (!/^[A-Za-z]+$/.test(lname)) {
       formErrors.lname = "Last Name should contain only alphabets";
     }
-
+    if (!email) {
+      formErrors.email = "Email is required";
+    } else if (!emailRegex.test(email)) {
+      formErrors.email = "Invalid email format";
+    }
     const phoneRegex = /^\d{11}$/;
     if (!phone) {
       formErrors.phone = "Phone number is required";
@@ -215,13 +219,17 @@ const SignupForm = () => {
     if (!role) {
       formErrors.role = "Role is required";
     }
+    if (!fname) {
+      formErrors.fname = "First Name is required";
+    } else if (!/^[A-Za-z]+$/.test(fname)) {
+      formErrors.fname = "First Name should contain only alphabets";
+    }
     if (role === "COUNSELOR" && !specialization) {
       formErrors.specialization = "Specialization is required";
-    }
+    } 
     if (role === "COUNSELOR" && !description) {
       formErrors.description = "Description is required";
     }
-    
     if (Object.keys(formErrors).length > 0) {
       return formErrors;
     }

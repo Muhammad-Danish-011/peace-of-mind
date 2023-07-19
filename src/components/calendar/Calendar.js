@@ -302,10 +302,28 @@ const Calendar = ({ type, id }) => {
                 center: 'title',
                 right: 'timeGridWeek,timeGridDay'
           }}
+          sx={{'@media (max-width:840px)': {
+            marginTop: 0,
+            marginLeft: 0,
+            textAlign: 'center',
+            marginRight: "10rem"
+          },
+          '@media (max-width:350px)': {
+            marginTop: 0,
+            marginLeft: 0,
+            textAlign: 'center',
+          },
+          '@media (max-width:1090px)': {
+            marginTop: '0rem',
+            marginBottom: '1rem',
+          },
+          '@media (max-width:2000px': {
+            marginLeft: '1rem',
+
+          }}}
               initialView='timeGridWeek'
               editable={false}
               selectable={ type === 'public' ? false : true }
-              // themeSystem = 'bootstrap'
               selectMirror={true}
               dayMaxEvents={true}
               initialEvents={event}

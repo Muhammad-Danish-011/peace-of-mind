@@ -50,11 +50,30 @@ const CounselorCalender = () => {
       >
 
 
-        <AccountCircleTwoToneIcon style={{
+        <AccountCircleTwoToneIcon sx={{
           width: '80px',
           height: '100px',
           color: 'darkgreen',
-          margin: "-4% 1% 0% 10%"
+          margin: "-5.5% 1% 0% 10%",
+          '@media (max-width:840px)': {
+            marginTop: 0,
+            marginLeft: 0,
+            textAlign: 'center',
+            marginRight: "10rem"
+          },
+          '@media (max-width:350px)': {
+            marginTop: 0,
+            marginLeft: 0,
+            textAlign: 'center',
+          },
+          '@media (max-width:1090px)': {
+            marginTop: '0rem',
+            marginBottom: '1rem',
+          },
+          '@media (max-width:2000px': {
+            marginLeft: '1rem',
+
+          }
         }} />
 
         {/* First and Last Name Typography */}
@@ -94,7 +113,7 @@ const CounselorCalender = () => {
         </Typography>
 
         <Box sx={{
-          p: 0, width: '30rem', marginLeft: "30%",
+          p: 0, width: '30rem', marginLeft: "16%",
           '@media (max-width:840px)': {
             marginTop: 0,
             marginLeft: 0,
@@ -113,7 +132,7 @@ const CounselorCalender = () => {
                 alt="Clock"
                 sx={{ width: 25, height: 25, mr: 2 }}
               />
-              <Typography variant="body1" data-testid="30">30 mins appointment</Typography>
+              <Typography variant="body1" data-testid="30">Max 30 mins appointment</Typography>
             </Box>
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -124,7 +143,7 @@ const CounselorCalender = () => {
                 sx={{ width: 25, height: 25, mr: 2 }}
               />
               <Typography variant="body1" data-testid="google-meet">
-                Google Meet video conference info added after booking
+                Video conference info
               </Typography>
             </Box>
           </Paper>
@@ -135,7 +154,8 @@ const CounselorCalender = () => {
       <Box sx={{
         display: "flex",
         margin: "0% 10%",
-        flexDirection: "row"
+        flexDirection: "row",
+        marginBottom:'10rem'
 
 
       }}>
