@@ -226,18 +226,7 @@ const Loginform = () => {
               {errorMessage}
             </p>
           )}
-           <a
-              href="/forget-password"
-              style={{
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "15px",
-                fontWeight: "bold",
-                color: "black",
-                textDecoration: "none",
-              }}
-            >
-              Forgotten Password?
-            </a>
+           
            
           <Button
             type="submit"
@@ -255,6 +244,19 @@ const Loginform = () => {
             Login
           </Button>
 
+          <a
+              href="/forget-password"
+              style={{
+                fontFamily: "Quicksand, sans-serif",
+                fontSize: "15px",
+                fontWeight: "bold",
+                color: "black",
+                marginTop:"1rem",
+                textDecoration: "none",
+              }}
+            >
+              Forgotten Password?
+            </a>
           <p
             style={{
               textAlign: "center",
