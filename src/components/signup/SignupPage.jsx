@@ -172,10 +172,14 @@ const SignupForm = () => {
 
     if (!fname) {
       formErrors.fname = "First Name is required";
+    } else if (!/^[A-Za-z]+$/.test(fname)) {
+      formErrors.fname = "First Name should contain only alphabets";
     }
-
+  
     if (!lname) {
       formErrors.lname = "Last Name is required";
+    } else if (!/^[A-Za-z]+$/.test(lname)) {
+      formErrors.lname = "Last Name should contain only alphabets";
     }
 
     const phoneRegex = /^\d{11}$/;
@@ -184,6 +188,12 @@ const SignupForm = () => {
     } else if (!phoneRegex.test(phone)) {
       formErrors.phone= "Invalid Phone format (e.g., 03000000000)";
     }
+    const guardianPhoneNumberRegex = /^\d{11}$/;
+  if (role === "PATIENT" && !guardian_phone_number) {
+    formErrors.guardian_phone_number = "Guardian Phone Number is required";
+  } else if (role === "PATIENT" && !guardianPhoneNumberRegex.test(guardian_phone_number)) {
+    formErrors.guardian_phone_number = "Invalid Guardian Phone Number format (e.g., 03000000000)";
+  }
     if (!address) {
       formErrors.address = "Address is required";
     }
@@ -211,9 +221,7 @@ const SignupForm = () => {
     if (role === "COUNSELOR" && !description) {
       formErrors.description = "Description is required";
     }
-    if (role === "PATIENT" && !guardian_phone_number) {
-      formErrors.guardian_phone_number = "Guardian Phone Number is required";
-    }
+    
     if (Object.keys(formErrors).length > 0) {
       return formErrors;
     }

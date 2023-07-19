@@ -22,7 +22,6 @@ const Loginform = () => {
   const { updateLoginUserId } = useContext(AuthContext);
   const [ patient, setPatient] = useState("");
   const [formSubmit, setFormSubmit ] = useState(false) 
-  // const patientId = JSON.parse(sessionStorage.getItem('patient_data')).data.patientId;
 
   useEffect(()=>{
     if(sessionStorage.getItem("islogin")){
@@ -33,7 +32,6 @@ const Loginform = () => {
         navigate("/counselor")
       }
     }
-
   },[])
     const handleLogin = async (e) => {
       e.preventDefault();
@@ -53,6 +51,7 @@ const Loginform = () => {
         body: JSON.stringify({ email, password }),
       });
       if (response.ok) {
+        setErrors({ email: '', password: '' });
         const user = await response.json();
         sessionStorage.setItem("role", user.role);
         sessionStorage.setItem("user", JSON.stringify(user.user));
@@ -60,11 +59,9 @@ const Loginform = () => {
         updateLoginUserId(user.user.id)
         if (user.role === "PATIENT") {
           fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
-          //          let data = await fetch(`http://patient-app.us-west-2.elasticbeanstalk.com/patient/getByUserId/${user.user.id}`)
                           .then((response) => response.json())
                           .then((patientData) => {
                              sessionStorage.setItem("patient_data", JSON.stringify(patientData))
-
                              fetch(`${process.env.REACT_APP_REPORT_URL}/report/patientId/${patientData.data.id}`)
                              .then(data => data.json())
                              .then(data => {
@@ -90,7 +87,6 @@ const Loginform = () => {
       console.log(error);
     }
   };
-
   const validateEmail = (email) => {
     if (!email) {
       return 'Email is required';
@@ -100,14 +96,12 @@ const Loginform = () => {
     }
     return '';
   };
-
   const validatePassword = (password) => {
     if (!password) {
       return 'Password is required';
     }
     return '';
   };
-
   return (
     <>
       <div
@@ -139,28 +133,20 @@ const Loginform = () => {
             backgroundColor: "rgba(255, 255, 255, 0.8)",
             borderRadius: "10px",
             backdropFilter: "blur(5px)",
-            // '@media (max-width: 820px)': {
-            //   marginRight: "0rem",
-            //   margin: "2%",
-            //   justifyContent: "center",
-            // },
             '@media (max-width: 650px)': {
               marginRight: "0rem",
               margin: "2%",
               justifyContent: "center",
             },
-
             '@media (max-width: 850px)': {
               marginRight: "0rem",
               margin: "2%",
               justifyContent: "center",
             },
-            
           }}
           noValidate
           autoComplete="on"
         >
-        
           <h2
             style={{
               fontFamily: "Quicksand, sans-serif",
@@ -169,7 +155,6 @@ const Loginform = () => {
               fontWeight: "bolder",
               textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
               textAlign: "center",
-                
             '@media (max-width: 650px)': {
               marginRight: "0rem",
               fontSize: "40px",
@@ -178,14 +163,12 @@ const Loginform = () => {
           >
             PEACE OF MIND
           </h2>
-          
           <p
             style={{
               fontFamily: "Quicksand, sans-serif",
               fontSize: "20px",
               fontWeight: "bold",
               textAlign: "center",
-             
             }}
           >
             It's okay not to be okay
@@ -201,7 +184,6 @@ const Loginform = () => {
           >
             Login Now
           </h1>
-
           <FormControl error={Boolean(errors.email)}>
             <TextField
               id="email"
@@ -220,7 +202,6 @@ const Loginform = () => {
               </span>
             )}
           </FormControl>
-
           <FormControl error={Boolean(errors.password)}>
             <TextField
               id="password"
@@ -245,21 +226,15 @@ const Loginform = () => {
               {errorMessage}
             </p>
           )}
-       
            <a
-          
               href="/forget-password"
               style={{
-               
                 fontFamily: "Quicksand, sans-serif",
                 fontSize: "15px",
                 fontWeight: "bold",
                 color: "black",
                 textDecoration: "none",
-               
-
               }}
-              
             >
               Forgotten Password?
             </a>
