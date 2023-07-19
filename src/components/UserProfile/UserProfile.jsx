@@ -480,7 +480,7 @@ const UserProfile = () => {
                   </tr>
 
 
-                  <tr>
+                  {/* <tr>
                     <td>
                       <p sx={{ fontWeight: "bold" }}>Password:</p>
                     </td>
@@ -504,7 +504,7 @@ const UserProfile = () => {
                         </>
                       )}
                     </td>
-                  </tr>
+                  </tr> */}
 
 
                   <tr>
