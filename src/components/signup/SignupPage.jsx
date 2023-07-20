@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { AddressAutofill } from '@mapbox/search-js-react';
 
 const SignupForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -53,6 +54,16 @@ const SignupForm = () => {
       [name]: value,
     }));
   };
+
+  const handleInputChangeForAddress = (e)=>{
+
+    // console.log(e.target.value)
+
+    setFormData(prevFormData=>({
+      ...prevFormData,
+      "address": e.target.value
+    }))
+  }
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -227,6 +238,7 @@ const SignupForm = () => {
     if (role === "COUNSELOR" && !specialization) {
       formErrors.specialization = "Specialization is required";
     } 
+   
     if (role === "COUNSELOR" && !description) {
       formErrors.description = "Description is required";
     }
@@ -459,20 +471,34 @@ const SignupForm = () => {
                 }}}
             />
 
-            <TextField
-              label="Address"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              error={!!errors.address}
-              helperText={errors.address}
-              required
-              sx={{ mb: 1, ml: 2 ,
-                '@media (max-width: 610px)': {
-                  mb: 2,
-                  ml: 0
-                }}}
-            />
+<AddressAutofill
+      accessToken="pk.eyJ1IjoiYWowNSIsImEiOiJjbGs3enN4ZWYwZHVqM2pvMWR0a2dlcjl4In0.B6WmJeQdtqt9WWoAGikJxw"
+      options={{
+        country: 'us',
+        style: {
+          mb: 1,
+          ml: 2,
+          '@media (max-width: 610px)': {
+            mb: 2,
+            ml: 0,
+          },
+        },
+      }}
+      
+    >
+      
+        <TextField
+          label="Address"
+          name="address"
+          value={formData.address}
+          onChange={handleInputChangeForAddress}
+          error={!!errors.address}
+          helperText={errors.address}
+          required
+          // {...props} // Spread the remaining props from AddressAutofill
+        />
+    
+    </AddressAutofill>
             <TextField
               label="Email"
               name="email"
