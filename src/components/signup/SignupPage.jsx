@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { AddressAutofill } from '@mapbox/search-js-react';
+import './signup.css';
 
 const SignupForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -55,11 +56,11 @@ const SignupForm = () => {
     }));
   };
 
-  const handleInputChangeForAddress = (e)=>{
+  const handleInputChangeForAddress = (e) => {
 
     // console.log(e.target.value)
 
-    setFormData(prevFormData=>({
+    setFormData(prevFormData => ({
       ...prevFormData,
       "address": e.target.value
     }))
@@ -86,7 +87,7 @@ const SignupForm = () => {
           role: formData.role,
           created: signupDateTime.toISOString(),
         };
-        
+
         const accountUrl = process.env.REACT_APP_API_KEY
         console.log(accountUrl)
         const response = await fetch(`${accountUrl}/user/signup`, {
@@ -186,7 +187,7 @@ const SignupForm = () => {
     } else if (!/^[A-Za-z]+$/.test(fname)) {
       formErrors.fname = "First Name should contain only alphabets";
     }
-  
+
     if (!lname) {
       formErrors.lname = "Last Name is required";
     } else if (!/^[A-Za-z]+$/.test(lname)) {
@@ -201,14 +202,14 @@ const SignupForm = () => {
     if (!phone) {
       formErrors.phone = "Phone number is required";
     } else if (!phoneRegex.test(phone)) {
-      formErrors.phone= "Invalid Phone format (e.g., 03000000000)";
+      formErrors.phone = "Invalid Phone format (e.g., 03000000000)";
     }
     const guardianPhoneNumberRegex = /^\d{11}$/;
-  if (role === "PATIENT" && !guardian_phone_number) {
-    formErrors.guardian_phone_number = "Guardian Phone Number is required";
-  } else if (role === "PATIENT" && !guardianPhoneNumberRegex.test(guardian_phone_number)) {
-    formErrors.guardian_phone_number = "Invalid Guardian Phone Number format (e.g., 03000000000)";
-  }
+    if (role === "PATIENT" && !guardian_phone_number) {
+      formErrors.guardian_phone_number = "Guardian Phone Number is required";
+    } else if (role === "PATIENT" && !guardianPhoneNumberRegex.test(guardian_phone_number)) {
+      formErrors.guardian_phone_number = "Invalid Guardian Phone Number format (e.g., 03000000000)";
+    }
     if (!address) {
       formErrors.address = "Address is required";
     }
@@ -224,7 +225,7 @@ const SignupForm = () => {
     if (!password) {
       formErrors.password = "Password is required";
     }
-     else if (password.length < 8) {
+    else if (password.length < 8) {
       formErrors.password = "Password must be at least 8 characters long";
     }
     if (!role) {
@@ -237,8 +238,8 @@ const SignupForm = () => {
     }
     if (role === "COUNSELOR" && !specialization) {
       formErrors.specialization = "Specialization is required";
-    } 
-   
+    }
+
     if (role === "COUNSELOR" && !description) {
       formErrors.description = "Description is required";
     }
@@ -315,16 +316,16 @@ const SignupForm = () => {
             fontWeight: "bolder",
             textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             '@media (max-width: 840px)': {
-            
+
               flexDirection: "column",
-           fontSize: "40px",
+              fontSize: "40px",
               justifyContent: "center",
               alignSelf: "center",
             },
             '@media (max-width: 350px)': {
-       
+
               flexDirection: "column",
-               fontSize: "25px",
+              fontSize: "25px",
               justifyContent: "center",
               alignSelf: "center",
             }
@@ -384,7 +385,7 @@ const SignupForm = () => {
               alignItems: "center",
             }}>
             <img
-               src={formData.role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
+              src={formData.role === "COUNSELOR" ? `${process.env.PUBLIC_URL + '/images/doctor.png'}` : `${process.env.PUBLIC_URL + '/images/patient.png'}`}
               alt="role"
               style={{ width: "100px", marginBottom: "0.5rem" }}
             />
@@ -414,17 +415,18 @@ const SignupForm = () => {
               )}
             </FormControl>
           </Box>
-          <Box sx={{ paddingLeft: "3rem",
-         
-          
-          '@media (max-width: 610px)': {
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            paddingLeft: "0rem"
-          }
-         }}>
-            <TextField
+          <Box sx={{
+            paddingLeft: "3rem",
+
+
+            '@media (max-width: 610px)': {
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              paddingLeft: "0rem"
+            }
+          }}>
+            <TextField className="textfiled"
               styles={{ margin: "2rem", border: "2px solid red" }}
               label="First Name"
               name="fname"
@@ -433,14 +435,15 @@ const SignupForm = () => {
               error={!!errors.fname}
               helperText={errors.fname}
               required
-              sx={{ mb: 1,
+              sx={{
+                mb: 1,
                 '@media (max-width: 610px)': {
                   mb: 2
                 }
               }}
 
             />
-            <TextField
+            <TextField className="textfiled"
               label="Last Name"
               name="lname"
               value={formData.lname}
@@ -448,15 +451,16 @@ const SignupForm = () => {
               error={!!errors.lname}
               helperText={errors.lname}
               required
-              sx={{ mb: 1, 
+              sx={{
+                mb: 1,
                 ml: 2,
                 '@media (max-width: 610px)': {
                   mb: 2,
                   ml: 0
                 }
-               }}
+              }}
             />
-            <TextField
+            <TextField className="textfiled"
               label="Phone Number"
               name="phone"
               value={formData.phone}
@@ -464,42 +468,45 @@ const SignupForm = () => {
               error={!!errors.phone}
               helperText={errors.phone}
               required
-              sx={{ mb: 1 ,
+              sx={{
+                mb: 1,
                 '@media (max-width: 610px)': {
                   mb: 2,
                   ml: 0
-                }}}
+                }
+              }}
             />
 
-<AddressAutofill
-      accessToken="pk.eyJ1IjoiYWowNSIsImEiOiJjbGs3enN4ZWYwZHVqM2pvMWR0a2dlcjl4In0.B6WmJeQdtqt9WWoAGikJxw"
-      options={{
-        country: 'us',
-        style: {
-          mb: 1,
-          ml: 2,
-          '@media (max-width: 610px)': {
-            mb: 2,
-            ml: 0,
-          },
-        },
-      }}
-      
-    >
-      
-        <TextField
-          label="Address"
-          name="address"
-          value={formData.address}
-          onChange={handleInputChangeForAddress}
-          error={!!errors.address}
-          helperText={errors.address}
-          required
-          // {...props} // Spread the remaining props from AddressAutofill
-        />
-    
-    </AddressAutofill>
-            <TextField
+
+
+            <AddressAutofill className="textfiled"
+              accessToken="pk.eyJ1IjoiYWowNSIsImEiOiJjbGs3enN4ZWYwZHVqM2pvMWR0a2dlcjl4In0.B6WmJeQdtqt9WWoAGikJxw"
+              options={{
+                country: 'us',
+              }}
+            >
+              
+              <TextField className="textfiled"
+                label="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChangeForAddress}
+                error={!!errors.address}
+                helperText={errors.address}
+                required
+                sx={{
+                  mb: 1, ml: 2,
+                  '@media (max-width: 610px)': {
+                    mb: 2,
+                    ml: 0
+                  }
+                }}
+              />
+            </AddressAutofill>
+
+
+
+            <TextField className="textfiled"
               label="Email"
               name="email"
               type="email"
@@ -508,19 +515,22 @@ const SignupForm = () => {
               error={!!errors.email}
               helperText={errors.email}
               required
-              sx={{ mb: 1,
+              sx={{
+                height:"1rem",
+                
                 '@media (max-width: 610px)': {
                   mb: 2,
                   ml: 0
-                } }}
-                
+                }
+              }}
+
             />
             {errors.email && (
-                  <span style={{ color: "red", fontSize: "0.8rem" }}>
-                    {errors.email}
-                  </span>
-                )}
-            <TextField
+              <span style={{ color: "red", fontSize: "0.8rem" }}>
+                {errors.email}
+              </span>
+            )}
+            <TextField className="textfiled"
               label="CNIC"
               name="cnic"
               value={formData.cnic}
@@ -528,13 +538,15 @@ const SignupForm = () => {
               error={!!errors.cnic}
               helperText={errors.cnic}
               required
-              sx={{ mb: 1, ml: 2 ,
+              sx={{
+                mb: 1, ml: 2,
                 '@media (max-width: 610px)': {
                   mb: 2,
                   ml: 0
-                }}}
+                }
+              }}
             />
-            <TextField
+            <TextField className="textfiled"
               label="Password"
               name="password"
               type="password"
@@ -543,15 +555,17 @@ const SignupForm = () => {
               error={!!errors.password}
               helperText={errors.password}
               required
-              sx={{ mb: 1,
+              sx={{
+                mb: 1,
                 '@media (max-width: 610px)': {
                   mb: 2,
                   ml: 0
-                } }}
+                }
+              }}
             />
             {formData.role === "COUNSELOR" && (
               <>
-                <TextField
+                <TextField className="textfiled"
                   label="Specialization"
                   name="specialization"
                   value={formData.specialization}
@@ -559,13 +573,15 @@ const SignupForm = () => {
                   error={!!errors.specialization}
                   helperText={errors.specialization}
                   required={formData.role === "COUNSELOR"}
-                  sx={{ mb: 1, ml: 2,
+                  sx={{
+                    mb: 1, ml: 2,
                     '@media (max-width: 610px)': {
                       mb: 2,
                       ml: 0
-                    } }}
+                    }
+                  }}
                 />
-                <TextField
+                <TextField className="textfiled"
                   label="Description"
                   name="description"
                   value={formData.description}
@@ -573,16 +589,18 @@ const SignupForm = () => {
                   error={!!errors.description}
                   helperText={errors.description}
                   required={formData.role === "COUNSELOR"}
-                  sx={{ mb: 1,
+                  sx={{
+                    mb: 1,
                     '@media (max-width: 610px)': {
                       mb: 2,
                       ml: 0
-                    }}}
+                    }
+                  }}
                 />
               </>
             )}
             {formData.role === "PATIENT" && (
-              <TextField
+              <TextField className="textfiled"
                 label="Guardian Phone Number"
                 name="guardian_phone_number"
                 value={formData.guardian_phone_number}
@@ -590,7 +608,8 @@ const SignupForm = () => {
                 error={!!errors.guardian_phone_number}
                 helperText={errors.guardian_phone_number}
                 required={formData.role === "PATIENT"}
-                sx={{ mb: 1, ml: 2 ,
+                sx={{
+                  mb: 1, ml: 2,
                   '@media (max-width: 610px)': {
                     mb: 2,
                     ml: 0
@@ -633,30 +652,31 @@ const SignupForm = () => {
               )}
             </FormControl>
             {errorMessage && (
-            <p style={{ color: "red", fontSize: "0.8rem", textAlign: "center" }}>
-              {errorMessage}
-            </p>
-          )}
+              <p style={{ color: "red", fontSize: "0.8rem", textAlign: "center" }}>
+                {errorMessage}
+              </p>
+            )}
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1,
-         }}>
+          <Box sx={{
+            display: "flex", justifyContent: "center", marginTop: 1,
+          }}>
             <Button
               variant="contained"
               type="submit"
               sx={{
                 '@media (max-width: 610px)': {
                   width: "70%",
-                 
+
                 },
                 width: "25%",
                 backgroundColor: "black",
                 color: "white",
-                
+
                 "&:hover": {
                   backgroundColor: "#333",
                   '@media (max-width: 610px)': {
                     width: "70%",
-                   
+
                   }
                 },
               }}>
